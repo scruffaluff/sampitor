@@ -29,12 +29,13 @@ impl App {
         let sink = Sink::try_new(&handle)?;
 
         let samples = file::read_samples(&path)?;
-        let signal_chart = SignalChart::new(name, samples.channels as usize, samples.data.len());
+        let channels = samples.channels as usize;
+        let signal_chart = SignalChart::new(name, channels, samples.data.len() / channels);
 
         Ok(App {
-            signal_chart: signal_chart,
+            signal_chart,
             samples,
-            sink: sink,
+            sink,
             _stream: stream,
             terminal: terminal::take()?,
         })

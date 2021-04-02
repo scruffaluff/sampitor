@@ -10,16 +10,17 @@ pub struct SignalChart<'a> {
 
 impl<'a> SignalChart<'a> {
     /// Create a new SignalChart.
-    pub fn new(title: String, channels: usize, buffer_length: usize) -> Self {
-        let length = buffer_length / channels;
-        let x_axis = Axis::default().bounds([0.0f64, length as f64]);
+    pub fn new(title: String, channels: usize, frame_count: usize) -> Self {
+        let x_axis = Axis::default().bounds([0.0f64, frame_count as f64]);
         let y_axis = Axis::default().bounds([-1.0, 1.0]);
 
         let dataset = Dataset::default()
             .marker(Marker::Braille)
             .graph_type(GraphType::Line);
 
-        let points = (0..length).map(|index| (index as f64, 0.0f64)).collect();
+        let points = (0..frame_count)
+            .map(|index| (index as f64, 0.0f64))
+            .collect();
 
         SignalChart {
             axes: (x_axis, y_axis),
@@ -51,10 +52,41 @@ impl<'a> SignalChart<'a> {
     pub fn update(&mut self, buffer: &[f32]) {
         let channels = self.points.len();
 
-        for points in self.points.iter_mut() {
-            for (index, element) in points.iter_mut() {
-                *element = buffer[channels * (*index as usize)] as f64;
+        for (outer_index, points) in self.points.iter_mut().enumerate() {
+            for (inner_index, element) in points.iter_mut() {
+                let index = channels * (*inner_index as usize) + outer_index;
+                *element = buffer[index] as f64;
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn new_points() {
+        let chart = SignalChart::new(String::from(""), 2, 3);
+        let expected = vec![
+            vec![(0.0, 0.0), (1.0, 0.0), (2.0, 0.0)],
+            vec![(0.0, 0.0), (1.0, 0.0), (2.0, 0.0)],
+        ];
+
+        assert_eq!(chart.points, expected);
+    }
+
+    #[test]
+    fn update_points() {
+        let mut chart = SignalChart::new(String::from(""), 2, 3);
+        let expected = vec![
+            vec![(0.0, -1.0), (1.0, -0.25), (2.0, 0.5)],
+            vec![(0.0, -0.5), (1.0, 0.25), (2.0, 1.0)],
+        ];
+
+        let buffer = vec![-1.0, -0.5, -0.25, 0.25, 0.5, 1.0];
+        chart.update(&buffer);
+
+        assert_eq!(chart.points, expected);
     }
 }
