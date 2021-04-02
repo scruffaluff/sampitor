@@ -1,22 +1,15 @@
 use crate::chart::SignalChart;
+use crate::file;
+use crate::terminal::{self, CrossTerm};
 use color_eyre::eyre;
 use crossterm::event::{self, Event, KeyCode};
-use crossterm::execute;
-use crossterm::terminal::{self, EnterAlternateScreen, LeaveAlternateScreen};
 use rodio::buffer::SamplesBuffer;
-use rodio::{Decoder, OutputStream, Sink, Source};
-use std::fs::File;
+use rodio::{OutputStream, Sink};
 use std::io;
-use std::io::BufReader;
-use std::io::Stdout;
-use std::path::{Path, PathBuf};
-use tui::backend::CrosstermBackend;
+use std::path::PathBuf;
 use tui::layout::Constraint::Percentage;
 use tui::layout::{Direction, Layout};
 use tui::widgets::{Block, Borders};
-use tui::Terminal;
-
-type CrossTerm = Terminal<CrosstermBackend<Stdout>>;
 
 pub struct App {
     buffer: Vec<f32>,
@@ -32,21 +25,13 @@ pub struct App {
 
 impl App {
     pub fn try_new(path: PathBuf) -> eyre::Result<Self> {
-        let file_name = path
-            .file_name()
-            .ok_or(eyre::eyre!(
-                "File path {:?} does not have a final component",
-                path
-            ))?
-            .to_str()
-            .ok_or(eyre::eyre!("File name {:?} is not valid Unicode", path))?;
+        let file_name = file::name(&path)?;
 
         let (stream, handle) = OutputStream::try_default()?;
         let sink = Sink::try_new(&handle)?;
 
-        let (channels, sample_rate, buffer) = read_buffer(&path)?;
-        let mut signal_chart = SignalChart::new(channels as usize, buffer.len());
-        signal_chart.update(&buffer);
+        let (channels, sample_rate, buffer) = file::read_buffer(&path)?;
+        let signal_chart = SignalChart::new(channels as usize, buffer.len());
 
         Ok(App {
             buffer: buffer,
@@ -56,7 +41,7 @@ impl App {
             signal_chart: signal_chart,
             sink: sink,
             _stream: stream,
-            terminal: take_terminal()?,
+            terminal: terminal::take()?,
         })
     }
 
@@ -86,6 +71,8 @@ impl App {
     }
 
     pub fn run(&mut self) -> eyre::Result<()> {
+        self.signal_chart.update(&self.buffer);
+
         loop {
             self.draw()?;
 
@@ -103,37 +90,10 @@ impl App {
             self.update();
         }
 
-        leave_terminal(&mut self.terminal)?;
+        terminal::leave(&mut self.terminal)?;
 
         Ok(())
     }
 
     fn update(&mut self) {}
-}
-
-fn leave_terminal(terminal: &mut CrossTerm) -> eyre::Result<()> {
-    execute!(terminal.backend_mut(), LeaveAlternateScreen,)?;
-
-    Ok(())
-}
-
-fn read_buffer(path: &Path) -> eyre::Result<(u16, u32, Vec<f32>)> {
-    let file = File::open(&path)?;
-    let reader = BufReader::new(file);
-    let source = Decoder::new(reader)?;
-
-    let channels = source.channels();
-    let sample_rate = source.sample_rate();
-    let samples: Vec<f32> = source.convert_samples().buffered().collect();
-    Ok((channels, sample_rate, samples))
-}
-
-fn take_terminal() -> eyre::Result<CrossTerm> {
-    terminal::enable_raw_mode()?;
-    let mut screen = io::stdout();
-    execute!(screen, EnterAlternateScreen)?;
-    let backend = CrosstermBackend::new(screen);
-    let terminal = Terminal::new(backend)?;
-
-    Ok(terminal)
 }
