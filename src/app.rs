@@ -24,6 +24,7 @@ pub struct App {
 }
 
 impl App {
+    /// Attempt to generate a new App.
     pub fn try_new(path: PathBuf) -> eyre::Result<Self> {
         let file_name = file::name(&path)?;
 
@@ -45,6 +46,7 @@ impl App {
         })
     }
 
+    /// Render all UI elements in terminal screen.
     fn draw(&mut self) -> io::Result<()> {
         let chart = self.signal_chart.render();
 
@@ -65,11 +67,13 @@ impl App {
         Ok(())
     }
 
+    /// Play currently loaded sample.
     fn play(&self) -> eyre::Result<()> {
         let buffer = SamplesBuffer::new(self.channels, self.sample_rate, self.buffer.clone());
         Ok(self.sink.append(buffer))
     }
 
+    /// Loop and wait for user input.
     pub fn run(&mut self) -> eyre::Result<()> {
         self.signal_chart.update(&self.buffer);
 
@@ -95,5 +99,6 @@ impl App {
         Ok(())
     }
 
+    /// Update internal state.
     fn update(&mut self) {}
 }

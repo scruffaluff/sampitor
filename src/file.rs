@@ -4,6 +4,7 @@ use std::fs::File;
 use std::io::BufReader;
 use std::path::Path;
 
+/// Get path file name or descriptive error.
 pub fn name(path: &Path) -> eyre::Result<&str> {
     Ok(path
         .file_name()
@@ -15,6 +16,7 @@ pub fn name(path: &Path) -> eyre::Result<&str> {
         .ok_or(eyre::eyre!("File name {:?} is not valid Unicode", path))?)
 }
 
+/// Read audio metdata and samples.
 pub fn read_buffer(path: &Path) -> eyre::Result<(u16, u32, Vec<f32>)> {
     let file = File::open(&path)?;
     let reader = BufReader::new(file);

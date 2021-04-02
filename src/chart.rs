@@ -8,6 +8,7 @@ pub struct SignalChart<'a> {
 }
 
 impl<'a> SignalChart<'a> {
+    /// Create a new SignalChart.
     pub fn new(channels: usize, buffer_length: usize) -> Self {
         let length = buffer_length / channels;
         let x_axis = Axis::default().bounds([0.0f64, length as f64]);
@@ -26,6 +27,7 @@ impl<'a> SignalChart<'a> {
         }
     }
 
+    /// Draw plots in terminal block.
     pub fn render(&self) -> Chart {
         let block = Block::default().borders(Borders::ALL);
         let datasets = self
@@ -40,6 +42,7 @@ impl<'a> SignalChart<'a> {
             .y_axis(self.axes.1.clone())
     }
 
+    /// Overwrite plot datasets from packer audio frame buffer.
     pub fn update(&mut self, buffer: &[f32]) {
         let channels = self.points.len();
 
