@@ -68,7 +68,7 @@ jobs:
       - name: Checkout code repository
         uses: actions/checkout@v2
       - name: Install ALSA packages
-        if: matrix.os == "Linux"
+        if: matrix.os == 'Linux'
         run: sudo apt-get install -y alsa-utils libasound2-dev
       - name: Install latest stable Rust toolchain
         uses: actions-rs/toolchain@v1
