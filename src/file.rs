@@ -7,14 +7,10 @@ use std::path::Path;
 
 /// Get path file name or descriptive error.
 pub fn name(path: &Path) -> eyre::Result<&str> {
-    Ok(path
-        .file_name()
-        .ok_or(eyre::eyre!(
-            "File path {:?} does not have a final component",
-            path
-        ))?
+    path.file_name()
+        .ok_or_else(|| eyre::eyre!("File path {:?} does not have a final component", path))?
         .to_str()
-        .ok_or(eyre::eyre!("File name {:?} is not valid Unicode", path))?)
+        .ok_or_else(|| eyre::eyre!("File name {:?} is not valid Unicode", path))
 }
 
 /// Read audio metdata and samples.

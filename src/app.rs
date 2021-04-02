@@ -60,9 +60,9 @@ impl App {
     }
 
     /// Play currently loaded sample.
-    fn play(&self) -> eyre::Result<()> {
+    fn play(&self) {
         let source = buffer::SamplesBuffer::from(&self.samples);
-        Ok(self.sink.append(source))
+        self.sink.append(source)
     }
 
     /// Loop and wait for user input.
@@ -72,15 +72,14 @@ impl App {
         loop {
             self.draw()?;
 
-            match event::read()? {
-                Event::Key(event) => match event.code {
+            if let Event::Key(event) = event::read()? {
+                match event.code {
                     KeyCode::Char(' ') => {
-                        self.play()?;
+                        self.play();
                     }
                     KeyCode::Esc | KeyCode::Char('q') => break,
                     _ => (),
-                },
-                _ => (),
+                }
             }
 
             self.update();
