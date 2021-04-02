@@ -1,6 +1,6 @@
 use clap::{AppSettings, Clap};
 use color_eyre::eyre;
-use sampitor;
+use sampitor::App;
 use std::path::PathBuf;
 
 #[derive(Clap)]
@@ -20,7 +20,8 @@ fn main() -> eyre::Result<()> {
     color_eyre::install()?;
     let options = Options::parse();
 
-    sampitor::play_file(&options.file)?;
+    let mut app = App::try_new(options.file)?;
+    app.run()?;
 
     Ok(())
 }
