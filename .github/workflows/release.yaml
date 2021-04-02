@@ -1,0 +1,130 @@
+# GitHub Actions workflow file.
+#
+# For more information, visit
+# https://docs.github.com/actions/learn-github-actions.
+
+name: release
+
+# Make workflow run only for pushed SemVer tags.
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  release:
+    name: Create a GitHub release
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.extract_tag.outputs.tag }}
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      - name: Extract Git tag
+        id: extract_tag
+        shell: bash
+        run: echo "##[set-output name=tag;]$(echo ${GITHUB_REF#refs/tags/})"
+      - name: Create GitHub release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Sampitor ${{ steps.extract_tag.outputs.tag }}
+          body: >-
+            See the
+            [changelog](https://github.com/wolfgangwazzlestrauss/sampitor/blob/${{
+            steps.extract_tag.outputs.tag }}/CHANGELOG.md) for more information.
+
+  archive:
+    name: Upload release archive for ${{ matrix.target }}
+    needs: release
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - x86_64-apple-darwin
+          - x86_64-pc-windows-gnu
+          - x86_64-pc-windows-msvc
+          - x86_64-unknown-linux-gnu
+          - x86_64-unknown-linux-musl
+        include:
+          - os: macos-latest
+            target: x86_64-apple-darwin
+          - os: windows-latest
+            target: x86_64-pc-windows-gnu
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v2
+      - name: Install latest stable Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: ${{ matrix.target }}
+      - name: Build release binary
+        uses: actions-rs/cargo@v1
+        with:
+          args: --release --target ${{ matrix.target }}
+          command: build
+      - name: Build release archive
+        # Bash is installed on the Windows GitHub runners. See
+        # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md#language-and-runtime.
+        shell: bash
+        run: |
+          stage="sampitor-${{ needs.release.outputs.tag }}-${{ matrix.target }}"
+          mkdir "$stage" dist
+          cp {README.md,LICENSE.md} "$stage/"
+          cp "target/${{ matrix.target }}/release/sampitor" "$stage/"
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            7z a dist/sampitor.zip "$stage/"
+          else
+            zip -r dist/sampitor.zip "$stage/"
+          fi
+      - name: Upload release archive
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.release.outputs.upload_url }}
+          asset_path: dist/sampitor.zip
+          asset_name: >-
+            sampitor-${{ needs.release.outputs.tag }}-${{ matrix.target }}.zip
+          asset_content_type: application/octet-stream
+
+  package:
+    name: Create Debian package
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v2
+      - name: Install latest stable Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: Install cargo-deb
+        uses: actions-rs/install@v0.1
+        with:
+          crate: cargo-deb
+          version: latest
+      - name: Build release binary
+        uses: actions-rs/cargo@v1
+        with:
+          command: deb
+      - name: Upload release archive
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.release.outputs.upload_url }}
+          asset_path: >-
+            target/debian/sampitor_${{ needs.release.outputs.tag }}_amd64.deb
+          asset_name: sampitor_${{ needs.release.outputs.tag }}_amd64.deb
+          asset_content_type: application/octet-stream
