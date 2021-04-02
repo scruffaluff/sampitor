@@ -5,11 +5,12 @@ pub struct SignalChart<'a> {
     axes: (Axis<'a>, Axis<'a>),
     dataset: Dataset<'a>,
     points: Vec<Vec<(f64, f64)>>,
+    title: String,
 }
 
 impl<'a> SignalChart<'a> {
     /// Create a new SignalChart.
-    pub fn new(channels: usize, buffer_length: usize) -> Self {
+    pub fn new(title: String, channels: usize, buffer_length: usize) -> Self {
         let length = buffer_length / channels;
         let x_axis = Axis::default().bounds([0.0f64, length as f64]);
         let y_axis = Axis::default().bounds([-1.0, 1.0]);
@@ -24,12 +25,16 @@ impl<'a> SignalChart<'a> {
             axes: (x_axis, y_axis),
             dataset,
             points: vec![points; channels],
+            title,
         }
     }
 
     /// Draw plots in terminal block.
     pub fn render(&self) -> Chart {
-        let block = Block::default().borders(Borders::ALL);
+        let block = Block::default()
+            .title(self.title.as_str())
+            .borders(Borders::ALL);
+
         let datasets = self
             .points
             .iter()

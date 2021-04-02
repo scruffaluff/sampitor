@@ -1,3 +1,4 @@
+use crate::buffer::SamplesBuffer;
 use color_eyre::eyre;
 use rodio::{Decoder, Source};
 use std::fs::File;
@@ -17,7 +18,7 @@ pub fn name(path: &Path) -> eyre::Result<&str> {
 }
 
 /// Read audio metdata and samples.
-pub fn read_buffer(path: &Path) -> eyre::Result<(u16, u32, Vec<f32>)> {
+pub fn read_samples(path: &Path) -> eyre::Result<SamplesBuffer> {
     let file = File::open(&path)?;
     let reader = BufReader::new(file);
     let source = Decoder::new(reader)?;
@@ -25,5 +26,5 @@ pub fn read_buffer(path: &Path) -> eyre::Result<(u16, u32, Vec<f32>)> {
     let channels = source.channels();
     let sample_rate = source.sample_rate();
     let samples: Vec<f32> = source.convert_samples().buffered().collect();
-    Ok((channels, sample_rate, samples))
+    Ok(SamplesBuffer::new(channels, sample_rate, samples))
 }
