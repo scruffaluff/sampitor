@@ -1,3 +1,4 @@
+use crossterm::event::{KeyCode, KeyEvent};
 use tui::backend::Backend;
 use tui::layout::Rect;
 use tui::style::{Modifier, Style};
@@ -16,6 +17,14 @@ impl Menu {
             options,
             state: ListState::default(),
             title,
+        }
+    }
+
+    pub fn key_event(&mut self, event: KeyEvent) {
+        match event.code {
+            KeyCode::Down => self.next(),
+            KeyCode::Up => self.previous(),
+            _ => (),
         }
     }
 

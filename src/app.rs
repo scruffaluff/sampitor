@@ -4,7 +4,7 @@ use crate::file;
 use crate::menu::Menu;
 use crate::terminal::{self, CrossTerm};
 use color_eyre::eyre;
-use crossterm::event::{self, Event, KeyCode};
+use crossterm::event::{self, Event, KeyCode, KeyEvent};
 use rodio::buffer;
 use rodio::{OutputStream, Sink};
 use std::io;
@@ -13,10 +13,11 @@ use tui::layout::Constraint::Percentage;
 use tui::layout::{Direction, Layout};
 
 pub struct App {
+    chart: SignalChart<'static>,
     menu: Menu,
     samples: SamplesBuffer,
     selection: usize,
-    signal_chart: SignalChart<'static>,
+    shutdown: bool,
     sink: Sink,
     // If stream is dropped then sound will not reach the speakers.
     _stream: OutputStream,
@@ -38,13 +39,14 @@ impl App {
 
         let samples = file::read_samples(&path)?;
         let channels = samples.channels as usize;
-        let signal_chart = SignalChart::new(name, channels, samples.data.len() / channels);
+        let chart = SignalChart::new(name, channels, samples.data.len() / channels);
 
         Ok(App {
+            chart,
             menu: Menu::new(options, String::from("Menu")),
             samples,
             selection: 0,
-            signal_chart,
+            shutdown: false,
             sink,
             _stream: stream,
             terminal: terminal::take()?,
@@ -53,7 +55,7 @@ impl App {
 
     /// Render all UI elements in terminal screen.
     fn draw(&mut self) -> io::Result<()> {
-        let chart = &mut self.signal_chart;
+        let chart = &mut self.chart;
         let menu = &mut self.menu;
         let selection = self.selection;
 
@@ -72,6 +74,31 @@ impl App {
         Ok(())
     }
 
+    fn key_event(&mut self, event: KeyEvent) {
+        match self.selection {
+            0 => self.menu.key_event(event),
+            1 => self.chart.key_event(event),
+            _ => (),
+        };
+
+        match event.code {
+            KeyCode::Char(' ') => {
+                self.play();
+            }
+            KeyCode::Char('q') | KeyCode::Esc => {
+                self.shutdown = true;
+            }
+            KeyCode::Tab => {
+                self.selection = match self.selection {
+                    0 => 1,
+                    1 => 0,
+                    _ => 0,
+                };
+            }
+            _ => (),
+        }
+    }
+
     /// Play currently loaded sample.
     fn play(&self) {
         let source = buffer::SamplesBuffer::from(&self.samples);
@@ -80,44 +107,19 @@ impl App {
 
     /// Loop and wait for user input.
     pub fn run(&mut self) -> eyre::Result<()> {
-        self.signal_chart.update(&self.samples.data);
+        // TODO: Move to update method with logic should update logic.
+        self.chart.update(&self.samples.data);
 
         loop {
             self.draw()?;
-
-            if let Event::Key(event) = event::read()? {
-                match event.code {
-                    KeyCode::Char(' ') => {
-                        self.play();
-                    }
-                    KeyCode::Char('q') | KeyCode::Esc => break,
-                    KeyCode::Down => match self.selection {
-                        0 => self.menu.next(),
-                        _ => (),
-                    },
-                    KeyCode::Left => {
-                        self.selection = match self.selection {
-                            0 => 1,
-                            1 => 0,
-                            _ => 0,
-                        };
-                    }
-                    KeyCode::Right => {
-                        self.selection = match self.selection {
-                            0 => 1,
-                            1 => 0,
-                            _ => 1,
-                        };
-                    }
-                    KeyCode::Up => match self.selection {
-                        0 => self.menu.previous(),
-                        _ => (),
-                    },
-                    _ => (),
-                }
-            }
-
+            if let Event::Key(key) = event::read()? {
+                self.key_event(key);
+            };
             self.update();
+
+            if self.shutdown {
+                break;
+            }
         }
 
         terminal::leave(&mut self.terminal)?;

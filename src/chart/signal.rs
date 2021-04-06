@@ -1,4 +1,5 @@
 use crate::chart::axes::Axes;
+use crossterm::event::KeyEvent;
 use tui::backend::Backend;
 use tui::layout::Rect;
 use tui::style::{Modifier, Style};
@@ -32,6 +33,10 @@ impl<'a> SignalChart<'a> {
             points: vec![points; channels],
             title,
         }
+    }
+
+    pub fn key_event(&mut self, event: KeyEvent) {
+        self.axes.key_event(event);
     }
 
     /// Draw plots in terminal block.
