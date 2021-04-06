@@ -1,5 +1,6 @@
 use tui::backend::Backend;
 use tui::layout::Rect;
+use tui::style::{Modifier, Style};
 use tui::symbols::Marker;
 use tui::terminal::Frame;
 use tui::widgets::{Axis, Block, Borders, Chart, Dataset, GraphType};
@@ -34,10 +35,14 @@ impl<'a> SignalChart<'a> {
     }
 
     /// Draw plots in terminal block.
-    pub fn render<B: Backend>(&self, frame: &mut Frame<B>, area: Rect) {
-        let block = Block::default()
+    pub fn render<B: Backend>(&self, frame: &mut Frame<B>, area: Rect, highlight: bool) {
+        let mut block = Block::default()
             .title(self.title.as_str())
             .borders(Borders::ALL);
+
+        if highlight {
+            block = block.border_style(Style::default().add_modifier(Modifier::BOLD));
+        }
 
         let datasets = self
             .points

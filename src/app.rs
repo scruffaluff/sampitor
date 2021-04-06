@@ -15,6 +15,7 @@ use tui::layout::{Direction, Layout};
 pub struct App {
     menu: Menu,
     samples: SamplesBuffer,
+    selection: usize,
     signal_chart: SignalChart<'static>,
     sink: Sink,
     // If stream is dropped then sound will not reach the speakers.
@@ -42,6 +43,7 @@ impl App {
         Ok(App {
             menu: Menu::new(options, String::from("Menu")),
             samples,
+            selection: 0,
             signal_chart,
             sink,
             _stream: stream,
@@ -53,6 +55,7 @@ impl App {
     fn draw(&mut self) -> io::Result<()> {
         let chart = &mut self.signal_chart;
         let menu = &mut self.menu;
+        let selection = self.selection;
 
         self.terminal.draw(|frame| {
             let size = frame.size();
@@ -62,8 +65,8 @@ impl App {
                 .constraints([Percentage(16), Percentage(84)].as_ref())
                 .split(size);
 
-            menu.render(frame, chunks[0]);
-            chart.render(frame, chunks[1]);
+            menu.render(frame, chunks[0], selection == 0);
+            chart.render(frame, chunks[1], selection == 1);
         })?;
 
         Ok(())
@@ -89,10 +92,30 @@ impl App {
                     }
                     KeyCode::Char('q') | KeyCode::Esc => break,
                     KeyCode::Down => {
-                        self.menu.next();
+                        match self.selection {
+                            0 => self.menu.next(),
+                            _ => (),
+                        }
+                    }
+                    KeyCode::Left => {
+                        self.selection = match self.selection {
+                            0 => 1,
+                            1 => 0,
+                            _ => 0,
+                        };
+                    }
+                    KeyCode::Right => {
+                        self.selection = match self.selection {
+                            0 => 1,
+                            1 => 0,
+                            _ => 1,
+                        };
                     }
                     KeyCode::Up => {
-                        self.menu.previous();
+                        match self.selection {
+                            0 => self.menu.previous(),
+                            _ => (),
+                        }
                     }
                     _ => (),
                 }

@@ -47,19 +47,23 @@ impl Menu {
         self.state.select(Some(i));
     }
 
-    pub fn render<B: Backend>(&mut self, frame: &mut Frame<B>, area: Rect) {
+    pub fn render<B: Backend>(&mut self, frame: &mut Frame<B>, area: Rect, highlight: bool) {
         let options: Vec<ListItem> = self
             .options
             .iter()
             .map(|option| ListItem::new(option.as_ref()))
             .collect();
 
+        let mut block = Block::default()
+            .title(self.title.as_str())
+            .borders(Borders::ALL);
+
+        if highlight {
+            block = block.border_style(Style::default().add_modifier(Modifier::BOLD));
+        }
+
         let list = List::new(options)
-            .block(
-                Block::default()
-                    .title(self.title.as_str())
-                    .borders(Borders::ALL),
-            )
+            .block(block)
             .highlight_style(Style::default().add_modifier(Modifier::BOLD));
 
         frame.render_stateful_widget(list, area, &mut self.state);
