@@ -91,12 +91,10 @@ impl App {
                         self.play();
                     }
                     KeyCode::Char('q') | KeyCode::Esc => break,
-                    KeyCode::Down => {
-                        match self.selection {
-                            0 => self.menu.next(),
-                            _ => (),
-                        }
-                    }
+                    KeyCode::Down => match self.selection {
+                        0 => self.menu.next(),
+                        _ => (),
+                    },
                     KeyCode::Left => {
                         self.selection = match self.selection {
                             0 => 1,
@@ -111,12 +109,10 @@ impl App {
                             _ => 1,
                         };
                     }
-                    KeyCode::Up => {
-                        match self.selection {
-                            0 => self.menu.previous(),
-                            _ => (),
-                        }
-                    }
+                    KeyCode::Up => match self.selection {
+                        0 => self.menu.previous(),
+                        _ => (),
+                    },
                     _ => (),
                 }
             }
