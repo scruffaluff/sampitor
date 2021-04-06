@@ -51,11 +51,10 @@ impl App {
 
     /// Render all UI elements in terminal screen.
     fn draw(&mut self) -> io::Result<()> {
-        let chart = self.signal_chart.render();
+        let chart = &mut self.signal_chart;
         let menu = &mut self.menu;
-        let terminal = &mut self.terminal;
 
-        terminal.draw(|frame| {
+        self.terminal.draw(|frame| {
             let size = frame.size();
             let chunks = Layout::default()
                 .direction(Direction::Horizontal)
@@ -64,7 +63,7 @@ impl App {
                 .split(size);
 
             menu.render(frame, chunks[0]);
-            frame.render_widget(chart, chunks[1]);
+            chart.render(frame, chunks[1]);
         })?;
 
         Ok(())

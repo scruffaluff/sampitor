@@ -1,4 +1,7 @@
+use tui::backend::Backend;
+use tui::layout::Rect;
 use tui::symbols::Marker;
+use tui::terminal::Frame;
 use tui::widgets::{Axis, Block, Borders, Chart, Dataset, GraphType};
 
 pub struct SignalChart<'a> {
@@ -31,7 +34,7 @@ impl<'a> SignalChart<'a> {
     }
 
     /// Draw plots in terminal block.
-    pub fn render(&self) -> Chart {
+    pub fn render<B: Backend>(&self, frame: &mut Frame<B>, area: Rect) {
         let block = Block::default()
             .title(self.title.as_str())
             .borders(Borders::ALL);
@@ -42,10 +45,12 @@ impl<'a> SignalChart<'a> {
             .map(|points| self.dataset.clone().data(&points))
             .collect();
 
-        Chart::new(datasets)
+        let chart = Chart::new(datasets)
             .block(block)
             .x_axis(self.axes.0.clone())
-            .y_axis(self.axes.1.clone())
+            .y_axis(self.axes.1.clone());
+
+        frame.render_widget(chart, area);
     }
 
     /// Overwrite plot datasets from packer audio frame buffer.
