@@ -1,12 +1,13 @@
+use crate::chart::axes::Axes;
 use tui::backend::Backend;
 use tui::layout::Rect;
 use tui::style::{Modifier, Style};
 use tui::symbols::Marker;
 use tui::terminal::Frame;
-use tui::widgets::{Axis, Block, Borders, Chart, Dataset, GraphType};
+use tui::widgets::{Block, Borders, Chart, Dataset, GraphType};
 
 pub struct SignalChart<'a> {
-    axes: (Axis<'a>, Axis<'a>),
+    axes: Axes,
     dataset: Dataset<'a>,
     points: Vec<Vec<(f64, f64)>>,
     title: String,
@@ -15,8 +16,7 @@ pub struct SignalChart<'a> {
 impl<'a> SignalChart<'a> {
     /// Create a new SignalChart.
     pub fn new(title: String, channels: usize, frame_count: usize) -> Self {
-        let x_axis = Axis::default().bounds([0.0f64, frame_count as f64]);
-        let y_axis = Axis::default().bounds([-1.0, 1.0]);
+        let axes = Axes::new([0.0f64, frame_count as f64], [-1.0, 1.0]);
 
         let dataset = Dataset::default()
             .marker(Marker::Braille)
@@ -27,7 +27,7 @@ impl<'a> SignalChart<'a> {
             .collect();
 
         SignalChart {
-            axes: (x_axis, y_axis),
+            axes,
             dataset,
             points: vec![points; channels],
             title,
@@ -50,10 +50,11 @@ impl<'a> SignalChart<'a> {
             .map(|points| self.dataset.clone().data(&points))
             .collect();
 
+        let (x_axis, y_axis) = self.axes.axes();
         let chart = Chart::new(datasets)
             .block(block)
-            .x_axis(self.axes.0.clone())
-            .y_axis(self.axes.1.clone());
+            .x_axis(x_axis)
+            .y_axis(y_axis);
 
         frame.render_widget(chart, area);
     }

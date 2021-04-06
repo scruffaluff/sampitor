@@ -1,5 +1,5 @@
+mod axes;
 mod signal;
-mod window;
 
+pub use crate::chart::axes::Axes;
 pub use crate::chart::signal::SignalChart;
-pub use crate::chart::window::Window;
