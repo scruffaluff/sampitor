@@ -17,7 +17,7 @@ pub struct SignalChart<'a> {
 impl<'a> SignalChart<'a> {
     /// Create a new SignalChart.
     pub fn new(title: String, channels: usize, frame_count: usize) -> Self {
-        let axes = Axes::new([0.0f64, frame_count as f64], [-1.0, 1.0]);
+        let axes = Axes::new([0.0f64, frame_count as f64], [-1.0, 1.0], 1.0);
 
         let dataset = Dataset::default()
             .marker(Marker::Braille)
