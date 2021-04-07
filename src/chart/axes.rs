@@ -36,6 +36,12 @@ impl Axes {
             KeyModifiers::SHIFT => self.zoom(event.code),
             _ => self.shift(event.code),
         }
+
+        match event.code {
+            KeyCode::Char('+') => self.speed *= 2.0,
+            KeyCode::Char('-') => self.speed *= 0.5,
+            _ => (),
+        }
     }
 
     fn shift(&mut self, code: KeyCode) {
