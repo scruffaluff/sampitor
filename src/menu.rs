@@ -78,3 +78,25 @@ impl Menu {
         frame.render_stateful_widget(list, area, &mut self.state);
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crossterm::event::KeyModifiers;
+
+    #[test]
+    fn key_event() {
+        let mut menu = Menu::new(
+            ["A", "set", "of", "options"]
+                .iter()
+                .map(|string| String::from(*string))
+                .collect(),
+            String::from("Menu"),
+        );
+
+        menu.key_event(KeyEvent::new(KeyCode::Up, KeyModifiers::NONE));
+        menu.key_event(KeyEvent::new(KeyCode::Up, KeyModifiers::NONE));
+
+        assert_eq!(Some(3), menu.state.selected());
+    }
+}
