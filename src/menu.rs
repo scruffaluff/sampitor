@@ -28,7 +28,7 @@ impl Menu {
         }
     }
 
-    pub fn next(&mut self) {
+    fn next(&mut self) {
         let i = match self.state.selected() {
             Some(i) => {
                 if i >= self.options.len() - 1 {
@@ -42,7 +42,7 @@ impl Menu {
         self.state.select(Some(i));
     }
 
-    pub fn previous(&mut self) {
+    fn previous(&mut self) {
         let i = match self.state.selected() {
             Some(i) => {
                 if i == 0 {
