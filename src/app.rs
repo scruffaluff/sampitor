@@ -7,14 +7,13 @@ use color_eyre::eyre;
 use crossterm::event::{self, Event, KeyCode, KeyEvent};
 use rodio::buffer;
 use rodio::{OutputStream, Sink};
-use std::io;
 use std::path::PathBuf;
 use tui::layout::Constraint::Percentage;
 use tui::layout::{Direction, Layout};
 
 pub struct App {
+    actions: Vec<Menu>,
     chart: SignalChart<'static>,
-    menu: Menu,
     samples: SamplesBuffer,
     selection: usize,
     shutdown: bool,
@@ -42,8 +41,8 @@ impl App {
         let chart = SignalChart::new(name, channels, samples.data.len() / channels);
 
         Ok(App {
+            actions: vec![Menu::new(options, String::from("Menu"))],
             chart,
-            menu: Menu::new(options, String::from("Menu")),
             samples,
             selection: 0,
             shutdown: false,
@@ -53,30 +52,13 @@ impl App {
         })
     }
 
-    /// Render all UI elements in terminal screen.
-    fn draw(&mut self) -> io::Result<()> {
-        let chart = &mut self.chart;
-        let menu = &mut self.menu;
-        let selection = self.selection;
-
-        self.terminal.draw(|frame| {
-            let size = frame.size();
-            let chunks = Layout::default()
-                .direction(Direction::Horizontal)
-                .margin(1)
-                .constraints([Percentage(16), Percentage(84)].as_ref())
-                .split(size);
-
-            menu.render(frame, chunks[0], selection == 0);
-            chart.render(frame, chunks[1], selection == 1);
-        })?;
-
-        Ok(())
-    }
-
-    fn key_event(&mut self, event: KeyEvent) {
+    fn key_event(&mut self, event: KeyEvent) -> eyre::Result<()> {
+        let action = self
+            .actions
+            .first_mut()
+            .ok_or_else(|| eyre::eyre!("No actions available"))?;
         match self.selection {
-            0 => self.menu.key_event(event),
+            0 => action.key_event(event),
             1 => self.chart.key_event(event),
             _ => (),
         };
@@ -97,6 +79,8 @@ impl App {
             }
             _ => (),
         }
+
+        Ok(())
     }
 
     /// Play currently loaded sample.
@@ -105,21 +89,41 @@ impl App {
         self.sink.append(source)
     }
 
+    /// Render all UI elements in terminal screen.
+    fn render(&mut self) -> eyre::Result<()> {
+        let chart = &mut self.chart;
+        let action = self
+            .actions
+            .first_mut()
+            .ok_or_else(|| eyre::eyre!("No actions available"))?;
+        let selection = self.selection;
+
+        self.terminal.draw(|frame| {
+            let size = frame.size();
+            let chunks = Layout::default()
+                .direction(Direction::Horizontal)
+                .margin(1)
+                .constraints([Percentage(16), Percentage(84)].as_ref())
+                .split(size);
+
+            action.render(frame, chunks[0], selection == 0);
+            chart.render(frame, chunks[1], selection == 1);
+        })?;
+
+        Ok(())
+    }
+
     /// Loop and wait for user input.
     pub fn run(&mut self) -> eyre::Result<()> {
-        // TODO: Move to update method with logic should update logic.
+        // TODO: Move to update method with should update logic.
         self.chart.update(&self.samples.data);
 
-        loop {
-            self.draw()?;
+        while !self.shutdown {
+            self.render()?;
             if let Event::Key(key) = event::read()? {
-                self.key_event(key);
+                self.key_event(key)?;
             };
             self.update();
-
-            if self.shutdown {
-                break;
-            }
         }
 
         terminal::leave(&mut self.terminal)?;
