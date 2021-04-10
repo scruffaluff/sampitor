@@ -1,13 +1,16 @@
 use crate::buffer::SamplesBuffer;
 use crate::chart::SignalChart;
+use crate::event;
 use crate::file;
 use crate::menu::Menu;
 use crate::terminal::{self, CrossTerm};
 use color_eyre::eyre;
-use crossterm::event::{self, Event, KeyCode, KeyEvent};
+use crossterm::event::{KeyCode, KeyEvent};
 use rodio::buffer;
 use rodio::{OutputStream, Sink};
 use std::path::PathBuf;
+use std::sync::mpsc;
+use std::time::Duration;
 use tui::layout::Constraint::Percentage;
 use tui::layout::{Direction, Layout};
 
@@ -118,11 +121,17 @@ impl App {
         // TODO: Move to update method with should update logic.
         self.chart.update(&self.samples.data);
 
+        let (sender, receiver) = mpsc::channel::<Option<KeyEvent>>();
+        let tick_rate = Duration::from_millis(50);
+        let _ = event::event_thread(tick_rate, sender);
+
         while !self.shutdown {
             self.render()?;
-            if let Event::Key(key) = event::read()? {
-                self.key_event(key)?;
+
+            if let Some(key_event) = receiver.recv()? {
+                self.key_event(key_event)?;
             };
+
             self.update();
         }
 
