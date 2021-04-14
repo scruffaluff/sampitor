@@ -10,7 +10,7 @@ use rodio::buffer;
 use rodio::{OutputStream, Sink};
 use std::path::PathBuf;
 use std::sync::mpsc;
-use std::time::Duration;
+use std::sync::mpsc::TryRecvError;
 use tui::layout::Constraint::Percentage;
 use tui::layout::{Direction, Layout};
 
@@ -122,15 +122,16 @@ impl App {
         self.chart.update(&self.samples.data);
 
         let (sender, receiver) = mpsc::channel::<Option<KeyEvent>>();
-        let tick_rate = Duration::from_millis(50);
-        let _ = event::event_thread(tick_rate, sender);
+        let _ = event::event_thread(sender);
 
         while !self.shutdown {
             self.render()?;
 
-            if let Some(key_event) = receiver.recv()? {
-                self.key_event(key_event)?;
-            };
+            match receiver.try_recv() {
+                Ok(Some(key_event)) => self.key_event(key_event)?,
+                Ok(None) | Err(TryRecvError::Empty) => (),
+                Err(TryRecvError::Disconnected) => return Err(TryRecvError::Disconnected.into()),
+            }
 
             self.update();
         }
