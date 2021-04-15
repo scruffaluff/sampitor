@@ -1,5 +1,7 @@
+use crate::action::{Action, CrossFrame};
 use crate::chart::axes::Axes;
 use crossterm::event::KeyEvent;
+use tui::layout::Rect;
 use tui::symbols::Marker;
 use tui::widgets::{Block, Borders, Chart, Dataset, GraphType};
 
@@ -30,13 +32,15 @@ impl<'a> SignalChart<'a> {
             title,
         }
     }
+}
 
-    pub fn key_event(&mut self, event: KeyEvent) {
+impl<'a> Action for SignalChart<'a> {
+    fn key_event(&mut self, event: KeyEvent) {
         self.axes.key_event(event);
     }
 
     /// Draw plots in terminal block.
-    pub fn widget(&self) -> Chart {
+    fn render(&self, frame: &mut CrossFrame, area: Rect) {
         let block = Block::default()
             .title(self.title.as_str())
             .borders(Borders::ALL);
@@ -48,14 +52,16 @@ impl<'a> SignalChart<'a> {
             .collect();
 
         let (x_axis, y_axis) = self.axes.axes();
-        Chart::new(datasets)
+        let chart = Chart::new(datasets)
             .block(block)
             .x_axis(x_axis)
-            .y_axis(y_axis)
+            .y_axis(y_axis);
+
+        frame.render_widget(chart, area);
     }
 
     /// Overwrite plot datasets from packer audio frame buffer.
-    pub fn update(&mut self, buffer: &[f32]) {
+    fn update(&mut self, buffer: &[f32]) {
         let channels = self.points.len();
 
         for (outer_index, points) in self.points.iter_mut().enumerate() {

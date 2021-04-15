@@ -1,3 +1,4 @@
+use crate::action::Action;
 use crate::buffer::SamplesBuffer;
 use crate::chart::SignalChart;
 use crate::event;
@@ -15,7 +16,7 @@ use tui::layout::Constraint::Percentage;
 use tui::layout::{Direction, Layout};
 
 pub struct App {
-    actions: Vec<SignalChart<'static>>,
+    actions: Vec<Box<dyn Action>>,
     menu: Menu,
     samples: SamplesBuffer,
     shutdown: bool,
@@ -39,7 +40,7 @@ impl App {
         let chart = SignalChart::new(name, channels, samples.data.len() / channels);
 
         Ok(App {
-            actions: vec![chart],
+            actions: vec![Box::new(chart)],
             menu: Menu::new(options, String::from("Menu")),
             samples,
             shutdown: false,
@@ -50,17 +51,15 @@ impl App {
     }
 
     fn key_event(&mut self, event: KeyEvent) {
+        self.menu.key_event(event);
         let action = &mut self.actions[self.menu.get_state()];
         action.key_event(event);
 
         match event.code {
-            KeyCode::Char(' ') => {
-                self.play();
-            }
+            KeyCode::Char(' ') => self.play(),
             KeyCode::Char('q') | KeyCode::Esc => {
                 self.shutdown = true;
             }
-            KeyCode::Tab => self.menu.next(),
             _ => (),
         }
     }
@@ -73,8 +72,8 @@ impl App {
 
     /// Render all UI elements in terminal screen.
     fn render(&mut self) -> eyre::Result<()> {
-        let action = self.actions[self.menu.get_state()].widget();
-        let menu = self.menu.widget();
+        let action = &self.actions[self.menu.get_state()];
+        let menu = &self.menu;
 
         self.terminal.draw(|frame| {
             let size = frame.size();
@@ -84,8 +83,8 @@ impl App {
                 .constraints([Percentage(16), Percentage(84)].as_ref())
                 .split(size);
 
-            frame.render_widget(menu, chunks[0]);
-            frame.render_widget(action, chunks[1]);
+            menu.render(frame, chunks[0]);
+            action.render(frame, chunks[1]);
         })?;
 
         Ok(())
@@ -93,13 +92,11 @@ impl App {
 
     /// Loop and wait for user input.
     pub fn run(&mut self) -> eyre::Result<()> {
-        // TODO: Move to update method with should update logic.
-        self.actions[0].update(&self.samples.data);
-
         let (sender, receiver) = mpsc::channel::<Option<KeyEvent>>();
         let _ = event::event_thread(sender);
 
         while !self.shutdown {
+            self.update();
             self.render()?;
 
             match receiver.try_recv() {
@@ -107,8 +104,6 @@ impl App {
                 Ok(None) | Err(TryRecvError::Empty) => (),
                 Err(TryRecvError::Disconnected) => return Err(TryRecvError::Disconnected.into()),
             }
-
-            self.update();
         }
 
         terminal::leave(&mut self.terminal)?;
@@ -117,5 +112,9 @@ impl App {
     }
 
     /// Update internal state.
-    fn update(&mut self) {}
+    fn update(&mut self) {
+        for action in self.actions.iter_mut() {
+            action.update(&self.samples.data);
+        }
+    }
 }
