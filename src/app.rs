@@ -15,10 +15,9 @@ use tui::layout::Constraint::Percentage;
 use tui::layout::{Direction, Layout};
 
 pub struct App {
-    actions: Vec<Menu>,
-    chart: SignalChart<'static>,
+    actions: Vec<SignalChart<'static>>,
+    menu: Menu,
     samples: SamplesBuffer,
-    selection: usize,
     shutdown: bool,
     sink: Sink,
     // If stream is dropped then sound will not reach the speakers.
@@ -30,11 +29,7 @@ impl App {
     /// Attempt to generate a new App.
     pub fn try_new(path: PathBuf) -> eyre::Result<Self> {
         let name = format!("File: {}", file::name(&path)?);
-        let options = vec![
-            String::from("Filter"),
-            String::from("Read"),
-            String::from("Write"),
-        ];
+        let options = vec![String::from("Chart")];
 
         let (stream, handle) = OutputStream::try_default()?;
         let sink = Sink::try_new(&handle)?;
@@ -44,10 +39,9 @@ impl App {
         let chart = SignalChart::new(name, channels, samples.data.len() / channels);
 
         Ok(App {
-            actions: vec![Menu::new(options, String::from("Menu"))],
-            chart,
+            actions: vec![chart],
+            menu: Menu::new(options, String::from("Menu")),
             samples,
-            selection: 0,
             shutdown: false,
             sink,
             _stream: stream,
@@ -55,16 +49,9 @@ impl App {
         })
     }
 
-    fn key_event(&mut self, event: KeyEvent) -> eyre::Result<()> {
-        let action = self
-            .actions
-            .first_mut()
-            .ok_or_else(|| eyre::eyre!("No actions available"))?;
-        match self.selection {
-            0 => action.key_event(event),
-            1 => self.chart.key_event(event),
-            _ => (),
-        };
+    fn key_event(&mut self, event: KeyEvent) {
+        let action = &mut self.actions[self.menu.get_state()];
+        action.key_event(event);
 
         match event.code {
             KeyCode::Char(' ') => {
@@ -73,17 +60,9 @@ impl App {
             KeyCode::Char('q') | KeyCode::Esc => {
                 self.shutdown = true;
             }
-            KeyCode::Tab => {
-                self.selection = match self.selection {
-                    0 => 1,
-                    1 => 0,
-                    _ => 0,
-                };
-            }
+            KeyCode::Tab => self.menu.next(),
             _ => (),
         }
-
-        Ok(())
     }
 
     /// Play currently loaded sample.
@@ -94,23 +73,19 @@ impl App {
 
     /// Render all UI elements in terminal screen.
     fn render(&mut self) -> eyre::Result<()> {
-        let chart = &mut self.chart;
-        let action = self
-            .actions
-            .first_mut()
-            .ok_or_else(|| eyre::eyre!("No actions available"))?;
-        let selection = self.selection;
+        let action = self.actions[self.menu.get_state()].widget();
+        let menu = self.menu.widget();
 
         self.terminal.draw(|frame| {
             let size = frame.size();
             let chunks = Layout::default()
-                .direction(Direction::Horizontal)
+                .direction(Direction::Vertical)
                 .margin(1)
                 .constraints([Percentage(16), Percentage(84)].as_ref())
                 .split(size);
 
-            action.render(frame, chunks[0], selection == 0);
-            chart.render(frame, chunks[1], selection == 1);
+            frame.render_widget(menu, chunks[0]);
+            frame.render_widget(action, chunks[1]);
         })?;
 
         Ok(())
@@ -119,7 +94,7 @@ impl App {
     /// Loop and wait for user input.
     pub fn run(&mut self) -> eyre::Result<()> {
         // TODO: Move to update method with should update logic.
-        self.chart.update(&self.samples.data);
+        self.actions[0].update(&self.samples.data);
 
         let (sender, receiver) = mpsc::channel::<Option<KeyEvent>>();
         let _ = event::event_thread(sender);
@@ -128,7 +103,7 @@ impl App {
             self.render()?;
 
             match receiver.try_recv() {
-                Ok(Some(key_event)) => self.key_event(key_event)?,
+                Ok(Some(key_event)) => self.key_event(key_event),
                 Ok(None) | Err(TryRecvError::Empty) => (),
                 Err(TryRecvError::Disconnected) => return Err(TryRecvError::Disconnected.into()),
             }
