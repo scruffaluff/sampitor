@@ -4,11 +4,13 @@ use crate::chart::SignalChart;
 use crate::event;
 use crate::file;
 use crate::menu::Menu;
+use crate::read::Reader;
 use crate::terminal::{self, CrossTerm};
 use color_eyre::eyre;
 use crossterm::event::{KeyCode, KeyEvent};
 use rodio::buffer;
 use rodio::{OutputStream, Sink};
+use std::env;
 use std::path::PathBuf;
 use std::sync::mpsc;
 use std::sync::mpsc::TryRecvError;
@@ -30,17 +32,19 @@ impl App {
     /// Attempt to generate a new App.
     pub fn try_new(path: PathBuf) -> eyre::Result<Self> {
         let name = format!("File: {}", file::name(&path)?);
-        let options = vec![String::from("Chart")];
+        let options = vec![String::from("Chart"), String::from("Read")];
 
         let (stream, handle) = OutputStream::try_default()?;
         let sink = Sink::try_new(&handle)?;
 
         let samples = file::read_samples(&path)?;
         let channels = samples.channels as usize;
+
         let chart = SignalChart::new(name, channels, samples.data.len() / channels);
+        let reader = Reader::try_new(env::current_dir()?)?;
 
         Ok(App {
-            actions: vec![Box::new(chart)],
+            actions: vec![Box::new(chart), Box::new(reader)],
             menu: Menu::new(options, String::from("Menu")),
             samples,
             shutdown: false,
@@ -72,8 +76,8 @@ impl App {
 
     /// Render all UI elements in terminal screen.
     fn render(&mut self) -> eyre::Result<()> {
-        let action = &self.actions[self.menu.get_state()];
-        let menu = &self.menu;
+        let action = &mut self.actions[self.menu.get_state()];
+        let menu = &mut self.menu;
 
         self.terminal.draw(|frame| {
             let size = frame.size();

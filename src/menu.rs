@@ -36,7 +36,7 @@ impl Action for Menu {
         }
     }
 
-    fn render(&self, frame: &mut CrossFrame, area: Rect) {
+    fn render(&mut self, frame: &mut CrossFrame, area: Rect) {
         let options: Vec<Spans> = self
             .options
             .iter()

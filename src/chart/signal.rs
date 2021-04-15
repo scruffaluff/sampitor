@@ -40,7 +40,7 @@ impl<'a> Action for SignalChart<'a> {
     }
 
     /// Draw plots in terminal block.
-    fn render(&self, frame: &mut CrossFrame, area: Rect) {
+    fn render(&mut self, frame: &mut CrossFrame, area: Rect) {
         let block = Block::default()
             .title(self.title.as_str())
             .borders(Borders::ALL);
