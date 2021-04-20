@@ -1,4 +1,5 @@
 use crate::action::{Action, CrossFrame};
+use crate::buffer::SamplesBuffer;
 use crossterm::event::{KeyCode, KeyEvent};
 use tui::layout::Rect;
 use tui::style::{Modifier, Style};
@@ -55,7 +56,7 @@ impl Action for Menu {
         frame.render_widget(tabs, area);
     }
 
-    fn update(&mut self, _buffer: &[f32]) {}
+    fn update(&mut self, _samples: &mut SamplesBuffer) {}
 }
 
 #[cfg(test)]

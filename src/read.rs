@@ -1,4 +1,5 @@
 use crate::action::{Action, CrossFrame};
+use crate::buffer::SamplesBuffer;
 use crate::file;
 use crossterm::event::{KeyCode, KeyEvent};
 use std::path::PathBuf;
@@ -7,9 +8,10 @@ use tui::style::{Modifier, Style};
 use tui::widgets::{Block, Borders, List, ListItem, ListState};
 
 pub struct Reader {
-    _cwd: PathBuf,
+    cwd: PathBuf,
     files: Vec<(String, bool)>,
     state: ListState,
+    update: bool,
 }
 
 impl Reader {
@@ -17,38 +19,46 @@ impl Reader {
         let files = file::sorted_names(&cwd)?;
 
         Ok(Reader {
-            _cwd: cwd,
+            cwd,
             files,
             state: ListState::default(),
+            update: false,
         })
     }
 
+    fn chdir(&mut self, cwd: PathBuf) {
+        self.cwd = cwd;
+        self.files = file::sorted_names(&self.cwd)
+            .unwrap_or_else(|error| vec![(format!("{}", error), false)]);
+        self.state = ListState::default();
+    }
+
     fn next(&mut self) {
-        let i = match self.state.selected() {
-            Some(i) => {
-                if i >= self.files.len() - 1 {
+        let index = match self.state.selected() {
+            Some(index) => {
+                if index >= self.files.len() - 1 {
                     0
                 } else {
-                    i + 1
+                    index + 1
                 }
             }
             None => 0,
         };
-        self.state.select(Some(i));
+        self.state.select(Some(index));
     }
 
     fn previous(&mut self) {
-        let i = match self.state.selected() {
-            Some(i) => {
-                if i == 0 {
+        let index = match self.state.selected() {
+            Some(index) => {
+                if index == 0 {
                     self.files.len() - 1
                 } else {
-                    i - 1
+                    index - 1
                 }
             }
             None => 0,
         };
-        self.state.select(Some(i));
+        self.state.select(Some(index));
     }
 }
 
@@ -56,7 +66,31 @@ impl Action for Reader {
     fn key_event(&mut self, event: KeyEvent) {
         match event.code {
             KeyCode::Down => self.next(),
-            KeyCode::Enter => (),
+            KeyCode::Enter => {
+                if let Some(index) = self.state.selected() {
+                    let (_name, is_dir) = &self.files[index];
+
+                    if !*is_dir {
+                        self.update = true;
+                    }
+                };
+            }
+            KeyCode::Left => {
+                let option = self.cwd.parent().map(|path_ref| path_ref.to_owned());
+                if let Some(path_ref) = option {
+                    self.chdir(path_ref)
+                }
+            }
+            KeyCode::Right => {
+                if let Some(index) = self.state.selected() {
+                    let (name, is_dir) = &self.files[index];
+
+                    if *is_dir {
+                        let path = self.cwd.join(name);
+                        self.chdir(path);
+                    }
+                };
+            }
             KeyCode::Up => self.previous(),
             _ => (),
         }
@@ -87,5 +121,19 @@ impl Action for Reader {
         frame.render_stateful_widget(list, area, &mut self.state);
     }
 
-    fn update(&mut self, _buffer: &[f32]) {}
+    fn update(&mut self, samples: &mut SamplesBuffer) {
+        if self.update {
+            if let Some(index) = self.state.selected() {
+                let (name, _is_dir) = &self.files[index];
+                let path = self.cwd.join(name);
+
+                match file::read_samples(&path) {
+                    Ok(buffer) => *samples = buffer,
+                    Err(error) => self.files = vec![(format!("{}", error), false)],
+                };
+            };
+
+            self.update = false;
+        }
+    }
 }

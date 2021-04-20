@@ -1,4 +1,5 @@
 use crate::action::{Action, CrossFrame};
+use crate::buffer::SamplesBuffer;
 use crate::chart::axes::Axes;
 use crossterm::event::KeyEvent;
 use tui::layout::Rect;
@@ -61,13 +62,13 @@ impl<'a> Action for SignalChart<'a> {
     }
 
     /// Overwrite plot datasets from packer audio frame buffer.
-    fn update(&mut self, buffer: &[f32]) {
+    fn update(&mut self, buffer: &mut SamplesBuffer) {
         let channels = self.points.len();
 
         for (outer_index, points) in self.points.iter_mut().enumerate() {
             for (inner_index, element) in points.iter_mut() {
                 let index = channels * (*inner_index as usize) + outer_index;
-                *element = buffer[index] as f64;
+                *element = buffer.data[index] as f64;
             }
         }
     }
@@ -96,8 +97,8 @@ mod tests {
             vec![(0.0, -0.5), (1.0, 0.25), (2.0, 1.0)],
         ];
 
-        let buffer = vec![-1.0, -0.5, -0.25, 0.25, 0.5, 1.0];
-        chart.update(&buffer);
+        let mut buffer = SamplesBuffer::new(1, 20, vec![-1.0, -0.5, -0.25, 0.25, 0.5, 1.0]);
+        chart.update(&mut buffer);
 
         assert_eq!(chart.points, expected);
     }

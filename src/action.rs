@@ -1,3 +1,4 @@
+use crate::buffer::SamplesBuffer;
 use crossterm::event::KeyEvent;
 use std::io::Stdout;
 use tui::backend::CrosstermBackend;
@@ -9,5 +10,5 @@ pub type CrossFrame<'a> = Frame<'a, CrosstermBackend<Stdout>>;
 pub trait Action {
     fn key_event(&mut self, event: KeyEvent);
     fn render(&mut self, frame: &mut CrossFrame, area: Rect);
-    fn update(&mut self, buffer: &[f32]);
+    fn update(&mut self, samples: &mut SamplesBuffer);
 }

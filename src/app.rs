@@ -118,7 +118,7 @@ impl App {
     /// Update internal state.
     fn update(&mut self) {
         for action in self.actions.iter_mut() {
-            action.update(&self.samples.data);
+            action.update(&mut self.samples);
         }
     }
 }
