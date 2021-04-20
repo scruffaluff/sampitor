@@ -40,6 +40,18 @@ impl<'a> Action for SignalChart<'a> {
         self.axes.key_event(event);
     }
 
+    /// Overwrite plot datasets from packer audio frame buffer.
+    fn process(&mut self, buffer: &mut SamplesBuffer) {
+        let channels = self.points.len();
+
+        for (outer_index, points) in self.points.iter_mut().enumerate() {
+            for (inner_index, element) in points.iter_mut() {
+                let index = channels * (*inner_index as usize) + outer_index;
+                *element = buffer.data[index] as f64;
+            }
+        }
+    }
+
     /// Draw plots in terminal block.
     fn render(&mut self, frame: &mut CrossFrame, area: Rect) {
         let block = Block::default()
@@ -60,18 +72,6 @@ impl<'a> Action for SignalChart<'a> {
 
         frame.render_widget(chart, area);
     }
-
-    /// Overwrite plot datasets from packer audio frame buffer.
-    fn update(&mut self, buffer: &mut SamplesBuffer) {
-        let channels = self.points.len();
-
-        for (outer_index, points) in self.points.iter_mut().enumerate() {
-            for (inner_index, element) in points.iter_mut() {
-                let index = channels * (*inner_index as usize) + outer_index;
-                *element = buffer.data[index] as f64;
-            }
-        }
-    }
 }
 
 #[cfg(test)]
@@ -90,7 +90,7 @@ mod tests {
     }
 
     #[test]
-    fn update_points() {
+    fn process_points() {
         let mut chart = SignalChart::new(String::from(""), 2, 3);
         let expected = vec![
             vec![(0.0, -1.0), (1.0, -0.25), (2.0, 0.5)],
@@ -98,7 +98,7 @@ mod tests {
         ];
 
         let mut buffer = SamplesBuffer::new(1, 20, vec![-1.0, -0.5, -0.25, 0.25, 0.5, 1.0]);
-        chart.update(&mut buffer);
+        chart.process(&mut buffer);
 
         assert_eq!(chart.points, expected);
     }

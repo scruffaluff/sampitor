@@ -9,6 +9,6 @@ pub type CrossFrame<'a> = Frame<'a, CrosstermBackend<Stdout>>;
 
 pub trait Action {
     fn key_event(&mut self, event: KeyEvent);
+    fn process(&mut self, samples: &mut SamplesBuffer);
     fn render(&mut self, frame: &mut CrossFrame, area: Rect);
-    fn update(&mut self, samples: &mut SamplesBuffer);
 }

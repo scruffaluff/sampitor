@@ -10,8 +10,8 @@ use tui::widgets::{Block, Borders, List, ListItem, ListState};
 pub struct Reader {
     cwd: PathBuf,
     files: Vec<(String, bool)>,
+    read: bool,
     state: ListState,
-    update: bool,
 }
 
 impl Reader {
@@ -21,8 +21,8 @@ impl Reader {
         Ok(Reader {
             cwd,
             files,
+            read: false,
             state: ListState::default(),
-            update: false,
         })
     }
 
@@ -30,6 +30,7 @@ impl Reader {
         self.cwd = cwd;
         self.files = file::sorted_names(&self.cwd)
             .unwrap_or_else(|error| vec![(format!("{}", error), false)]);
+        self.read = false;
         self.state = ListState::default();
     }
 
@@ -71,7 +72,7 @@ impl Action for Reader {
                     let (_name, is_dir) = &self.files[index];
 
                     if !*is_dir {
-                        self.update = true;
+                        self.read = true;
                     }
                 };
             }
@@ -93,6 +94,22 @@ impl Action for Reader {
             }
             KeyCode::Up => self.previous(),
             _ => (),
+        }
+    }
+
+    fn process(&mut self, samples: &mut SamplesBuffer) {
+        if self.read {
+            if let Some(index) = self.state.selected() {
+                let (name, _is_dir) = &self.files[index];
+                let path = self.cwd.join(name);
+
+                match file::read_samples(&path) {
+                    Ok(buffer) => *samples = buffer,
+                    Err(error) => self.files = vec![(format!("{}", error), false)],
+                };
+            };
+
+            self.read = false;
         }
     }
 
@@ -119,21 +136,5 @@ impl Action for Reader {
             .highlight_symbol("> ");
 
         frame.render_stateful_widget(list, area, &mut self.state);
-    }
-
-    fn update(&mut self, samples: &mut SamplesBuffer) {
-        if self.update {
-            if let Some(index) = self.state.selected() {
-                let (name, _is_dir) = &self.files[index];
-                let path = self.cwd.join(name);
-
-                match file::read_samples(&path) {
-                    Ok(buffer) => *samples = buffer,
-                    Err(error) => self.files = vec![(format!("{}", error), false)],
-                };
-            };
-
-            self.update = false;
-        }
     }
 }

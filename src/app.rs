@@ -94,13 +94,20 @@ impl App {
         Ok(())
     }
 
+    /// Update internal state.
+    fn process(&mut self) {
+        for action in self.actions.iter_mut() {
+            action.process(&mut self.samples);
+        }
+    }
+
     /// Loop and wait for user input.
     pub fn run(&mut self) -> eyre::Result<()> {
         let (sender, receiver) = mpsc::channel::<Option<KeyEvent>>();
         let _ = event::event_thread(sender);
 
         while !self.shutdown {
-            self.update();
+            self.process();
             self.render()?;
 
             match receiver.try_recv() {
@@ -113,12 +120,5 @@ impl App {
         terminal::leave(&mut self.terminal)?;
 
         Ok(())
-    }
-
-    /// Update internal state.
-    fn update(&mut self) {
-        for action in self.actions.iter_mut() {
-            action.update(&mut self.samples);
-        }
     }
 }

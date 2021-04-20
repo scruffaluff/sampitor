@@ -37,6 +37,8 @@ impl Action for Menu {
         }
     }
 
+    fn process(&mut self, _samples: &mut SamplesBuffer) {}
+
     fn render(&mut self, frame: &mut CrossFrame, area: Rect) {
         let options: Vec<Spans> = self
             .options
@@ -55,8 +57,6 @@ impl Action for Menu {
 
         frame.render_widget(tabs, area);
     }
-
-    fn update(&mut self, _samples: &mut SamplesBuffer) {}
 }
 
 #[cfg(test)]
