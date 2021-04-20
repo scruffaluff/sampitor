@@ -14,15 +14,7 @@ pub struct Reader {
 
 impl Reader {
     pub fn try_new(cwd: PathBuf) -> eyre::Result<Self> {
-        let mut files: Vec<(String, bool)> = vec![];
-
-        for entry in cwd.read_dir()? {
-            let entry = entry?;
-            files.push((
-                file::name(&entry.path())?.to_string(),
-                entry.file_type()?.is_dir(),
-            ));
-        }
+        let files = file::sorted_names(&cwd)?;
 
         Ok(Reader {
             _cwd: cwd,

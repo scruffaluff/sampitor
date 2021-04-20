@@ -1,6 +1,7 @@
 use crate::buffer::SamplesBuffer;
 use color_eyre::eyre;
 use rodio::{Decoder, Source};
+use std::cmp::Ordering;
 use std::fs::File;
 use std::io::BufReader;
 use std::path::Path;
@@ -23,4 +24,53 @@ pub fn read_samples(path: &Path) -> eyre::Result<SamplesBuffer> {
     let sample_rate = source.sample_rate();
     let samples: Vec<f32> = source.convert_samples().buffered().collect();
     Ok(SamplesBuffer::new(channels, sample_rate, samples))
+}
+
+pub fn sorted_names(cwd: &Path) -> eyre::Result<Vec<(String, bool)>> {
+    let mut files: Vec<(String, bool)> = vec![];
+
+    for entry in cwd.read_dir()? {
+        let entry = entry?;
+        files.push((
+            name(&entry.path())?.to_string(),
+            entry.file_type()?.is_dir(),
+        ));
+    }
+
+    files.sort_by(|left, right| {
+        if left.1 && !right.1 {
+            Ordering::Less
+        } else if !left.1 && right.1 {
+            Ordering::Greater
+        } else {
+            left.0.cmp(&right.0)
+        }
+    });
+    Ok(files)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::fs;
+
+    #[test]
+    fn sort_folders_before_files() {
+        let folder = tempfile::tempdir().unwrap().path().to_owned();
+        fs::create_dir(&folder).unwrap();
+
+        File::create(folder.join("a")).unwrap();
+        fs::create_dir(folder.join("c")).unwrap();
+        fs::create_dir(folder.join("b")).unwrap();
+        File::create(folder.join("d")).unwrap();
+
+        let expected = vec![
+            (String::from("b"), true),
+            (String::from("c"), true),
+            (String::from("a"), false),
+            (String::from("d"), false),
+        ];
+        let actual = sorted_names(&folder).unwrap();
+        assert_eq!(actual, expected);
+    }
 }
