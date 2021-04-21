@@ -1,13 +1,14 @@
+use crate::action::{Action, CrossFrame};
+use crate::buffer::SamplesBuffer;
 use crossterm::event::{KeyCode, KeyEvent};
-use tui::backend::Backend;
 use tui::layout::Rect;
 use tui::style::{Modifier, Style};
-use tui::terminal::Frame;
-use tui::widgets::{Block, Borders, List, ListItem, ListState};
+use tui::text::Spans;
+use tui::widgets::{Block, Borders, Tabs};
 
 pub struct Menu {
     options: Vec<String>,
-    state: ListState,
+    state: usize,
     title: String,
 }
 
@@ -15,67 +16,46 @@ impl Menu {
     pub fn new(options: Vec<String>, title: String) -> Self {
         Menu {
             options,
-            state: ListState::default(),
+            state: 0,
             title,
         }
     }
 
-    pub fn key_event(&mut self, event: KeyEvent) {
-        match event.code {
-            KeyCode::Down => self.next(),
-            KeyCode::Up => self.previous(),
-            _ => (),
+    pub fn get_state(&self) -> usize {
+        self.state
+    }
+
+    pub fn next(&mut self) {
+        self.state = (self.state + 1) % self.options.len();
+    }
+}
+
+impl Action for Menu {
+    fn key_event(&mut self, event: KeyEvent) {
+        if event.code == KeyCode::Tab {
+            self.next()
         }
     }
 
-    fn next(&mut self) {
-        let i = match self.state.selected() {
-            Some(i) => {
-                if i >= self.options.len() - 1 {
-                    0
-                } else {
-                    i + 1
-                }
-            }
-            None => 0,
-        };
-        self.state.select(Some(i));
-    }
+    fn process(&mut self, _samples: &mut SamplesBuffer) {}
 
-    fn previous(&mut self) {
-        let i = match self.state.selected() {
-            Some(i) => {
-                if i == 0 {
-                    self.options.len() - 1
-                } else {
-                    i - 1
-                }
-            }
-            None => 0,
-        };
-        self.state.select(Some(i));
-    }
-
-    pub fn render<B: Backend>(&mut self, frame: &mut Frame<B>, area: Rect, highlight: bool) {
-        let options: Vec<ListItem> = self
+    fn render(&mut self, frame: &mut CrossFrame, area: Rect) {
+        let options: Vec<Spans> = self
             .options
             .iter()
-            .map(|option| ListItem::new(option.as_ref()))
+            .map(|option| Spans::from(option.as_ref()))
             .collect();
 
-        let mut block = Block::default()
+        let block = Block::default()
             .title(self.title.as_str())
             .borders(Borders::ALL);
 
-        if highlight {
-            block = block.border_style(Style::default().add_modifier(Modifier::BOLD));
-        }
-
-        let list = List::new(options)
+        let tabs = Tabs::new(options)
+            .select(self.state)
             .block(block)
             .highlight_style(Style::default().add_modifier(Modifier::BOLD));
 
-        frame.render_stateful_widget(list, area, &mut self.state);
+        frame.render_widget(tabs, area);
     }
 }
 
@@ -94,9 +74,9 @@ mod tests {
             String::from("Menu"),
         );
 
-        menu.key_event(KeyEvent::new(KeyCode::Up, KeyModifiers::NONE));
-        menu.key_event(KeyEvent::new(KeyCode::Up, KeyModifiers::NONE));
+        menu.key_event(KeyEvent::new(KeyCode::Tab, KeyModifiers::NONE));
+        menu.key_event(KeyEvent::new(KeyCode::Tab, KeyModifiers::NONE));
 
-        assert_eq!(Some(3), menu.state.selected());
+        assert_eq!(2, menu.get_state());
     }
 }

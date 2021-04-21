@@ -1,10 +1,9 @@
+use crate::action::{Action, CrossFrame};
+use crate::buffer::SamplesBuffer;
 use crate::chart::axes::Axes;
 use crossterm::event::KeyEvent;
-use tui::backend::Backend;
 use tui::layout::Rect;
-use tui::style::{Modifier, Style};
 use tui::symbols::Marker;
-use tui::terminal::Frame;
 use tui::widgets::{Block, Borders, Chart, Dataset, GraphType};
 
 pub struct SignalChart<'a> {
@@ -34,20 +33,36 @@ impl<'a> SignalChart<'a> {
             title,
         }
     }
+}
 
-    pub fn key_event(&mut self, event: KeyEvent) {
+impl<'a> Action for SignalChart<'a> {
+    fn key_event(&mut self, event: KeyEvent) {
         self.axes.key_event(event);
     }
 
+    /// Overwrite plot datasets from packer audio frame buffer.
+    fn process(&mut self, buffer: &mut SamplesBuffer) {
+        let channels = buffer.channels as usize;
+        let frame_count = buffer.data.len() / channels;
+
+        let points = (0..frame_count)
+            .map(|index| (index as f64, 0.0f64))
+            .collect();
+        self.points = vec![points; channels];
+
+        for (outer_index, points) in self.points.iter_mut().enumerate() {
+            for (inner_index, element) in points.iter_mut() {
+                let index = channels * (*inner_index as usize) + outer_index;
+                *element = buffer.data[index] as f64;
+            }
+        }
+    }
+
     /// Draw plots in terminal block.
-    pub fn render<B: Backend>(&self, frame: &mut Frame<B>, area: Rect, highlight: bool) {
-        let mut block = Block::default()
+    fn render(&mut self, frame: &mut CrossFrame, area: Rect) {
+        let block = Block::default()
             .title(self.title.as_str())
             .borders(Borders::ALL);
-
-        if highlight {
-            block = block.border_style(Style::default().add_modifier(Modifier::BOLD));
-        }
 
         let datasets = self
             .points
@@ -62,18 +77,6 @@ impl<'a> SignalChart<'a> {
             .y_axis(y_axis);
 
         frame.render_widget(chart, area);
-    }
-
-    /// Overwrite plot datasets from packer audio frame buffer.
-    pub fn update(&mut self, buffer: &[f32]) {
-        let channels = self.points.len();
-
-        for (outer_index, points) in self.points.iter_mut().enumerate() {
-            for (inner_index, element) in points.iter_mut() {
-                let index = channels * (*inner_index as usize) + outer_index;
-                *element = buffer[index] as f64;
-            }
-        }
     }
 }
 
@@ -93,15 +96,15 @@ mod tests {
     }
 
     #[test]
-    fn update_points() {
-        let mut chart = SignalChart::new(String::from(""), 2, 3);
+    fn process_points() {
+        let mut chart = SignalChart::new(String::from(""), 1, 1);
         let expected = vec![
             vec![(0.0, -1.0), (1.0, -0.25), (2.0, 0.5)],
             vec![(0.0, -0.5), (1.0, 0.25), (2.0, 1.0)],
         ];
 
-        let buffer = vec![-1.0, -0.5, -0.25, 0.25, 0.5, 1.0];
-        chart.update(&buffer);
+        let mut buffer = SamplesBuffer::new(2, 20, vec![-1.0, -0.5, -0.25, 0.25, 0.5, 1.0]);
+        chart.process(&mut buffer);
 
         assert_eq!(chart.points, expected);
     }
