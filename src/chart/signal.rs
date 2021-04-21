@@ -42,7 +42,13 @@ impl<'a> Action for SignalChart<'a> {
 
     /// Overwrite plot datasets from packer audio frame buffer.
     fn process(&mut self, buffer: &mut SamplesBuffer) {
-        let channels = self.points.len();
+        let channels = buffer.channels as usize;
+        let frame_count = buffer.data.len() / channels;
+
+        let points = (0..frame_count)
+            .map(|index| (index as f64, 0.0f64))
+            .collect();
+        self.points = vec![points; channels];
 
         for (outer_index, points) in self.points.iter_mut().enumerate() {
             for (inner_index, element) in points.iter_mut() {
@@ -91,13 +97,13 @@ mod tests {
 
     #[test]
     fn process_points() {
-        let mut chart = SignalChart::new(String::from(""), 2, 3);
+        let mut chart = SignalChart::new(String::from(""), 1, 1);
         let expected = vec![
             vec![(0.0, -1.0), (1.0, -0.25), (2.0, 0.5)],
             vec![(0.0, -0.5), (1.0, 0.25), (2.0, 1.0)],
         ];
 
-        let mut buffer = SamplesBuffer::new(1, 20, vec![-1.0, -0.5, -0.25, 0.25, 0.5, 1.0]);
+        let mut buffer = SamplesBuffer::new(2, 20, vec![-1.0, -0.5, -0.25, 0.25, 0.5, 1.0]);
         chart.process(&mut buffer);
 
         assert_eq!(chart.points, expected);
