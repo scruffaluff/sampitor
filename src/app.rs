@@ -2,9 +2,9 @@ use crate::action::Action;
 use crate::buffer::SamplesBuffer;
 use crate::chart::SignalChart;
 use crate::event;
-use crate::path;
 use crate::menu::Menu;
-use crate::read::Reader;
+use crate::path;
+use crate::file::File;
 use crate::terminal::{self, CrossTerm};
 use color_eyre::eyre;
 use crossterm::event::{KeyCode, KeyEvent};
@@ -41,10 +41,10 @@ impl App {
         let channels = samples.channels as usize;
 
         let chart = SignalChart::new(name, channels, samples.data.len() / channels);
-        let reader = Reader::try_new(env::current_dir()?)?;
+        let file = File::try_new(env::current_dir()?)?;
 
         Ok(App {
-            actions: vec![Box::new(chart), Box::new(reader)],
+            actions: vec![Box::new(chart), Box::new(file)],
             menu: Menu::new(options, String::from("Menu")),
             samples,
             shutdown: false,

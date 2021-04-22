@@ -7,18 +7,18 @@ use tui::layout::Rect;
 use tui::style::{Modifier, Style};
 use tui::widgets::{Block, Borders, List, ListItem, ListState};
 
-pub struct Reader {
+pub struct File {
     cwd: PathBuf,
     files: Vec<(String, bool)>,
     read: bool,
     state: ListState,
 }
 
-impl Reader {
+impl File {
     pub fn try_new(cwd: PathBuf) -> eyre::Result<Self> {
         let files = path::sorted_names(&cwd)?;
 
-        Ok(Reader {
+        Ok(Self {
             cwd,
             files,
             read: false,
@@ -63,7 +63,7 @@ impl Reader {
     }
 }
 
-impl Action for Reader {
+impl Action for File {
     fn key_event(&mut self, event: KeyEvent) {
         match event.code {
             KeyCode::Down => self.next(),

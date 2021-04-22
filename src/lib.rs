@@ -3,9 +3,9 @@ pub mod app;
 mod buffer;
 mod chart;
 mod event;
-mod path;
+mod file;
 mod menu;
-mod read;
+mod path;
 mod terminal;
 
 pub use crate::app::App;
