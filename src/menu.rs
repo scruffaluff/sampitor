@@ -6,6 +6,7 @@ use tui::style::{Modifier, Style};
 use tui::text::Spans;
 use tui::widgets::{Block, Borders, Tabs};
 
+/// UI view bar for selecting other UI views.
 pub struct Menu {
     options: Vec<String>,
     state: usize,
@@ -13,6 +14,7 @@ pub struct Menu {
 }
 
 impl Menu {
+    /// Create a new Menu from a title and options.
     pub fn new(options: Vec<String>, title: String) -> Self {
         Menu {
             options,
@@ -21,10 +23,12 @@ impl Menu {
         }
     }
 
+    /// Get the interior menu state for rendering.
     pub fn get_state(&self) -> usize {
         self.state
     }
 
+    /// Modular move menu state to next option.
     pub fn next(&mut self) {
         self.state = (self.state + 1) % self.options.len();
     }

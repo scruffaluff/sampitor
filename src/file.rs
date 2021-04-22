@@ -19,6 +19,7 @@ pub struct File {
 }
 
 impl File {
+    /// Attempt to crate a File view.
     pub fn try_new(cwd: PathBuf) -> eyre::Result<Self> {
         let files = path::sorted_names(&cwd)?;
 
@@ -201,7 +202,4 @@ enum Mode {
 }
 
 #[cfg(test)]
-mod tests {
-
-
-}
+mod tests {}

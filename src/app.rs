@@ -17,6 +17,7 @@ use std::sync::mpsc::TryRecvError;
 use tui::layout::Constraint::Percentage;
 use tui::layout::{Direction, Layout};
 
+/// Main runner for Sampitor application.
 pub struct App {
     actions: Vec<Box<dyn Action>>,
     menu: Menu,
@@ -54,6 +55,7 @@ impl App {
         })
     }
 
+    /// Pass keyboard input to current view.
     fn key_event(&mut self, event: KeyEvent) {
         self.menu.key_event(event);
         let action = &mut self.actions[self.menu.get_state()];
@@ -68,13 +70,13 @@ impl App {
         }
     }
 
-    /// Play currently loaded sample.
+    /// Play currently loaded signal.
     fn play(&self) {
         let source = buffer::SamplesBuffer::from(&self.samples);
         self.sink.append(source)
     }
 
-    /// Render all UI elements in terminal screen.
+    /// Render all UI views in terminal screen.
     fn render(&mut self) -> eyre::Result<()> {
         let action = &mut self.actions[self.menu.get_state()];
         let menu = &mut self.menu;
@@ -94,14 +96,14 @@ impl App {
         Ok(())
     }
 
-    /// Update internal state.
+    /// Update internal signal state.
     fn process(&mut self) {
         for action in self.actions.iter_mut() {
             action.process(&mut self.samples);
         }
     }
 
-    /// Loop and wait for user input.
+    /// Loop and wait for user keyboard input.
     pub fn run(&mut self) -> eyre::Result<()> {
         let (sender, receiver) = mpsc::channel::<Option<KeyEvent>>();
         let _ = event::event_thread(sender);
