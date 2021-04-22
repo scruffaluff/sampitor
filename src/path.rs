@@ -14,7 +14,7 @@ pub fn name(path: &Path) -> eyre::Result<&str> {
         .ok_or_else(|| eyre::eyre!("File name {:?} is not valid Unicode", path))
 }
 
-/// Read audio metdata and samples.
+/// Read audio metdata and samples from a file.
 pub fn read_samples(path: &Path) -> eyre::Result<SamplesBuffer> {
     let file = File::open(&path)?;
     let reader = BufReader::new(file);
@@ -26,14 +26,15 @@ pub fn read_samples(path: &Path) -> eyre::Result<SamplesBuffer> {
     Ok(SamplesBuffer::new(channels, sample_rate, samples))
 }
 
-pub fn sorted_names(cwd: &Path) -> eyre::Result<Vec<(String, bool)>> {
+/// Read inodes from a directory and sort them with subdirectories first.
+pub fn sorted_names(directory: &Path) -> eyre::Result<Vec<(String, bool)>> {
     let mut files: Vec<(String, bool)> = vec![];
 
-    for entry in cwd.read_dir()? {
-        let entry = entry?;
+    for inode in directory.read_dir()? {
+        let inode = inode?;
         files.push((
-            name(&entry.path())?.to_string(),
-            entry.file_type()?.is_dir(),
+            name(&inode.path())?.to_string(),
+            inode.file_type()?.is_dir(),
         ));
     }
 
@@ -47,6 +48,11 @@ pub fn sorted_names(cwd: &Path) -> eyre::Result<Vec<(String, bool)>> {
         }
     });
     Ok(files)
+}
+
+/// Write audio metdata and samples to a file.
+pub fn write_samples(_path: &Path) -> eyre::Result<()> {
+    Ok(())
 }
 
 #[cfg(test)]

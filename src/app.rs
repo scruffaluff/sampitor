@@ -2,9 +2,9 @@ use crate::action::Action;
 use crate::buffer::SamplesBuffer;
 use crate::chart::SignalChart;
 use crate::event;
+use crate::file::File;
 use crate::menu::Menu;
 use crate::path;
-use crate::file::File;
 use crate::terminal::{self, CrossTerm};
 use color_eyre::eyre;
 use crossterm::event::{KeyCode, KeyEvent};
@@ -32,7 +32,7 @@ impl App {
     /// Attempt to generate a new App.
     pub fn try_new(path: PathBuf) -> eyre::Result<Self> {
         let name = format!("File: {}", path::name(&path)?);
-        let options = vec![String::from("Chart"), String::from("Read")];
+        let options = vec![String::from("Chart"), String::from("File")];
 
         let (stream, handle) = OutputStream::try_default()?;
         let sink = Sink::try_new(&handle)?;

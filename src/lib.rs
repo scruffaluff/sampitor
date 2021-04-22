@@ -7,5 +7,6 @@ mod file;
 mod menu;
 mod path;
 mod terminal;
+mod ui;
 
 pub use crate::app::App;
