@@ -1,6 +1,6 @@
 use crate::action::{Action, CrossFrame};
 use crate::buffer::SamplesBuffer;
-use crate::file;
+use crate::path;
 use crossterm::event::{KeyCode, KeyEvent};
 use std::path::PathBuf;
 use tui::layout::Rect;
@@ -16,7 +16,7 @@ pub struct Reader {
 
 impl Reader {
     pub fn try_new(cwd: PathBuf) -> eyre::Result<Self> {
-        let files = file::sorted_names(&cwd)?;
+        let files = path::sorted_names(&cwd)?;
 
         Ok(Reader {
             cwd,
@@ -28,7 +28,7 @@ impl Reader {
 
     fn chdir(&mut self, cwd: PathBuf) {
         self.cwd = cwd;
-        self.files = file::sorted_names(&self.cwd)
+        self.files = path::sorted_names(&self.cwd)
             .unwrap_or_else(|error| vec![(format!("{}", error), false)]);
         self.read = false;
         self.state = ListState::default();
@@ -103,7 +103,7 @@ impl Action for Reader {
                 let (name, _is_dir) = &self.files[index];
                 let path = self.cwd.join(name);
 
-                match file::read_samples(&path) {
+                match path::read_samples(&path) {
                     Ok(buffer) => *samples = buffer,
                     Err(error) => self.files = vec![(format!("{}", error), false)],
                 };

@@ -2,7 +2,7 @@ use crate::action::Action;
 use crate::buffer::SamplesBuffer;
 use crate::chart::SignalChart;
 use crate::event;
-use crate::file;
+use crate::path;
 use crate::menu::Menu;
 use crate::read::Reader;
 use crate::terminal::{self, CrossTerm};
@@ -31,13 +31,13 @@ pub struct App {
 impl App {
     /// Attempt to generate a new App.
     pub fn try_new(path: PathBuf) -> eyre::Result<Self> {
-        let name = format!("File: {}", file::name(&path)?);
+        let name = format!("File: {}", path::name(&path)?);
         let options = vec![String::from("Chart"), String::from("Read")];
 
         let (stream, handle) = OutputStream::try_default()?;
         let sink = Sink::try_new(&handle)?;
 
-        let samples = file::read_samples(&path)?;
+        let samples = path::read_samples(&path)?;
         let channels = samples.channels as usize;
 
         let chart = SignalChart::new(name, channels, samples.data.len() / channels);

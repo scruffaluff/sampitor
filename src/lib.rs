@@ -3,7 +3,7 @@ pub mod app;
 mod buffer;
 mod chart;
 mod event;
-mod file;
+mod path;
 mod menu;
 mod read;
 mod terminal;
