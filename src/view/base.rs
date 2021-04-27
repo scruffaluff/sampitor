@@ -8,7 +8,7 @@ use tui::terminal::Frame;
 pub type CrossFrame<'a> = Frame<'a, CrosstermBackend<Stdout>>;
 
 /// Base requirements for a UI view.
-pub trait Action {
+pub trait View {
     /// Update view state based on keyboard input.
     fn key_event(&mut self, event: KeyEvent);
     /// Get or set the current signal state.
