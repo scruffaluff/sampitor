@@ -1,6 +1,6 @@
 # Cargo manifest file for compiling Rust code.
 #
-# For more information, see
+# For more information, visit
 # https://doc.rust-lang.org/cargo/reference/manifest.html.
 
 [package]

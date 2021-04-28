@@ -6,7 +6,6 @@
 
 ---
 
-<!-- prettier-ignore -->
 **Documentation**: https://wolfgangwazzlestrauss.github.io/sampitor
 
 **Source Code**: https://github.com/wolfgangwazzlestrauss/sampitor
