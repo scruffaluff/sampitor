@@ -72,6 +72,7 @@ pub fn write_samples(path: &Path, samples: &SamplesBuffer) -> eyre::Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use approx::assert_abs_diff_eq;
     use std::fs;
 
     #[test]
@@ -92,5 +93,18 @@ mod tests {
         ];
         let actual = sorted_names(&folder).unwrap();
         assert_eq!(actual, expected);
+    }
+
+    #[test]
+    fn write_and_read() {
+        let folder = tempfile::tempdir().unwrap().path().to_owned();
+        fs::create_dir(&folder).unwrap();
+        let path = folder.join("test.wav");
+
+        let expected = SamplesBuffer::new(2, 32, vec![0.0f32, -0.25f32, 0.25f32, 1.0f32]);
+        write_samples(&path, &expected).unwrap();
+
+        let actual = read_samples(&path).unwrap();
+        assert_abs_diff_eq!(actual, expected, epsilon = 0.0001);
     }
 }

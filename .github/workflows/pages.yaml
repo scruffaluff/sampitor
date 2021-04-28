@@ -37,7 +37,7 @@ jobs:
       # Cargo doc does not produce a root index.html page.
       - name: Add HTML root redirect page
         run: |
-          printf '<head><meta http-equiv="refresh" content="0; url=rgit/index.html" /></head>' > target/doc/index.html
+          printf '<head><meta http-equiv="refresh" content="0; url=sampitor/index.html" /></head>' > target/doc/index.html
       - name: Upload documentation to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
