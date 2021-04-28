@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Frame","Represents a consistent terminal interface for rendering."],["Terminal","Interface to the terminal backed by Termion"],["TerminalOptions","Options to pass to [`Terminal::with_options`]"],["Viewport","UNSTABLE"]]});
