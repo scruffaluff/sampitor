@@ -5,16 +5,18 @@
 
 name: pages
 
-# Make workflow run only for commits pushed or pull requests made to the develop
-# and master branches.
+# Make workflow run only for commits pushed or pull requests made to the
+# develop, main, and master branches.
 on:
   push:
     branches:
       - develop
+      - main
       - master
   pull_request:
     branches:
       - develop
+      - main
       - master
 
 jobs:
@@ -30,7 +32,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-      - name: Build static site documentation
+      - name: Build documentation
         uses: actions-rs/cargo@v1
         with:
           command: doc
@@ -38,7 +40,7 @@ jobs:
       - name: Add HTML root redirect page
         run: |
           printf '<head><meta http-equiv="refresh" content="0; url=sampitor/index.html" /></head>' > target/doc/index.html
-      - name: Upload documentation to GitHub Pages
+      - name: Publish documentation
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

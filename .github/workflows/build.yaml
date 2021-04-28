@@ -5,22 +5,24 @@
 
 name: build
 
-# Make workflow run only for commits pushed to othe develop, feature, master
-# branches, or pull requests made to the develop and master branches.
+# Make workflow run only for commits pushed to othe develop, feature, main,
+# master branches, or pull requests made to the develop and master branches.
 on:
   push:
     branches:
       - develop
       - feature/*
+      - main
       - master
   pull_request:
     branches:
       - develop
+      - main
       - master
 
 jobs:
   lint:
-    name: Lint and format code
+    name: Check code with formatter and linter
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code repository
@@ -57,7 +59,7 @@ jobs:
           args: -- -D warnings
 
   test:
-    name: Run tests for ${{ matrix.os }}
+    name: Run test suite for ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
