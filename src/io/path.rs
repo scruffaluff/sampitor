@@ -1,5 +1,6 @@
 use crate::dsp::buffer::SamplesBuffer;
 use color_eyre::eyre;
+use hound::{SampleFormat, WavSpec, WavWriter};
 use rodio::{Decoder, Source};
 use std::cmp::Ordering;
 use std::fs::File;
@@ -51,7 +52,20 @@ pub fn sorted_names(directory: &Path) -> eyre::Result<Vec<(String, bool)>> {
 }
 
 /// Write audio metdata and samples to a file.
-pub fn write_samples(_path: &Path) -> eyre::Result<()> {
+pub fn write_samples(path: &Path, samples: &SamplesBuffer) -> eyre::Result<()> {
+    let spec = WavSpec {
+        channels: samples.channels,
+        sample_rate: samples.sample_rate,
+        bits_per_sample: 32,
+        sample_format: SampleFormat::Float,
+    };
+
+    let mut writer = WavWriter::create(path, spec)?;
+
+    for sample in samples.data.iter() {
+        writer.write_sample(*sample)?;
+    }
+
     Ok(())
 }
 

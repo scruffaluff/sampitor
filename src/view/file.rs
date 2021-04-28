@@ -148,9 +148,13 @@ impl View for File {
             Mode::Write => {
                 let path = self.cwd.join(&self.type_buffer);
 
-                if let Err(error) = path::write_samples(&path) {
+                if let Err(error) = path::write_samples(&path, samples) {
                     self.files = vec![(format!("{}", error), false)];
                 };
+
+                self.type_buffer.clear();
+                self.chdir(self.cwd.clone());
+                self.mode = Mode::Nagivate;
             }
             _ => (),
         }
