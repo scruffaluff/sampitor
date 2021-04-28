@@ -1,5 +1,5 @@
-use crate::action::{Action, CrossFrame};
-use crate::buffer::SamplesBuffer;
+use crate::dsp::buffer::SamplesBuffer;
+use crate::view::{CrossFrame, View};
 use crossterm::event::{KeyCode, KeyEvent};
 use tui::layout::Rect;
 use tui::style::{Modifier, Style};
@@ -34,7 +34,7 @@ impl Menu {
     }
 }
 
-impl Action for Menu {
+impl View for Menu {
     fn key_event(&mut self, event: KeyEvent) {
         if event.code == KeyCode::Tab {
             self.next()

@@ -1,4 +1,4 @@
-use crate::buffer::SamplesBuffer;
+use crate::dsp::buffer::SamplesBuffer;
 use crossterm::event::KeyEvent;
 use std::io::Stdout;
 use tui::backend::CrosstermBackend;

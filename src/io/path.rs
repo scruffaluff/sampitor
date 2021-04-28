@@ -1,4 +1,4 @@
-use crate::buffer::SamplesBuffer;
+use crate::dsp::buffer::SamplesBuffer;
 use color_eyre::eyre;
 use rodio::{Decoder, Source};
 use std::cmp::Ordering;

@@ -1,7 +1,7 @@
-use crate::action::{Action, CrossFrame};
-use crate::buffer::SamplesBuffer;
-use crate::path;
+use crate::dsp::buffer::SamplesBuffer;
+use crate::io::path;
 use crate::ui;
+use crate::view::{CrossFrame, View};
 use crossterm::event::{KeyCode, KeyEvent};
 use std::path::PathBuf;
 use tui::layout::Rect;
@@ -121,7 +121,7 @@ impl File {
     }
 }
 
-impl Action for File {
+impl View for File {
     fn key_event(&mut self, event: KeyEvent) {
         match self.mode {
             Mode::Nagivate => self.key_event_navigate(event),
@@ -181,7 +181,7 @@ impl Action for File {
         frame.render_stateful_widget(list, area, &mut self.state);
 
         if self.mode == Mode::Type {
-            let area = ui::centered_rectangle(60, 20, area);
+            let area = ui::util::centered_rectangle(60, 20, area);
             frame.render_widget(Clear, area);
 
             let block = Block::default().title("Write").borders(Borders::ALL);

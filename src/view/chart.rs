@@ -1,6 +1,6 @@
-use crate::action::{Action, CrossFrame};
-use crate::buffer::SamplesBuffer;
-use crate::chart::axes::Axes;
+use crate::dsp::buffer::SamplesBuffer;
+use crate::ui::axes::Axes;
+use crate::view::{CrossFrame, View};
 use crossterm::event::KeyEvent;
 use tui::layout::Rect;
 use tui::symbols::Marker;
@@ -36,7 +36,7 @@ impl<'a> SignalChart<'a> {
     }
 }
 
-impl<'a> Action for SignalChart<'a> {
+impl<'a> View for SignalChart<'a> {
     fn key_event(&mut self, event: KeyEvent) {
         self.axes.key_event(event);
     }
