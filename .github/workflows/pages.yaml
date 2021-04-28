@@ -1,0 +1,45 @@
+# GitHub Actions workflow file.
+#
+# For more information, visit
+# https://docs.github.com/actions/learn-github-actions.
+
+name: pages
+
+# Make workflow run only for commits pushed or pull requests made to the develop
+# and master branches.
+on:
+  push:
+    branches:
+      - develop
+      - master
+  pull_request:
+    branches:
+      - develop
+      - master
+
+jobs:
+  pages:
+    name: Build documentation and publish to GitHub Pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v2
+      - name: Install ALSA packages
+        run: sudo apt-get install -y alsa-utils libasound2-dev
+      - name: Install latest stable Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: Build static site documentation
+        uses: actions-rs/cargo@v1
+        with:
+          command: doc
+      # Cargo doc does not produce a root index.html page.
+      - name: Add HTML root redirect page
+        run: |
+          printf '<head><meta http-equiv="refresh" content="0; url=rgit/index.html" /></head>' > target/doc/index.html
+      - name: Upload documentation to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: target/doc

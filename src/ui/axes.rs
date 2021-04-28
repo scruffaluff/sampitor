@@ -2,6 +2,7 @@ use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 use tui::text::Span;
 use tui::widgets::Axis;
 
+/// Chart axes with shift and zoom features..
 pub struct Axes {
     speed: f64,
     x: [f64; 2],
@@ -9,10 +10,12 @@ pub struct Axes {
 }
 
 impl Axes {
+    /// Create an Axes from viewport dimensions.
     pub fn new(x: [f64; 2], y: [f64; 2], speed: f64) -> Self {
         Self { speed, x, y }
     }
 
+    /// Generate a TUI Axis pair.
     pub fn axes(&self) -> (Axis, Axis) {
         let labels: (Vec<Span>, Vec<Span>) = (
             self.x
@@ -31,6 +34,7 @@ impl Axes {
         )
     }
 
+    /// Update axes state based on keyboard input.
     pub fn key_event(&mut self, event: KeyEvent) {
         match event.modifiers {
             KeyModifiers::SHIFT => self.zoom(event.code),
@@ -44,6 +48,7 @@ impl Axes {
         }
     }
 
+    /// Move axes bounds horizontally or vertically.
     fn shift(&mut self, code: KeyCode) {
         let direction = match code {
             KeyCode::Down => (0.0, -1.0),
@@ -61,6 +66,7 @@ impl Axes {
         self.y.iter_mut().for_each(|elem| *elem += delta.1);
     }
 
+    /// Squeeze or expand axes bounds.
     fn zoom(&mut self, code: KeyCode) {
         let delta = match code {
             KeyCode::Down => 2.0 * self.speed,

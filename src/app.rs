@@ -1,11 +1,11 @@
-use crate::action::Action;
-use crate::buffer::SamplesBuffer;
-use crate::chart::SignalChart;
-use crate::event;
-use crate::file;
-use crate::menu::Menu;
-use crate::read::Reader;
-use crate::terminal::{self, CrossTerm};
+use crate::dsp::buffer::SamplesBuffer;
+use crate::io::event;
+use crate::io::path;
+use crate::io::terminal::{self, CrossTerm};
+use crate::view::chart::SignalChart;
+use crate::view::file::File;
+use crate::view::menu::Menu;
+use crate::view::View;
 use color_eyre::eyre;
 use crossterm::event::{KeyCode, KeyEvent};
 use rodio::buffer;
@@ -17,8 +17,8 @@ use std::sync::mpsc::TryRecvError;
 use tui::layout::Constraint::Percentage;
 use tui::layout::{Direction, Layout};
 
+/// Main runner for Sampitor application.
 pub struct App {
-    actions: Vec<Box<dyn Action>>,
     menu: Menu,
     samples: SamplesBuffer,
     shutdown: bool,
@@ -26,38 +26,40 @@ pub struct App {
     // If stream is dropped then sound will not reach the speakers.
     _stream: OutputStream,
     terminal: CrossTerm,
+    views: Vec<Box<dyn View>>,
 }
 
 impl App {
     /// Attempt to generate a new App.
     pub fn try_new(path: PathBuf) -> eyre::Result<Self> {
-        let name = format!("File: {}", file::name(&path)?);
-        let options = vec![String::from("Chart"), String::from("Read")];
+        let name = format!("File: {}", path::name(&path)?);
+        let options = vec![String::from("Chart"), String::from("File")];
 
         let (stream, handle) = OutputStream::try_default()?;
         let sink = Sink::try_new(&handle)?;
 
-        let samples = file::read_samples(&path)?;
+        let samples = path::read_samples(&path)?;
         let channels = samples.channels as usize;
 
         let chart = SignalChart::new(name, channels, samples.data.len() / channels);
-        let reader = Reader::try_new(env::current_dir()?)?;
+        let file = File::try_new(env::current_dir()?)?;
 
         Ok(App {
-            actions: vec![Box::new(chart), Box::new(reader)],
             menu: Menu::new(options, String::from("Menu")),
             samples,
             shutdown: false,
             sink,
             _stream: stream,
             terminal: terminal::take()?,
+            views: vec![Box::new(chart), Box::new(file)],
         })
     }
 
+    /// Pass keyboard input to current view.
     fn key_event(&mut self, event: KeyEvent) {
         self.menu.key_event(event);
-        let action = &mut self.actions[self.menu.get_state()];
-        action.key_event(event);
+        let view = &mut self.views[self.menu.get_state()];
+        view.key_event(event);
 
         match event.code {
             KeyCode::Char(' ') => self.play(),
@@ -68,15 +70,15 @@ impl App {
         }
     }
 
-    /// Play currently loaded sample.
+    /// Play currently loaded signal.
     fn play(&self) {
         let source = buffer::SamplesBuffer::from(&self.samples);
         self.sink.append(source)
     }
 
-    /// Render all UI elements in terminal screen.
+    /// Render all UI views in terminal screen.
     fn render(&mut self) -> eyre::Result<()> {
-        let action = &mut self.actions[self.menu.get_state()];
+        let view = &mut self.views[self.menu.get_state()];
         let menu = &mut self.menu;
 
         self.terminal.draw(|frame| {
@@ -88,20 +90,20 @@ impl App {
                 .split(size);
 
             menu.render(frame, chunks[0]);
-            action.render(frame, chunks[1]);
+            view.render(frame, chunks[1]);
         })?;
 
         Ok(())
     }
 
-    /// Update internal state.
+    /// Update internal signal state.
     fn process(&mut self) {
-        for action in self.actions.iter_mut() {
-            action.process(&mut self.samples);
+        for view in self.views.iter_mut() {
+            view.process(&mut self.samples);
         }
     }
 
-    /// Loop and wait for user input.
+    /// Loop and wait for user keyboard input.
     pub fn run(&mut self) -> eyre::Result<()> {
         let (sender, receiver) = mpsc::channel::<Option<KeyEvent>>();
         let _ = event::event_thread(sender);

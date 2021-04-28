@@ -1,5 +1,6 @@
-use crate::buffer::SamplesBuffer;
+use crate::dsp::buffer::SamplesBuffer;
 use color_eyre::eyre;
+use hound::{SampleFormat, WavSpec, WavWriter};
 use rodio::{Decoder, Source};
 use std::cmp::Ordering;
 use std::fs::File;
@@ -14,7 +15,7 @@ pub fn name(path: &Path) -> eyre::Result<&str> {
         .ok_or_else(|| eyre::eyre!("File name {:?} is not valid Unicode", path))
 }
 
-/// Read audio metdata and samples.
+/// Read audio metdata and samples from a file.
 pub fn read_samples(path: &Path) -> eyre::Result<SamplesBuffer> {
     let file = File::open(&path)?;
     let reader = BufReader::new(file);
@@ -26,14 +27,15 @@ pub fn read_samples(path: &Path) -> eyre::Result<SamplesBuffer> {
     Ok(SamplesBuffer::new(channels, sample_rate, samples))
 }
 
-pub fn sorted_names(cwd: &Path) -> eyre::Result<Vec<(String, bool)>> {
+/// Read inodes from a directory and sort them with subdirectories first.
+pub fn sorted_names(directory: &Path) -> eyre::Result<Vec<(String, bool)>> {
     let mut files: Vec<(String, bool)> = vec![];
 
-    for entry in cwd.read_dir()? {
-        let entry = entry?;
+    for inode in directory.read_dir()? {
+        let inode = inode?;
         files.push((
-            name(&entry.path())?.to_string(),
-            entry.file_type()?.is_dir(),
+            name(&inode.path())?.to_string(),
+            inode.file_type()?.is_dir(),
         ));
     }
 
@@ -47,6 +49,24 @@ pub fn sorted_names(cwd: &Path) -> eyre::Result<Vec<(String, bool)>> {
         }
     });
     Ok(files)
+}
+
+/// Write audio metdata and samples to a file.
+pub fn write_samples(path: &Path, samples: &SamplesBuffer) -> eyre::Result<()> {
+    let spec = WavSpec {
+        channels: samples.channels,
+        sample_rate: samples.sample_rate,
+        bits_per_sample: 32,
+        sample_format: SampleFormat::Float,
+    };
+
+    let mut writer = WavWriter::create(path, spec)?;
+
+    for sample in samples.data.iter() {
+        writer.write_sample(*sample)?;
+    }
+
+    Ok(())
 }
 
 #[cfg(test)]

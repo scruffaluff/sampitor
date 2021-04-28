@@ -1,11 +1,12 @@
-use crate::action::{Action, CrossFrame};
-use crate::buffer::SamplesBuffer;
-use crate::chart::axes::Axes;
+use crate::dsp::buffer::SamplesBuffer;
+use crate::ui::axes::Axes;
+use crate::view::{CrossFrame, View};
 use crossterm::event::KeyEvent;
 use tui::layout::Rect;
 use tui::symbols::Marker;
 use tui::widgets::{Block, Borders, Chart, Dataset, GraphType};
 
+/// UI view for plotting audio signal with shift and zoom features.
 pub struct SignalChart<'a> {
     axes: Axes,
     dataset: Dataset<'a>,
@@ -14,7 +15,7 @@ pub struct SignalChart<'a> {
 }
 
 impl<'a> SignalChart<'a> {
-    /// Create a new SignalChart.
+    /// Create a new SignalChart from a title and audio metadata.
     pub fn new(title: String, channels: usize, frame_count: usize) -> Self {
         let axes = Axes::new([0.0f64, frame_count as f64], [-1.0, 1.0], 1.0);
 
@@ -35,12 +36,11 @@ impl<'a> SignalChart<'a> {
     }
 }
 
-impl<'a> Action for SignalChart<'a> {
+impl<'a> View for SignalChart<'a> {
     fn key_event(&mut self, event: KeyEvent) {
         self.axes.key_event(event);
     }
 
-    /// Overwrite plot datasets from packer audio frame buffer.
     fn process(&mut self, buffer: &mut SamplesBuffer) {
         let channels = buffer.channels as usize;
         let frame_count = buffer.data.len() / channels;
@@ -58,7 +58,6 @@ impl<'a> Action for SignalChart<'a> {
         }
     }
 
-    /// Draw plots in terminal block.
     fn render(&mut self, frame: &mut CrossFrame, area: Rect) {
         let block = Block::default()
             .title(self.title.as_str())

@@ -1,4 +1,6 @@
-# Project task runner. See https://github.com/sagiegurari/cargo-make for info.
+# Project task definition file for Cargo Make. 
+#
+# For more information, see https://github.com/sagiegurari/cargo-make.
 
 [tasks.all]
 dependencies = [

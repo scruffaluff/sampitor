@@ -1,11 +1,7 @@
-mod action;
 pub mod app;
-mod buffer;
-mod chart;
-mod event;
-mod file;
-mod menu;
-mod read;
-mod terminal;
+mod dsp;
+mod io;
+mod ui;
+mod view;
 
 pub use crate::app::App;
