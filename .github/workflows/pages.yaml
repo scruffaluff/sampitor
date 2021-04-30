@@ -10,28 +10,24 @@ name: pages
 on:
   push:
     branches:
-      - develop
-      - main
-      - master
-  pull_request:
-    branches:
-      - develop
       - main
       - master
 
 jobs:
-  pages:
-    name: Build documentation and publish to GitHub Pages
+  docs:
+    name: Build and publish documentation
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code repository
         uses: actions/checkout@v2
       - name: Install ALSA packages
         run: sudo apt-get install -y alsa-utils libasound2-dev
-      - name: Install latest stable Rust toolchain
+      - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
+      - name: Install Rust packages from cache
+        uses: swatinem/rust-cache@v1
       - name: Build documentation
         uses: actions-rs/cargo@v1
         with:
