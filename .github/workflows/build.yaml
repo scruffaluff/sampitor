@@ -5,20 +5,10 @@
 
 name: build
 
-# Make workflow run only for commits pushed to othe develop, feature, main,
-# master branches, or pull requests made to the develop and master branches.
+# Trigger workflow on any push or pull request.
 on:
-  push:
-    branches:
-      - develop
-      - feature/*
-      - main
-      - master
-  pull_request:
-    branches:
-      - develop
-      - main
-      - master
+  - pull_request
+  - push
 
 jobs:
   lint:
@@ -44,14 +34,13 @@ jobs:
         with:
           components: clippy, rustfmt
           toolchain: stable
+      - name: Install Rust packages from cache
+        uses: swatinem/rust-cache@v1
       - name: Check code formatting
         uses: actions-rs/cargo@v1
         with:
           command: fmt
           args: -- --check
-      # Does not use dependency caching since Clippy may not work correctly with
-      # cached dependencies. See
-      # https://github.com/rust-lang/rust-clippy/issues/4612 for details.
       - name: Run Rust code linters
         uses: actions-rs/cargo@v1
         with:
@@ -85,6 +74,8 @@ jobs:
       - name: Install Rust packages from cache
         uses: swatinem/rust-cache@v1
       - name: Run Rust tests
+        env:
+          RUST_BACKTRACE: 1
         uses: actions-rs/cargo@v1
         with:
           command: test

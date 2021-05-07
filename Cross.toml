@@ -1,0 +1,8 @@
+# Cross manifest file for cross compiling and testing Rust code.
+#
+# For more information, visit https://github.com/rust-embedded/cross.
+
+[build.env]
+passthrough = [
+    "RUST_BACKTRACE",
+]
