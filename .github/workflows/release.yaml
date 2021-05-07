@@ -65,7 +65,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Install ALSA packages
         if: matrix.os == 'Linux'
-        run: sudo apt-get install -y alsa-utils libasound2-dev
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y alsa-utils libasound2-dev
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
@@ -110,7 +112,9 @@ jobs:
       - name: Checkout code repository
         uses: actions/checkout@v2
       - name: Install ALSA packages
-        run: sudo apt-get install -y alsa-utils libasound2-dev
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y alsa-utils libasound2-dev
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
