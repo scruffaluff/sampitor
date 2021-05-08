@@ -8,13 +8,8 @@ dependencies = [
     "lint",
     "test",
     "cross",
-    "coverage"
+    "tarpaulin"
 ]
-
-[tasks.coverage]
-args = ["tarpaulin", "-v", "--ignore-tests", "--out", "Lcov"]
-command = "cargo"
-condition = { platforms = ["linux"] }
 
 [tasks.cross]
 args = ["test", "--target", "aarch64-unknown-linux-gnu"]
@@ -42,6 +37,14 @@ install_crate = "rustfmt"
 args = ["clippy"]
 command = "cargo"
 install_crate = "clippy"
+
+# Task cannot be named coverage, since cargo-make has a predefined coverage
+# task.
+[tasks.tarpaulin]
+args = ["tarpaulin", "-v", "--ignore-tests", "--out", "Lcov"]
+command = "cargo"
+condition = { platforms = ["linux"] }
+install_crate = "tarpaulin"
 
 [tasks.test]
 args = ["test"]

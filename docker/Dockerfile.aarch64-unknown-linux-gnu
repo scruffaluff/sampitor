@@ -16,5 +16,5 @@ RUN dpkg --add-architecture arm64 \
 #   -q: Produce log suitable output by omitting progress indicators.
 #   -y: Assume "yes" as answer to all prompts and run non-interactively.
 RUN apt-get install -qy \
-    alsa-utils:arm64 \
+    libasound2-dev:amd64 \
     libasound2-dev:arm64
