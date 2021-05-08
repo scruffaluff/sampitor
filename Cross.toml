@@ -6,3 +6,6 @@
 passthrough = [
     "RUST_BACKTRACE",
 ]
+
+[target.aarch64-unknown-linux-gnu]
+image = "wolfgangwazzlestrauss/cross-sampitor:aarch64-unknown-linux-gnu"

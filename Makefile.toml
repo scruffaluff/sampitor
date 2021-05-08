@@ -5,31 +5,44 @@
 [tasks.all]
 dependencies = [
     "format",
-    "build",
-    "test"
+    "lint",
+    "test",
+    "cross",
+    "coverage"
 ]
 
-[tasks.build]
+[tasks.coverage]
+args = ["tarpaulin", "-v", "--ignore-tests", "--out", "Lcov"]
 command = "cargo"
-args = ["build"]
-dependencies = ["clean"]
+condition = { platforms = ["linux"] }
 
-[tasks.clean]
-command = "cargo"
-args = ["clean"]
+[tasks.cross]
+args = ["test", "--target", "aarch64-unknown-linux-gnu"]
+command = "cross"
+dependencies = ["docker"]
+install_crate = "cross"
+
+[tasks.docker]
+args = [
+    "build",
+    "-f",
+    "docker/Dockerfile.aarch64-unknown-linux-gnu",
+    "-t",
+    "wolfgangwazzlestrauss/cross-sampitor:aarch64-unknown-linux-gnu",
+    "."
+]
+command = "docker"
 
 [tasks.format]
-install_crate = "rustfmt"
+args = ["fmt", "--", "-l", "--emit", "files"]
 command = "cargo"
-args = ["fmt", "--", "--emit=files"]
+install_crate = "rustfmt"
+
+[tasks.lint]
+args = ["clippy"]
+command = "cargo"
+install_crate = "clippy"
 
 [tasks.test]
-command = "cargo"
 args = ["test"]
-dependencies = ["clean"]
-
-# Only run on x86_64 Linux.
-[tasks.test-coverage]
 command = "cargo"
-args = ["tarpaulin", "-v", "--ignore-tests", "--out", "Lcov"]
-dependencies = ["clean"]

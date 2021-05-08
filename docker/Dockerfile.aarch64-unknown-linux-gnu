@@ -1,0 +1,21 @@
+FROM rustembedded/cross:aarch64-unknown-linux-gnu-0.2.1
+
+# Update accepted package architecture list.
+#
+# Flags:
+#   -m: Ignore missing packages and handle result.
+#   -q: Produce log suitable output by omitting progress indicators.
+#   --add-architecture <arch>: Add <arch> to the accepted list of package 
+#     architectures.
+RUN dpkg --add-architecture arm64 \
+    && apt-get update -qm
+
+# Install ARM64 audio libraries.
+#
+# Flags:
+#   -q: Produce log suitable output by omitting progress indicators.
+#   -y: Assume "yes" as answer to all prompts and run non-interactively.
+#   --no-install-recommends: Do not install recommended packages.
+RUN apt-get install -qy --no-install-recommends \
+    alsa-utils:arm64 \
+    libasound2-dev:arm64
