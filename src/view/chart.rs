@@ -1,4 +1,4 @@
-use crate::dsp::buffer::SamplesBuffer;
+use crate::dsp::SamplesBuffer;
 use crate::ui::axes::Axes;
 use crate::view::View;
 use crossterm::event::KeyEvent;

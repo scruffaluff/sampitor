@@ -1,4 +1,4 @@
-use crate::dsp::buffer::SamplesBuffer;
+use crate::dsp::SamplesBuffer;
 use crate::view::View;
 use crossterm::event::{KeyCode, KeyEvent};
 use tui::backend::Backend;

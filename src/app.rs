@@ -1,4 +1,4 @@
-use crate::dsp::buffer::SamplesBuffer;
+use crate::dsp::SamplesBuffer;
 use crate::io::{event, path};
 use crate::view::{File, Menu, SignalChart, View};
 use color_eyre::eyre;
@@ -114,5 +114,29 @@ impl<B: Backend> App<B> {
         }
 
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::util;
+    use tui::backend::TestBackend;
+
+    #[test]
+    fn menu_contains_views() {
+        let samples = SamplesBuffer::new(2, 32, vec![0.0f32, -0.25f32, 0.25f32, 1.0f32]);
+        let file_path = util::test::temp_wave_file(&samples).unwrap();
+
+        let backend = TestBackend::new(20, 10);
+        let mut terminal = Terminal::new(backend).unwrap();
+
+        let mut app = App::try_new(file_path).unwrap();
+        app.render(&mut terminal).unwrap();
+
+        let expected = "Menu";
+
+        let actual = util::test::buffer_view(terminal.backend().buffer());
+        assert!(actual.contains(expected));
     }
 }

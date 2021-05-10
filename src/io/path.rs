@@ -1,4 +1,4 @@
-use crate::dsp::buffer::SamplesBuffer;
+use crate::dsp::SamplesBuffer;
 use color_eyre::eyre;
 use hound::{SampleFormat, WavSpec, WavWriter};
 use rodio::{Decoder, Source};
@@ -70,8 +70,9 @@ pub fn write_samples(path: &Path, samples: &SamplesBuffer) -> eyre::Result<()> {
 }
 
 #[cfg(test)]
-mod tests {
+pub mod tests {
     use super::*;
+    use crate::util;
     use approx::assert_abs_diff_eq;
     use std::fs;
 
@@ -97,12 +98,8 @@ mod tests {
 
     #[test]
     fn write_and_read() {
-        let folder = tempfile::tempdir().unwrap().path().to_owned();
-        fs::create_dir(&folder).unwrap();
-        let path = folder.join("test.wav");
-
         let expected = SamplesBuffer::new(2, 32, vec![0.0f32, -0.25f32, 0.25f32, 1.0f32]);
-        write_samples(&path, &expected).unwrap();
+        let path = util::test::temp_wave_file(&expected).unwrap();
 
         let actual = read_samples(&path).unwrap();
         assert_abs_diff_eq!(actual, expected, epsilon = 0.0001);

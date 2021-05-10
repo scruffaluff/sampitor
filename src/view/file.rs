@@ -1,4 +1,4 @@
-use crate::dsp::buffer::SamplesBuffer;
+use crate::dsp::SamplesBuffer;
 use crate::io::path;
 use crate::ui;
 use crate::view::View;
