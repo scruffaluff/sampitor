@@ -1,5 +1,6 @@
 use clap::{AppSettings, Clap};
 use color_eyre::eyre;
+use rodio::{OutputStream, Sink};
 use sampitor::io;
 use sampitor::App;
 use std::path::PathBuf;
@@ -22,9 +23,11 @@ fn main() -> eyre::Result<()> {
     let options = Options::parse();
 
     let mut terminal = io::terminal::take()?;
+    let (_stream, handle) = OutputStream::try_default()?;
+    let sink = Sink::try_new(&handle)?;
 
     let mut app = App::try_new(options.file)?;
-    app.run(&mut terminal)?;
+    app.run(&mut terminal, &sink)?;
 
     io::terminal::leave(&mut terminal)?;
 

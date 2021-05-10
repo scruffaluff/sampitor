@@ -4,7 +4,7 @@ use crate::view::{File, Menu, SignalChart, View};
 use color_eyre::eyre;
 use crossterm::event::{KeyCode, KeyEvent};
 use rodio::buffer;
-use rodio::{OutputStream, Sink};
+use rodio::Sink;
 use std::env;
 use std::path::PathBuf;
 use std::sync::mpsc::{self, TryRecvError};
@@ -18,9 +18,6 @@ pub struct App<B: Backend> {
     menu: Menu,
     samples: SamplesBuffer,
     shutdown: bool,
-    sink: Sink,
-    // If stream is dropped then sound will not reach the speakers.
-    _stream: OutputStream,
     views: Vec<Box<dyn View<B>>>,
 }
 
@@ -29,9 +26,6 @@ impl<B: Backend> App<B> {
     pub fn try_new(path: PathBuf) -> eyre::Result<Self> {
         let name = format!("File: {}", path::name(&path)?);
         let options = vec![String::from("Chart"), String::from("File")];
-
-        let (stream, handle) = OutputStream::try_default()?;
-        let sink = Sink::try_new(&handle)?;
 
         let samples = path::read_samples(&path)?;
         let channels = samples.channels as usize;
@@ -43,20 +37,18 @@ impl<B: Backend> App<B> {
             menu: Menu::new(options, String::from("Menu")),
             samples,
             shutdown: false,
-            sink,
-            _stream: stream,
             views: vec![Box::new(chart), Box::new(file)],
         })
     }
 
     /// Pass keyboard input to current view.
-    pub fn key_event(&mut self, event: KeyEvent) {
+    pub fn key_event(&mut self, sink: &Sink, event: KeyEvent) {
         View::<B>::key_event(&mut self.menu, event);
         let view = &mut self.views[self.menu.get_state()];
         view.key_event(event);
 
         match event.code {
-            KeyCode::Char(' ') => self.play(),
+            KeyCode::Char(' ') => self.play(sink),
             KeyCode::Char('q') | KeyCode::Esc => {
                 self.shutdown = true;
             }
@@ -65,9 +57,9 @@ impl<B: Backend> App<B> {
     }
 
     /// Play currently loaded signal.
-    pub fn play(&self) {
+    pub fn play(&self, sink: &Sink) {
         let source = buffer::SamplesBuffer::from(&self.samples);
-        self.sink.append(source)
+        sink.append(source)
     }
 
     /// Render all UI views in terminal screen.
@@ -98,7 +90,7 @@ impl<B: Backend> App<B> {
     }
 
     /// Loop and wait for user keyboard input.
-    pub fn run(&mut self, terminal: &mut Terminal<B>) -> eyre::Result<()> {
+    pub fn run(&mut self, terminal: &mut Terminal<B>, sink: &Sink) -> eyre::Result<()> {
         let (sender, receiver) = mpsc::channel::<Option<KeyEvent>>();
         let _ = event::event_thread(sender);
 
@@ -107,7 +99,7 @@ impl<B: Backend> App<B> {
             self.render(terminal)?;
 
             match receiver.try_recv() {
-                Ok(Some(key_event)) => self.key_event(key_event),
+                Ok(Some(key_event)) => self.key_event(sink, key_event),
                 Ok(None) | Err(TryRecvError::Empty) => (),
                 Err(TryRecvError::Disconnected) => return Err(TryRecvError::Disconnected.into()),
             }
