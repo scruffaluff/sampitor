@@ -1,9 +1,11 @@
 use crate::dsp::buffer::SamplesBuffer;
 use crate::ui::axes::Axes;
-use crate::view::{CrossFrame, View};
+use crate::view::View;
 use crossterm::event::KeyEvent;
+use tui::backend::Backend;
 use tui::layout::Rect;
 use tui::symbols::Marker;
+use tui::terminal::Frame;
 use tui::widgets::{Block, Borders, Chart, Dataset, GraphType};
 
 /// UI view for plotting audio signal with shift and zoom features.
@@ -36,7 +38,7 @@ impl<'a> SignalChart<'a> {
     }
 }
 
-impl<'a> View for SignalChart<'a> {
+impl<'a, B: Backend> View<B> for SignalChart<'a> {
     fn key_event(&mut self, event: KeyEvent) {
         self.axes.key_event(event);
     }
@@ -58,7 +60,7 @@ impl<'a> View for SignalChart<'a> {
         }
     }
 
-    fn render(&mut self, frame: &mut CrossFrame, area: Rect) {
+    fn render<'b>(&mut self, frame: &mut Frame<'b, B>, area: Rect) {
         let block = Block::default()
             .title(self.title.as_str())
             .borders(Borders::ALL);
@@ -82,6 +84,7 @@ impl<'a> View for SignalChart<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use tui::backend::TestBackend;
 
     #[test]
     fn new_points() {
@@ -103,7 +106,7 @@ mod tests {
         ];
 
         let mut buffer = SamplesBuffer::new(2, 20, vec![-1.0, -0.5, -0.25, 0.25, 0.5, 1.0]);
-        chart.process(&mut buffer);
+        View::<TestBackend>::process(&mut chart, &mut buffer);
 
         assert_eq!(chart.points, expected);
     }

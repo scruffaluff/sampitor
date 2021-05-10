@@ -1,35 +1,30 @@
 use crate::dsp::buffer::SamplesBuffer;
-use crate::io::event;
-use crate::io::path;
-use crate::io::terminal::{self, CrossTerm};
-use crate::view::chart::SignalChart;
-use crate::view::file::File;
-use crate::view::menu::Menu;
-use crate::view::View;
+use crate::io::{event, path};
+use crate::view::{File, Menu, SignalChart, View};
 use color_eyre::eyre;
 use crossterm::event::{KeyCode, KeyEvent};
 use rodio::buffer;
 use rodio::{OutputStream, Sink};
 use std::env;
 use std::path::PathBuf;
-use std::sync::mpsc;
-use std::sync::mpsc::TryRecvError;
+use std::sync::mpsc::{self, TryRecvError};
+use tui::backend::Backend;
 use tui::layout::Constraint::Percentage;
 use tui::layout::{Direction, Layout};
+use tui::terminal::Terminal;
 
 /// Main runner for Sampitor application.
-pub struct App {
+pub struct App<B: Backend> {
     menu: Menu,
     samples: SamplesBuffer,
     shutdown: bool,
     sink: Sink,
     // If stream is dropped then sound will not reach the speakers.
     _stream: OutputStream,
-    terminal: CrossTerm,
-    views: Vec<Box<dyn View>>,
+    views: Vec<Box<dyn View<B>>>,
 }
 
-impl App {
+impl<B: Backend> App<B> {
     /// Attempt to generate a new App.
     pub fn try_new(path: PathBuf) -> eyre::Result<Self> {
         let name = format!("File: {}", path::name(&path)?);
@@ -50,14 +45,13 @@ impl App {
             shutdown: false,
             sink,
             _stream: stream,
-            terminal: terminal::take()?,
             views: vec![Box::new(chart), Box::new(file)],
         })
     }
 
     /// Pass keyboard input to current view.
-    fn key_event(&mut self, event: KeyEvent) {
-        self.menu.key_event(event);
+    pub fn key_event(&mut self, event: KeyEvent) {
+        View::<B>::key_event(&mut self.menu, event);
         let view = &mut self.views[self.menu.get_state()];
         view.key_event(event);
 
@@ -71,17 +65,17 @@ impl App {
     }
 
     /// Play currently loaded signal.
-    fn play(&self) {
+    pub fn play(&self) {
         let source = buffer::SamplesBuffer::from(&self.samples);
         self.sink.append(source)
     }
 
     /// Render all UI views in terminal screen.
-    fn render(&mut self) -> eyre::Result<()> {
+    pub fn render(&mut self, terminal: &mut Terminal<B>) -> eyre::Result<()> {
         let view = &mut self.views[self.menu.get_state()];
         let menu = &mut self.menu;
 
-        self.terminal.draw(|frame| {
+        terminal.draw(|frame| {
             let size = frame.size();
             let chunks = Layout::default()
                 .direction(Direction::Vertical)
@@ -97,20 +91,20 @@ impl App {
     }
 
     /// Update internal signal state.
-    fn process(&mut self) {
+    pub fn process(&mut self) {
         for view in self.views.iter_mut() {
             view.process(&mut self.samples);
         }
     }
 
     /// Loop and wait for user keyboard input.
-    pub fn run(&mut self) -> eyre::Result<()> {
+    pub fn run(&mut self, terminal: &mut Terminal<B>) -> eyre::Result<()> {
         let (sender, receiver) = mpsc::channel::<Option<KeyEvent>>();
         let _ = event::event_thread(sender);
 
         while !self.shutdown {
             self.process();
-            self.render()?;
+            self.render(terminal)?;
 
             match receiver.try_recv() {
                 Ok(Some(key_event)) => self.key_event(key_event),
@@ -118,8 +112,6 @@ impl App {
                 Err(TryRecvError::Disconnected) => return Err(TryRecvError::Disconnected.into()),
             }
         }
-
-        terminal::leave(&mut self.terminal)?;
 
         Ok(())
     }

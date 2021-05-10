@@ -1,11 +1,13 @@
 use crate::dsp::buffer::SamplesBuffer;
 use crate::io::path;
 use crate::ui;
-use crate::view::{CrossFrame, View};
+use crate::view::View;
 use crossterm::event::{KeyCode, KeyEvent};
 use std::path::PathBuf;
+use tui::backend::Backend;
 use tui::layout::Rect;
 use tui::style::{Modifier, Style};
+use tui::terminal::Frame;
 use tui::text::Text;
 use tui::widgets::{Block, Borders, Clear, List, ListItem, ListState, Paragraph};
 
@@ -121,7 +123,7 @@ impl File {
     }
 }
 
-impl View for File {
+impl<B: Backend> View<B> for File {
     fn key_event(&mut self, event: KeyEvent) {
         match self.mode {
             Mode::Nagivate => self.key_event_navigate(event),
@@ -160,7 +162,7 @@ impl View for File {
         }
     }
 
-    fn render(&mut self, frame: &mut CrossFrame, area: Rect) {
+    fn render<'b>(&mut self, frame: &mut Frame<'b, B>, area: Rect) {
         let entries: Vec<ListItem> = self
             .files
             .iter()

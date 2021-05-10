@@ -1,8 +1,10 @@
 use crate::dsp::buffer::SamplesBuffer;
-use crate::view::{CrossFrame, View};
+use crate::view::View;
 use crossterm::event::{KeyCode, KeyEvent};
+use tui::backend::Backend;
 use tui::layout::Rect;
 use tui::style::{Modifier, Style};
+use tui::terminal::Frame;
 use tui::text::Spans;
 use tui::widgets::{Block, Borders, Tabs};
 
@@ -34,7 +36,7 @@ impl Menu {
     }
 }
 
-impl View for Menu {
+impl<B: Backend> View<B> for Menu {
     fn key_event(&mut self, event: KeyEvent) {
         if event.code == KeyCode::Tab {
             self.next()
@@ -43,7 +45,7 @@ impl View for Menu {
 
     fn process(&mut self, _samples: &mut SamplesBuffer) {}
 
-    fn render(&mut self, frame: &mut CrossFrame, area: Rect) {
+    fn render<'b>(&mut self, frame: &mut Frame<'b, B>, area: Rect) {
         let options: Vec<Spans> = self
             .options
             .iter()
@@ -67,6 +69,7 @@ impl View for Menu {
 mod tests {
     use super::*;
     use crossterm::event::KeyModifiers;
+    use tui::backend::TestBackend;
 
     #[test]
     fn key_event() {
@@ -78,8 +81,8 @@ mod tests {
             String::from("Menu"),
         );
 
-        menu.key_event(KeyEvent::new(KeyCode::Tab, KeyModifiers::NONE));
-        menu.key_event(KeyEvent::new(KeyCode::Tab, KeyModifiers::NONE));
+        View::<TestBackend>::key_event(&mut menu, KeyEvent::new(KeyCode::Tab, KeyModifiers::NONE));
+        View::<TestBackend>::key_event(&mut menu, KeyEvent::new(KeyCode::Tab, KeyModifiers::NONE));
 
         assert_eq!(2, menu.get_state());
     }
