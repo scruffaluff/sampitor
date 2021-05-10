@@ -39,15 +39,12 @@ jobs:
       - name: Install Rust packages from cache
         uses: swatinem/rust-cache@v1
       - name: Install cargo-make
-        uses: actions-rs/cargo@v1
-        with:
-          args: cargo-make
-          command: install
+        uses: davidB/rust-cargo-make@v1
       - name: Check code formatting
         uses: actions-rs/cargo@v1
         with:
           args: format
-          command: fmt
+          command: make
       - name: Run Rust code linters
         uses: actions-rs/cargo@v1
         with:
@@ -59,7 +56,7 @@ jobs:
     # information, visit
     # https://github.community/t/passing-an-array-literal-to-contains-function-causes-syntax-error/17213.
     if: >-
-      ${{ contains(fromJson('["refs/head/develop", "refs/head/main",
+      ${{ !contains(fromJson('["refs/head/develop", "refs/head/main",
       "refs/head/master"]'), github.ref) }}
     name: Run test suite for Ubuntu
     runs-on: ubuntu-latest
