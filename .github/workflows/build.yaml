@@ -58,13 +58,12 @@ jobs:
     if: >-
       ${{ !contains(fromJson('["refs/head/develop", "refs/head/main",
       "refs/head/master"]'), github.ref) }}
-    name: Run test suite for Ubuntu
+    name: Run test suite for Linux
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code repository
         uses: actions/checkout@v2
       - name: Install ALSA packages
-        if: matrix.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install -y alsa-utils libasound2-dev
