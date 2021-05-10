@@ -5,10 +5,9 @@ use std::process::Command;
 #[test]
 fn missing_file_error() {
     let mut cmd = Command::cargo_bin(env!("CARGO_PKG_NAME")).unwrap();
-    let expected = predicates::str::contains("No such file or directory");
 
     let actual = cmd.arg("this_file_does_not_exist.wav").assert();
-    actual.failure().code(1).stderr(expected);
+    actual.failure().code(1);
 }
 
 #[test]

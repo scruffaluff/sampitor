@@ -2,7 +2,6 @@ use crate::dsp::Samples;
 use crate::ui::axes::Axes;
 use crate::view::View;
 use crossterm::event::KeyEvent;
-use std::convert::TryInto;
 use tui::backend::Backend;
 use tui::layout::Rect;
 use tui::symbols::Marker;
@@ -46,10 +45,7 @@ impl<'a, B: Backend> View<B> for Signal<'a> {
     }
 
     fn process(&mut self, buffer: &mut Samples) {
-        let channels: usize = buffer
-            .channels
-            .try_into()
-            .expect("TODO: write better error message");
+        let channels: usize = buffer.channels.into();
         let frame_count = buffer.data.len() / channels;
 
         let points = (0..frame_count)
