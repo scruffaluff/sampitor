@@ -1,3 +1,3 @@
 pub mod buffer;
 
-pub use crate::dsp::buffer::SamplesBuffer;
+pub use crate::dsp::buffer::Samples;

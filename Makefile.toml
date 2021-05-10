@@ -34,7 +34,17 @@ command = "cargo"
 install_crate = "rustfmt"
 
 [tasks.lint]
-args = ["clippy"]
+args = [
+    "clippy",
+    "--all",
+    "--",
+    "-W",
+    "clippy::all",
+    "-W",
+    "clippy::nursery",
+    "-D",
+    "warnings"
+]
 command = "cargo"
 install_crate = "clippy"
 

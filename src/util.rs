@@ -1,6 +1,6 @@
 #[cfg(test)]
 pub mod test {
-    use crate::dsp::SamplesBuffer;
+    use crate::dsp::Samples;
     use crate::io::path;
     use std::fmt::Write;
     use std::fs;
@@ -41,7 +41,7 @@ pub mod test {
         view
     }
 
-    pub fn temp_wave_file(samples: &SamplesBuffer) -> eyre::Result<PathBuf> {
+    pub fn temp_wave_file(samples: &Samples) -> eyre::Result<PathBuf> {
         let folder = tempfile::tempdir()?.path().to_owned();
         fs::create_dir_all(&folder)?;
         let path = folder.join(format!("{}.txt", Uuid::new_v4()));

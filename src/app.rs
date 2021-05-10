@@ -1,10 +1,11 @@
-use crate::dsp::SamplesBuffer;
+use crate::dsp::Samples;
 use crate::io::{event, path};
-use crate::view::{File, Menu, SignalChart, View};
+use crate::view::{File, Menu, Signal, View};
 use color_eyre::eyre;
 use crossterm::event::{KeyCode, KeyEvent};
-use rodio::buffer;
+use rodio::buffer::SamplesBuffer;
 use rodio::Sink;
+use std::convert::TryInto;
 use std::env;
 use std::path::PathBuf;
 use std::sync::mpsc::{self, TryRecvError};
@@ -16,7 +17,7 @@ use tui::terminal::Terminal;
 /// Main runner for Sampitor application.
 pub struct App<B: Backend> {
     menu: Menu,
-    samples: SamplesBuffer,
+    samples: Samples,
     shutdown: bool,
     views: Vec<Box<dyn View<B>>>,
 }
@@ -28,12 +29,12 @@ impl<B: Backend> App<B> {
         let options = vec![String::from("Chart"), String::from("File")];
 
         let samples = path::read_samples(&path)?;
-        let channels = samples.channels as usize;
+        let channels: usize = samples.channels.try_into()?;
 
-        let chart = SignalChart::new(name, channels, samples.data.len() / channels);
+        let chart = Signal::new(name, channels, samples.data.len() / channels);
         let file = File::try_new(env::current_dir()?)?;
 
-        Ok(App {
+        Ok(Self {
             menu: Menu::new(options, String::from("Menu")),
             samples,
             shutdown: false,
@@ -58,7 +59,7 @@ impl<B: Backend> App<B> {
 
     /// Play currently loaded signal.
     pub fn play(&self, sink: &Sink) {
-        let source = buffer::SamplesBuffer::from(&self.samples);
+        let source = SamplesBuffer::from(&self.samples);
         sink.append(source)
     }
 
@@ -92,7 +93,7 @@ impl<B: Backend> App<B> {
     /// Loop and wait for user keyboard input.
     pub fn run(&mut self, terminal: &mut Terminal<B>, sink: &Sink) -> eyre::Result<()> {
         let (sender, receiver) = mpsc::channel::<Option<KeyEvent>>();
-        let _ = event::event_thread(sender);
+        let _ = event::handler(sender);
 
         while !self.shutdown {
             self.process();
@@ -117,7 +118,7 @@ mod tests {
 
     #[test]
     fn menu_contains_views() {
-        let samples = SamplesBuffer::new(2, 32, vec![0.0f32, -0.25f32, 0.25f32, 1.0f32]);
+        let samples = Samples::new(2, 32, vec![0.0f32, -0.25f32, 0.25f32, 1.0f32]);
         let file_path = util::test::temp_wave_file(&samples).unwrap();
 
         let backend = TestBackend::new(20, 10);

@@ -1,4 +1,4 @@
-use crate::dsp::SamplesBuffer;
+use crate::dsp::Samples;
 use crate::view::View;
 use crossterm::event::{KeyCode, KeyEvent};
 use tui::backend::Backend;
@@ -18,7 +18,7 @@ pub struct Menu {
 impl Menu {
     /// Create a new Menu from a title and options.
     pub fn new(options: Vec<String>, title: String) -> Self {
-        Menu {
+        Self {
             options,
             state: 0,
             title,
@@ -26,7 +26,7 @@ impl Menu {
     }
 
     /// Get the interior menu state for rendering.
-    pub fn get_state(&self) -> usize {
+    pub const fn get_state(&self) -> usize {
         self.state
     }
 
@@ -43,7 +43,7 @@ impl<B: Backend> View<B> for Menu {
         }
     }
 
-    fn process(&mut self, _samples: &mut SamplesBuffer) {}
+    fn process(&mut self, _samples: &mut Samples) {}
 
     fn render<'b>(&mut self, frame: &mut Frame<'b, B>, area: Rect) {
         let options: Vec<Spans> = self

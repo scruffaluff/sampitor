@@ -1,4 +1,4 @@
-use crate::dsp::SamplesBuffer;
+use crate::dsp::Samples;
 use crate::io::path;
 use crate::ui;
 use crate::view::View;
@@ -132,7 +132,7 @@ impl<B: Backend> View<B> for File {
         }
     }
 
-    fn process(&mut self, samples: &mut SamplesBuffer) {
+    fn process(&mut self, samples: &mut Samples) {
         match self.mode {
             Mode::Read => {
                 if let Some(index) = self.state.selected() {

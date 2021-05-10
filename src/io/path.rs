@@ -1,4 +1,4 @@
-use crate::dsp::SamplesBuffer;
+use crate::dsp::Samples;
 use color_eyre::eyre;
 use hound::{SampleFormat, WavSpec, WavWriter};
 use rodio::{Decoder, Source};
@@ -16,7 +16,7 @@ pub fn name(path: &Path) -> eyre::Result<&str> {
 }
 
 /// Read audio metdata and samples from a file.
-pub fn read_samples(path: &Path) -> eyre::Result<SamplesBuffer> {
+pub fn read_samples(path: &Path) -> eyre::Result<Samples> {
     let file = File::open(&path)?;
     let reader = BufReader::new(file);
     let source = Decoder::new(reader)?;
@@ -24,7 +24,7 @@ pub fn read_samples(path: &Path) -> eyre::Result<SamplesBuffer> {
     let channels = source.channels();
     let sample_rate = source.sample_rate();
     let samples: Vec<f32> = source.convert_samples().buffered().collect();
-    Ok(SamplesBuffer::new(channels, sample_rate, samples))
+    Ok(Samples::new(channels, sample_rate, samples))
 }
 
 /// Read inodes from a directory and sort them with subdirectories first.
@@ -52,7 +52,7 @@ pub fn sorted_names(directory: &Path) -> eyre::Result<Vec<(String, bool)>> {
 }
 
 /// Write audio metdata and samples to a file.
-pub fn write_samples(path: &Path, samples: &SamplesBuffer) -> eyre::Result<()> {
+pub fn write_samples(path: &Path, samples: &Samples) -> eyre::Result<()> {
     let spec = WavSpec {
         channels: samples.channels,
         sample_rate: samples.sample_rate,
@@ -98,7 +98,7 @@ pub mod tests {
 
     #[test]
     fn write_and_read() {
-        let expected = SamplesBuffer::new(2, 32, vec![0.0f32, -0.25f32, 0.25f32, 1.0f32]);
+        let expected = Samples::new(2, 32, vec![0.0f32, -0.25f32, 0.25f32, 1.0f32]);
         let path = util::test::temp_wave_file(&expected).unwrap();
 
         let actual = read_samples(&path).unwrap();
