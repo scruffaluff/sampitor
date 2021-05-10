@@ -136,7 +136,7 @@ mod tests {
         let backend = TestBackend::new(20, 10);
         let mut terminal = Terminal::new(backend).unwrap();
 
-        let mut app = App::try_new(file_path).unwrap();
+        let mut app = App::try_new(&file_path).unwrap();
         app.render(&mut terminal).unwrap();
 
         let expected = "Menu";

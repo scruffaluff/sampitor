@@ -29,7 +29,7 @@ args = [
 command = "docker"
 
 [tasks.format]
-args = ["fmt", "--", "-l", "--emit", "files"]
+args = ["fmt", "--", "--check"]
 command = "cargo"
 install_crate = "rustfmt"
 
