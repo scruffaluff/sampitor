@@ -59,8 +59,10 @@ impl<'a, B: Backend> View<B> for Signal<'a> {
 
         for (outer_index, points) in self.points.iter_mut().enumerate() {
             for (inner_index, element) in points.iter_mut() {
+                // Variable inner_index is always positive, so sign loss is not possible.
+                #[allow(clippy::cast_sign_loss)]
                 let index = channels * (*inner_index as usize) + outer_index;
-                *element = buffer.data[index] as f64;
+                *element = buffer.data[index].into();
             }
         }
     }

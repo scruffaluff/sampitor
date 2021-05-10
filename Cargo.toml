@@ -5,13 +5,16 @@
 
 [package]
 authors = ["Macklan Weinstein <wolfgangwazzlestrauss@gmail.com>"]
+categories = ["command-line-utilities", "multimedia::audio"]
 description = "Digital audio editor for the terminal"
 documentation = "https://wolfgangwazzlestrauss.github.io/sampitor"
 edition = "2018"
-homepage = "https://github.com/wolfgangwazzlestrauss/sampitor"
+homepage = "https://wolfgangwazzlestrauss.github.io/sampitor"
+keywords = ["audio", "editor", "terminal"]
 license = "MIT"
 name = "sampitor"
 readme = "README.md"
+repository = "https://github.com/wolfgangwazzlestrauss/sampitor"
 version = "0.0.1"
 
 [dependencies]
@@ -21,13 +24,13 @@ crossterm = "0.19.0"
 eyre = "0.6.5"
 hound = "3.4.0"
 rodio = "0.13.1"
-tui = { version = "0.14.0", features = ["crossterm"], default-features = false }
+tui = { version = "0.15.0", features = ["crossterm"], default-features = false }
 
 [dev-dependencies]
 approx = "0.4.0"
 assert_cmd = "1.0.3"
 criterion = { version = "0.3.4", features = ["html_reports"] }
-predicates = "1.0.7"
+predicates = "1.0.8"
 proptest = "0.10.1"
 rstest = "0.6.4"
 tempfile = "3.1.0"

@@ -46,17 +46,15 @@ args = [
     "-D",
     "clippy::all",
     "-D",
+    "clippy::cargo",
+    "-D",
     "clippy::nursery",
     "-D",
     "clippy::pedantic",
     "-A",
-    "clippy::cast-lossless",
-    "-A",
     "clippy::cast-possible-truncation",
     "-A",
-    "clippy::cast-precision-loss",
-    "-A",
-    "clippy::cast-sign-loss"
+    "clippy::cast-precision-loss"
 ]
 command = "cargo"
 install_crate = "clippy"
