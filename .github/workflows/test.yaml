@@ -44,6 +44,8 @@ jobs:
           sudo apt-get install -y alsa-utils libasound2-dev
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
       - name: Install Rust packages from cache
         uses: swatinem/rust-cache@v1
       - name: Run Rust tests
@@ -75,6 +77,8 @@ jobs:
           tags: wolfgangwazzlestrauss/cross-sampitor:${{ matrix.target }}
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
       - name: Run Rust cross tests
         uses: actions-rs/cargo@v1
         with:
@@ -94,6 +98,8 @@ jobs:
           sudo apt-get install -y alsa-utils libasound2-dev
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
       - name: Install Rust packages from cache
         uses: swatinem/rust-cache@v1
       - name: Run test code coverage
@@ -111,6 +117,8 @@ jobs:
           sudo apt-get install -y alsa-utils libasound2-dev
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
       - name: Install Rust packages from cache
         uses: swatinem/rust-cache@v1
       - name: Run benchmark suite

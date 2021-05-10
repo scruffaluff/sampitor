@@ -78,6 +78,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           target: ${{ matrix.target }}
+          toolchain: stable
       # No cache is used for Rust packages due to release optimized build.
       - name: Build release binary
         uses: actions-rs/cargo@v1
@@ -122,6 +123,8 @@ jobs:
           sudo apt-get install -y alsa-utils libasound2-dev
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
       # No cache is used for Rust packages to ensure fresh release optimized
       # build.
       - name: Install Cargo Deb

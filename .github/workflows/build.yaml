@@ -33,6 +33,9 @@ jobs:
           sudo apt-get install -y alsa-utils libasound2-dev
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
+        with:
+          components: clippy, rustfmt
+          toolchain: stable
       - name: Install Rust packages from cache
         uses: swatinem/rust-cache@v1
       - name: Install cargo-make
@@ -70,6 +73,8 @@ jobs:
           sudo apt-get install -y alsa-utils libasound2-dev
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
       - name: Install Rust packages from cache
         uses: swatinem/rust-cache@v1
       - name: Run Rust tests
