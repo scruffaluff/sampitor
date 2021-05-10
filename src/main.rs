@@ -26,7 +26,7 @@ fn main() -> eyre::Result<()> {
     let (_stream, handle) = OutputStream::try_default()?;
     let sink = Sink::try_new(&handle)?;
 
-    let mut app = App::try_new(options.file)?;
+    let mut app = App::try_new(&options.file)?;
     app.run(&mut terminal, &sink)?;
 
     io::terminal::leave(&mut terminal)?;

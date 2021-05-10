@@ -10,6 +10,7 @@ pub struct Samples {
 
 impl Samples {
     /// Create a new Samples from a signal an audio metadata.
+    #[must_use]
     pub fn new(channels: u16, sample_rate: u32, data: Vec<f32>) -> Self {
         Self {
             data,

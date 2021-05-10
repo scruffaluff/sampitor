@@ -8,6 +8,10 @@ use std::io::BufReader;
 use std::path::Path;
 
 /// Get path file name or descriptive error.
+///
+/// # Errors
+///
+/// Will return `Err` if `path` contains an unparseable name.
 pub fn name(path: &Path) -> eyre::Result<&str> {
     path.file_name()
         .ok_or_else(|| eyre::eyre!("File path {:?} does not have a final component", path))?
@@ -16,6 +20,10 @@ pub fn name(path: &Path) -> eyre::Result<&str> {
 }
 
 /// Read audio metdata and samples from a file.
+///
+/// # Errors
+///
+/// Will return `Err` if `path` cannot be opened or contains invalid audio data.
 pub fn read_samples(path: &Path) -> eyre::Result<Samples> {
     let file = File::open(&path)?;
     let reader = BufReader::new(file);
@@ -27,7 +35,11 @@ pub fn read_samples(path: &Path) -> eyre::Result<Samples> {
     Ok(Samples::new(channels, sample_rate, samples))
 }
 
-/// Read inodes from a directory and sort them with subdirectories first.
+/// Read inodes from a directory and sort them with subdirectories first
+///
+/// # Errors
+///
+/// Will return `Err` if `directory` does not exist or contains files whose metadata is unparseable.
 pub fn sorted_names(directory: &Path) -> eyre::Result<Vec<(String, bool)>> {
     let mut files: Vec<(String, bool)> = vec![];
 
@@ -52,6 +64,10 @@ pub fn sorted_names(directory: &Path) -> eyre::Result<Vec<(String, bool)>> {
 }
 
 /// Write audio metdata and samples to a file.
+///
+/// # Errors
+///
+/// Will return `Err` if `path` is unwritable.
 pub fn write_samples(path: &Path, samples: &Samples) -> eyre::Result<()> {
     let spec = WavSpec {
         channels: samples.channels,
@@ -62,7 +78,7 @@ pub fn write_samples(path: &Path, samples: &Samples) -> eyre::Result<()> {
 
     let mut writer = WavWriter::create(path, spec)?;
 
-    for sample in samples.data.iter() {
+    for sample in &samples.data {
         writer.write_sample(*sample)?;
     }
 

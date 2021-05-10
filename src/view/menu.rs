@@ -17,6 +17,7 @@ pub struct Menu {
 
 impl Menu {
     /// Create a new Menu from a title and options.
+    #[must_use]
     pub fn new(options: Vec<String>, title: String) -> Self {
         Self {
             options,
@@ -26,6 +27,7 @@ impl Menu {
     }
 
     /// Get the interior menu state for rendering.
+    #[must_use]
     pub const fn get_state(&self) -> usize {
         self.state
     }

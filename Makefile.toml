@@ -38,12 +38,20 @@ args = [
     "clippy",
     "--all",
     "--",
-    "-W",
+    "-D",
     "clippy::all",
-    "-W",
+    "-D",
     "clippy::nursery",
     "-D",
-    "warnings"
+    "clippy::pedantic",
+    "-A",
+    "clippy::cast-lossless",
+    "-A",
+    "clippy::cast-possible-truncation",
+    "-A",
+    "clippy::cast-precision-loss",
+    "-A",
+    "clippy::cast-sign-loss"
 ]
 command = "cargo"
 install_crate = "clippy"

@@ -7,7 +7,7 @@ use rodio::buffer::SamplesBuffer;
 use rodio::Sink;
 use std::convert::TryInto;
 use std::env;
-use std::path::PathBuf;
+use std::path::Path;
 use std::sync::mpsc::{self, TryRecvError};
 use tui::backend::Backend;
 use tui::layout::Constraint::Percentage;
@@ -24,11 +24,15 @@ pub struct App<B: Backend> {
 
 impl<B: Backend> App<B> {
     /// Attempt to generate a new App.
-    pub fn try_new(path: PathBuf) -> eyre::Result<Self> {
-        let name = format!("File: {}", path::name(&path)?);
+    ///
+    /// # Errors
+    ///
+    /// Will return `Err` if `path` does not exist or contains invalid audio data.
+    pub fn try_new(path: &Path) -> eyre::Result<Self> {
+        let name = format!("File: {}", path::name(path)?);
         let options = vec![String::from("Chart"), String::from("File")];
 
-        let samples = path::read_samples(&path)?;
+        let samples = path::read_samples(path)?;
         let channels: usize = samples.channels.try_into()?;
 
         let chart = Signal::new(name, channels, samples.data.len() / channels);
@@ -64,6 +68,10 @@ impl<B: Backend> App<B> {
     }
 
     /// Render all UI views in terminal screen.
+    ///
+    /// # Errors
+    ///
+    /// Will return `Err` if `terminal` cannot draw frames.
     pub fn render(&mut self, terminal: &mut Terminal<B>) -> eyre::Result<()> {
         let view = &mut self.views[self.menu.get_state()];
         let menu = &mut self.menu;
@@ -85,15 +93,19 @@ impl<B: Backend> App<B> {
 
     /// Update internal signal state.
     pub fn process(&mut self) {
-        for view in self.views.iter_mut() {
+        for view in &mut self.views {
             view.process(&mut self.samples);
         }
     }
 
     /// Loop and wait for user keyboard input.
+    ///
+    /// # Errors
+    ///
+    /// Will return `Err` if `terminal` cannot draw frames.
     pub fn run(&mut self, terminal: &mut Terminal<B>, sink: &Sink) -> eyre::Result<()> {
         let (sender, receiver) = mpsc::channel::<Option<KeyEvent>>();
-        let _ = event::handler(sender);
+        let _thread_handle = event::handler(sender);
 
         while !self.shutdown {
             self.process();

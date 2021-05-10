@@ -19,6 +19,7 @@ pub struct Signal<'a> {
 
 impl<'a> Signal<'a> {
     /// Create a new Signal from a title and audio metadata.
+    #[must_use]
     pub fn new(title: String, channels: usize, frame_count: usize) -> Self {
         let axes = Axes::new([0.0_f64, frame_count as f64], [-1.0_f64, 1.0_f64], 1.0_f64);
 

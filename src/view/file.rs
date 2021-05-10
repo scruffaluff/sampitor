@@ -3,6 +3,7 @@ use crate::io::path;
 use crate::ui;
 use crate::view::View;
 use crossterm::event::{KeyCode, KeyEvent};
+use std::borrow::ToOwned;
 use std::path::PathBuf;
 use tui::backend::Backend;
 use tui::layout::Rect;
@@ -21,7 +22,11 @@ pub struct File {
 }
 
 impl File {
-    /// Attempt to crate a File view.
+    /// Attempt to crate a File view
+    ///
+    /// # Errors
+    ///
+    /// Will return `Err` if `path` does not exist or contains invalid audio data.
     pub fn try_new(cwd: PathBuf) -> eyre::Result<Self> {
         let files = path::sorted_names(&cwd)?;
 
@@ -58,7 +63,7 @@ impl File {
                 };
             }
             KeyCode::Left => {
-                let option = self.cwd.parent().map(|path_ref| path_ref.to_owned());
+                let option = self.cwd.parent().map(ToOwned::to_owned);
                 if let Some(path_ref) = option {
                     self.chdir(path_ref)
                 }
