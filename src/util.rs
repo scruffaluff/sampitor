@@ -3,11 +3,10 @@ pub mod test {
     use crate::dsp::Samples;
     use crate::io::path;
     use std::fmt::Write;
-    use std::fs;
     use std::path::PathBuf;
+    use tempfile::NamedTempFile;
     use tui::buffer::Buffer;
     use unicode_width::UnicodeWidthStr;
-    use uuid::Uuid;
 
     /// Returns a string representation of the given buffer for debugging purpose.
     ///
@@ -42,10 +41,7 @@ pub mod test {
     }
 
     pub fn temp_wave_file(samples: &Samples) -> eyre::Result<PathBuf> {
-        let folder = tempfile::tempdir()?.path().to_owned();
-        fs::create_dir_all(&folder)?;
-        let path = folder.join(format!("{}.txt", Uuid::new_v4()));
-
+        let path = NamedTempFile::new().unwrap().path().to_owned();
         path::write_samples(&path, samples)?;
         Ok(path)
     }
