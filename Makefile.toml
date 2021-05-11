@@ -13,21 +13,14 @@ dependencies = [
 ]
 
 [tasks.cross]
-args = ["test", "--target", "aarch64-unknown-linux-gnu"]
-command = "cross"
 dependencies = ["docker"]
 install_crate = "cross"
+script = { file = "scripts/cross_test.rs" }
+script_runner = "@rust"
 
 [tasks.docker]
-args = [
-    "build",
-    "-f",
-    "docker/Dockerfile.aarch64-unknown-linux-gnu",
-    "-t",
-    "wolfgangwazzlestrauss/cross-sampitor:aarch64-unknown-linux-gnu",
-    "."
-]
-command = "docker"
+script_runner = "@rust"
+script = { file = "scripts/build_images.rs" }
 
 [tasks.document]
 args = ["doc"]
@@ -54,7 +47,9 @@ args = [
     "-A",
     "clippy::cast-possible-truncation",
     "-A",
-    "clippy::cast-precision-loss"
+    "clippy::cast-precision-loss",
+    "-D",
+    "warnings"
 ]
 command = "cargo"
 install_crate = "clippy"

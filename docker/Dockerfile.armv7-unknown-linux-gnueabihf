@@ -1,4 +1,7 @@
-FROM rustembedded/cross:aarch64-unknown-linux-gnu-0.2.1
+FROM rustembedded/cross:armv7-unknown-linux-gnueabihf-0.2.1
+
+ENV PKG_CONFIG_ALLOW_CROSS 1
+ENV PKG_CONFIG_PATH /usr/lib/arm-linux-gnueabihf/pkgconfig/
 
 # Update accepted package architecture list.
 #
@@ -7,13 +10,13 @@ FROM rustembedded/cross:aarch64-unknown-linux-gnu-0.2.1
 #   -q: Produce log suitable output by omitting progress indicators.
 #   --add-architecture <arch>: Add <arch> to the accepted list of package 
 #     architectures.
-RUN dpkg --add-architecture arm64 \
+RUN dpkg --add-architecture armhf \
     && apt-get update -qm
 
-# Install ARM64 audio libraries.
+# Install ARMV7 audio libraries.
 #
 # Flags:
 #   -q: Produce log suitable output by omitting progress indicators.
 #   -y: Assume "yes" as answer to all prompts and run non-interactively.
 RUN apt-get install -qy \
-    libasound2-dev:arm64
+    libasound2-dev:armhf
