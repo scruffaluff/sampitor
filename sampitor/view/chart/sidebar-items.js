@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Signal","UI view for plotting audio signal with shift and zoom features."]]});

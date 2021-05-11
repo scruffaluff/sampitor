@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["centered_rectangle","Create a centered interior rectangle to a given rectangle."]]});

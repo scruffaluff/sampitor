@@ -111,6 +111,14 @@
 <span id="108">108</span>
 <span id="109">109</span>
 <span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">crossterm</span>::<span class="ident">event</span>::{<span class="ident">KeyCode</span>, <span class="ident">KeyEvent</span>, <span class="ident">KeyModifiers</span>};
 <span class="kw">use</span> <span class="ident">tui</span>::<span class="ident">text</span>::<span class="ident">Span</span>;
@@ -125,11 +133,13 @@
 
 <span class="kw">impl</span> <span class="ident">Axes</span> {
     <span class="doccomment">/// Create an Axes from viewport dimensions.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">x</span>: [<span class="ident">f64</span>; <span class="number">2</span>], <span class="ident">y</span>: [<span class="ident">f64</span>; <span class="number">2</span>], <span class="ident">speed</span>: <span class="ident">f64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="attribute">#[<span class="ident">must_use</span>]</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">x</span>: [<span class="ident">f64</span>; <span class="number">2</span>], <span class="ident">y</span>: [<span class="ident">f64</span>; <span class="number">2</span>], <span class="ident">speed</span>: <span class="ident">f64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">speed</span>, <span class="ident">x</span>, <span class="ident">y</span> }
     }
 
     <span class="doccomment">/// Generate a TUI Axis pair.</span>
+    <span class="attribute">#[<span class="ident">must_use</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">axes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">Axis</span>, <span class="ident">Axis</span>) {
         <span class="kw">let</span> <span class="ident">labels</span>: (<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Span</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Span</span><span class="op">&gt;</span>) <span class="op">=</span> (
             <span class="self">self</span>.<span class="ident">x</span>
@@ -191,8 +201,14 @@
         <span class="kw">let</span> <span class="ident">center</span> <span class="op">=</span> [(<span class="self">self</span>.<span class="ident">x</span>[<span class="number">1</span>] <span class="op">+</span> <span class="self">self</span>.<span class="ident">x</span>[<span class="number">0</span>]) <span class="op">/</span> <span class="number">2.0</span>, (<span class="self">self</span>.<span class="ident">y</span>[<span class="number">1</span>] <span class="op">+</span> <span class="self">self</span>.<span class="ident">y</span>[<span class="number">0</span>]) <span class="op">/</span> <span class="number">2.0</span>];
         <span class="kw">let</span> <span class="ident">radius</span> <span class="op">=</span> [(<span class="self">self</span>.<span class="ident">x</span>[<span class="number">1</span>] <span class="op">-</span> <span class="self">self</span>.<span class="ident">x</span>[<span class="number">0</span>]) <span class="op">/</span> <span class="number">2.0</span>, (<span class="self">self</span>.<span class="ident">y</span>[<span class="number">1</span>] <span class="op">-</span> <span class="self">self</span>.<span class="ident">y</span>[<span class="number">0</span>]) <span class="op">/</span> <span class="number">2.0</span>];
 
-        <span class="self">self</span>.<span class="ident">x</span> <span class="op">=</span> [<span class="ident">center</span>[<span class="number">0</span>] <span class="op">-</span> <span class="ident">delta</span> <span class="op">*</span> <span class="ident">radius</span>[<span class="number">0</span>], <span class="ident">center</span>[<span class="number">0</span>] <span class="op">+</span> <span class="ident">delta</span> <span class="op">*</span> <span class="ident">radius</span>[<span class="number">0</span>]];
-        <span class="self">self</span>.<span class="ident">y</span> <span class="op">=</span> [<span class="ident">center</span>[<span class="number">1</span>] <span class="op">-</span> <span class="ident">delta</span> <span class="op">*</span> <span class="ident">radius</span>[<span class="number">1</span>], <span class="ident">center</span>[<span class="number">1</span>] <span class="op">+</span> <span class="ident">delta</span> <span class="op">*</span> <span class="ident">radius</span>[<span class="number">1</span>]];
+        <span class="self">self</span>.<span class="ident">x</span> <span class="op">=</span> [
+            <span class="ident">center</span>[<span class="number">0</span>] <span class="op">-</span> <span class="ident">delta</span> <span class="op">*</span> <span class="ident">radius</span>[<span class="number">0</span>],
+            <span class="ident">delta</span>.<span class="ident">mul_add</span>(<span class="ident">radius</span>[<span class="number">0</span>], <span class="ident">center</span>[<span class="number">0</span>]),
+        ];
+        <span class="self">self</span>.<span class="ident">y</span> <span class="op">=</span> [
+            <span class="ident">center</span>[<span class="number">1</span>] <span class="op">-</span> <span class="ident">delta</span> <span class="op">*</span> <span class="ident">radius</span>[<span class="number">1</span>],
+            <span class="ident">delta</span>.<span class="ident">mul_add</span>(<span class="ident">radius</span>[<span class="number">1</span>], <span class="ident">center</span>[<span class="number">1</span>]),
+        ];
     }
 }
 

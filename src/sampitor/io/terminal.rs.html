@@ -27,6 +27,14 @@
 <span id="24">24</span>
 <span id="25">25</span>
 <span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">crossterm</span>::<span class="ident">execute</span>;
 <span class="kw">use</span> <span class="ident">crossterm</span>::<span class="ident">terminal</span>::{<span class="self">self</span>, <span class="ident">EnterAlternateScreen</span>, <span class="ident">LeaveAlternateScreen</span>};
@@ -38,6 +46,10 @@
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">CrossTerm</span> <span class="op">=</span> <span class="ident">Terminal</span><span class="op">&lt;</span><span class="ident">CrosstermBackend</span><span class="op">&lt;</span><span class="ident">Stdout</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// Return control of current terminal window from alternate screen.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Errors</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Will return `Err` if `terminal` control cannot be returned.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">leave</span>(<span class="ident">terminal</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">CrossTerm</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">eyre</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="macro">execute</span><span class="macro">!</span>(<span class="ident">terminal</span>.<span class="ident">backend_mut</span>(), <span class="ident">LeaveAlternateScreen</span>,)<span class="question-mark">?</span>;
 
@@ -45,6 +57,10 @@
 }
 
 <span class="doccomment">/// Take control of current terminal window as an alternate screen.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Errors</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Will return `Err` if unable to take control of the current terminal.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">eyre</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CrossTerm</span><span class="op">&gt;</span> {
     <span class="ident">terminal</span>::<span class="ident">enable_raw_mode</span>()<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">screen</span> <span class="op">=</span> <span class="ident">io</span>::<span class="ident">stdout</span>();

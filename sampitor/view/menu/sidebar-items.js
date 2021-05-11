@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Menu","UI view bar for selecting other UI views."]]});

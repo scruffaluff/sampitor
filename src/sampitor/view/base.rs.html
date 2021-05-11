@@ -16,27 +16,21 @@
 <span id="13">13</span>
 <span id="14">14</span>
 <span id="15">15</span>
-<span id="16">16</span>
-<span id="17">17</span>
-<span id="18">18</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">dsp</span>::<span class="ident">buffer</span>::<span class="ident">SamplesBuffer</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">dsp</span>::<span class="ident">Samples</span>;
 <span class="kw">use</span> <span class="ident">crossterm</span>::<span class="ident">event</span>::<span class="ident">KeyEvent</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Stdout</span>;
-<span class="kw">use</span> <span class="ident">tui</span>::<span class="ident">backend</span>::<span class="ident">CrosstermBackend</span>;
+<span class="kw">use</span> <span class="ident">tui</span>::<span class="ident">backend</span>::<span class="ident">Backend</span>;
 <span class="kw">use</span> <span class="ident">tui</span>::<span class="ident">layout</span>::<span class="ident">Rect</span>;
 <span class="kw">use</span> <span class="ident">tui</span>::<span class="ident">terminal</span>::<span class="ident">Frame</span>;
 
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">CrossFrame</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Frame</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">CrosstermBackend</span><span class="op">&lt;</span><span class="ident">Stdout</span><span class="op">&gt;</span><span class="op">&gt;</span>;
-
 <span class="doccomment">/// Base requirements for a UI view.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">View</span> {
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">View</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Update view state based on keyboard input.</span>
     <span class="kw">fn</span> <span class="ident">key_event</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">event</span>: <span class="ident">KeyEvent</span>);
     <span class="doccomment">/// Get or set the current signal state.</span>
-    <span class="kw">fn</span> <span class="ident">process</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">samples</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SamplesBuffer</span>);
+    <span class="kw">fn</span> <span class="ident">process</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">samples</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Samples</span>);
     <span class="doccomment">/// Draw UI view in area of given frame.</span>
-    <span class="kw">fn</span> <span class="ident">render</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">frame</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">CrossFrame</span>, <span class="ident">area</span>: <span class="ident">Rect</span>);
+    <span class="kw">fn</span> <span class="ident">render</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">frame</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Frame</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">area</span>: <span class="ident">Rect</span>);
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="sampitor" data-search-js="../../../search-index.js"></div>

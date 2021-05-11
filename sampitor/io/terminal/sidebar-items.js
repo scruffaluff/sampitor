@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["leave","Return control of current terminal window from alternate screen."],["take","Take control of current terminal window as an alternate screen."]],"type":[["CrossTerm",""]]});
