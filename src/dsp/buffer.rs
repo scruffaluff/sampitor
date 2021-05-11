@@ -1,17 +1,18 @@
-use rodio::buffer;
+use rodio::buffer::SamplesBuffer;
 
-/// A wrapper around Rodio's SamplesBuffer to allow for repeated playback and additional processing.
+/// A wrapper around Rodio's Samples to allow for repeated playback and additional processing.
 #[derive(Debug, PartialEq)]
-pub struct SamplesBuffer {
+pub struct Samples {
     pub data: Vec<f32>,
     pub channels: u16,
     pub sample_rate: u32,
 }
 
-impl SamplesBuffer {
-    /// Create a new SamplesBuffer from a signal an audio metadata.
+impl Samples {
+    /// Create a new Samples from a signal an audio metadata.
+    #[must_use]
     pub fn new(channels: u16, sample_rate: u32, data: Vec<f32>) -> Self {
-        SamplesBuffer {
+        Self {
             data,
             channels,
             sample_rate,
@@ -19,10 +20,10 @@ impl SamplesBuffer {
     }
 }
 
-impl From<&SamplesBuffer> for buffer::SamplesBuffer<f32> {
+impl From<&Samples> for SamplesBuffer<f32> {
     /// Copy into a Rodio source for playback.
-    fn from(value: &SamplesBuffer) -> Self {
-        buffer::SamplesBuffer::new(value.channels, value.sample_rate, value.data.clone())
+    fn from(value: &Samples) -> Self {
+        Self::new(value.channels, value.sample_rate, value.data.clone())
     }
 }
 
@@ -31,7 +32,7 @@ mod tests {
     use super::*;
     use approx::AbsDiffEq;
 
-    impl AbsDiffEq for SamplesBuffer {
+    impl AbsDiffEq for Samples {
         type Epsilon = f32;
         fn default_epsilon() -> f32 {
             f32::default_epsilon()

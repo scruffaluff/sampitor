@@ -6,6 +6,7 @@
 dependencies = [
     "format",
     "lint",
+    "document",
     "test",
     "cross",
     "tarpaulin"
@@ -28,13 +29,33 @@ args = [
 ]
 command = "docker"
 
+[tasks.document]
+args = ["doc"]
+command = "cargo"
+
 [tasks.format]
-args = ["fmt", "--", "-l", "--emit", "files"]
+args = ["fmt", "--", "--check"]
 command = "cargo"
 install_crate = "rustfmt"
 
 [tasks.lint]
-args = ["clippy"]
+args = [
+    "clippy",
+    "--all",
+    "--",
+    "-D",
+    "clippy::all",
+    "-D",
+    "clippy::cargo",
+    "-D",
+    "clippy::nursery",
+    "-D",
+    "clippy::pedantic",
+    "-A",
+    "clippy::cast-possible-truncation",
+    "-A",
+    "clippy::cast-precision-loss"
+]
 command = "cargo"
 install_crate = "clippy"
 

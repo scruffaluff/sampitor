@@ -1,6 +1,7 @@
 use tui::layout::{Constraint, Direction, Layout, Rect};
 
 /// Create a centered interior rectangle to a given rectangle.
+#[must_use]
 pub fn centered_rectangle(percent_x: u16, percent_y: u16, rectangle: Rect) -> Rect {
     let popup_layout = Layout::default()
         .direction(Direction::Vertical)

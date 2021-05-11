@@ -11,11 +11,13 @@ pub struct Axes {
 
 impl Axes {
     /// Create an Axes from viewport dimensions.
-    pub fn new(x: [f64; 2], y: [f64; 2], speed: f64) -> Self {
+    #[must_use]
+    pub const fn new(x: [f64; 2], y: [f64; 2], speed: f64) -> Self {
         Self { speed, x, y }
     }
 
     /// Generate a TUI Axis pair.
+    #[must_use]
     pub fn axes(&self) -> (Axis, Axis) {
         let labels: (Vec<Span>, Vec<Span>) = (
             self.x
@@ -77,8 +79,14 @@ impl Axes {
         let center = [(self.x[1] + self.x[0]) / 2.0, (self.y[1] + self.y[0]) / 2.0];
         let radius = [(self.x[1] - self.x[0]) / 2.0, (self.y[1] - self.y[0]) / 2.0];
 
-        self.x = [center[0] - delta * radius[0], center[0] + delta * radius[0]];
-        self.y = [center[1] - delta * radius[1], center[1] + delta * radius[1]];
+        self.x = [
+            center[0] - delta * radius[0],
+            delta.mul_add(radius[0], center[0]),
+        ];
+        self.y = [
+            center[1] - delta * radius[1],
+            delta.mul_add(radius[1], center[1]),
+        ];
     }
 }
 

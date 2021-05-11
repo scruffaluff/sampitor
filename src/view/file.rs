@@ -1,11 +1,14 @@
-use crate::dsp::buffer::SamplesBuffer;
+use crate::dsp::Samples;
 use crate::io::path;
 use crate::ui;
-use crate::view::{CrossFrame, View};
+use crate::view::View;
 use crossterm::event::{KeyCode, KeyEvent};
+use std::borrow::ToOwned;
 use std::path::PathBuf;
+use tui::backend::Backend;
 use tui::layout::Rect;
 use tui::style::{Modifier, Style};
+use tui::terminal::Frame;
 use tui::text::Text;
 use tui::widgets::{Block, Borders, Clear, List, ListItem, ListState, Paragraph};
 
@@ -19,7 +22,11 @@ pub struct File {
 }
 
 impl File {
-    /// Attempt to crate a File view.
+    /// Attempt to crate a File view
+    ///
+    /// # Errors
+    ///
+    /// Will return `Err` if `path` does not exist or contains invalid audio data.
     pub fn try_new(cwd: PathBuf) -> eyre::Result<Self> {
         let files = path::sorted_names(&cwd)?;
 
@@ -56,7 +63,7 @@ impl File {
                 };
             }
             KeyCode::Left => {
-                let option = self.cwd.parent().map(|path_ref| path_ref.to_owned());
+                let option = self.cwd.parent().map(ToOwned::to_owned);
                 if let Some(path_ref) = option {
                     self.chdir(path_ref)
                 }
@@ -121,7 +128,7 @@ impl File {
     }
 }
 
-impl View for File {
+impl<B: Backend> View<B> for File {
     fn key_event(&mut self, event: KeyEvent) {
         match self.mode {
             Mode::Nagivate => self.key_event_navigate(event),
@@ -130,7 +137,7 @@ impl View for File {
         }
     }
 
-    fn process(&mut self, samples: &mut SamplesBuffer) {
+    fn process(&mut self, samples: &mut Samples) {
         match self.mode {
             Mode::Read => {
                 if let Some(index) = self.state.selected() {
@@ -160,7 +167,7 @@ impl View for File {
         }
     }
 
-    fn render(&mut self, frame: &mut CrossFrame, area: Rect) {
+    fn render<'b>(&mut self, frame: &mut Frame<'b, B>, area: Rect) {
         let entries: Vec<ListItem> = self
             .files
             .iter()

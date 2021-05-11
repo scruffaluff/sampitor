@@ -1,6 +1,8 @@
 # Rustc toolchain override file.
 #
-# For more information, visit
+# Is currently not named rust-toolchain.toml, since
+# https://github.com/marketplace/actions/rust-toolchain does not yet support the
+# new name. For more information, visit
 # https://rust-lang.github.io/rustup/overrides.html#the-toolchain-file.
 
 [toolchain]
