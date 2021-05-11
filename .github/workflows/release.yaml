@@ -9,7 +9,7 @@ name: release
 on:
   push:
     tags:
-      - "v?[0-9]+.[0-9]+.[0-9]+"
+      - "[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
   release:
@@ -37,35 +37,23 @@ jobs:
             steps.extract_tag.outputs.tag }}/CHANGELOG.md) for more information.
 
   archive:
-    name: Upload release archive for ${{ matrix.target }}
+    name: Upload release archive for x86_64 ${{ matrix.os }}
     needs: release
     strategy:
       fail-fast: false
       matrix:
-        target:
-          - aarch64-unknown-linux-gnu
-          - aarch64-unknown-linux-musl
-          - x86_64-apple-darwin
-          - x86_64-pc-windows-gnu
-          - x86_64-pc-windows-msvc
-          - x86_64-unknown-linux-gnu
-          - x86_64-unknown-linux-musl
+        os: [Linux, MacOS, Windows]
         include:
-          - os: ubuntu-latest
-            target: aarch64-unknown-linux-gnu
-          - os: ubuntu-latest
-            target: aarch64-unknown-linux-gnu
-          - os: macos-latest
-            target: x86_64-apple-darwin
-          - os: windows-latest
-            target: x86_64-pc-windows-gnu
-          - os: windows-latest
-            target: x86_64-pc-windows-msvc
-          - os: ubuntu-latest
+          - os: Linux
+            runner: ubuntu-latest
             target: x86_64-unknown-linux-gnu
-          - os: ubuntu-latest
-            target: x86_64-unknown-linux-musl
-    runs-on: ${{ matrix.os }}
+          - os: MacOS
+            runner: macos-latest
+            target: x86_64-apple-darwin
+          - os: Windows
+            runner: windows-latest
+            target: x86_64-pc-windows-msvc
+    runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout code repository
         uses: actions/checkout@v2
@@ -85,6 +73,66 @@ jobs:
         with:
           args: --release --target ${{ matrix.target }}
           command: build
+      - name: Build release archive
+        # Bash is installed on the Windows GitHub runners. See
+        # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md#language-and-runtime.
+        shell: bash
+        run: |
+          stage="sampitor-${{ needs.release.outputs.tag }}-${{ matrix.target }}"
+          mkdir "$stage" dist
+          cp {README.md,LICENSE.md} "$stage/"
+          cp "target/${{ matrix.target }}/release/sampitor" "$stage/"
+          if [[ "${{ matrix.runner }}" == "windows-latest" ]]; then
+            7z a dist/sampitor.zip "$stage/"
+          else
+            zip -r dist/sampitor.zip "$stage/"
+          fi
+      - name: Upload release archive
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.release.outputs.upload_url }}
+          asset_path: dist/sampitor.zip
+          asset_name: >-
+            sampitor-${{ needs.release.outputs.tag }}-${{ matrix.target }}.zip
+          asset_content_type: application/octet-stream
+
+  cross:
+    name: Upload cross compiled release archive for ${{ matrix.target }}
+    needs: release
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - aarch64-unknown-linux-gnu
+          - aarch64-unknown-linux-musl
+          - x86_64-pc-windows-gnu
+          - x86_64-unknown-linux-musl
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v2
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Build target Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./docker/Dockerfile.${{ matrix.target }}
+          load: true
+          push: false
+          tags: wolfgangwazzlestrauss/cross-sampitor:${{ matrix.target }}
+      - name: Build release binary
+        uses: actions-rs/cargo@v1
+        with:
+          args: --release --target ${{ matrix.target }}
+          command: build
+          use-cross: true
       - name: Build release archive
         # Bash is installed on the Windows GitHub runners. See
         # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md#language-and-runtime.

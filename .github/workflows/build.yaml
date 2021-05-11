@@ -7,8 +7,12 @@ name: build
 
 # Trigger workflow on any push or pull request.
 on:
-  - pull_request
-  - push
+  pull_request:
+    branches:
+      - "*"
+  push:
+    branches:
+      - "*"
 
 jobs:
   lint:
@@ -56,8 +60,8 @@ jobs:
     # information, visit
     # https://github.community/t/passing-an-array-literal-to-contains-function-causes-syntax-error/17213.
     if: >-
-      ${{ !contains(fromJson('["refs/head/develop", "refs/head/main",
-      "refs/head/master"]'), github.ref) }}
+      ${{ !contains(fromJson('["refs/heads/develop", "refs/heads/main",
+      "refs/heads/master"]'), github.ref) }}
     name: Run test suite for Linux
     runs-on: ubuntu-latest
     steps:
