@@ -9,7 +9,8 @@ dependencies = [
     "document",
     "test",
     "cross",
-    "tarpaulin"
+    "tarpaulin",
+    "bench"
 ]
 
 [tasks.cross]
