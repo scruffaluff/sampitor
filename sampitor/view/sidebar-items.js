@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["chart",""],["file",""],["menu",""]],"trait":[["View","Base requirements for a UI view."]]});
+initSidebarItems({"mod":[["chart",""],["file",""],["filters",""],["menu",""]],"trait":[["View","Base requirements for a UI view."]]});
