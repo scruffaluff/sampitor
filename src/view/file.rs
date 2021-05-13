@@ -22,7 +22,7 @@ pub struct File {
 }
 
 impl File {
-    /// Attempt to crate a File view
+    /// Attempt to create a File view.
     ///
     /// # Errors
     ///

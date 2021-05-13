@@ -1,6 +1,6 @@
 use crate::dsp::Samples;
 use crate::io::{event, path};
-use crate::view::{File, Menu, Signal, View};
+use crate::view::{File, Filters, Menu, Signal, View};
 use color_eyre::eyre;
 use crossterm::event::{KeyCode, KeyEvent};
 use rodio::buffer::SamplesBuffer;
@@ -30,19 +30,28 @@ impl<B: Backend> App<B> {
     /// Will return `Err` if `path` does not exist or contains invalid audio data.
     pub fn try_new(path: &Path) -> eyre::Result<Self> {
         let name = format!("File: {}", path::name(path)?);
-        let options = vec![String::from("Chart"), String::from("File")];
+        let options = vec![
+            String::from("Chart"),
+            String::from("File"),
+            String::from("Filters"),
+        ];
 
         let samples = path::read_samples(path)?;
         let channels: usize = samples.channels.try_into()?;
 
         let chart = Signal::new(name, channels, samples.data.len() / channels);
         let file = File::try_new(env::current_dir()?)?;
+        let filters = vec![String::from("Normalize"), String::from("Reverb")];
 
         Ok(Self {
             menu: Menu::new(options, String::from("Menu")),
             samples,
             shutdown: false,
-            views: vec![Box::new(chart), Box::new(file)],
+            views: vec![
+                Box::new(chart),
+                Box::new(file),
+                Box::new(Filters::new(filters)),
+            ],
         })
     }
 

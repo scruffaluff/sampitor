@@ -8,7 +8,6 @@ dependencies = [
     "lint",
     "document",
     "test",
-    "cross",
     "tarpaulin",
     "bench"
 ]
