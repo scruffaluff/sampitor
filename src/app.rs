@@ -35,14 +35,16 @@ impl<'a, B: Backend> App<'a, B> {
 
     /// Pass keyboard input to current view.
     pub fn key_event(&mut self, sink: &Sink, event: KeyEvent) {
-        let view = &mut self.views[self.state].1;
-        view.key_event(event);
+        if let Some(view) = self.views.get_mut(self.state) {
+            view.1.key_event(event);
+        }
 
         match event.code {
             KeyCode::Char(' ') => self.play(sink),
             KeyCode::Char('q') | KeyCode::Esc => {
                 self.shutdown = true;
             }
+            KeyCode::Tab => self.next(),
             _ => (),
         }
     }
@@ -71,8 +73,6 @@ impl<'a, B: Backend> App<'a, B> {
     ///
     /// Will return `Err` if `terminal` cannot draw frames.
     pub fn render(&mut self, terminal: &mut Terminal<B>) -> eyre::Result<()> {
-        let view = &mut self.views[self.state].1;
-
         terminal.draw(|frame| {
             let size = frame.size();
             let chunks = Layout::default()
@@ -81,19 +81,18 @@ impl<'a, B: Backend> App<'a, B> {
                 .constraints([Percentage(16), Percentage(84)].as_ref())
                 .split(size);
 
-            // self.render_menu(frame, chunks[0]);
-            view.render(frame, chunks[1]);
+            self.render_menu(frame, chunks[0]);
+
+            if let Some(view) = self.views.get_mut(self.state) {
+                view.1.render(frame, chunks[1]);
+            }
         })?;
 
         Ok(())
     }
 
     fn render_menu<'b>(&mut self, frame: &mut Frame<'b, B>, area: Rect) {
-        let options: Vec<Spans> = self
-            .views
-            .iter()
-            .map(|view| Spans::from(view.0.as_ref()))
-            .collect();
+        let options: Vec<Spans> = self.views.iter().map(|view| Spans::from(view.0)).collect();
 
         let block = Block::default().title("Menu").borders(Borders::ALL);
 
@@ -133,38 +132,42 @@ impl<'a, B: Backend> App<'a, B> {
 mod tests {
     use super::*;
     use crate::util;
+    use crate::util::test::MockView;
+    use crossterm::event::KeyModifiers;
+    use rodio::{OutputStream, Sink};
     use tui::backend::TestBackend;
 
     #[test]
     fn menu_contains_views() {
-        let samples = Samples::new(2, 32, vec![0.0f32, -0.25f32, 0.25f32, 1.0f32]);
-        let file_path = util::test::temp_wave_file(&samples).unwrap();
-
         let backend = TestBackend::new(20, 10);
         let mut terminal = Terminal::new(backend).unwrap();
 
-        let mut app = App::new(&[]);
+        let mut app = App::new(&mut []);
         app.render(&mut terminal).unwrap();
 
-        let expected = "Menu";
-
         let actual = util::test::buffer_view(terminal.backend().buffer());
-        assert!(actual.contains(expected));
+        assert!(actual.contains("Menu"));
     }
 
     #[test]
     fn menu_key_event() {
-        let mut menu = Menu::new(
-            ["A", "set", "of", "options"]
-                .iter()
-                .map(|string| String::from(*string))
-                .collect(),
-            String::from("Menu"),
-        );
+        let (_stream, stream_handle) = OutputStream::try_default().unwrap();
+        let sink = Sink::try_new(&stream_handle).unwrap();
 
-        View::<TestBackend>::key_event(&mut menu, KeyEvent::new(KeyCode::Tab, KeyModifiers::NONE));
-        View::<TestBackend>::key_event(&mut menu, KeyEvent::new(KeyCode::Tab, KeyModifiers::NONE));
+        let mut mock1 = MockView::default();
+        let mut mock2 = MockView::default();
+        let mut mock3 = MockView::default();
 
-        assert_eq!(2, menu.get_state());
+        let mut views: Vec<(&str, &mut dyn View<TestBackend>)> = Vec::new();
+        views.push(("", &mut mock1));
+        views.push(("", &mut mock2));
+        views.push(("", &mut mock3));
+
+        let mut app = App::new(&mut views);
+        (0..7).for_each(|_| {
+            app.key_event(&sink, KeyEvent::new(KeyCode::Tab, KeyModifiers::NONE));
+        });
+
+        assert_eq!(1, app.state);
     }
 }

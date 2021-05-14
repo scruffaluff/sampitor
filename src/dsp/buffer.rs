@@ -22,7 +22,7 @@ impl Samples {
 
 impl Default for Samples {
     fn default() -> Self {
-        Samples {
+        Self {
             data: Vec::default(),
             channels: 1,
             sample_rate: 1,
