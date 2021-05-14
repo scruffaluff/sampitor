@@ -24,9 +24,9 @@ pub struct App<'a, B: Backend> {
 
 impl<'a, B: Backend> App<'a, B> {
     /// Create a new App.
-    pub fn new(views: &'a mut [(&'a str, &'a mut dyn View<B>)]) -> Self {
+    pub fn new(views: &'a mut [(&'a str, &'a mut dyn View<B>)], samples: Samples) -> Self {
         Self {
-            samples: Samples::default(),
+            samples,
             shutdown: false,
             state: 0,
             views,
@@ -142,7 +142,7 @@ mod tests {
         let backend = TestBackend::new(20, 10);
         let mut terminal = Terminal::new(backend).unwrap();
 
-        let mut app = App::new(&mut []);
+        let mut app = App::new(&mut [], Samples::default());
         app.render(&mut terminal).unwrap();
 
         let actual = util::test::buffer_view(terminal.backend().buffer());
@@ -163,7 +163,7 @@ mod tests {
         views.push(("", &mut mock2));
         views.push(("", &mut mock3));
 
-        let mut app = App::new(&mut views);
+        let mut app = App::new(&mut views, Samples::default());
         (0..7).for_each(|_| {
             app.key_event(&sink, KeyEvent::new(KeyCode::Tab, KeyModifiers::NONE));
         });

@@ -17,7 +17,7 @@ pub fn init_benchmark(c: &mut Criterion) {
     let backend = TestBackend::new(20, 10);
     let mut terminal = Terminal::new(backend).unwrap();
 
-    let mut app = App::new(&mut []);
+    let mut app = App::new(&mut [], Samples::default());
     app.render(&mut terminal).unwrap();
 
     c.bench_function("render", |b| b.iter(|| app.render(&mut terminal).unwrap()));
