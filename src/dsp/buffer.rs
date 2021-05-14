@@ -20,6 +20,16 @@ impl Samples {
     }
 }
 
+impl Default for Samples {
+    fn default() -> Self {
+        Samples {
+            data: Vec::default(),
+            channels: 1,
+            sample_rate: 1,
+        }
+    }
+}
+
 impl From<&Samples> for SamplesBuffer<f32> {
     /// Copy into a Rodio source for playback.
     fn from(value: &Samples) -> Self {

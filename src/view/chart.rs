@@ -6,18 +6,18 @@ use tui::backend::Backend;
 use tui::layout::Rect;
 use tui::symbols::Marker;
 use tui::terminal::Frame;
-use tui::widgets::{Block, Borders, Chart, Dataset, GraphType};
+use tui::widgets::{Block, Borders, Dataset, GraphType};
 
-/// UI view for plotting audio signal with shift and zoom features.
-pub struct Signal<'a> {
+/// UI view for plotting audio Chart with shift and zoom features.
+pub struct Chart<'a> {
     axes: Axes,
     dataset: Dataset<'a>,
     points: Vec<Vec<(f64, f64)>>,
     title: String,
 }
 
-impl<'a> Signal<'a> {
-    /// Create a new Signal from a title and audio metadata.
+impl<'a> Chart<'a> {
+    /// Create a new Chart from a title and audio metadata.
     #[must_use]
     pub fn new(title: String, channels: usize, frame_count: usize) -> Self {
         let axes = Axes::new([0.0_f64, frame_count as f64], [-1.0_f64, 1.0_f64], 1.0_f64);
@@ -30,7 +30,7 @@ impl<'a> Signal<'a> {
             .map(|index| (index as f64, 0.0_f64))
             .collect();
 
-        Signal {
+        Chart {
             axes,
             dataset,
             points: vec![points; channels],
@@ -39,7 +39,7 @@ impl<'a> Signal<'a> {
     }
 }
 
-impl<'a, B: Backend> View<B> for Signal<'a> {
+impl<'a, B: Backend> View<B> for Chart<'a> {
     fn key_event(&mut self, event: KeyEvent) {
         self.axes.key_event(event);
     }
@@ -75,7 +75,7 @@ impl<'a, B: Backend> View<B> for Signal<'a> {
             .collect();
 
         let (x_axis, y_axis) = self.axes.axes();
-        let chart = Chart::new(datasets)
+        let chart = tui::widgets::Chart::new(datasets)
             .block(block)
             .x_axis(x_axis)
             .y_axis(y_axis);
@@ -91,7 +91,7 @@ mod tests {
 
     #[test]
     fn new_points() {
-        let chart = Signal::new(String::from(""), 2, 3);
+        let chart = Chart::new(String::from(""), 2, 3);
         let expected = vec![
             vec![(0.0, 0.0), (1.0, 0.0), (2.0, 0.0)],
             vec![(0.0, 0.0), (1.0, 0.0), (2.0, 0.0)],
@@ -102,7 +102,7 @@ mod tests {
 
     #[test]
     fn process_points() {
-        let mut chart = Signal::new(String::from(""), 1, 1);
+        let mut chart = Chart::new(String::from(""), 1, 1);
         let expected = vec![
             vec![(0.0, -1.0), (1.0, -0.25), (2.0, 0.5)],
             vec![(0.0, -0.5), (1.0, 0.25), (2.0, 1.0)],
