@@ -1,28 +1,30 @@
-use crate::dsp::Samples;
+use crate::dsp::{Filter, Knob, Samples};
 use crate::view::View;
 use crossterm::event::{KeyCode, KeyEvent};
-use std::cmp::Ordering;
 use tui::backend::Backend;
-use tui::layout::Rect;
+use tui::layout::Constraint::Percentage;
+use tui::layout::{Direction, Layout, Rect};
 use tui::style::{Modifier, Style};
 use tui::terminal::Frame;
-use tui::widgets::{Block, Borders, List, ListItem, ListState};
+use tui::widgets::{BarChart, Block, Borders, List, ListItem, ListState};
 
 /// A UI view for navigating the file system, reading audio files, and writing audio files.
-pub struct Filters {
-    filters: Vec<String>,
+pub struct Filters<'a> {
+    filters: &'a mut [(&'a str, &'a mut dyn Filter)],
     mode: Mode,
-    state: ListState,
+    filter_state: ListState,
+    knob_state: usize,
 }
 
-impl Filters {
+impl<'a> Filters<'a> {
     /// Attempt to crate a File view
     #[must_use]
-    pub fn new(filters: Vec<String>) -> Self {
+    pub fn new(filters: &'a mut [(&'a str, &'a mut dyn Filter)]) -> Self {
         Self {
             filters,
             mode: Mode::Nagivate,
-            state: ListState::default(),
+            filter_state: ListState::default(),
+            knob_state: 0,
         }
     }
 
@@ -38,13 +40,22 @@ impl Filters {
     }
 
     /// Handle key events while in type mode.
-    fn key_event_edit(&mut self, _event: KeyEvent) {
-        unimplemented!()
+    fn key_event_edit(&mut self, event: KeyEvent) {
+        if let Some(index) = self.filter_state.selected() {
+            let knobs = &mut self.filters[index].1.knobs();
+            let knob: &mut dyn Knob = knobs[self.knob_state].1;
+
+            match event.code {
+                KeyCode::Down => knob.decrement(),
+                KeyCode::Enter => knob.increment(),
+                _ => (),
+            }
+        }
     }
 
     /// Modular move list state to next inode.
     fn next(&mut self) {
-        let index = match self.state.selected() {
+        let index = match self.filter_state.selected() {
             Some(index) => {
                 if index >= self.filters.len() - 1 {
                     0
@@ -54,12 +65,12 @@ impl Filters {
             }
             None => 0,
         };
-        self.state.select(Some(index));
+        self.filter_state.select(Some(index));
     }
 
     /// Modular move list state to previous inode.
     fn previous(&mut self) {
-        let index = match self.state.selected() {
+        let index = match self.filter_state.selected() {
             Some(index) => {
                 if index == 0 {
                     self.filters.len() - 1
@@ -69,11 +80,11 @@ impl Filters {
             }
             None => 0,
         };
-        self.state.select(Some(index));
+        self.filter_state.select(Some(index));
     }
 }
 
-impl<B: Backend> View<B> for Filters {
+impl<'a, B: Backend> View<B> for Filters<'a> {
     fn key_event(&mut self, event: KeyEvent) {
         match self.mode {
             Mode::Edit => self.key_event_edit(event),
@@ -82,27 +93,22 @@ impl<B: Backend> View<B> for Filters {
         }
     }
 
-    fn process(&mut self, samples: &mut Samples) {
+    fn process(&mut self, _samples: &mut Samples) {
         if self.mode == Mode::Filter {
-            let maximum = samples
-                .data
-                .iter()
-                .map(|x| f32::abs(*x))
-                .max_by(|x, y| x.partial_cmp(y).unwrap_or(Ordering::Equal));
-
-            if let Some(maximum) = maximum {
-                samples.data.iter_mut().for_each(|x| *x /= maximum);
-            }
-
             self.mode = Mode::Nagivate;
         }
     }
 
     fn render<'b>(&mut self, frame: &mut Frame<'b, B>, area: Rect) {
+        let chunks = Layout::default()
+            .direction(Direction::Horizontal)
+            .constraints([Percentage(16), Percentage(84)].as_ref())
+            .split(area);
+
         let entries: Vec<ListItem> = self
             .filters
             .iter()
-            .map(|filter| ListItem::new(filter.as_ref()))
+            .map(|filter| ListItem::new(filter.0))
             .collect();
 
         let block = Block::default().borders(Borders::ALL);
@@ -112,7 +118,22 @@ impl<B: Backend> View<B> for Filters {
             .highlight_style(Style::default().add_modifier(Modifier::ITALIC))
             .highlight_symbol("> ");
 
-        frame.render_stateful_widget(list, area, &mut self.state);
+        frame.render_stateful_widget(list, chunks[0], &mut self.filter_state);
+
+        if let Some(index) = self.filter_state.selected() {
+            let knobs = self.filters[index].1.knobs();
+            let bars: Vec<(&str, u64)> = knobs
+                .iter()
+                .map(|(name, filter)| (*name, filter.get_value()))
+                .collect();
+
+            let barchart = BarChart::default()
+                .block(Block::default().borders(Borders::ALL))
+                .data(&bars)
+                .bar_width(12)
+                .bar_gap(3);
+            frame.render_widget(barchart, chunks[1]);
+        }
     }
 }
 
@@ -121,26 +142,4 @@ enum Mode {
     Edit,
     Filter,
     Nagivate,
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use crossterm::event::KeyModifiers;
-    use tui::backend::TestBackend;
-
-    #[test]
-    fn key_event() {
-        let mut filters = Filters::new(vec![String::from("Normalize")]);
-        let mut actual = Samples::new(2, 20, vec![-0.5, -0.25, 0.25, 0.0]);
-
-        View::<TestBackend>::key_event(
-            &mut filters,
-            KeyEvent::new(KeyCode::Enter, KeyModifiers::NONE),
-        );
-        View::<TestBackend>::process(&mut filters, &mut actual);
-
-        let expected = Samples::new(2, 20, vec![-1.0, -0.5, 0.5, 0.0]);
-        assert_eq!(actual.data, expected.data);
-    }
 }

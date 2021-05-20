@@ -56,7 +56,8 @@ impl<'a, B: Backend> View<B> for Chart<'a> {
 
         for (outer_index, points) in self.points.iter_mut().enumerate() {
             for (inner_index, element) in points.iter_mut() {
-                // Variable inner_index is always positive, so sign loss is not possible.
+                // Variable inner_index should always be positive, so sign loss should not be
+                // possible.
                 #[allow(clippy::cast_sign_loss)]
                 let index = channels * (*inner_index as usize) + outer_index;
                 *element = buffer.data[index].into();

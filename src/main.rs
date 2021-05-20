@@ -1,9 +1,9 @@
 use clap::{AppSettings, Clap};
 use color_eyre::eyre;
 use rodio::{OutputStream, Sink};
-use sampitor::dsp::Samples;
+use sampitor::dsp::{Filter, Normalize, Samples};
 use sampitor::io::{self, path};
-use sampitor::view::{Chart, File, View};
+use sampitor::view::{Chart, File, Filters, View};
 use sampitor::App;
 use std::convert::TryInto;
 use std::env;
@@ -47,9 +47,15 @@ fn main() -> eyre::Result<()> {
         None => File::try_new(env::current_dir()?)?,
     };
 
-    let mut views: Vec<(&str, &mut dyn View<CrosstermBackend<Stdout>>)> = Vec::new();
-    views.push(("Chart", &mut chart));
-    views.push(("File", &mut file));
+    let mut normalize = Normalize::default();
+    let mut pairs: Vec<(&str, &mut dyn Filter)> = vec![("Normalize", &mut normalize)];
+    let mut filters = Filters::new(&mut pairs);
+
+    let mut views: Vec<(&str, &mut dyn View<CrosstermBackend<Stdout>>)> = vec![
+        ("Chart", &mut chart),
+        ("File", &mut file),
+        ("Filters", &mut filters),
+    ];
 
     let mut app = App::new(&mut views, samples);
     app.run(&mut terminal, &sink)?;
