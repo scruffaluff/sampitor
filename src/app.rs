@@ -134,7 +134,7 @@ mod tests {
     use crate::util;
     use crate::util::test::MockView;
     use crossterm::event::KeyModifiers;
-    use rodio::{OutputStream, Sink};
+    use rodio::Sink;
     use tui::backend::TestBackend;
 
     #[test]
@@ -151,8 +151,7 @@ mod tests {
 
     #[test]
     fn menu_key_event() {
-        let (_stream, stream_handle) = OutputStream::try_default().unwrap();
-        let sink = Sink::try_new(&stream_handle).unwrap();
+        let sink = Sink::new_idle().0;
 
         let mut mock1 = MockView::default();
         let mut mock2 = MockView::default();
