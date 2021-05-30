@@ -1,6 +1,7 @@
 //! Components for fitlering signals.
 
 pub mod base;
+mod knobs;
 pub mod normalize;
 
 pub use base::{Filter, Knob};
@@ -55,7 +56,7 @@ impl<'a> Filters<'a> {
 
             match event.code {
                 KeyCode::Down => knob.decrement(),
-                KeyCode::Enter => knob.increment(),
+                KeyCode::Up => knob.increment(),
                 _ => (),
             }
         }
@@ -139,7 +140,8 @@ impl<'a, B: Backend> View<B> for Filters<'a> {
                 .block(Block::default().borders(Borders::ALL))
                 .data(&bars)
                 .bar_width(12)
-                .bar_gap(3);
+                .bar_gap(3)
+                .max(knobs[0].1.get_max());
             frame.render_widget(barchart, chunks[1]);
         }
     }
