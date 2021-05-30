@@ -4,7 +4,7 @@ use clap::{AppSettings, Clap};
 use color_eyre::eyre;
 use rodio::{OutputStream, Sink};
 use sampitor::dsp::{Filter, Normalize, Samples};
-use sampitor::io::{self, path};
+use sampitor::io::{self, audio};
 use sampitor::view::{Chart, File, Filters, View};
 use sampitor::App;
 use std::convert::TryInto;
@@ -37,7 +37,7 @@ fn main() -> eyre::Result<()> {
     let sink = Sink::try_new(&handle)?;
 
     let samples = match options.file {
-        Some(file_path) => path::read_samples(&file_path)?,
+        Some(file_path) => audio::read_samples(&file_path)?,
         None => Samples::default(),
     };
     let channels: usize = samples.channels.try_into()?;

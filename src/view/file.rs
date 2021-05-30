@@ -1,7 +1,7 @@
 //! Components for navigating file systems.
 
 use crate::dsp::Samples;
-use crate::io::path;
+use crate::io::{audio, path};
 use crate::ui;
 use crate::view::View;
 use crossterm::event::{KeyCode, KeyEvent};
@@ -146,7 +146,7 @@ impl<B: Backend> View<B> for File {
                     let (name, _is_dir) = &self.files[index];
                     let path = self.cwd.join(name);
 
-                    match path::read_samples(&path) {
+                    match audio::read_samples(&path) {
                         Ok(buffer) => *samples = buffer,
                         Err(error) => self.files = vec![(format!("{}", error), false)],
                     };
@@ -157,7 +157,7 @@ impl<B: Backend> View<B> for File {
             Mode::Write => {
                 let path = self.cwd.join(&self.type_buffer);
 
-                if let Err(error) = path::write_samples(&path, samples) {
+                if let Err(error) = audio::write_samples(&path, samples) {
                     self.files = vec![(format!("{}", error), false)];
                 };
 

@@ -3,7 +3,7 @@
 #[cfg(test)]
 pub mod test {
     use crate::dsp::Samples;
-    use crate::io::path;
+    use crate::io::audio;
     use crate::view::View;
     use crossterm::event::KeyEvent;
     use std::fmt::Write;
@@ -49,7 +49,7 @@ pub mod test {
 
     pub fn temp_wave_file(samples: &Samples) -> eyre::Result<PathBuf> {
         let path = NamedTempFile::new().unwrap().path().to_owned();
-        path::write_samples(&path, samples)?;
+        audio::write_samples(&path, samples)?;
         Ok(path)
     }
 

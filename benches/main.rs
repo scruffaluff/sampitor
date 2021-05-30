@@ -1,6 +1,6 @@
 use criterion::{criterion_group, criterion_main, Criterion};
 use sampitor::dsp::Samples;
-use sampitor::io::path;
+use sampitor::io::audio;
 use sampitor::App;
 use std::path::PathBuf;
 use tempfile::NamedTempFile;
@@ -9,7 +9,7 @@ use tui::terminal::Terminal;
 
 pub fn temp_wave_file(samples: &Samples) -> eyre::Result<PathBuf> {
     let path = NamedTempFile::new().unwrap().path().to_owned();
-    path::write_samples(&path, samples)?;
+    audio::write_samples(&path, samples)?;
     Ok(path)
 }
 
