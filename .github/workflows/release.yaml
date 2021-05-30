@@ -187,3 +187,25 @@ jobs:
             target/debian/sampitor_${{ needs.release.outputs.tag }}_amd64.deb
           asset_name: sampitor_${{ needs.release.outputs.tag }}_amd64.deb
           asset_content_type: application/octet-stream
+
+  publish:
+    name: Publish repository to Crates.io registry
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v2
+      - name: Install ALSA packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y alsa-utils libasound2-dev
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: Publish repository
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CRATES_TOKEN }}
+        uses: actions-rs/cargo@v1
+        with:
+          command: publish
