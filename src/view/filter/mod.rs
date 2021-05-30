@@ -1,6 +1,12 @@
 //! Components for fitlering signals.
 
-use crate::dsp::{Filter, Knob, Samples};
+pub mod base;
+pub mod normalize;
+
+pub use base::{Filter, Knob};
+pub use normalize::Normalize;
+
+use crate::dsp::Samples;
 use crate::view::View;
 use crossterm::event::{KeyCode, KeyEvent};
 use tui::backend::Backend;

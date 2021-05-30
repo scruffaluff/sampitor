@@ -1,8 +1,8 @@
 //! User interface for changing amplitude levels of a signal.
 
-use crate::dsp::base::{Filter, Knob};
 use crate::dsp::buffer::Samples;
-use std::cmp::Ordering;
+use crate::dsp::filters::normalize;
+use crate::view::filter::base::{Filter, Knob};
 
 #[derive(Debug)]
 struct Amplitude {
@@ -46,31 +46,6 @@ impl Filter for Normalize {
     }
 
     fn process(&mut self, samples: &mut Samples) {
-        let maximum = samples
-            .data
-            .iter()
-            .map(|x| f32::abs(*x))
-            .max_by(|x, y| x.partial_cmp(y).unwrap_or(Ordering::Equal));
-
-        if let Some(maximum) = maximum {
-            let scale = maximum / self.amplitude.value;
-            samples.data.iter_mut().for_each(|x| *x /= scale);
-        }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn process_default() {
-        let mut filter = Normalize::default();
-        let mut actual = Samples::new(2, 20, vec![-0.5, -0.25, 0.25, 0.0]);
-
-        filter.process(&mut actual);
-
-        let expected = Samples::new(2, 20, vec![-1.0, -0.5, 0.5, 0.0]);
-        assert_eq!(actual.data, expected.data);
+        normalize(self.amplitude.value, samples);
     }
 }

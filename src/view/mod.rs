@@ -3,9 +3,9 @@
 mod base;
 pub mod chart;
 pub mod file;
-pub mod filters;
+pub mod filter;
 
 pub use base::View;
 pub use chart::Chart;
 pub use file::File;
-pub use filters::Filters;
+pub use filter::Filters;

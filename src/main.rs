@@ -3,8 +3,9 @@
 use clap::{AppSettings, Clap};
 use color_eyre::eyre;
 use rodio::{OutputStream, Sink};
-use sampitor::dsp::{Filter, Normalize, Samples};
+use sampitor::dsp::Samples;
 use sampitor::io::{self, audio};
+use sampitor::view::filter::{Filter, Normalize};
 use sampitor::view::{Chart, File, Filters, View};
 use sampitor::App;
 use std::convert::TryInto;
