@@ -1,3 +1,5 @@
+//! User interface for changing amplitude levels of a signal.
+
 use crate::dsp::base::{Filter, Knob};
 use crate::dsp::buffer::Samples;
 use std::cmp::Ordering;

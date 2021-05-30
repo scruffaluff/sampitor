@@ -1,3 +1,5 @@
+//! Application runners.
+
 use crate::dsp::Samples;
 use crate::io::event;
 use crate::view::View;

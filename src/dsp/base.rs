@@ -1,3 +1,5 @@
+//! Fundemental traits for digital signal processing user interface components.
+
 use crate::dsp::buffer::Samples;
 
 pub trait Knob {

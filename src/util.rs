@@ -1,3 +1,5 @@
+//! Utilites for Sampitor library and tests.
+
 #[cfg(test)]
 pub mod test {
     use crate::dsp::Samples;

@@ -1,3 +1,5 @@
+//! User interface components.
+
 mod base;
 pub mod chart;
 pub mod file;

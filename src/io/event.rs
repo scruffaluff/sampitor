@@ -1,3 +1,5 @@
+//! Keyboard input event handlers.
+
 use crossterm::event::{self, Event, KeyEvent};
 use std::sync::mpsc::Sender;
 use std::thread::{self, JoinHandle};

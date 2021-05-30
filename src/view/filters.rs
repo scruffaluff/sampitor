@@ -1,3 +1,5 @@
+//! Components for fitlering signals.
+
 use crate::dsp::{Filter, Knob, Samples};
 use crate::view::View;
 use crossterm::event::{KeyCode, KeyEvent};

@@ -1,3 +1,5 @@
+//! Structs for drawing plot axes.
+
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 use tui::text::Span;
 use tui::widgets::Axis;

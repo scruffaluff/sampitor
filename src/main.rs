@@ -1,3 +1,5 @@
+//! Application entrypoint and command line parsers.
+
 use clap::{AppSettings, Clap};
 use color_eyre::eyre;
 use rodio::{OutputStream, Sink};

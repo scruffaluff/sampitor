@@ -1,3 +1,5 @@
+//! Terminal oriented functions.
+
 use crossterm::execute;
 use crossterm::terminal::{self, EnterAlternateScreen, LeaveAlternateScreen};
 use std::io;

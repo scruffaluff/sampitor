@@ -1,3 +1,5 @@
+//! File path navigation logic.
+
 use crate::dsp::Samples;
 use color_eyre::eyre;
 use hound::{SampleFormat, WavSpec, WavWriter};

@@ -1,3 +1,5 @@
+//! Digital signal processing functions and user interface logic.
+
 pub mod base;
 pub mod buffer;
 pub mod normalize;

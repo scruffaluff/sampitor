@@ -1,3 +1,5 @@
+//! Components for plotting audio signals.
+
 use crate::dsp::Samples;
 use crate::ui::axes::Axes;
 use crate::view::View;

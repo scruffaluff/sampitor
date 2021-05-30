@@ -1,3 +1,5 @@
+//! Components for navigating file systems.
+
 use crate::dsp::Samples;
 use crate::io::path;
 use crate::ui;

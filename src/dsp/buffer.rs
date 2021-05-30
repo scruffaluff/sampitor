@@ -1,3 +1,5 @@
+//! Convenience structs for digital signal processing.
+
 use rodio::buffer::SamplesBuffer;
 
 /// A wrapper around Rodio's Samples to allow for repeated playback and additional processing.

@@ -1,3 +1,5 @@
+//! Fundemental traits for user interface components.
+
 use crate::dsp::Samples;
 use crossterm::event::KeyEvent;
 use tui::backend::Backend;
