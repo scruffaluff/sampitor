@@ -33,7 +33,6 @@ fn main() -> eyre::Result<()> {
     color_eyre::install()?;
     let options = Options::parse();
 
-    let mut terminal = io::terminal::take()?;
     let (_stream, handle) = OutputStream::try_default()?;
     let sink = Sink::try_new(&handle)?;
 
@@ -60,9 +59,11 @@ fn main() -> eyre::Result<()> {
     ];
 
     let mut app = App::new(&mut views, samples);
-    app.run(&mut terminal, &sink)?;
 
+    // Control of the terminal needs to be returned even if the application encounters an error.
+    let mut terminal = io::terminal::take()?;
+    let result = app.run(&mut terminal, &sink);
     io::terminal::leave(&mut terminal)?;
 
-    Ok(())
+    result
 }
