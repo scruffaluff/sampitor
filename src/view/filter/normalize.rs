@@ -3,11 +3,11 @@
 use crate::dsp::buffer::Samples;
 use crate::dsp::filters::normalize;
 use crate::view::filter::base::{Filter, Knob};
-use crate::view::filter::knobs::Amplitude;
+use crate::view::filter::knobs::FloatKnob;
 
 #[derive(Debug, Default)]
 pub struct Normalize {
-    amplitude: Amplitude,
+    amplitude: FloatKnob,
 }
 
 impl Filter for Normalize {

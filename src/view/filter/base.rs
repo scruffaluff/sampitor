@@ -5,8 +5,7 @@ use crate::dsp::buffer::Samples;
 pub trait Knob {
     fn decrement(&mut self);
     fn increment(&mut self);
-    fn get_max(&self) -> u64;
-    fn get_value(&self) -> u64;
+    fn text(&self) -> &str;
 }
 
 pub trait Filter {

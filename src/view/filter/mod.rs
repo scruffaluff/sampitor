@@ -11,11 +11,11 @@ use crate::dsp::Samples;
 use crate::view::View;
 use crossterm::event::{KeyCode, KeyEvent};
 use tui::backend::Backend;
-use tui::layout::Constraint::Percentage;
+use tui::layout::Constraint::{Length, Percentage};
 use tui::layout::{Direction, Layout, Rect};
 use tui::style::{Modifier, Style};
 use tui::terminal::Frame;
-use tui::widgets::{BarChart, Block, Borders, List, ListItem, ListState};
+use tui::widgets::{Block, Borders, List, ListItem, ListState, Row, Table};
 
 /// A UI view for navigating the file system, reading audio files, and writing audio files.
 pub struct Filters<'a> {
@@ -131,18 +131,18 @@ impl<'a, B: Backend> View<B> for Filters<'a> {
 
         if let Some(index) = self.filter_state.selected() {
             let knobs = self.filters[index].1.knobs();
-            let bars: Vec<(&str, u64)> = knobs
+            let rows: Vec<Row> = knobs
                 .iter()
-                .map(|(name, filter)| (*name, filter.get_value()))
+                .map(|(name, filter)| Row::new(vec![*name, filter.text()]))
                 .collect();
 
-            let barchart = BarChart::default()
-                .block(Block::default().borders(Borders::ALL))
-                .data(&bars)
-                .bar_width(12)
-                .bar_gap(3)
-                .max(knobs[0].1.get_max());
-            frame.render_widget(barchart, chunks[1]);
+            let block = Block::default().borders(Borders::ALL);
+
+            let table = Table::new(rows)
+                .header(Row::new(vec!["Knob", "Value"]))
+                .block(block)
+                .widths(&[Length(12), Length(12)]);
+            frame.render_widget(table, chunks[1]);
         }
     }
 }
