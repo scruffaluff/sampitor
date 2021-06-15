@@ -106,6 +106,7 @@ mod tests {
     #[test]
     fn process_points() {
         let mut chart = Chart::new(String::from(""), 1, 1);
+        let axes = chart.axes.clone();
         let expected = vec![
             vec![(0.0, -1.0), (1.0, -0.25), (2.0, 0.5)],
             vec![(0.0, -0.5), (1.0, 0.25), (2.0, 1.0)],
@@ -114,6 +115,7 @@ mod tests {
         let mut buffer = Samples::new(2, 20, vec![-1.0, -0.5, -0.25, 0.25, 0.5, 1.0]);
         View::<TestBackend>::process(&mut chart, &mut buffer);
 
+        assert_eq!(chart.axes, axes);
         assert_eq!(chart.points, expected);
     }
 }

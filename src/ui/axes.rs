@@ -4,7 +4,8 @@ use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 use tui::text::Span;
 use tui::widgets::Axis;
 
-/// Chart axes with shift and zoom features..
+/// Chart axes with shift and zoom features.
+#[derive(Clone, Debug, PartialEq)]
 pub struct Axes {
     speed: f64,
     x: [f64; 2],
