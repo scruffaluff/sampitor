@@ -53,7 +53,6 @@ impl<'a, B: Backend> View<B> for Chart<'a> {
         let points = (0..frame_count)
             .map(|index| (index as f64, 0.0_f64))
             .collect();
-        self.axes = Axes::new([0.0_f64, frame_count as f64], [-1.0_f64, 1.0_f64], 1.0_f64);
         self.points = vec![points; channels];
 
         for (outer_index, points) in self.points.iter_mut().enumerate() {
