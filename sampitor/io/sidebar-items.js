@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["event",""],["path",""],["terminal",""]]});
+initSidebarItems({"mod":[["audio","Audio readers and writers."],["event","Keyboard input event handlers."],["path","File path navigators and parsers."],["terminal","Terminal oriented functions."]]});

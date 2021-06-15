@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["base","Fundemental traits for digital signal processing user interface components."],["normalize","User interface for changing amplitude levels of a signal."]],"struct":[["Filters","A UI view for navigating the file system, reading audio files, and writing audio files."]]});

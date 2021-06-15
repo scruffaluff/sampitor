@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["axes",""],["util",""]]});
+initSidebarItems({"mod":[["axes","Structs for drawing plot axes."],["util","Utilities for drawing visuals."]]});

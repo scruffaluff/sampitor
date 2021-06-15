@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["name","Get path file name or descriptive error."],["read_samples","Read audio metdata and samples from a file."],["sorted_names","Read inodes from a directory and sort them with subdirectories first"],["write_samples","Write audio metdata and samples to a file."]]});
+initSidebarItems({"fn":[["name","Get path file name or descriptive error."],["sorted_names","Read inodes from a directory and sort them with subdirectories first"]]});

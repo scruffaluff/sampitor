@@ -119,12 +119,18 @@
 <span id="116">116</span>
 <span id="117">117</span>
 <span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="doccomment">//! Structs for drawing plot axes.</span>
+
 <span class="kw">use</span> <span class="ident">crossterm</span>::<span class="ident">event</span>::{<span class="ident">KeyCode</span>, <span class="ident">KeyEvent</span>, <span class="ident">KeyModifiers</span>};
 <span class="kw">use</span> <span class="ident">tui</span>::<span class="ident">text</span>::<span class="ident">Span</span>;
 <span class="kw">use</span> <span class="ident">tui</span>::<span class="ident">widgets</span>::<span class="ident">Axis</span>;
 
-<span class="doccomment">/// Chart axes with shift and zoom features..</span>
+<span class="doccomment">/// Chart axes with shift and zoom features.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Axes</span> {
     <span class="ident">speed</span>: <span class="ident">f64</span>,
     <span class="ident">x</span>: [<span class="ident">f64</span>; <span class="number">2</span>],

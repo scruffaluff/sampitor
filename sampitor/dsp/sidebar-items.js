@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["buffer",""]]});
+initSidebarItems({"mod":[["buffer","Convenience structs for digital signal processing."],["filters","Algorithms for filtering signals."]]});

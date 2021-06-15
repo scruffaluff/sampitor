@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["app",""],["dsp",""],["io",""],["ui",""],["view",""]]});
+initSidebarItems({"mod":[["app","Application runners."],["dsp","Digital signal processing functions and user interface logic."],["io","Input and output handlers."],["ui","Logic for rendering aspects of visual components."],["view","User interface components."]]});

@@ -117,7 +117,14 @@
 <span id="114">114</span>
 <span id="115">115</span>
 <span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="doccomment">//! Components for plotting audio signals.</span>
+
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">dsp</span>::<span class="ident">Samples</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ui</span>::<span class="ident">axes</span>::<span class="ident">Axes</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">view</span>::<span class="ident">View</span>;
@@ -126,18 +133,18 @@
 <span class="kw">use</span> <span class="ident">tui</span>::<span class="ident">layout</span>::<span class="ident">Rect</span>;
 <span class="kw">use</span> <span class="ident">tui</span>::<span class="ident">symbols</span>::<span class="ident">Marker</span>;
 <span class="kw">use</span> <span class="ident">tui</span>::<span class="ident">terminal</span>::<span class="ident">Frame</span>;
-<span class="kw">use</span> <span class="ident">tui</span>::<span class="ident">widgets</span>::{<span class="ident">Block</span>, <span class="ident">Borders</span>, <span class="ident">Chart</span>, <span class="ident">Dataset</span>, <span class="ident">GraphType</span>};
+<span class="kw">use</span> <span class="ident">tui</span>::<span class="ident">widgets</span>::{<span class="ident">Block</span>, <span class="ident">Borders</span>, <span class="ident">Dataset</span>, <span class="ident">GraphType</span>};
 
-<span class="doccomment">/// UI view for plotting audio signal with shift and zoom features.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Signal</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+<span class="doccomment">/// UI view for plotting audio Chart with shift and zoom features.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Chart</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">axes</span>: <span class="ident">Axes</span>,
     <span class="ident">dataset</span>: <span class="ident">Dataset</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
     <span class="ident">points</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">f64</span>, <span class="ident">f64</span>)<span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">title</span>: <span class="ident">String</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Signal</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Create a new Signal from a title and audio metadata.</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Chart</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Create a new Chart from a title and audio metadata.</span>
     <span class="attribute">#[<span class="ident">must_use</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">title</span>: <span class="ident">String</span>, <span class="ident">channels</span>: <span class="ident">usize</span>, <span class="ident">frame_count</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">axes</span> <span class="op">=</span> <span class="ident">Axes</span>::<span class="ident">new</span>([<span class="number">0.0_f64</span>, <span class="ident">frame_count</span> <span class="kw">as</span> <span class="ident">f64</span>], [<span class="op">-</span><span class="number">1.0_f64</span>, <span class="number">1.0_f64</span>], <span class="number">1.0_f64</span>);
@@ -150,7 +157,7 @@
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">index</span><span class="op">|</span> (<span class="ident">index</span> <span class="kw">as</span> <span class="ident">f64</span>, <span class="number">0.0_f64</span>))
             .<span class="ident">collect</span>();
 
-        <span class="ident">Signal</span> {
+        <span class="ident">Chart</span> {
             <span class="ident">axes</span>,
             <span class="ident">dataset</span>,
             <span class="ident">points</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">points</span>; <span class="ident">channels</span>],
@@ -159,7 +166,7 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">View</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Signal</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">View</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Chart</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">key_event</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">event</span>: <span class="ident">KeyEvent</span>) {
         <span class="self">self</span>.<span class="ident">axes</span>.<span class="ident">key_event</span>(<span class="ident">event</span>);
     }
@@ -175,7 +182,8 @@
 
         <span class="kw">for</span> (<span class="ident">outer_index</span>, <span class="ident">points</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">points</span>.<span class="ident">iter_mut</span>().<span class="ident">enumerate</span>() {
             <span class="kw">for</span> (<span class="ident">inner_index</span>, <span class="ident">element</span>) <span class="kw">in</span> <span class="ident">points</span>.<span class="ident">iter_mut</span>() {
-                <span class="comment">// Variable inner_index is always positive, so sign loss is not possible.</span>
+                <span class="comment">// Variable inner_index should always be positive, so sign loss should not be</span>
+                <span class="comment">// possible.</span>
                 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">cast_sign_loss</span>)]</span>
                 <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="ident">channels</span> <span class="op">*</span> (<span class="kw-2">*</span><span class="ident">inner_index</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">+</span> <span class="ident">outer_index</span>;
                 <span class="kw-2">*</span><span class="ident">element</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">data</span>[<span class="ident">index</span>].<span class="ident">into</span>();
@@ -195,7 +203,7 @@
             .<span class="ident">collect</span>();
 
         <span class="kw">let</span> (<span class="ident">x_axis</span>, <span class="ident">y_axis</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">axes</span>.<span class="ident">axes</span>();
-        <span class="kw">let</span> <span class="ident">chart</span> <span class="op">=</span> <span class="ident">Chart</span>::<span class="ident">new</span>(<span class="ident">datasets</span>)
+        <span class="kw">let</span> <span class="ident">chart</span> <span class="op">=</span> <span class="ident">tui</span>::<span class="ident">widgets</span>::<span class="ident">Chart</span>::<span class="ident">new</span>(<span class="ident">datasets</span>)
             .<span class="ident">block</span>(<span class="ident">block</span>)
             .<span class="ident">x_axis</span>(<span class="ident">x_axis</span>)
             .<span class="ident">y_axis</span>(<span class="ident">y_axis</span>);
@@ -211,7 +219,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">new_points</span>() {
-        <span class="kw">let</span> <span class="ident">chart</span> <span class="op">=</span> <span class="ident">Signal</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;&quot;</span>), <span class="number">2</span>, <span class="number">3</span>);
+        <span class="kw">let</span> <span class="ident">chart</span> <span class="op">=</span> <span class="ident">Chart</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;&quot;</span>), <span class="number">2</span>, <span class="number">3</span>);
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
             <span class="macro">vec</span><span class="macro">!</span>[(<span class="number">0.0</span>, <span class="number">0.0</span>), (<span class="number">1.0</span>, <span class="number">0.0</span>), (<span class="number">2.0</span>, <span class="number">0.0</span>)],
             <span class="macro">vec</span><span class="macro">!</span>[(<span class="number">0.0</span>, <span class="number">0.0</span>), (<span class="number">1.0</span>, <span class="number">0.0</span>), (<span class="number">2.0</span>, <span class="number">0.0</span>)],
@@ -222,7 +230,8 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">process_points</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">chart</span> <span class="op">=</span> <span class="ident">Signal</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;&quot;</span>), <span class="number">1</span>, <span class="number">1</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">chart</span> <span class="op">=</span> <span class="ident">Chart</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;&quot;</span>), <span class="number">1</span>, <span class="number">1</span>);
+        <span class="kw">let</span> <span class="ident">axes</span> <span class="op">=</span> <span class="ident">chart</span>.<span class="ident">axes</span>.<span class="ident">clone</span>();
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
             <span class="macro">vec</span><span class="macro">!</span>[(<span class="number">0.0</span>, <span class="op">-</span><span class="number">1.0</span>), (<span class="number">1.0</span>, <span class="op">-</span><span class="number">0.25</span>), (<span class="number">2.0</span>, <span class="number">0.5</span>)],
             <span class="macro">vec</span><span class="macro">!</span>[(<span class="number">0.0</span>, <span class="op">-</span><span class="number">0.5</span>), (<span class="number">1.0</span>, <span class="number">0.25</span>), (<span class="number">2.0</span>, <span class="number">1.0</span>)],
@@ -231,6 +240,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Samples</span>::<span class="ident">new</span>(<span class="number">2</span>, <span class="number">20</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="op">-</span><span class="number">1.0</span>, <span class="op">-</span><span class="number">0.5</span>, <span class="op">-</span><span class="number">0.25</span>, <span class="number">0.25</span>, <span class="number">0.5</span>, <span class="number">1.0</span>]);
         <span class="ident">View</span>::<span class="op">&lt;</span><span class="ident">TestBackend</span><span class="op">&gt;</span>::<span class="ident">process</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">chart</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>);
 
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">chart</span>.<span class="ident">axes</span>, <span class="ident">axes</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">chart</span>.<span class="ident">points</span>, <span class="ident">expected</span>);
     }
 }

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Signal","UI view for plotting audio signal with shift and zoom features."]]});
+initSidebarItems({"struct":[["Chart","UI view for plotting audio Chart with shift and zoom features."]]});
