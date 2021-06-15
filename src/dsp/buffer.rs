@@ -1,3 +1,5 @@
+//! Convenience structs for digital signal processing.
+
 use rodio::buffer::SamplesBuffer;
 
 /// A wrapper around Rodio's Samples to allow for repeated playback and additional processing.
@@ -16,6 +18,16 @@ impl Samples {
             data,
             channels,
             sample_rate,
+        }
+    }
+}
+
+impl Default for Samples {
+    fn default() -> Self {
+        Self {
+            data: Vec::default(),
+            channels: 1,
+            sample_rate: 1,
         }
     }
 }

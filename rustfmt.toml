@@ -1,0 +1,16 @@
+# RustFMT configuration file for formatting Rust code.
+#
+# Options prefaced with a hashtag will be used when they become stable. For more
+# information, visit https://rust-lang.github.io/rustfmt/.
+
+# format_code_in_doc_comments = true
+# format_macro_bodies = true
+# format_macro_matchers = true
+# match_block_trailing_comma = true
+# normalize_comments = true
+# normalize_doc_attributes = true
+# reorder_impl_items = true
+use_field_init_shorthand = true
+use_try_shorthand = true
+# where_single_line = true
+# wrap_comments = true

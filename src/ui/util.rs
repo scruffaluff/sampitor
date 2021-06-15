@@ -1,3 +1,5 @@
+//! Utilities for drawing visuals.
+
 use tui::layout::{Constraint, Direction, Layout, Rect};
 
 /// Create a centered interior rectangle to a given rectangle.

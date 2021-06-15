@@ -1,3 +1,5 @@
+//! Digital audio editor for the terminal.
+
 pub mod app;
 pub mod dsp;
 pub mod io;

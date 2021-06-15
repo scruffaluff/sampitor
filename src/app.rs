@@ -1,73 +1,59 @@
+//! Application runners.
+
 use crate::dsp::Samples;
-use crate::io::{event, path};
-use crate::view::{File, Filters, Menu, Signal, View};
+use crate::io::event;
+use crate::view::View;
 use color_eyre::eyre;
 use crossterm::event::{KeyCode, KeyEvent};
 use rodio::buffer::SamplesBuffer;
 use rodio::Sink;
-use std::convert::TryInto;
-use std::env;
-use std::path::Path;
 use std::sync::mpsc::{self, TryRecvError};
 use tui::backend::Backend;
 use tui::layout::Constraint::Percentage;
-use tui::layout::{Direction, Layout};
-use tui::terminal::Terminal;
+use tui::layout::{Direction, Layout, Rect};
+use tui::style::{Modifier, Style};
+use tui::terminal::{Frame, Terminal};
+use tui::text::Spans;
+use tui::widgets::{Block, Borders, Tabs};
 
 /// Main runner for Sampitor application.
-pub struct App<B: Backend> {
-    menu: Menu,
+pub struct App<'a, B: Backend> {
     samples: Samples,
     shutdown: bool,
-    views: Vec<Box<dyn View<B>>>,
+    state: usize,
+    views: &'a mut [(&'a str, &'a mut dyn View<B>)],
 }
 
-impl<B: Backend> App<B> {
-    /// Attempt to generate a new App.
-    ///
-    /// # Errors
-    ///
-    /// Will return `Err` if `path` does not exist or contains invalid audio data.
-    pub fn try_new(path: &Path) -> eyre::Result<Self> {
-        let name = format!("File: {}", path::name(path)?);
-        let options = vec![
-            String::from("Chart"),
-            String::from("File"),
-            String::from("Filters"),
-        ];
-
-        let samples = path::read_samples(path)?;
-        let channels: usize = samples.channels.try_into()?;
-
-        let chart = Signal::new(name, channels, samples.data.len() / channels);
-        let file = File::try_new(env::current_dir()?)?;
-        let filters = vec![String::from("Normalize"), String::from("Reverb")];
-
-        Ok(Self {
-            menu: Menu::new(options, String::from("Menu")),
+impl<'a, B: Backend> App<'a, B> {
+    /// Create a new App.
+    pub fn new(views: &'a mut [(&'a str, &'a mut dyn View<B>)], samples: Samples) -> Self {
+        Self {
             samples,
             shutdown: false,
-            views: vec![
-                Box::new(chart),
-                Box::new(file),
-                Box::new(Filters::new(filters)),
-            ],
-        })
+            state: 0,
+            views,
+        }
     }
 
     /// Pass keyboard input to current view.
     pub fn key_event(&mut self, sink: &Sink, event: KeyEvent) {
-        View::<B>::key_event(&mut self.menu, event);
-        let view = &mut self.views[self.menu.get_state()];
-        view.key_event(event);
+        if let Some(view) = self.views.get_mut(self.state) {
+            view.1.key_event(event);
+        }
 
         match event.code {
             KeyCode::Char(' ') => self.play(sink),
             KeyCode::Char('q') | KeyCode::Esc => {
                 self.shutdown = true;
             }
+            KeyCode::Tab => self.next(),
             _ => (),
         }
+    }
+
+    /// Modular move menu state to next option.
+    pub fn next(&mut self) {
+        self.state = (self.state + 1) % self.views.len();
     }
 
     /// Play currently loaded signal.
@@ -76,15 +62,19 @@ impl<B: Backend> App<B> {
         sink.append(source)
     }
 
+    /// Update internal signal state.
+    pub fn process(&mut self) {
+        for (_name, view) in &mut self.views.iter_mut() {
+            view.process(&mut self.samples);
+        }
+    }
+
     /// Render all UI views in terminal screen.
     ///
     /// # Errors
     ///
     /// Will return `Err` if `terminal` cannot draw frames.
     pub fn render(&mut self, terminal: &mut Terminal<B>) -> eyre::Result<()> {
-        let view = &mut self.views[self.menu.get_state()];
-        let menu = &mut self.menu;
-
         terminal.draw(|frame| {
             let size = frame.size();
             let chunks = Layout::default()
@@ -93,18 +83,27 @@ impl<B: Backend> App<B> {
                 .constraints([Percentage(16), Percentage(84)].as_ref())
                 .split(size);
 
-            menu.render(frame, chunks[0]);
-            view.render(frame, chunks[1]);
+            self.render_menu(frame, chunks[0]);
+
+            if let Some(view) = self.views.get_mut(self.state) {
+                view.1.render(frame, chunks[1]);
+            }
         })?;
 
         Ok(())
     }
 
-    /// Update internal signal state.
-    pub fn process(&mut self) {
-        for view in &mut self.views {
-            view.process(&mut self.samples);
-        }
+    fn render_menu<'b>(&mut self, frame: &mut Frame<'b, B>, area: Rect) {
+        let options: Vec<Spans> = self.views.iter().map(|view| Spans::from(view.0)).collect();
+
+        let block = Block::default().title("Menu").borders(Borders::ALL);
+
+        let tabs = Tabs::new(options)
+            .select(self.state)
+            .block(block)
+            .highlight_style(Style::default().add_modifier(Modifier::BOLD));
+
+        frame.render_widget(tabs, area);
     }
 
     /// Loop and wait for user keyboard input.
@@ -135,22 +134,41 @@ impl<B: Backend> App<B> {
 mod tests {
     use super::*;
     use crate::util;
+    use crate::util::test::MockView;
+    use crossterm::event::KeyModifiers;
+    use rodio::Sink;
     use tui::backend::TestBackend;
 
     #[test]
     fn menu_contains_views() {
-        let samples = Samples::new(2, 32, vec![0.0f32, -0.25f32, 0.25f32, 1.0f32]);
-        let file_path = util::test::temp_wave_file(&samples).unwrap();
-
         let backend = TestBackend::new(20, 10);
         let mut terminal = Terminal::new(backend).unwrap();
 
-        let mut app = App::try_new(&file_path).unwrap();
+        let mut app = App::new(&mut [], Samples::default());
         app.render(&mut terminal).unwrap();
 
-        let expected = "Menu";
-
         let actual = util::test::buffer_view(terminal.backend().buffer());
-        assert!(actual.contains(expected));
+        assert!(actual.contains("Menu"));
+    }
+
+    #[test]
+    fn menu_key_event() {
+        let sink = Sink::new_idle().0;
+
+        let mut mock1 = MockView::default();
+        let mut mock2 = MockView::default();
+        let mut mock3 = MockView::default();
+
+        let mut views: Vec<(&str, &mut dyn View<TestBackend>)> = Vec::new();
+        views.push(("", &mut mock1));
+        views.push(("", &mut mock2));
+        views.push(("", &mut mock3));
+
+        let mut app = App::new(&mut views, Samples::default());
+        (0..7).for_each(|_| {
+            app.key_event(&sink, KeyEvent::new(KeyCode::Tab, KeyModifiers::NONE));
+        });
+
+        assert_eq!(1, app.state);
     }
 }
