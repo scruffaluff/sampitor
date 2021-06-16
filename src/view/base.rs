@@ -19,4 +19,6 @@ pub trait View<B: Backend> {
     fn process(&mut self, samples: &mut Samples) -> eyre::Result<()>;
     /// Draw UI view in area of given frame.
     fn render<'b>(&mut self, frame: &mut Frame<'b, B>, area: Rect);
+    /// Reset internal state to a non erroneous case.
+    fn reset(&mut self);
 }

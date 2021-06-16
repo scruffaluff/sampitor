@@ -199,6 +199,10 @@ impl<B: Backend> View<B> for File {
             frame.render_widget(line, area);
         }
     }
+
+    fn reset(&mut self) {
+        self.mode = Mode::Nagivate;
+    }
 }
 
 #[derive(Debug, Eq, PartialEq)]

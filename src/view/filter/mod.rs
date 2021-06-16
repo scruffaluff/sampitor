@@ -147,6 +147,8 @@ impl<'a, B: Backend> View<B> for Filters<'a> {
             frame.render_widget(table, chunks[1]);
         }
     }
+
+    fn reset(&mut self) {}
 }
 
 #[derive(Debug, Eq, PartialEq)]

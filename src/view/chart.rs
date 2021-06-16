@@ -88,6 +88,8 @@ impl<'a, B: Backend> View<B> for Chart<'a> {
 
         frame.render_widget(chart, area);
     }
+
+    fn reset(&mut self) {}
 }
 
 #[cfg(test)]

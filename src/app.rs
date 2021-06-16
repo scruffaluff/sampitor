@@ -46,8 +46,13 @@ impl<'a, B: Backend> App<'a, B> {
 
         match event.code {
             KeyCode::Char(' ') => self.play(sink),
-            KeyCode::Char('q') | KeyCode::Esc => self.shutdown = true,
-            KeyCode::Enter => self.error = Ok(()),
+            KeyCode::Esc => {
+                if self.error.is_err() {
+                    self.error = Ok(());
+                } else {
+                    self.shutdown = true;
+                }
+            }
             KeyCode::Tab => self.next(),
             _ => (),
         }
@@ -65,16 +70,16 @@ impl<'a, B: Backend> App<'a, B> {
     }
 
     /// Update internal signal state.
-    ///
-    /// # Errors
-    ///
-    /// Will return `Err` throw any view.
-    pub fn process(&mut self) -> eyre::Result<()> {
-        for (_name, view) in &mut self.views.iter_mut() {
-            view.process(&mut self.samples)?;
+    pub fn process(&mut self) {
+        if self.error.is_ok() {
+            for (_name, view) in &mut self.views.iter_mut() {
+                if let Err(error) = view.process(&mut self.samples) {
+                    self.error = Err(error);
+                    view.reset();
+                    break;
+                }
+            }
         }
-
-        Ok(())
     }
 
     /// Render all UI views in terminal screen.
@@ -140,7 +145,7 @@ impl<'a, B: Backend> App<'a, B> {
         let _thread_handle = event::handler(sender);
 
         while !self.shutdown {
-            self.error = self.process();
+            self.process();
             self.render(terminal)?;
 
             match receiver.try_recv() {
@@ -164,6 +169,31 @@ mod tests {
     use tui::backend::TestBackend;
 
     #[test]
+    fn handle_view_error() {
+        let sink = Sink::new_idle().0;
+        let backend = TestBackend::new(20, 10);
+        let mut terminal = Terminal::new(backend).unwrap();
+
+        let mut mock = MockView::new(true);
+        let mut views: Vec<(&str, &mut dyn View<TestBackend>)> = Vec::new();
+        views.push(("", &mut mock));
+
+        let mut app = App::new(&mut views, Samples::default());
+        app.process();
+        app.render(&mut terminal).unwrap();
+
+        let actual = util::test::buffer_view(terminal.backend().buffer());
+        assert!(actual.contains("Error"));
+
+        app.key_event(&sink, KeyEvent::new(KeyCode::Esc, KeyModifiers::NONE));
+        app.process();
+        app.render(&mut terminal).unwrap();
+
+        let actual = util::test::buffer_view(terminal.backend().buffer());
+        assert!(!actual.contains("Error"));
+    }
+
+    #[test]
     fn menu_contains_views() {
         let backend = TestBackend::new(20, 10);
         let mut terminal = Terminal::new(backend).unwrap();
@@ -176,7 +206,7 @@ mod tests {
     }
 
     #[test]
-    fn menu_key_event() {
+    fn menu_switch_view() {
         let sink = Sink::new_idle().0;
 
         let mut mock1 = MockView::default();
