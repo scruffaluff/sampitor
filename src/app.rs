@@ -2,6 +2,7 @@
 
 use crate::dsp::Samples;
 use crate::io::event;
+use crate::ui;
 use crate::view::View;
 use color_eyre::eyre;
 use crossterm::event::{KeyCode, KeyEvent};
@@ -13,11 +14,12 @@ use tui::layout::Constraint::Percentage;
 use tui::layout::{Direction, Layout, Rect};
 use tui::style::{Modifier, Style};
 use tui::terminal::{Frame, Terminal};
-use tui::text::Spans;
-use tui::widgets::{Block, Borders, Tabs};
+use tui::text::{Spans, Text};
+use tui::widgets::{Block, Borders, Clear, Paragraph, Tabs};
 
 /// Main runner for Sampitor application.
 pub struct App<'a, B: Backend> {
+    error: eyre::Result<()>,
     samples: Samples,
     shutdown: bool,
     state: usize,
@@ -28,6 +30,7 @@ impl<'a, B: Backend> App<'a, B> {
     /// Create a new App.
     pub fn new(views: &'a mut [(&'a str, &'a mut dyn View<B>)], samples: Samples) -> Self {
         Self {
+            error: Ok(()),
             samples,
             shutdown: false,
             state: 0,
@@ -43,9 +46,8 @@ impl<'a, B: Backend> App<'a, B> {
 
         match event.code {
             KeyCode::Char(' ') => self.play(sink),
-            KeyCode::Char('q') | KeyCode::Esc => {
-                self.shutdown = true;
-            }
+            KeyCode::Char('q') | KeyCode::Esc => self.shutdown = true,
+            KeyCode::Enter => self.error = Ok(()),
             KeyCode::Tab => self.next(),
             _ => (),
         }
@@ -63,10 +65,16 @@ impl<'a, B: Backend> App<'a, B> {
     }
 
     /// Update internal signal state.
-    pub fn process(&mut self) {
+    ///
+    /// # Errors
+    ///
+    /// Will return `Err` throw any view.
+    pub fn process(&mut self) -> eyre::Result<()> {
         for (_name, view) in &mut self.views.iter_mut() {
-            view.process(&mut self.samples);
+            view.process(&mut self.samples)?;
         }
+
+        Ok(())
     }
 
     /// Render all UI views in terminal screen.
@@ -88,9 +96,25 @@ impl<'a, B: Backend> App<'a, B> {
             if let Some(view) = self.views.get_mut(self.state) {
                 view.1.render(frame, chunks[1]);
             }
+
+            self.render_error(frame, size);
         })?;
 
         Ok(())
+    }
+
+    /// Render all UI views in terminal screen.
+    pub fn render_error<'b>(&mut self, frame: &mut Frame<'b, B>, area: Rect) {
+        if let Err(error) = &self.error {
+            let area = ui::util::centered_rectangle(60, 20, area);
+            frame.render_widget(Clear, area);
+
+            let block = Block::default().title("Error").borders(Borders::ALL);
+            let text = Text::from(format!("{}", error));
+            let line = Paragraph::new(text).block(block);
+
+            frame.render_widget(line, area);
+        }
     }
 
     fn render_menu<'b>(&mut self, frame: &mut Frame<'b, B>, area: Rect) {
@@ -116,7 +140,7 @@ impl<'a, B: Backend> App<'a, B> {
         let _thread_handle = event::handler(sender);
 
         while !self.shutdown {
-            self.process();
+            self.error = self.process();
             self.render(terminal)?;
 
             match receiver.try_recv() {

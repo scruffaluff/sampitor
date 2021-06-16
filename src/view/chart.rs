@@ -3,6 +3,7 @@
 use crate::dsp::Samples;
 use crate::ui::axes::Axes;
 use crate::view::View;
+use color_eyre::eyre;
 use crossterm::event::KeyEvent;
 use tui::backend::Backend;
 use tui::layout::Rect;
@@ -46,7 +47,7 @@ impl<'a, B: Backend> View<B> for Chart<'a> {
         self.axes.key_event(event);
     }
 
-    fn process(&mut self, buffer: &mut Samples) {
+    fn process(&mut self, buffer: &mut Samples) -> eyre::Result<()> {
         let channels: usize = buffer.channels.into();
         let frame_count = buffer.data.len() / channels;
 
@@ -64,6 +65,8 @@ impl<'a, B: Backend> View<B> for Chart<'a> {
                 *element = buffer.data[index].into();
             }
         }
+
+        Ok(())
     }
 
     fn render<'b>(&mut self, frame: &mut Frame<'b, B>, area: Rect) {
@@ -113,7 +116,7 @@ mod tests {
         ];
 
         let mut buffer = Samples::new(2, 20, vec![-1.0, -0.5, -0.25, 0.25, 0.5, 1.0]);
-        View::<TestBackend>::process(&mut chart, &mut buffer);
+        View::<TestBackend>::process(&mut chart, &mut buffer).unwrap();
 
         assert_eq!(chart.axes, axes);
         assert_eq!(chart.points, expected);

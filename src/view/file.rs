@@ -139,27 +139,20 @@ impl<B: Backend> View<B> for File {
         }
     }
 
-    fn process(&mut self, samples: &mut Samples) {
+    fn process(&mut self, samples: &mut Samples) -> eyre::Result<()> {
         match self.mode {
             Mode::Read => {
                 if let Some(index) = self.state.selected() {
                     let (name, _is_dir) = &self.files[index];
                     let path = self.cwd.join(name);
-
-                    match audio::read_samples(&path) {
-                        Ok(buffer) => *samples = buffer,
-                        Err(error) => self.files = vec![(format!("{}", error), false)],
-                    };
+                    *samples = audio::read_samples(&path)?;
                 };
 
                 self.mode = Mode::Nagivate;
             }
             Mode::Write => {
                 let path = self.cwd.join(&self.type_buffer);
-
-                if let Err(error) = audio::write_samples(&path, samples) {
-                    self.files = vec![(format!("{}", error), false)];
-                };
+                audio::write_samples(&path, samples)?;
 
                 self.type_buffer.clear();
                 self.chdir(self.cwd.clone());
@@ -167,6 +160,8 @@ impl<B: Backend> View<B> for File {
             }
             _ => (),
         }
+
+        Ok(())
     }
 
     fn render<'b>(&mut self, frame: &mut Frame<'b, B>, area: Rect) {

@@ -58,7 +58,9 @@ pub mod test {
 
     impl<B: Backend> View<B> for MockView {
         fn key_event(&mut self, _event: KeyEvent) {}
-        fn process(&mut self, _samples: &mut Samples) {}
+        fn process(&mut self, _samples: &mut Samples) -> eyre::Result<()> {
+            Ok(())
+        }
         fn render<'b>(&mut self, _frame: &mut Frame<'b, B>, _area: Rect) {}
     }
 }
