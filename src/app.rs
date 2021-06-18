@@ -65,8 +65,14 @@ impl<'a, B: Backend> App<'a, B> {
 
     /// Play currently loaded signal.
     pub fn play(&self, sink: &Sink) {
-        let source = SamplesBuffer::from(&self.samples);
-        sink.append(source)
+        if sink.empty() {
+            let source = SamplesBuffer::from(&self.samples);
+            sink.append(source)
+        } else if sink.is_paused() {
+            sink.play();
+        } else {
+            sink.pause();
+        }
     }
 
     /// Update internal signal state.
@@ -224,5 +230,20 @@ mod tests {
         });
 
         assert_eq!(1, app.state);
+    }
+
+    #[test]
+    fn play_and_pause() {
+        let sink = Sink::new_idle().0;
+        let app = App::<TestBackend>::new(&mut [], Samples::default());
+
+        app.play(&sink);
+        assert!(!sink.empty());
+
+        app.play(&sink);
+        assert!(sink.is_paused());
+
+        app.play(&sink);
+        assert!(!sink.is_paused());
     }
 }
