@@ -1,7 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/lewton-0.10.2/src/audio.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>audio.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../lewton/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;lewton-0.10.2&#x2F;src&#x2F;audio.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>audio.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../lewton/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1176,8 +1174,7 @@
 <span id="1173">1173</span>
 <span id="1174">1174</span>
 <span id="1175">1175</span>
-</pre><div class="example-wrap"><pre class="rust ">
-<span class="comment">// Vorbis decoder written in Rust</span>
+</pre><pre class="rust"><code><span class="comment">// Vorbis decoder written in Rust</span>
 <span class="comment">//</span>
 <span class="comment">// Copyright (c) 2016 est31 &lt;MTest31@outlook.com&gt;</span>
 <span class="comment">// and contributors. All rights reserved.</span>
@@ -1193,16 +1190,16 @@ This module decodes the audio packets given to it.
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
 <span class="kw">use</span> <span class="ident">imdct</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">min</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">iter</span>;
-<span class="kw">use</span> <span class="ident">tinyvec</span>::<span class="ident">TinyVec</span>;
-<span class="kw">use</span> ::<span class="ident">ilog</span>;
-<span class="kw">use</span> ::<span class="ident">bitpacking</span>::<span class="ident">BitpackCursor</span>;
-<span class="kw">use</span> ::<span class="ident">header</span>::{<span class="ident">Codebook</span>, <span class="ident">Floor</span>, <span class="ident">FloorTypeZero</span>, <span class="ident">FloorTypeOne</span>,
+<span class="kw">use</span> <span class="ident">std::error</span>;
+<span class="kw">use</span> <span class="ident">std::fmt</span>;
+<span class="kw">use</span> <span class="ident">std::cmp::min</span>;
+<span class="kw">use</span> <span class="ident">std::iter</span>;
+<span class="kw">use</span> <span class="ident">tinyvec::TinyVec</span>;
+<span class="kw">use</span> <span class="ident">::ilog</span>;
+<span class="kw">use</span> <span class="ident">::bitpacking::BitpackCursor</span>;
+<span class="kw">use</span> <span class="ident">::header</span>::{<span class="ident">Codebook</span>, <span class="ident">Floor</span>, <span class="ident">FloorTypeZero</span>, <span class="ident">FloorTypeOne</span>,
 	<span class="ident">HuffmanVqReadErr</span>, <span class="ident">IdentHeader</span>, <span class="ident">Mapping</span>, <span class="ident">Residue</span>, <span class="ident">SetupHeader</span>};
-<span class="kw">use</span> <span class="ident">samples</span>::<span class="ident">Samples</span>;
+<span class="kw">use</span> <span class="ident">samples::Samples</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AudioReadError</span> {
@@ -1225,22 +1222,22 @@ This module decodes the audio packets given to it.
 <span class="comment">// TODO that type choice was a bit unfortunate,</span>
 <span class="comment">// perhaps one day fix this</span>
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">AudioReadError</span> {
-	<span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span> :()) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AudioReadError</span> {
-		<span class="ident">AudioReadError</span>::<span class="ident">EndOfPacket</span>
+	<span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span> :()) -&gt; <span class="ident">AudioReadError</span> {
+		<span class="ident">AudioReadError::EndOfPacket</span>
 	}
 }
 
-<span class="kw">impl</span> <span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">for</span> <span class="ident">AudioReadError</span> {}
+<span class="kw">impl</span> <span class="ident">error::Error</span> <span class="kw">for</span> <span class="ident">AudioReadError</span> {}
 
-<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">AudioReadError</span> {
-	<span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">fmt</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">AudioReadError</span> {
+	<span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">fmt::Error</span><span class="op">&gt;</span> {
 		<span class="kw">let</span> <span class="ident">description</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span> {
-			<span class="ident">AudioReadError</span>::<span class="ident">EndOfPacket</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;End of packet reached.&quot;</span>,
-			<span class="ident">AudioReadError</span>::<span class="ident">AudioBadFormat</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Invalid audio packet&quot;</span>,
-			<span class="ident">AudioReadError</span>::<span class="ident">AudioIsHeader</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;The vorbis version is not supported&quot;</span>,
-			<span class="ident">AudioReadError</span>::<span class="ident">BufferNotAddressable</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Requested to create buffer of non-addressable size&quot;</span>,
+			<span class="ident">AudioReadError::EndOfPacket</span> =&gt; <span class="string">&quot;End of packet reached.&quot;</span>,
+			<span class="ident">AudioReadError::AudioBadFormat</span> =&gt; <span class="string">&quot;Invalid audio packet&quot;</span>,
+			<span class="ident">AudioReadError::AudioIsHeader</span> =&gt; <span class="string">&quot;The vorbis version is not supported&quot;</span>,
+			<span class="ident">AudioReadError::BufferNotAddressable</span> =&gt; <span class="string">&quot;Requested to create buffer of non-addressable size&quot;</span>,
 		};
-		<span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">description</span>)
+		<span class="macro">write!</span>(<span class="ident">fmt</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">description</span>)
 	}
 }
 
@@ -1251,10 +1248,10 @@ This module decodes the audio packets given to it.
 }
 
 <span class="kw">impl</span> <span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">DecodedFloor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-	<span class="kw">fn</span> <span class="ident">is_unused</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+	<span class="kw">fn</span> <span class="ident">is_unused</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
 		<span class="kw">match</span> <span class="self">self</span> {
-			<span class="kw-2">&amp;</span><span class="ident">DecodedFloor</span>::<span class="ident">Unused</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
-			<span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+			<span class="kw-2">&amp;</span><span class="ident">DecodedFloor::Unused</span> =&gt; <span class="bool-val">true</span>,
+			<span class="kw">_</span> =&gt; <span class="bool-val">false</span>,
 		}
 	}
 }
@@ -1265,51 +1262,51 @@ This module decodes the audio packets given to it.
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">FloorSpecialCase</span> {
-	<span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span> :()) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+	<span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span> :()) -&gt; <span class="self">Self</span> {
 		<span class="comment">// () always means end of packet condition in the places</span>
 		<span class="comment">// the conversion is used.</span>
-		<span class="kw">return</span> <span class="ident">FloorSpecialCase</span>::<span class="ident">Unused</span>;
+		<span class="kw">return</span> <span class="ident">FloorSpecialCase::Unused</span>;
 	}
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">HuffmanVqReadErr</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">FloorSpecialCase</span> {
-	<span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">e</span> :<span class="ident">HuffmanVqReadErr</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-		<span class="kw">use</span> ::<span class="ident">header</span>::<span class="ident">HuffmanVqReadErr</span>::<span class="kw-2">*</span>;
-		<span class="kw">use</span> <span class="self">self</span>::<span class="ident">FloorSpecialCase</span>::<span class="kw-2">*</span>;
+	<span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">e</span> :<span class="ident">HuffmanVqReadErr</span>) -&gt; <span class="self">Self</span> {
+		<span class="kw">use</span> <span class="ident">::header::HuffmanVqReadErr</span>::<span class="kw-2">*</span>;
+		<span class="kw">use</span> <span class="ident"><span class="self">self</span>::FloorSpecialCase</span>::<span class="kw-2">*</span>;
 		<span class="kw">match</span> <span class="ident">e</span> {
-			<span class="ident">EndOfPacket</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Unused</span>,
+			<span class="ident">EndOfPacket</span> =&gt; <span class="ident">Unused</span>,
 			<span class="comment">// Undecodable per spec, see paragraph about</span>
 			<span class="comment">// VQ lookup type zero in section 3.3.</span>
-			<span class="ident">NoVqLookupForCodebook</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">PacketUndecodable</span>,
+			<span class="ident">NoVqLookupForCodebook</span> =&gt; <span class="ident">PacketUndecodable</span>,
 		}
 	}
 }
 
 <span class="comment">// Note that the output vector contains the cosine values of the coefficients,</span>
 <span class="comment">// not the bare values like in the spec. This is in order to optimize.</span>
-<span class="kw">fn</span> <span class="ident">floor_zero_decode</span>(<span class="ident">rdr</span> :<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">BitpackCursor</span>, <span class="ident">codebooks</span> :<span class="kw-2">&amp;</span>[<span class="ident">Codebook</span>],
-		<span class="ident">fl</span> :<span class="kw-2">&amp;</span><span class="ident">FloorTypeZero</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>, <span class="ident">u64</span>), <span class="ident">FloorSpecialCase</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">floor_zero_decode</span>(<span class="ident">rdr</span> :<span class="kw-2">&amp;mut</span> <span class="ident">BitpackCursor</span>, <span class="ident">codebooks</span> :<span class="kw-2">&amp;</span>[<span class="ident">Codebook</span>],
+		<span class="ident">fl</span> :<span class="kw-2">&amp;</span><span class="ident">FloorTypeZero</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>, <span class="ident">u64</span>), <span class="ident">FloorSpecialCase</span><span class="op">&gt;</span> {
 	<span class="comment">// TODO this needs to become 128 bits wide, not just 64,</span>
 	<span class="comment">// as floor0_amplitude_bits can be up to 127.</span>
-	<span class="kw">let</span> <span class="ident">amplitude</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_dyn_u64</span>(<span class="ident">fl</span>.<span class="ident">floor0_amplitude_bits</span>));
+	<span class="kw">let</span> <span class="ident">amplitude</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_dyn_u64</span>(<span class="ident">fl</span>.<span class="ident">floor0_amplitude_bits</span>));
 	<span class="kw">if</span> <span class="ident">amplitude</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">0</span> {
 		<span class="comment">// This channel is unused in this frame,</span>
 		<span class="comment">// its all zeros.</span>
-		<span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">FloorSpecialCase</span>::<span class="ident">Unused</span>);
+		<span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">FloorSpecialCase::Unused</span>);
 	}
 
-	<span class="kw">let</span> <span class="ident">booknumber</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_dyn_u32</span>(
-		::<span class="ident">ilog</span>(<span class="ident">fl</span>.<span class="ident">floor0_number_of_books</span> <span class="kw">as</span> <span class="ident">u64</span>)));
+	<span class="kw">let</span> <span class="ident">booknumber</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_dyn_u32</span>(
+		<span class="ident">::ilog</span>(<span class="ident">fl</span>.<span class="ident">floor0_number_of_books</span> <span class="kw">as</span> <span class="ident">u64</span>)));
 	<span class="kw">match</span> <span class="ident">fl</span>.<span class="ident">floor0_book_list</span>.<span class="ident">get</span>(<span class="ident">booknumber</span> <span class="kw">as</span> <span class="ident">usize</span>) {
 		<span class="comment">// Undecodable per spec</span>
-		<span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="prelude-val">Err</span>(<span class="ident">FloorSpecialCase</span>::<span class="ident">PacketUndecodable</span>)),
-		<span class="prelude-val">Some</span>(<span class="ident">codebook_idx</span>) <span class="op">=</span><span class="op">&gt;</span> {
-			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">coefficients</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">fl</span>.<span class="ident">floor0_order</span> <span class="kw">as</span> <span class="ident">usize</span>);
+		<span class="prelude-val">None</span> =&gt; <span class="macro">try!</span>(<span class="prelude-val">Err</span>(<span class="ident">FloorSpecialCase::PacketUndecodable</span>)),
+		<span class="prelude-val">Some</span>(<span class="ident">codebook_idx</span>) =&gt; {
+			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">coefficients</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="ident">fl</span>.<span class="ident">floor0_order</span> <span class="kw">as</span> <span class="ident">usize</span>);
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">last</span> <span class="op">=</span> <span class="number">0.0</span>;
 			<span class="kw">let</span> <span class="ident">codebook</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">codebooks</span>[<span class="kw-2">*</span><span class="ident">codebook_idx</span> <span class="kw">as</span> <span class="ident">usize</span>];
 			<span class="kw">loop</span> {
 				<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">last_new</span> <span class="op">=</span> <span class="ident">last</span>;
-				<span class="kw">let</span> <span class="ident">temp_vector</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_huffman_vq</span>(<span class="ident">codebook</span>));
+				<span class="kw">let</span> <span class="ident">temp_vector</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_huffman_vq</span>(<span class="ident">codebook</span>));
 				<span class="kw">if</span> <span class="ident">temp_vector</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">coefficients</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="ident">fl</span>.<span class="ident">floor0_order</span> <span class="kw">as</span> <span class="ident">usize</span> {
 					<span class="comment">// Little optimisation: we don&#39;t have to care about the &gt;= case here</span>
 					<span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">e</span> <span class="kw">in</span> <span class="ident">temp_vector</span> {
@@ -1323,7 +1320,7 @@ This module decodes the audio packets given to it.
 						<span class="comment">// This rule makes sure that coefficients doesn&#39;t get</span>
 						<span class="comment">// larger than floor0_order and saves an allocation</span>
 						<span class="comment">// in this case</span>
-						<span class="kw">if</span> <span class="ident">coefficients</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">fl</span>.<span class="ident">floor0_order</span> <span class="kw">as</span> <span class="ident">usize</span> {
+						<span class="kw">if</span> <span class="ident">coefficients</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="ident">fl</span>.<span class="ident">floor0_order</span> <span class="kw">as</span> <span class="ident">usize</span> {
 							<span class="kw">return</span> <span class="prelude-val">Ok</span>((<span class="ident">coefficients</span>, <span class="ident">amplitude</span>));
 						}
 					}
@@ -1335,15 +1332,15 @@ This module decodes the audio packets given to it.
 			}
 		},
 	}
-	<span class="macro">unreachable</span><span class="macro">!</span>();
+	<span class="macro">unreachable!</span>();
 }
 
 <span class="kw">fn</span> <span class="ident">floor_zero_compute_curve</span>(<span class="ident">cos_coefficients</span> :<span class="kw-2">&amp;</span>[<span class="ident">f32</span>], <span class="ident">amplitude</span> :<span class="ident">u64</span>,
-		<span class="ident">fl</span> :<span class="kw-2">&amp;</span><span class="ident">FloorTypeZero</span>, <span class="ident">blockflag</span> :<span class="ident">bool</span>, <span class="ident">n</span> :<span class="ident">u16</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span> {
+		<span class="ident">fl</span> :<span class="kw-2">&amp;</span><span class="ident">FloorTypeZero</span>, <span class="ident">blockflag</span> :<span class="ident">bool</span>, <span class="ident">n</span> :<span class="ident">u16</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span> {
 	<span class="kw">let</span> <span class="ident">cached_bark_cos_omega</span> <span class="op">=</span>
 		<span class="kw-2">&amp;</span><span class="ident">fl</span>.<span class="ident">cached_bark_cos_omega</span>[<span class="ident">blockflag</span> <span class="kw">as</span> <span class="ident">usize</span>];
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
-	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">output</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span>);
+	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">output</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span>);
 	<span class="kw">let</span> <span class="ident">lfv_common_term</span> <span class="op">=</span> <span class="ident">amplitude</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="ident">fl</span>.<span class="ident">floor0_amplitude_offset</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span>
 		((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">fl</span>.<span class="ident">floor0_amplitude_bits</span>) <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">f32</span>;
 	<span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span> {
@@ -1351,7 +1348,7 @@ This module decodes the audio packets given to it.
 
 		<span class="comment">// Compute p and q</span>
 		<span class="kw">let</span> (<span class="ident">p_upper_border</span>, <span class="ident">q_upper_border</span>) <span class="op">=</span>
-		<span class="kw">if</span> <span class="ident">fl</span>.<span class="ident">floor0_order</span> <span class="op">&amp;</span> <span class="number">1</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+		<span class="kw">if</span> <span class="ident">fl</span>.<span class="ident">floor0_order</span> <span class="op">&amp;</span> <span class="number">1</span> <span class="op">==</span> <span class="number">1</span> {
 			((<span class="ident">fl</span>.<span class="ident">floor0_order</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">-</span> <span class="number">3</span>) <span class="op">/</span> <span class="number">2</span>,
 				(<span class="ident">fl</span>.<span class="ident">floor0_order</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">-</span> <span class="number">1</span>) <span class="op">/</span> <span class="number">2</span>)
 		} <span class="kw">else</span> {
@@ -1359,7 +1356,7 @@ This module decodes the audio packets given to it.
 			(<span class="ident">v</span>, <span class="ident">v</span>)
 		};
 		<span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">p</span>, <span class="kw-2">mut</span> <span class="ident">q</span>) <span class="op">=</span>
-		<span class="kw">if</span> <span class="ident">fl</span>.<span class="ident">floor0_order</span> <span class="op">&amp;</span> <span class="number">1</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+		<span class="kw">if</span> <span class="ident">fl</span>.<span class="ident">floor0_order</span> <span class="op">&amp;</span> <span class="number">1</span> <span class="op">==</span> <span class="number">1</span> {
 			(<span class="number">1.0</span> <span class="op">-</span> <span class="ident">cos_omega</span> <span class="op">*</span> <span class="ident">cos_omega</span>, <span class="number">0.25</span>)
 		} <span class="kw">else</span> {
 			((<span class="number">1.0</span> <span class="op">-</span> <span class="ident">cos_omega</span>) <span class="op">/</span> <span class="number">2.0</span>, (<span class="number">1.0</span> <span class="op">+</span> <span class="ident">cos_omega</span>) <span class="op">/</span> <span class="number">2.0</span>)
@@ -1380,12 +1377,12 @@ This module decodes the audio packets given to it.
 
 		<span class="comment">// Write into output</span>
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iteration_condition</span> <span class="op">=</span> <span class="ident">cos_omega</span>;
-		<span class="kw">while</span> <span class="ident">cos_omega</span> <span class="op">=</span><span class="op">=</span> <span class="ident">iteration_condition</span> {
+		<span class="kw">while</span> <span class="ident">cos_omega</span> <span class="op">==</span> <span class="ident">iteration_condition</span> {
 			<span class="ident">output</span>.<span class="ident">push</span>(<span class="ident">linear_floor_value</span>);
 			<span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
 			<span class="ident">iteration_condition</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">cached_bark_cos_omega</span>.<span class="ident">get</span>(<span class="ident">i</span>) {
-				<span class="prelude-val">Some</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="ident">v</span>,
-				<span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">break</span>,
+				<span class="prelude-val">Some</span>(<span class="ident">v</span>) =&gt; <span class="kw-2">*</span><span class="ident">v</span>,
+				<span class="prelude-val">None</span> =&gt; <span class="kw">break</span>,
 			};
 		}
 	}
@@ -1393,19 +1390,19 @@ This module decodes the audio packets given to it.
 }
 
 <span class="comment">// Returns Err if the floor is &quot;unused&quot;</span>
-<span class="kw">fn</span> <span class="ident">floor_one_decode</span>(<span class="ident">rdr</span> :<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">BitpackCursor</span>, <span class="ident">codebooks</span> :<span class="kw-2">&amp;</span>[<span class="ident">Codebook</span>],
-		<span class="ident">fl</span> :<span class="kw-2">&amp;</span><span class="ident">FloorTypeOne</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>, <span class="ident">FloorSpecialCase</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">floor_one_decode</span>(<span class="ident">rdr</span> :<span class="kw-2">&amp;mut</span> <span class="ident">BitpackCursor</span>, <span class="ident">codebooks</span> :<span class="kw-2">&amp;</span>[<span class="ident">Codebook</span>],
+		<span class="ident">fl</span> :<span class="kw-2">&amp;</span><span class="ident">FloorTypeOne</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>, <span class="ident">FloorSpecialCase</span><span class="op">&gt;</span> {
 	<span class="comment">// TODO perhaps it means invalid audio packet if reading the nonzero</span>
 	<span class="comment">// flag doesn&#39;t succeed bc end of packet. Perhaps it does not.</span>
-	<span class="kw">if</span> <span class="op">!</span><span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_bit_flag</span>()) {
-		<span class="macro">try</span><span class="macro">!</span>(<span class="prelude-val">Err</span>(()));
+	<span class="kw">if</span> <span class="op">!</span><span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_bit_flag</span>()) {
+		<span class="macro">try!</span>(<span class="prelude-val">Err</span>(()));
 	}
-	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">floor1_y</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">floor1_y</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 	<span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[<span class="number">256</span>, <span class="number">128</span>, <span class="number">86</span>, <span class="number">64</span>];
 	<span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">v</span>[(<span class="ident">fl</span>.<span class="ident">floor1_multiplier</span> <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">usize</span>];
-	<span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> ::<span class="ident">ilog</span>(<span class="ident">range</span> <span class="op">-</span> <span class="number">1</span>);
-	<span class="ident">floor1_y</span>.<span class="ident">push</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_dyn_u8</span>(<span class="ident">b</span>)) <span class="kw">as</span> <span class="ident">u32</span>);
-	<span class="ident">floor1_y</span>.<span class="ident">push</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_dyn_u8</span>(<span class="ident">b</span>)) <span class="kw">as</span> <span class="ident">u32</span>);
+	<span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">::ilog</span>(<span class="ident">range</span> <span class="op">-</span> <span class="number">1</span>);
+	<span class="ident">floor1_y</span>.<span class="ident">push</span>(<span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_dyn_u8</span>(<span class="ident">b</span>)) <span class="kw">as</span> <span class="ident">u32</span>);
+	<span class="ident">floor1_y</span>.<span class="ident">push</span>(<span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_dyn_u8</span>(<span class="ident">b</span>)) <span class="kw">as</span> <span class="ident">u32</span>);
 
 	<span class="kw">for</span> <span class="ident">class</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">fl</span>.<span class="ident">floor1_partition_class</span> {
 		<span class="kw">let</span> <span class="ident">uclass</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">class</span> <span class="kw">as</span> <span class="ident">usize</span>;
@@ -1415,14 +1412,14 @@ This module decodes the audio packets given to it.
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cval</span> <span class="op">=</span> <span class="number">0</span>;
 		<span class="kw">if</span> <span class="ident">cbits</span> <span class="op">&gt;</span> <span class="number">0</span> {
 			<span class="kw">let</span> <span class="ident">cbook</span> <span class="op">=</span> <span class="ident">fl</span>.<span class="ident">floor1_class_masterbooks</span>[<span class="ident">uclass</span>] <span class="kw">as</span> <span class="ident">usize</span>;
-			<span class="ident">cval</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_huffman</span>(<span class="kw-2">&amp;</span><span class="ident">codebooks</span>[<span class="ident">cbook</span>].<span class="ident">codebook_huffman_tree</span>));
+			<span class="ident">cval</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_huffman</span>(<span class="kw-2">&amp;</span><span class="ident">codebooks</span>[<span class="ident">cbook</span>].<span class="ident">codebook_huffman_tree</span>));
 		}
 		<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">cdim</span> {
 			<span class="kw">let</span> <span class="ident">book</span> <span class="op">=</span> <span class="ident">fl</span>.<span class="ident">floor1_subclass_books</span>[<span class="ident">uclass</span>][(<span class="ident">cval</span> <span class="op">&amp;</span> <span class="ident">csub</span>) <span class="kw">as</span> <span class="ident">usize</span>];
 			<span class="ident">cval</span> <span class="op">&gt;</span><span class="op">&gt;</span><span class="op">=</span> <span class="ident">cbits</span>;
 			<span class="kw">if</span> <span class="ident">book</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">0</span> {
 				<span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">codebooks</span>[<span class="ident">book</span> <span class="kw">as</span> <span class="ident">usize</span>].<span class="ident">codebook_huffman_tree</span>;
-				<span class="ident">floor1_y</span>.<span class="ident">push</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_huffman</span>(<span class="ident">tree</span>)));
+				<span class="ident">floor1_y</span>.<span class="ident">push</span>(<span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_huffman</span>(<span class="ident">tree</span>)));
 			} <span class="kw">else</span> {
 				<span class="ident">floor1_y</span>.<span class="ident">push</span>(<span class="number">0</span>);
 			}
@@ -1432,20 +1429,20 @@ This module decodes the audio packets given to it.
 }
 
 <span class="kw">fn</span> <span class="ident">extr_neighbor</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">v</span> :<span class="kw-2">&amp;</span>[<span class="ident">u32</span>], <span class="ident">max_idx</span> :<span class="ident">usize</span>,
-		<span class="ident">compare</span> :<span class="ident">F</span>, <span class="ident">relation</span> :<span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="ident">u32</span>)
-		<span class="kw">where</span> <span class="ident">F</span> :<span class="ident">Fn</span>(<span class="ident">u32</span>, <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">Ordering</span> {
-	<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">Ordering</span>;
+		<span class="ident">compare</span> :<span class="ident">F</span>, <span class="ident">relation</span> :<span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; (<span class="ident">usize</span>, <span class="ident">u32</span>)
+		<span class="kw">where</span> <span class="ident">F</span> :<span class="ident">Fn</span>(<span class="ident">u32</span>, <span class="ident">u32</span>) -&gt; <span class="ident">std::cmp::Ordering</span> {
+	<span class="kw">use</span> <span class="ident">std::cmp::Ordering</span>;
 
 	<span class="kw">let</span> <span class="ident">bound</span> <span class="op">=</span> <span class="ident">v</span>[<span class="ident">max_idx</span>];
 	<span class="kw">let</span> <span class="ident">prefix</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">v</span>[..<span class="ident">max_idx</span>];
-	<span class="kw">let</span> <span class="ident">smaller</span> <span class="op">=</span> <span class="op">|</span><span class="ident">a</span>, <span class="ident">b</span><span class="op">|</span> <span class="ident">compare</span>(<span class="ident">a</span>, <span class="ident">b</span>) <span class="op">=</span><span class="op">=</span> <span class="ident">Ordering</span>::<span class="ident">Less</span>;
+	<span class="kw">let</span> <span class="ident">smaller</span> <span class="op">=</span> <span class="op">|</span><span class="ident">a</span>, <span class="ident">b</span><span class="op">|</span> <span class="ident">compare</span>(<span class="ident">a</span>, <span class="ident">b</span>) <span class="op">==</span> <span class="ident">Ordering::Less</span>;
 
 	<span class="comment">// First find a first index that fulfills</span>
 	<span class="comment">// the criterion of being &quot;smaller&quot; than bound</span>
 	<span class="kw">let</span> <span class="ident">min_idx</span> <span class="op">=</span> <span class="ident">prefix</span>.<span class="ident">iter</span>()
 		.<span class="ident">position</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">val</span><span class="op">|</span> <span class="ident">smaller</span>(<span class="ident">val</span>, <span class="ident">bound</span>))
 		.<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span>
-			<span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;No index y &lt; {0} found where v[y] is {1} than v[{0}] = 0x{2:08x}!&quot;</span>,
+			<span class="macro">panic!</span>(<span class="string">&quot;No index y &lt; {0} found where v[y] is {1} than v[{0}] = 0x{2:08x}!&quot;</span>,
 				<span class="ident">max_idx</span>, <span class="ident">relation</span>, <span class="ident">bound</span>));
 
 	<span class="comment">// Now search for &quot;bigger&quot; entries</span>
@@ -1463,12 +1460,12 @@ This module decodes the audio packets given to it.
 	(<span class="ident">min_idx</span> <span class="op">+</span> <span class="ident">offset</span>, <span class="ident">max_neighbor</span>)
 }
 
-<span class="kw">fn</span> <span class="ident">low_neighbor</span>(<span class="ident">v</span> :<span class="kw-2">&amp;</span>[<span class="ident">u32</span>], <span class="ident">x</span> :<span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="ident">u32</span>) {
+<span class="kw">fn</span> <span class="ident">low_neighbor</span>(<span class="ident">v</span> :<span class="kw-2">&amp;</span>[<span class="ident">u32</span>], <span class="ident">x</span> :<span class="ident">usize</span>) -&gt; (<span class="ident">usize</span>, <span class="ident">u32</span>) {
 	<span class="ident">extr_neighbor</span>(<span class="ident">v</span>, <span class="ident">x</span>, <span class="op">|</span><span class="ident">a</span>, <span class="ident">b</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">b</span>), <span class="string">&quot;smaller&quot;</span>)
 }
 
 
-<span class="kw">fn</span> <span class="ident">high_neighbor</span>(<span class="ident">v</span> :<span class="kw-2">&amp;</span>[<span class="ident">u32</span>], <span class="ident">x</span> :<span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="ident">u32</span>) {
+<span class="kw">fn</span> <span class="ident">high_neighbor</span>(<span class="ident">v</span> :<span class="kw-2">&amp;</span>[<span class="ident">u32</span>], <span class="ident">x</span> :<span class="ident">usize</span>) -&gt; (<span class="ident">usize</span>, <span class="ident">u32</span>) {
 	<span class="ident">extr_neighbor</span>(<span class="ident">v</span>, <span class="ident">x</span>, <span class="op">|</span><span class="ident">a</span>, <span class="ident">b</span><span class="op">|</span> <span class="ident">b</span>.<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">a</span>), <span class="string">&quot;bigger&quot;</span>)
 }
 
@@ -1476,11 +1473,11 @@ This module decodes the audio packets given to it.
 <span class="kw">fn</span> <span class="ident">test_low_neighbor</span>() {
 	<span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> [<span class="number">1</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">5</span>];
 	<span class="comment">// 0 will panic</span>
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">low_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">1</span>), (<span class="number">0</span>, <span class="number">1</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">low_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">2</span>), (<span class="number">0</span>, <span class="number">1</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">low_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">3</span>), (<span class="number">2</span>, <span class="number">2</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">low_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">4</span>), (<span class="number">1</span>, <span class="number">4</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">low_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">5</span>), (<span class="number">1</span>, <span class="number">4</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">low_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">1</span>), (<span class="number">0</span>, <span class="number">1</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">low_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">2</span>), (<span class="number">0</span>, <span class="number">1</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">low_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">3</span>), (<span class="number">2</span>, <span class="number">2</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">low_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">4</span>), (<span class="number">1</span>, <span class="number">4</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">low_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">5</span>), (<span class="number">1</span>, <span class="number">4</span>));
 }
 
 
@@ -1488,10 +1485,10 @@ This module decodes the audio packets given to it.
 <span class="kw">fn</span> <span class="ident">test_high_neighbor</span>() {
 	<span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> [<span class="number">1</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">5</span>];
 	<span class="comment">// 0, 1 will panic</span>
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">2</span>), (<span class="number">1</span>, <span class="number">4</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">3</span>), (<span class="number">1</span>, <span class="number">4</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">2</span>), (<span class="number">1</span>, <span class="number">4</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">3</span>), (<span class="number">1</span>, <span class="number">4</span>));
 	<span class="comment">// 4 will panic</span>
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">5</span>), (<span class="number">4</span>, <span class="number">6</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">5</span>), (<span class="number">4</span>, <span class="number">6</span>));
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1501,23 +1498,23 @@ This module decodes the audio packets given to it.
 		<span class="number">33</span>, <span class="number">70</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">10</span>, <span class="number">14</span>, <span class="number">19</span>, <span class="number">28</span>, <span class="number">39</span>, <span class="number">58</span>, <span class="number">90</span>];
 
 	<span class="comment">// 0, 1 will panic</span>
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">2</span>), (<span class="number">1</span>, <span class="number">128</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">3</span>), (<span class="number">1</span>, <span class="number">128</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">4</span>), (<span class="number">2</span>, <span class="number">12</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">5</span>), (<span class="number">2</span>, <span class="number">12</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">6</span>), (<span class="number">3</span>, <span class="number">46</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">7</span>), (<span class="number">3</span>, <span class="number">46</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">8</span>), (<span class="number">3</span>, <span class="number">46</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">9</span>), (<span class="number">1</span>, <span class="number">128</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">10</span>), (<span class="number">4</span>, <span class="number">4</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">11</span>), (<span class="number">5</span>, <span class="number">8</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">12</span>), (<span class="number">2</span>, <span class="number">12</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">13</span>), (<span class="number">6</span>, <span class="number">16</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">14</span>), (<span class="number">7</span>, <span class="number">23</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">15</span>), (<span class="number">8</span>, <span class="number">33</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">16</span>), (<span class="number">3</span>, <span class="number">46</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">17</span>), (<span class="number">9</span>, <span class="number">70</span>));
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">18</span>), (<span class="number">1</span>, <span class="number">128</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">2</span>), (<span class="number">1</span>, <span class="number">128</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">3</span>), (<span class="number">1</span>, <span class="number">128</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">4</span>), (<span class="number">2</span>, <span class="number">12</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">5</span>), (<span class="number">2</span>, <span class="number">12</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">6</span>), (<span class="number">3</span>, <span class="number">46</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">7</span>), (<span class="number">3</span>, <span class="number">46</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">8</span>), (<span class="number">3</span>, <span class="number">46</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">9</span>), (<span class="number">1</span>, <span class="number">128</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">10</span>), (<span class="number">4</span>, <span class="number">4</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">11</span>), (<span class="number">5</span>, <span class="number">8</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">12</span>), (<span class="number">2</span>, <span class="number">12</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">13</span>), (<span class="number">6</span>, <span class="number">16</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">14</span>), (<span class="number">7</span>, <span class="number">23</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">15</span>), (<span class="number">8</span>, <span class="number">33</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">16</span>), (<span class="number">3</span>, <span class="number">46</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">17</span>), (<span class="number">9</span>, <span class="number">70</span>));
+	<span class="macro">assert_eq!</span>(<span class="ident">high_neighbor</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>, <span class="number">18</span>), (<span class="number">1</span>, <span class="number">128</span>));
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1532,7 +1529,7 @@ This module decodes the audio packets given to it.
 	<span class="ident">low_neighbor</span>(<span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">6</span>, <span class="number">5</span>], <span class="number">3</span>);
 }
 
-<span class="kw">fn</span> <span class="ident">render_point</span>(<span class="ident">x0</span> :<span class="ident">u32</span>, <span class="ident">y0</span> :<span class="ident">u32</span>, <span class="ident">x1</span> :<span class="ident">u32</span>, <span class="ident">y1</span> :<span class="ident">u32</span>, <span class="ident">x</span> :<span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+<span class="kw">fn</span> <span class="ident">render_point</span>(<span class="ident">x0</span> :<span class="ident">u32</span>, <span class="ident">y0</span> :<span class="ident">u32</span>, <span class="ident">x1</span> :<span class="ident">u32</span>, <span class="ident">y1</span> :<span class="ident">u32</span>, <span class="ident">x</span> :<span class="ident">u32</span>) -&gt; <span class="ident">u32</span> {
 	<span class="comment">// TODO find out whether the type choices in this method are okay</span>
 	<span class="comment">// (esp. the i32 choice).</span>
 	<span class="kw">let</span> <span class="ident">dy</span> <span class="op">=</span> <span class="ident">y1</span> <span class="kw">as</span> <span class="ident">i32</span> <span class="op">-</span> <span class="ident">y0</span> <span class="kw">as</span> <span class="ident">i32</span>;
@@ -1550,32 +1547,32 @@ This module decodes the audio packets given to it.
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">test_render_point</span>() {
 	<span class="comment">// Test data taken from real life ogg/vorbis file.</span>
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">render_point</span>(<span class="number">0</span>, <span class="number">28</span>, <span class="number">128</span>, <span class="number">67</span>, <span class="number">12</span>), <span class="number">31</span>);
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">render_point</span>(<span class="number">12</span>, <span class="number">38</span>, <span class="number">128</span>, <span class="number">67</span>, <span class="number">46</span>), <span class="number">46</span>);
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">render_point</span>(<span class="number">0</span>, <span class="number">28</span>, <span class="number">12</span>, <span class="number">38</span>, <span class="number">4</span>), <span class="number">31</span>);
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">render_point</span>(<span class="number">4</span>, <span class="number">33</span>, <span class="number">12</span>, <span class="number">38</span>, <span class="number">8</span>), <span class="number">35</span>);
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">render_point</span>(<span class="number">12</span>, <span class="number">38</span>, <span class="number">46</span>, <span class="number">31</span>, <span class="number">16</span>), <span class="number">38</span>);
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">render_point</span>(<span class="number">16</span>, <span class="number">30</span>, <span class="number">46</span>, <span class="number">31</span>, <span class="number">23</span>), <span class="number">30</span>);
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">render_point</span>(<span class="number">23</span>, <span class="number">40</span>, <span class="number">46</span>, <span class="number">31</span>, <span class="number">33</span>), <span class="number">37</span>);
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">render_point</span>(<span class="number">46</span>, <span class="number">31</span>, <span class="number">128</span>, <span class="number">67</span>, <span class="number">70</span>), <span class="number">41</span>);
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">render_point</span>(<span class="number">0</span>, <span class="number">28</span>, <span class="number">4</span>, <span class="number">33</span>, <span class="number">2</span>), <span class="number">30</span>);
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">render_point</span>(<span class="number">4</span>, <span class="number">33</span>, <span class="number">8</span>, <span class="number">43</span>, <span class="number">6</span>), <span class="number">38</span>);
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">render_point</span>(<span class="number">8</span>, <span class="number">43</span>, <span class="number">12</span>, <span class="number">38</span>, <span class="number">10</span>), <span class="number">41</span>);
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">render_point</span>(<span class="number">12</span>, <span class="number">38</span>, <span class="number">16</span>, <span class="number">30</span>, <span class="number">14</span>), <span class="number">34</span>);
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">render_point</span>(<span class="number">16</span>, <span class="number">30</span>, <span class="number">23</span>, <span class="number">40</span>, <span class="number">19</span>), <span class="number">34</span>);
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">render_point</span>(<span class="number">23</span>, <span class="number">40</span>, <span class="number">33</span>, <span class="number">26</span>, <span class="number">28</span>), <span class="number">33</span>);
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">render_point</span>(<span class="number">33</span>, <span class="number">26</span>, <span class="number">46</span>, <span class="number">31</span>, <span class="number">39</span>), <span class="number">28</span>);
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">render_point</span>(<span class="number">46</span>, <span class="number">31</span>, <span class="number">70</span>, <span class="number">20</span>, <span class="number">58</span>), <span class="number">26</span>);
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">render_point</span>(<span class="number">70</span>, <span class="number">20</span>, <span class="number">128</span>, <span class="number">67</span>, <span class="number">90</span>), <span class="number">36</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">render_point</span>(<span class="number">0</span>, <span class="number">28</span>, <span class="number">128</span>, <span class="number">67</span>, <span class="number">12</span>), <span class="number">31</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">render_point</span>(<span class="number">12</span>, <span class="number">38</span>, <span class="number">128</span>, <span class="number">67</span>, <span class="number">46</span>), <span class="number">46</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">render_point</span>(<span class="number">0</span>, <span class="number">28</span>, <span class="number">12</span>, <span class="number">38</span>, <span class="number">4</span>), <span class="number">31</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">render_point</span>(<span class="number">4</span>, <span class="number">33</span>, <span class="number">12</span>, <span class="number">38</span>, <span class="number">8</span>), <span class="number">35</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">render_point</span>(<span class="number">12</span>, <span class="number">38</span>, <span class="number">46</span>, <span class="number">31</span>, <span class="number">16</span>), <span class="number">38</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">render_point</span>(<span class="number">16</span>, <span class="number">30</span>, <span class="number">46</span>, <span class="number">31</span>, <span class="number">23</span>), <span class="number">30</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">render_point</span>(<span class="number">23</span>, <span class="number">40</span>, <span class="number">46</span>, <span class="number">31</span>, <span class="number">33</span>), <span class="number">37</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">render_point</span>(<span class="number">46</span>, <span class="number">31</span>, <span class="number">128</span>, <span class="number">67</span>, <span class="number">70</span>), <span class="number">41</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">render_point</span>(<span class="number">0</span>, <span class="number">28</span>, <span class="number">4</span>, <span class="number">33</span>, <span class="number">2</span>), <span class="number">30</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">render_point</span>(<span class="number">4</span>, <span class="number">33</span>, <span class="number">8</span>, <span class="number">43</span>, <span class="number">6</span>), <span class="number">38</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">render_point</span>(<span class="number">8</span>, <span class="number">43</span>, <span class="number">12</span>, <span class="number">38</span>, <span class="number">10</span>), <span class="number">41</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">render_point</span>(<span class="number">12</span>, <span class="number">38</span>, <span class="number">16</span>, <span class="number">30</span>, <span class="number">14</span>), <span class="number">34</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">render_point</span>(<span class="number">16</span>, <span class="number">30</span>, <span class="number">23</span>, <span class="number">40</span>, <span class="number">19</span>), <span class="number">34</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">render_point</span>(<span class="number">23</span>, <span class="number">40</span>, <span class="number">33</span>, <span class="number">26</span>, <span class="number">28</span>), <span class="number">33</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">render_point</span>(<span class="number">33</span>, <span class="number">26</span>, <span class="number">46</span>, <span class="number">31</span>, <span class="number">39</span>), <span class="number">28</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">render_point</span>(<span class="number">46</span>, <span class="number">31</span>, <span class="number">70</span>, <span class="number">20</span>, <span class="number">58</span>), <span class="number">26</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">render_point</span>(<span class="number">70</span>, <span class="number">20</span>, <span class="number">128</span>, <span class="number">67</span>, <span class="number">90</span>), <span class="number">36</span>);
 }
 
-<span class="kw">fn</span> <span class="ident">floor_one_curve_compute_amplitude</span>(<span class="ident">floor1_y</span> :<span class="kw-2">&amp;</span>[<span class="ident">u32</span>], <span class="ident">fl</span> :<span class="kw-2">&amp;</span><span class="ident">FloorTypeOne</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>) {
+<span class="kw">fn</span> <span class="ident">floor_one_curve_compute_amplitude</span>(<span class="ident">floor1_y</span> :<span class="kw-2">&amp;</span>[<span class="ident">u32</span>], <span class="ident">fl</span> :<span class="kw-2">&amp;</span><span class="ident">FloorTypeOne</span>) -&gt; (<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>) {
 	<span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[<span class="number">256</span>, <span class="number">128</span>, <span class="number">86</span>, <span class="number">64</span>];
 	<span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">v</span>[(<span class="ident">fl</span>.<span class="ident">floor1_multiplier</span> <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">usize</span>] <span class="kw">as</span> <span class="ident">i32</span>;
-	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">floor1_step2_flag</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">floor1_step2_flag</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 	<span class="ident">floor1_step2_flag</span>.<span class="ident">push</span>(<span class="bool-val">true</span>);
 	<span class="ident">floor1_step2_flag</span>.<span class="ident">push</span>(<span class="bool-val">true</span>);
-	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">floor1_final_y</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">floor1_final_y</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 	<span class="ident">floor1_final_y</span>.<span class="ident">push</span>(<span class="ident">floor1_y</span>[<span class="number">0</span>]);
 	<span class="ident">floor1_final_y</span>.<span class="ident">push</span>(<span class="ident">floor1_y</span>[<span class="number">1</span>]);
 
@@ -1600,7 +1597,7 @@ This module decodes the audio packets given to it.
 					<span class="ident">predicted</span> <span class="op">-</span> <span class="ident">val</span> <span class="op">+</span> <span class="ident">highroom</span> <span class="op">-</span> <span class="number">1</span>
 				}
 			} <span class="kw">else</span> {
-				<span class="ident">predicted</span> <span class="op">+</span> (<span class="kw">if</span> <span class="ident">val</span> <span class="op">%</span> <span class="number">2</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+				<span class="ident">predicted</span> <span class="op">+</span> (<span class="kw">if</span> <span class="ident">val</span> <span class="op">%</span> <span class="number">2</span> <span class="op">==</span> <span class="number">1</span> {
 					<span class="op">-</span> <span class="ident">val</span> <span class="op">-</span> <span class="number">1</span> } <span class="kw">else</span> { <span class="ident">val</span> } <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">1</span>)
 			} <span class="kw">as</span> <span class="ident">u32</span>);
 		} <span class="kw">else</span> {
@@ -1609,7 +1606,7 @@ This module decodes the audio packets given to it.
 		}
 	}
 	<span class="comment">// Clamp all entries of floor1_final_y to range</span>
-	<span class="kw">for</span> <span class="ident">el</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">floor1_final_y</span> {
+	<span class="kw">for</span> <span class="ident">el</span> <span class="kw">in</span> <span class="kw-2">&amp;mut</span> <span class="ident">floor1_final_y</span> {
 		<span class="kw-2">*</span><span class="ident">el</span> <span class="op">=</span> <span class="ident">min</span>(<span class="ident">range</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">-</span> <span class="number">1</span>, <span class="kw-2">*</span><span class="ident">el</span>);
 	}
 	<span class="kw">return</span> (<span class="ident">floor1_final_y</span>, <span class="ident">floor1_step2_flag</span>);
@@ -1681,7 +1678,7 @@ This module decodes the audio packets given to it.
 	<span class="number">0.64356699</span>,    <span class="number">0.68538959</span>,    <span class="number">0.72993007</span>,    <span class="number">0.77736504</span>,
 	<span class="number">0.82788260</span>,    <span class="number">0.88168307</span>,    <span class="number">0.9389798</span>,     <span class="number">1.</span>];
 
-<span class="kw">fn</span> <span class="ident">render_line</span>(<span class="ident">x0</span> :<span class="ident">u32</span>, <span class="ident">y0</span> :<span class="ident">u32</span>, <span class="ident">x1</span> :<span class="ident">u32</span>, <span class="ident">y1</span> :<span class="ident">u32</span>, <span class="ident">v</span> :<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>) {
+<span class="kw">fn</span> <span class="ident">render_line</span>(<span class="ident">x0</span> :<span class="ident">u32</span>, <span class="ident">y0</span> :<span class="ident">u32</span>, <span class="ident">x1</span> :<span class="ident">u32</span>, <span class="ident">y1</span> :<span class="ident">u32</span>, <span class="ident">v</span> :<span class="kw-2">&amp;mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>) {
 	<span class="comment">// TODO find out whether the type choices in this method are okay</span>
 	<span class="kw">let</span> <span class="ident">dy</span> <span class="op">=</span> <span class="ident">y1</span> <span class="kw">as</span> <span class="ident">i32</span> <span class="op">-</span> <span class="ident">y0</span> <span class="kw">as</span> <span class="ident">i32</span>;
 	<span class="kw">let</span> <span class="ident">adx</span> <span class="op">=</span> <span class="ident">x1</span> <span class="kw">as</span> <span class="ident">i32</span> <span class="op">-</span> <span class="ident">x0</span> <span class="kw">as</span> <span class="ident">i32</span>;
@@ -1705,7 +1702,7 @@ This module decodes the audio packets given to it.
 }
 
 <span class="kw">fn</span> <span class="ident">floor_one_curve_synthesis</span>(<span class="ident">floor1_final_y</span> :<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
-		<span class="ident">floor1_step2_flag</span> :<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>, <span class="ident">fl</span> :<span class="kw-2">&amp;</span><span class="ident">FloorTypeOne</span>, <span class="ident">n</span> :<span class="ident">u16</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span> {
+		<span class="ident">floor1_step2_flag</span> :<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>, <span class="ident">fl</span> :<span class="kw-2">&amp;</span><span class="ident">FloorTypeOne</span>, <span class="ident">n</span> :<span class="ident">u16</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span> {
 	<span class="kw">let</span> <span class="ident">floor1_final_y_s</span> <span class="op">=</span> <span class="op">|</span><span class="ident">i</span> :<span class="ident">usize</span><span class="op">|</span> { <span class="ident">floor1_final_y</span>[<span class="ident">fl</span>.<span class="ident">floor1_x_list_sorted</span>[<span class="ident">i</span>].<span class="number">0</span>] };
 	<span class="kw">let</span> <span class="ident">floor1_x_list_s</span> <span class="op">=</span> <span class="op">|</span><span class="ident">i</span> :<span class="ident">usize</span><span class="op">|</span> { <span class="ident">fl</span>.<span class="ident">floor1_x_list_sorted</span>[<span class="ident">i</span>].<span class="number">1</span> };
 	<span class="kw">let</span> <span class="ident">floor1_step2_flag_s</span> <span class="op">=</span> <span class="op">|</span><span class="ident">i</span> :<span class="ident">usize</span><span class="op">|</span> {
@@ -1713,19 +1710,19 @@ This module decodes the audio packets given to it.
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hx</span> <span class="op">=</span> <span class="number">0</span>;
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">lx</span> <span class="op">=</span> <span class="number">0</span>;
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hy</span> <span class="op">=</span> <span class="number">0</span>;
-	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">floor</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span>);
+	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">floor</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span>);
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ly</span> <span class="op">=</span> <span class="ident">floor1_final_y_s</span>(<span class="number">0</span>) <span class="op">*</span> <span class="ident">fl</span>.<span class="ident">floor1_multiplier</span> <span class="kw">as</span> <span class="ident">u32</span>;
 	<span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">1</span> .. <span class="ident">fl</span>.<span class="ident">floor1_x_list</span>.<span class="ident">len</span>() {
 		<span class="kw">if</span> <span class="ident">floor1_step2_flag_s</span>(<span class="ident">i</span>) {
 			<span class="ident">hy</span> <span class="op">=</span> <span class="ident">floor1_final_y_s</span>(<span class="ident">i</span>) <span class="op">*</span> <span class="ident">fl</span>.<span class="ident">floor1_multiplier</span> <span class="kw">as</span> <span class="ident">u32</span>;
 			<span class="ident">hx</span> <span class="op">=</span> <span class="ident">floor1_x_list_s</span>(<span class="ident">i</span>);
-			<span class="ident">render_line</span>(<span class="ident">lx</span>, <span class="ident">ly</span>, <span class="ident">hx</span>, <span class="ident">hy</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">floor</span>);
+			<span class="ident">render_line</span>(<span class="ident">lx</span>, <span class="ident">ly</span>, <span class="ident">hx</span>, <span class="ident">hy</span>, <span class="kw-2">&amp;mut</span> <span class="ident">floor</span>);
 			<span class="ident">lx</span> <span class="op">=</span> <span class="ident">hx</span>;
 			<span class="ident">ly</span> <span class="op">=</span> <span class="ident">hy</span>;
 		}
 	}
 	<span class="kw">if</span> <span class="ident">hx</span> <span class="op">&lt;</span> <span class="ident">n</span> <span class="kw">as</span> <span class="ident">u32</span> {
-		<span class="ident">render_line</span>(<span class="ident">hx</span>, <span class="ident">hy</span>, <span class="ident">n</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">hy</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">floor</span>);
+		<span class="ident">render_line</span>(<span class="ident">hx</span>, <span class="ident">hy</span>, <span class="ident">n</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">hy</span>, <span class="kw-2">&amp;mut</span> <span class="ident">floor</span>);
 	} <span class="kw">else</span> <span class="kw">if</span> <span class="ident">hx</span> <span class="op">&gt;</span> <span class="ident">n</span> <span class="kw">as</span> <span class="ident">u32</span> {
 		<span class="ident">floor</span>.<span class="ident">truncate</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span>);
 	}
@@ -1735,28 +1732,28 @@ This module decodes the audio packets given to it.
 		.<span class="ident">collect</span>()
 }
 
-<span class="kw">fn</span> <span class="ident">floor_decode</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">rdr</span> :<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">BitpackCursor</span>,
+<span class="kw">fn</span> <span class="ident">floor_decode</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">rdr</span> :<span class="kw-2">&amp;mut</span> <span class="ident">BitpackCursor</span>,
 		<span class="ident">ident</span> :<span class="kw-2">&amp;</span><span class="ident">IdentHeader</span>, <span class="ident">mapping</span> :<span class="kw-2">&amp;</span><span class="ident">Mapping</span>, <span class="ident">codebooks</span> :<span class="kw-2">&amp;</span>[<span class="ident">Codebook</span>],
-		<span class="ident">floors</span> :<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">Floor</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">DecodedFloor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>, ()<span class="op">&gt;</span> {
-	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">decoded_floor_infos</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">ident</span>.<span class="ident">audio_channels</span> <span class="kw">as</span> <span class="ident">usize</span>);
+		<span class="ident">floors</span> :<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">Floor</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">DecodedFloor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>, ()<span class="op">&gt;</span> {
+	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">decoded_floor_infos</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="ident">ident</span>.<span class="ident">audio_channels</span> <span class="kw">as</span> <span class="ident">usize</span>);
 	<span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">ident</span>.<span class="ident">audio_channels</span> <span class="kw">as</span> <span class="ident">usize</span> {
 		<span class="kw">let</span> <span class="ident">submap_number</span> <span class="op">=</span> <span class="ident">mapping</span>.<span class="ident">mapping_mux</span>[<span class="ident">i</span>] <span class="kw">as</span> <span class="ident">usize</span>;
 		<span class="kw">let</span> <span class="ident">floor_number</span> <span class="op">=</span> <span class="ident">mapping</span>.<span class="ident">mapping_submap_floors</span>[<span class="ident">submap_number</span>];
 		<span class="kw">let</span> <span class="ident">floor</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">floors</span>[<span class="ident">floor_number</span> <span class="kw">as</span> <span class="ident">usize</span>];
-		<span class="kw">use</span> <span class="self">self</span>::<span class="ident">FloorSpecialCase</span>::<span class="kw-2">*</span>;
+		<span class="kw">use</span> <span class="ident"><span class="self">self</span>::FloorSpecialCase</span>::<span class="kw-2">*</span>;
 		<span class="kw">let</span> <span class="ident">floor_res</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">floor</span> {
-			<span class="kw-2">&amp;</span><span class="ident">Floor</span>::<span class="ident">TypeZero</span>(<span class="kw-2">ref</span> <span class="ident">fl</span>) <span class="op">=</span><span class="op">&gt;</span> {
+			<span class="kw-2">&amp;</span><span class="ident">Floor::TypeZero</span>(<span class="kw-2">ref</span> <span class="ident">fl</span>) =&gt; {
 				<span class="kw">match</span> <span class="ident">floor_zero_decode</span>(<span class="ident">rdr</span>, <span class="ident">codebooks</span>, <span class="ident">fl</span>) {
-					<span class="prelude-val">Ok</span>((<span class="ident">coeff</span>, <span class="ident">amp</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DecodedFloor</span>::<span class="ident">TypeZero</span>(<span class="ident">coeff</span>, <span class="ident">amp</span>, <span class="ident">fl</span>),
-					<span class="prelude-val">Err</span>(<span class="ident">Unused</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DecodedFloor</span>::<span class="ident">Unused</span>,
-					<span class="prelude-val">Err</span>(<span class="ident">PacketUndecodable</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="prelude-val">Err</span>(())),
+					<span class="prelude-val">Ok</span>((<span class="ident">coeff</span>, <span class="ident">amp</span>)) =&gt; <span class="ident">DecodedFloor::TypeZero</span>(<span class="ident">coeff</span>, <span class="ident">amp</span>, <span class="ident">fl</span>),
+					<span class="prelude-val">Err</span>(<span class="ident">Unused</span>) =&gt; <span class="ident">DecodedFloor::Unused</span>,
+					<span class="prelude-val">Err</span>(<span class="ident">PacketUndecodable</span>) =&gt; <span class="macro">try!</span>(<span class="prelude-val">Err</span>(())),
 				}
 			},
-			<span class="kw-2">&amp;</span><span class="ident">Floor</span>::<span class="ident">TypeOne</span>(<span class="kw-2">ref</span> <span class="ident">fl</span>) <span class="op">=</span><span class="op">&gt;</span> {
+			<span class="kw-2">&amp;</span><span class="ident">Floor::TypeOne</span>(<span class="kw-2">ref</span> <span class="ident">fl</span>) =&gt; {
 				<span class="kw">match</span> <span class="ident">floor_one_decode</span>(<span class="ident">rdr</span>, <span class="ident">codebooks</span>, <span class="ident">fl</span>) {
-					<span class="prelude-val">Ok</span>(<span class="ident">dfl</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DecodedFloor</span>::<span class="ident">TypeOne</span>(<span class="ident">dfl</span>, <span class="ident">fl</span>),
-					<span class="prelude-val">Err</span>(<span class="ident">Unused</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DecodedFloor</span>::<span class="ident">Unused</span>,
-					<span class="prelude-val">Err</span>(<span class="ident">PacketUndecodable</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="prelude-val">Err</span>(())),
+					<span class="prelude-val">Ok</span>(<span class="ident">dfl</span>) =&gt; <span class="ident">DecodedFloor::TypeOne</span>(<span class="ident">dfl</span>, <span class="ident">fl</span>),
+					<span class="prelude-val">Err</span>(<span class="ident">Unused</span>) =&gt; <span class="ident">DecodedFloor::Unused</span>,
+					<span class="prelude-val">Err</span>(<span class="ident">PacketUndecodable</span>) =&gt; <span class="macro">try!</span>(<span class="prelude-val">Err</span>(())),
 				}
 			},
 		};
@@ -1765,13 +1762,13 @@ This module decodes the audio packets given to it.
 	<span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">decoded_floor_infos</span>);
 }
 
-<span class="kw">fn</span> <span class="ident">residue_packet_read_partition</span>(<span class="ident">rdr</span> :<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">BitpackCursor</span>, <span class="ident">codebook</span> :<span class="kw-2">&amp;</span><span class="ident">Codebook</span>,
-		<span class="ident">resid</span> :<span class="kw-2">&amp;</span><span class="ident">Residue</span>, <span class="ident">vec_v</span> :<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">f32</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HuffmanVqReadErr</span><span class="op">&gt;</span> {
-	<span class="kw">if</span> <span class="ident">resid</span>.<span class="ident">residue_type</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+<span class="kw">fn</span> <span class="ident">residue_packet_read_partition</span>(<span class="ident">rdr</span> :<span class="kw-2">&amp;mut</span> <span class="ident">BitpackCursor</span>, <span class="ident">codebook</span> :<span class="kw-2">&amp;</span><span class="ident">Codebook</span>,
+		<span class="ident">resid</span> :<span class="kw-2">&amp;</span><span class="ident">Residue</span>, <span class="ident">vec_v</span> :<span class="kw-2">&amp;mut</span> [<span class="ident">f32</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HuffmanVqReadErr</span><span class="op">&gt;</span> {
+	<span class="kw">if</span> <span class="ident">resid</span>.<span class="ident">residue_type</span> <span class="op">==</span> <span class="number">0</span> {
 		<span class="kw">let</span> <span class="ident">codebook_dimensions</span> <span class="op">=</span> <span class="ident">codebook</span>.<span class="ident">codebook_dimensions</span> <span class="kw">as</span> <span class="ident">usize</span>;
 		<span class="kw">let</span> <span class="ident">step</span> <span class="op">=</span> <span class="ident">resid</span>.<span class="ident">residue_partition_size</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">/</span> <span class="ident">codebook_dimensions</span>;
 		<span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">step</span> {
-			<span class="kw">let</span> <span class="ident">entry_temp</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_huffman_vq</span>(<span class="ident">codebook</span>));
+			<span class="kw">let</span> <span class="ident">entry_temp</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_huffman_vq</span>(<span class="ident">codebook</span>));
 			<span class="kw">for</span> (<span class="ident">j</span>, <span class="ident">e</span>) <span class="kw">in</span> <span class="ident">entry_temp</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
 				<span class="ident">vec_v</span>[<span class="ident">i</span> <span class="op">+</span> <span class="ident">j</span> <span class="op">*</span> <span class="ident">step</span>] <span class="op">+</span><span class="op">=</span> <span class="kw-2">*</span><span class="ident">e</span>;
 			}
@@ -1781,7 +1778,7 @@ This module decodes the audio packets given to it.
 		<span class="kw">let</span> <span class="ident">partition_size</span> <span class="op">=</span> <span class="ident">resid</span>.<span class="ident">residue_partition_size</span> <span class="kw">as</span> <span class="ident">usize</span>;
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
 		<span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">partition_size</span> {
-			<span class="kw">let</span> <span class="ident">entries</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_huffman_vq</span>(<span class="ident">codebook</span>));
+			<span class="kw">let</span> <span class="ident">entries</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_huffman_vq</span>(<span class="ident">codebook</span>));
 			<span class="kw">let</span> <span class="ident">vs</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">vs</span>) <span class="op">=</span> <span class="ident">vec_v</span>.<span class="ident">get_mut</span>(<span class="ident">i</span>..(<span class="ident">i</span> <span class="op">+</span> <span class="ident">entries</span>.<span class="ident">len</span>())) {
 				<span class="ident">vs</span>
 			} <span class="kw">else</span> {
@@ -1798,8 +1795,8 @@ This module decodes the audio packets given to it.
 	<span class="prelude-val">Ok</span>(())
 }
 
-<span class="kw">fn</span> <span class="ident">residue_packet_decode_inner</span>(<span class="ident">rdr</span> :<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">BitpackCursor</span>, <span class="ident">cur_blocksize</span> :<span class="ident">u16</span>,
-		<span class="ident">do_not_decode_flag</span> :<span class="kw-2">&amp;</span>[<span class="ident">bool</span>], <span class="ident">resid</span> :<span class="kw-2">&amp;</span><span class="ident">Residue</span>, <span class="ident">codebooks</span> :<span class="kw-2">&amp;</span>[<span class="ident">Codebook</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>, ()<span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">residue_packet_decode_inner</span>(<span class="ident">rdr</span> :<span class="kw-2">&amp;mut</span> <span class="ident">BitpackCursor</span>, <span class="ident">cur_blocksize</span> :<span class="ident">u16</span>,
+		<span class="ident">do_not_decode_flag</span> :<span class="kw-2">&amp;</span>[<span class="ident">bool</span>], <span class="ident">resid</span> :<span class="kw-2">&amp;</span><span class="ident">Residue</span>, <span class="ident">codebooks</span> :<span class="kw-2">&amp;</span>[<span class="ident">Codebook</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>, ()<span class="op">&gt;</span> {
 
 	<span class="kw">let</span> <span class="ident">ch</span> <span class="op">=</span> <span class="ident">do_not_decode_flag</span>.<span class="ident">len</span>();
 	<span class="kw">let</span> <span class="ident">actual_size</span> <span class="op">=</span> (<span class="ident">cur_blocksize</span> <span class="op">/</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">usize</span>;
@@ -1818,38 +1815,38 @@ This module decodes the audio packets given to it.
 	<span class="kw">let</span> <span class="ident">residue_classbok_ht</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">cur_codebook</span>.<span class="ident">codebook_huffman_tree</span>;
 
 	<span class="comment">// Allocate and zero all vectors that will be returned</span>
-	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">vectors</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0.</span>; <span class="ident">ch</span> <span class="op">*</span> <span class="ident">actual_size</span>];
+	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">vectors</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0.</span>; <span class="ident">ch</span> <span class="op">*</span> <span class="ident">actual_size</span>];
 
-	<span class="kw">if</span> <span class="ident">n_to_read</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+	<span class="kw">if</span> <span class="ident">n_to_read</span> <span class="op">==</span> <span class="number">0</span> {
 		<span class="comment">// No residue to decode</span>
 		<span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">vectors</span>);
 	}
 
-	<span class="kw">if</span> <span class="ident">classwords_per_codeword</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+	<span class="kw">if</span> <span class="ident">classwords_per_codeword</span> <span class="op">==</span> <span class="number">0</span> {
 		<span class="comment">// A value of 0 would create an infinite loop.</span>
 		<span class="comment">// Therefore, throw an error in this case.</span>
-		<span class="macro">try</span><span class="macro">!</span>(<span class="prelude-val">Err</span>(()));
+		<span class="macro">try!</span>(<span class="prelude-val">Err</span>(()));
 	}
 
 	<span class="lifetime">&#39;pseudo_return</span>: <span class="kw">loop</span> {
 		<span class="comment">// ENdofpacketisnOrmal macro. Local replacement for try.</span>
-		<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">eno</span> {
-			(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">expr</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">expr</span> {
-				<span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span>::<span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">val</span>,
-				<span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span>::<span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">break</span> <span class="lifetime">&#39;pseudo_return</span>,
+		<span class="macro">macro_rules!</span> <span class="ident">eno</span> {
+			(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">expr</span>:<span class="ident">expr</span>) =&gt; (<span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">expr</span> {
+				<span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::std::result::Result::Ok</span>(<span class="ident">val</span>) =&gt; <span class="ident">val</span>,
+				<span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::std::result::Result::Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">break</span> <span class="lifetime">&#39;pseudo_return</span>,
 			})
 		}
 		<span class="kw">let</span> <span class="ident">cl_stride</span> :<span class="ident">usize</span> <span class="op">=</span> <span class="ident">partitions_to_read</span> <span class="op">+</span> <span class="ident">classwords_per_codeword</span>;
-		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">classifications</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">ch</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">cl_stride</span>];
+		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">classifications</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0</span>; <span class="ident">ch</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">cl_stride</span>];
 		<span class="kw">for</span> <span class="ident">pass</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="number">8</span> {
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">partition_count</span> <span class="op">=</span> <span class="number">0</span>;
 			<span class="kw">while</span> <span class="ident">partition_count</span> <span class="op">&lt;</span> <span class="ident">partitions_to_read</span> {
-				<span class="kw">if</span> <span class="ident">pass</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+				<span class="kw">if</span> <span class="ident">pass</span> <span class="op">==</span> <span class="number">0</span> {
 					<span class="kw">for</span> (<span class="ident">j</span>, <span class="ident">do_not_decode</span>) <span class="kw">in</span> <span class="ident">do_not_decode_flag</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
 						<span class="kw">if</span> <span class="kw-2">*</span><span class="ident">do_not_decode</span> {
 							<span class="kw">continue</span>;
 						}
-						<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span> <span class="op">=</span> <span class="macro">eno</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_huffman</span>(<span class="ident">residue_classbok_ht</span>));
+						<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span> <span class="op">=</span> <span class="macro">eno!</span>(<span class="ident">rdr</span>.<span class="ident">read_huffman</span>(<span class="ident">residue_classbok_ht</span>));
 						<span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> (<span class="number">0</span> .. <span class="ident">classwords_per_codeword</span>).<span class="ident">rev</span>() {
 							<span class="ident">classifications</span>[<span class="ident">j</span> <span class="op">*</span> <span class="ident">cl_stride</span> <span class="op">+</span> <span class="ident">i</span> <span class="op">+</span> <span class="ident">partition_count</span>] <span class="op">=</span>
 							<span class="ident">temp</span> <span class="op">%</span> <span class="ident">resid</span>.<span class="ident">residue_classifications</span> <span class="kw">as</span> <span class="ident">u32</span>;
@@ -1866,7 +1863,7 @@ This module decodes the audio packets given to it.
 							<span class="kw">continue</span>;
 						}
 						<span class="kw">let</span> <span class="ident">offs</span> <span class="op">=</span> <span class="ident">limit_residue_begin</span> <span class="op">+</span> <span class="ident">partition_count</span> <span class="op">*</span> <span class="ident">resid</span>.<span class="ident">residue_partition_size</span> <span class="kw">as</span> <span class="ident">usize</span>;
-						<span class="kw">let</span> <span class="ident">vec_j_offs</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">vectors</span>[(<span class="ident">j</span> <span class="op">*</span> <span class="ident">actual_size</span> <span class="op">+</span> <span class="ident">offs</span>) .. ((<span class="ident">j</span> <span class="op">+</span> <span class="number">1</span>) <span class="op">*</span> <span class="ident">actual_size</span>)];
+						<span class="kw">let</span> <span class="ident">vec_j_offs</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="ident">vectors</span>[(<span class="ident">j</span> <span class="op">*</span> <span class="ident">actual_size</span> <span class="op">+</span> <span class="ident">offs</span>) .. ((<span class="ident">j</span> <span class="op">+</span> <span class="number">1</span>) <span class="op">*</span> <span class="ident">actual_size</span>)];
 						<span class="kw">let</span> <span class="ident">vqclass</span> <span class="op">=</span> <span class="ident">classifications</span>[<span class="ident">j</span> <span class="op">*</span> <span class="ident">cl_stride</span> <span class="op">+</span> <span class="ident">partition_count</span>] <span class="kw">as</span> <span class="ident">usize</span>;
 						<span class="kw">let</span> <span class="ident">vqbook_opt</span> <span class="op">=</span> <span class="ident">resid</span>.<span class="ident">residue_books</span>[<span class="ident">vqclass</span>].<span class="ident">get_val</span>(<span class="ident">pass</span>);
 						<span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">vqbook</span>) <span class="op">=</span> <span class="ident">vqbook_opt</span> {
@@ -1875,13 +1872,13 @@ This module decodes the audio packets given to it.
 							<span class="comment">// Decode the partition into output vector number j (vec_j).</span>
 							<span class="kw">match</span> <span class="ident">residue_packet_read_partition</span>(<span class="ident">rdr</span>,
 									<span class="ident">codebook</span>, <span class="ident">resid</span>, <span class="ident">vec_j_offs</span>) {
-								<span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> (),
-								<span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> {
-									<span class="kw">use</span> ::<span class="ident">header</span>::<span class="ident">HuffmanVqReadErr</span>::<span class="kw-2">*</span>;
+								<span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; (),
+								<span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; {
+									<span class="kw">use</span> <span class="ident">::header::HuffmanVqReadErr</span>::<span class="kw-2">*</span>;
 									<span class="kw">match</span> <span class="ident">err</span> {
-										<span class="ident">EndOfPacket</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">break</span> <span class="lifetime">&#39;pseudo_return</span>,
-										<span class="ident">NoVqLookupForCodebook</span> <span class="op">=</span><span class="op">&gt;</span>
-											<span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Codebook must have a value mapping&quot;</span>),
+										<span class="ident">EndOfPacket</span> =&gt; <span class="kw">break</span> <span class="lifetime">&#39;pseudo_return</span>,
+										<span class="ident">NoVqLookupForCodebook</span> =&gt;
+											<span class="macro">panic!</span>(<span class="string">&quot;Codebook must have a value mapping&quot;</span>),
 									}
 								},
 							}
@@ -1900,13 +1897,13 @@ This module decodes the audio packets given to it.
 
 <span class="comment">// Ok means &quot;fine&quot; (or end of packet, but thats &quot;fine&quot; too!),</span>
 <span class="comment">// Err means &quot;not fine&quot; -- the whole packet must be discarded</span>
-<span class="kw">fn</span> <span class="ident">residue_packet_decode</span>(<span class="ident">rdr</span> :<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">BitpackCursor</span>, <span class="ident">cur_blocksize</span> :<span class="ident">u16</span>,
-		<span class="ident">do_not_decode_flag</span> :<span class="kw-2">&amp;</span>[<span class="ident">bool</span>], <span class="ident">resid</span> :<span class="kw-2">&amp;</span><span class="ident">Residue</span>, <span class="ident">codebooks</span> :<span class="kw-2">&amp;</span>[<span class="ident">Codebook</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>, ()<span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">residue_packet_decode</span>(<span class="ident">rdr</span> :<span class="kw-2">&amp;mut</span> <span class="ident">BitpackCursor</span>, <span class="ident">cur_blocksize</span> :<span class="ident">u16</span>,
+		<span class="ident">do_not_decode_flag</span> :<span class="kw-2">&amp;</span>[<span class="ident">bool</span>], <span class="ident">resid</span> :<span class="kw-2">&amp;</span><span class="ident">Residue</span>, <span class="ident">codebooks</span> :<span class="kw-2">&amp;</span>[<span class="ident">Codebook</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>, ()<span class="op">&gt;</span> {
 
 	<span class="kw">let</span> <span class="ident">ch</span> <span class="op">=</span> <span class="ident">do_not_decode_flag</span>.<span class="ident">len</span>();
 	<span class="kw">let</span> <span class="ident">vec_size</span> <span class="op">=</span> (<span class="ident">cur_blocksize</span> <span class="op">/</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">usize</span>;
 
-	<span class="kw">if</span> <span class="ident">resid</span>.<span class="ident">residue_type</span> <span class="op">=</span><span class="op">=</span> <span class="number">2</span> {
+	<span class="kw">if</span> <span class="ident">resid</span>.<span class="ident">residue_type</span> <span class="op">==</span> <span class="number">2</span> {
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">to_decode_found</span> <span class="op">=</span> <span class="bool-val">false</span>;
 		<span class="kw">for</span> <span class="ident">do_not_decode</span> <span class="kw">in</span> <span class="ident">do_not_decode_flag</span> {
 			<span class="kw">if</span> <span class="op">!</span><span class="ident">do_not_decode</span> {
@@ -1917,17 +1914,17 @@ This module decodes the audio packets given to it.
 		<span class="kw">if</span> <span class="op">!</span><span class="ident">to_decode_found</span> {
 			<span class="comment">// Don&#39;t attempt to decode, but return vectors,</span>
 			<span class="comment">// as required per spec only residue 2 has this.</span>
-			<span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="number">0.</span>; <span class="ident">ch</span> <span class="op">*</span> <span class="ident">vec_size</span>]);
+			<span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="macro">vec!</span>[<span class="number">0.</span>; <span class="ident">ch</span> <span class="op">*</span> <span class="ident">vec_size</span>]);
 		} <span class="kw">else</span> {
 			<span class="comment">// Construct a do_not_decode flag array</span>
 			<span class="kw">let</span> <span class="ident">c_do_not_decode_flag</span> <span class="op">=</span> [<span class="bool-val">false</span>];
 
-			<span class="kw">let</span> <span class="ident">vectors</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">residue_packet_decode_inner</span>(<span class="ident">rdr</span>,
+			<span class="kw">let</span> <span class="ident">vectors</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">residue_packet_decode_inner</span>(<span class="ident">rdr</span>,
 				<span class="ident">cur_blocksize</span> <span class="op">*</span> <span class="ident">ch</span> <span class="kw">as</span> <span class="ident">u16</span>, <span class="kw-2">&amp;</span><span class="ident">c_do_not_decode_flag</span>,
 				<span class="ident">resid</span>, <span class="ident">codebooks</span>));
 
 			<span class="comment">// Post decode step</span>
-			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">vectors_deinterleaved</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">ch</span> <span class="op">*</span> <span class="ident">vec_size</span>);
+			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">vectors_deinterleaved</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="ident">ch</span> <span class="op">*</span> <span class="ident">vec_size</span>);
 			<span class="kw">for</span> <span class="ident">j</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">ch</span> {
 				<span class="kw">let</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">vectors</span>.<span class="ident">chunks</span>(<span class="ident">ch</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">chunk</span><span class="op">|</span> <span class="ident">chunk</span>[<span class="ident">j</span>]);
 				<span class="ident">vectors_deinterleaved</span>.<span class="ident">extend</span>(<span class="ident">iter</span>);
@@ -1941,7 +1938,7 @@ This module decodes the audio packets given to it.
 }
 
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">inverse_couple</span>(<span class="ident">m</span> :<span class="ident">f32</span>, <span class="ident">a</span> :<span class="ident">f32</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">f32</span>, <span class="ident">f32</span>) {
+<span class="kw">fn</span> <span class="ident">inverse_couple</span>(<span class="ident">m</span> :<span class="ident">f32</span>, <span class="ident">a</span> :<span class="ident">f32</span>) -&gt; (<span class="ident">f32</span>, <span class="ident">f32</span>) {
 	<span class="kw">if</span> <span class="ident">m</span> <span class="op">&gt;</span> <span class="number">0.</span> {
 		<span class="kw">if</span> <span class="ident">a</span> <span class="op">&gt;</span> <span class="number">0.</span> {
 			(<span class="ident">m</span>, <span class="ident">m</span> <span class="op">-</span> <span class="ident">a</span>)
@@ -1959,23 +1956,23 @@ This module decodes the audio packets given to it.
 
 <span class="comment">// TODO this is probably slower than a replacement of</span>
 <span class="comment">// this function in unsafe code, no idea</span>
-<span class="kw">fn</span> <span class="ident">dual_mut_idx</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">v</span> :<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>], <span class="ident">idx_a</span> :<span class="ident">usize</span>, <span class="ident">idx_b</span> :<span class="ident">usize</span>)
-		<span class="op">-</span><span class="op">&gt;</span> (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>) {
-	<span class="macro">assert_ne</span><span class="macro">!</span>(<span class="ident">idx_a</span>, <span class="ident">idx_b</span>, <span class="string">&quot;not allowed, indices must be different!&quot;</span>);
+<span class="kw">fn</span> <span class="ident">dual_mut_idx</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">v</span> :<span class="kw-2">&amp;mut</span> [<span class="ident">T</span>], <span class="ident">idx_a</span> :<span class="ident">usize</span>, <span class="ident">idx_b</span> :<span class="ident">usize</span>)
+		-&gt; (<span class="kw-2">&amp;mut</span> <span class="ident">T</span>, <span class="kw-2">&amp;mut</span> <span class="ident">T</span>) {
+	<span class="macro">assert_ne!</span>(<span class="ident">idx_a</span>, <span class="ident">idx_b</span>, <span class="string">&quot;not allowed, indices must be different!&quot;</span>);
 
 	<span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">idx_a</span> <span class="op">&lt;</span> <span class="ident">idx_b</span> { <span class="ident">idx_a</span>..<span class="ident">idx_b</span><span class="op">+</span><span class="number">1</span> } <span class="kw">else</span> { <span class="ident">idx_b</span>..<span class="ident">idx_a</span><span class="op">+</span><span class="number">1</span> };
-	<span class="kw">let</span> <span class="ident">segment</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">v</span>[<span class="ident">range</span>];
+	<span class="kw">let</span> <span class="ident">segment</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="ident">v</span>[<span class="ident">range</span>];
 	<span class="kw">let</span> (<span class="ident">first</span>, <span class="ident">rest</span>) <span class="op">=</span> <span class="ident">segment</span>.<span class="ident">split_first_mut</span>().<span class="ident">unwrap</span>();
 	<span class="kw">let</span> (<span class="ident">last</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">rest</span>.<span class="ident">split_last_mut</span>().<span class="ident">unwrap</span>();
 	(<span class="ident">first</span>, <span class="ident">last</span>)
 }
 
-<span class="kw">fn</span> <span class="ident">dct_iv_slow</span>(<span class="ident">buffer</span> :<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">f32</span>]) {
+<span class="kw">fn</span> <span class="ident">dct_iv_slow</span>(<span class="ident">buffer</span> :<span class="kw-2">&amp;mut</span> [<span class="ident">f32</span>]) {
 	<span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">to_vec</span>();
 	<span class="kw">let</span> <span class="ident">n</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">len</span>();
 	<span class="kw">let</span> <span class="ident">nmask</span> <span class="op">=</span> (<span class="ident">n</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">3</span>) <span class="op">-</span> <span class="number">1</span>;
 	<span class="kw">let</span> <span class="ident">mcos</span> <span class="op">=</span> (<span class="number">0</span> .. <span class="number">8</span> <span class="op">*</span> <span class="ident">n</span>)
-		.<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> (<span class="ident">std</span>::<span class="ident">f32</span>::<span class="ident">consts</span>::<span class="ident">FRAC_PI_4</span> <span class="op">*</span> (<span class="ident">i</span> <span class="kw">as</span> <span class="ident">f32</span>) <span class="op">/</span> (<span class="ident">n</span> <span class="kw">as</span> <span class="ident">f32</span>)).<span class="ident">cos</span>())
+		.<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> (<span class="ident">std::f32::consts::FRAC_PI_4</span> <span class="op">*</span> (<span class="ident">i</span> <span class="kw">as</span> <span class="ident">f32</span>) <span class="op">/</span> (<span class="ident">n</span> <span class="kw">as</span> <span class="ident">f32</span>)).<span class="ident">cos</span>())
 		.<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
 	<span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">n</span> {
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">acc</span> <span class="op">=</span> <span class="number">0.</span>;
@@ -1987,13 +1984,13 @@ This module decodes the audio packets given to it.
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
-<span class="kw">fn</span> <span class="ident">inverse_mdct_slow</span>(<span class="ident">buffer</span> :<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">f32</span>]) {
+<span class="kw">fn</span> <span class="ident">inverse_mdct_slow</span>(<span class="ident">buffer</span> :<span class="kw-2">&amp;mut</span> [<span class="ident">f32</span>]) {
 	<span class="kw">let</span> <span class="ident">n</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">len</span>();
 	<span class="kw">let</span> <span class="ident">n4</span> <span class="op">=</span> <span class="ident">n</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">2</span>;
 	<span class="kw">let</span> <span class="ident">n2</span> <span class="op">=</span> <span class="ident">n</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">1</span>;
 	<span class="kw">let</span> <span class="ident">n3_4</span> <span class="op">=</span> <span class="ident">n</span> <span class="op">-</span> <span class="ident">n4</span>;
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">temp</span> <span class="op">=</span> <span class="ident">buffer</span>[<span class="number">0</span> .. <span class="ident">n2</span>].<span class="ident">to_vec</span>();
-	<span class="ident">dct_iv_slow</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">temp</span>); <span class="comment">// returns -c&#39;-d, a-b&#39;</span>
+	<span class="ident">dct_iv_slow</span>(<span class="kw-2">&amp;mut</span> <span class="ident">temp</span>); <span class="comment">// returns -c&#39;-d, a-b&#39;</span>
 	<span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">n4</span> {
 		<span class="ident">buffer</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="ident">temp</span>[<span class="ident">i</span> <span class="op">+</span> <span class="ident">n4</span>]; <span class="comment">// a-b&#39;</span>
 	}
@@ -2010,13 +2007,13 @@ This module decodes the audio packets given to it.
 <span class="kw">fn</span> <span class="ident">test_imdct_slow</span>() {
 	<span class="kw">use</span> <span class="ident">imdct_test</span>::<span class="kw-2">*</span>;
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">arr_1</span> <span class="op">=</span> <span class="ident">imdct_prepare</span>(<span class="kw-2">&amp;</span><span class="ident">IMDCT_INPUT_TEST_ARR_1</span>);
-	<span class="ident">inverse_mdct_slow</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">arr_1</span>);
+	<span class="ident">inverse_mdct_slow</span>(<span class="kw-2">&amp;mut</span> <span class="ident">arr_1</span>);
 	<span class="kw">let</span> <span class="ident">mismatches</span> <span class="op">=</span> <span class="ident">fuzzy_compare_array</span>(
 		<span class="kw-2">&amp;</span><span class="ident">arr_1</span>, <span class="kw-2">&amp;</span><span class="ident">IMDCT_OUTPUT_TEST_ARR_1</span>,
 		<span class="number">0.00005</span>, <span class="bool-val">true</span>);
 	<span class="kw">let</span> <span class="ident">mismatches_limit</span> <span class="op">=</span> <span class="number">0</span>;
 	<span class="kw">if</span> <span class="ident">mismatches</span> <span class="op">&gt;</span> <span class="ident">mismatches_limit</span> {
-		<span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Numer of mismatches {} was larger than limit of {}&quot;</span>,
+		<span class="macro">panic!</span>(<span class="string">&quot;Numer of mismatches {} was larger than limit of {}&quot;</span>,
 			<span class="ident">mismatches</span>, <span class="ident">mismatches_limit</span>);
 	}
 }
@@ -2031,11 +2028,11 @@ This module decodes the audio packets given to it.
 
 <span class="kw">impl</span> <span class="ident">PreviousWindowRight</span> {
 	<span class="doccomment">/// Initialisation for new streams</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="self">Self</span> {
 		<span class="kw">return</span> <span class="ident">PreviousWindowRight</span>{ <span class="ident">data</span> : <span class="prelude-val">None</span> };
 	}
 	<span class="doccomment">/// If the state is still uninitialized</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
 		<span class="self">self</span>.<span class="ident">data</span>.<span class="ident">is_none</span>()
 	}
 }
@@ -2052,17 +2049,17 @@ Please use the `PreviousWindowRight::is_empty` function or other methods
 to check for this case.
 */</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_decoded_sample_count</span>(<span class="ident">ident</span> :<span class="kw-2">&amp;</span><span class="ident">IdentHeader</span>, <span class="ident">setup</span> :<span class="kw-2">&amp;</span><span class="ident">SetupHeader</span>, <span class="ident">packet</span> :<span class="kw-2">&amp;</span>[<span class="ident">u8</span>])
-		<span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">AudioReadError</span><span class="op">&gt;</span> {
-	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rdr</span> <span class="op">=</span> <span class="ident">BitpackCursor</span>::<span class="ident">new</span>(<span class="ident">packet</span>);
-	<span class="kw">if</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_bit_flag</span>()) {
-		<span class="macro">try</span><span class="macro">!</span>(<span class="prelude-val">Err</span>(<span class="ident">AudioReadError</span>::<span class="ident">AudioIsHeader</span>));
+		-&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">AudioReadError</span><span class="op">&gt;</span> {
+	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rdr</span> <span class="op">=</span> <span class="ident">BitpackCursor::new</span>(<span class="ident">packet</span>);
+	<span class="kw">if</span> <span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_bit_flag</span>()) {
+		<span class="macro">try!</span>(<span class="prelude-val">Err</span>(<span class="ident">AudioReadError::AudioIsHeader</span>));
 	}
-	<span class="kw">let</span> <span class="ident">mode_number</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_dyn_u8</span>(<span class="ident">ilog</span>(<span class="ident">setup</span>.<span class="ident">modes</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span> <span class="op">-</span> <span class="number">1</span>)));
+	<span class="kw">let</span> <span class="ident">mode_number</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_dyn_u8</span>(<span class="ident">ilog</span>(<span class="ident">setup</span>.<span class="ident">modes</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span> <span class="op">-</span> <span class="number">1</span>)));
 	<span class="kw">let</span> <span class="ident">mode</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">setup</span>.<span class="ident">modes</span>[<span class="ident">mode_number</span> <span class="kw">as</span> <span class="ident">usize</span>];
 	<span class="kw">let</span> <span class="ident">bs</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">mode</span>.<span class="ident">mode_blockflag</span> { <span class="ident">ident</span>.<span class="ident">blocksize_1</span> } <span class="kw">else</span> { <span class="ident">ident</span>.<span class="ident">blocksize_0</span> };
 	<span class="kw">let</span> <span class="ident">n</span> :<span class="ident">u16</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">bs</span>;
 	<span class="kw">let</span> <span class="ident">previous_next_window_flag</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">mode</span>.<span class="ident">mode_blockflag</span> {
-		<span class="prelude-val">Some</span>((<span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_bit_flag</span>()), <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_bit_flag</span>())))
+		<span class="prelude-val">Some</span>((<span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_bit_flag</span>()), <span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_bit_flag</span>())))
 	} <span class="kw">else</span> {
 		<span class="prelude-val">None</span>
 	};
@@ -2097,32 +2094,32 @@ Pass your info to this function to get your raw packet data decoded.
 Panics if the passed PreviousWindowRight struct doesn&#39;t match the info
 from the ident header.
 */</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_audio_packet_generic</span><span class="op">&lt;</span><span class="ident">S</span> :<span class="ident">Samples</span><span class="op">&gt;</span>(<span class="ident">ident</span> :<span class="kw-2">&amp;</span><span class="ident">IdentHeader</span>, <span class="ident">setup</span> :<span class="kw-2">&amp;</span><span class="ident">SetupHeader</span>, <span class="ident">packet</span> :<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">pwr</span> :<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">PreviousWindowRight</span>)
-		<span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">AudioReadError</span><span class="op">&gt;</span> {
-	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rdr</span> <span class="op">=</span> <span class="ident">BitpackCursor</span>::<span class="ident">new</span>(<span class="ident">packet</span>);
-	<span class="kw">if</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_bit_flag</span>()) {
-		<span class="macro">try</span><span class="macro">!</span>(<span class="prelude-val">Err</span>(<span class="ident">AudioReadError</span>::<span class="ident">AudioIsHeader</span>));
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_audio_packet_generic</span><span class="op">&lt;</span><span class="ident">S</span> :<span class="ident">Samples</span><span class="op">&gt;</span>(<span class="ident">ident</span> :<span class="kw-2">&amp;</span><span class="ident">IdentHeader</span>, <span class="ident">setup</span> :<span class="kw-2">&amp;</span><span class="ident">SetupHeader</span>, <span class="ident">packet</span> :<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">pwr</span> :<span class="kw-2">&amp;mut</span> <span class="ident">PreviousWindowRight</span>)
+		-&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">AudioReadError</span><span class="op">&gt;</span> {
+	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rdr</span> <span class="op">=</span> <span class="ident">BitpackCursor::new</span>(<span class="ident">packet</span>);
+	<span class="kw">if</span> <span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_bit_flag</span>()) {
+		<span class="macro">try!</span>(<span class="prelude-val">Err</span>(<span class="ident">AudioReadError::AudioIsHeader</span>));
 	}
-	<span class="kw">let</span> <span class="ident">mode_number</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_dyn_u8</span>(<span class="ident">ilog</span>(<span class="ident">setup</span>.<span class="ident">modes</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span> <span class="op">-</span> <span class="number">1</span>)));
+	<span class="kw">let</span> <span class="ident">mode_number</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_dyn_u8</span>(<span class="ident">ilog</span>(<span class="ident">setup</span>.<span class="ident">modes</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span> <span class="op">-</span> <span class="number">1</span>)));
 	<span class="kw">let</span> <span class="ident">mode</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">mode</span>) <span class="op">=</span> <span class="ident">setup</span>.<span class="ident">modes</span>.<span class="ident">get</span>(<span class="ident">mode_number</span> <span class="kw">as</span> <span class="ident">usize</span>) {
 		<span class="ident">mode</span>
 	} <span class="kw">else</span> {
-		<span class="macro">try</span><span class="macro">!</span>(<span class="prelude-val">Err</span>(<span class="ident">AudioReadError</span>::<span class="ident">AudioBadFormat</span>))
+		<span class="macro">try!</span>(<span class="prelude-val">Err</span>(<span class="ident">AudioReadError::AudioBadFormat</span>))
 	};
 	<span class="kw">let</span> <span class="ident">mapping</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">setup</span>.<span class="ident">mappings</span>[<span class="ident">mode</span>.<span class="ident">mode_mapping</span> <span class="kw">as</span> <span class="ident">usize</span>];
 	<span class="kw">let</span> <span class="ident">bs</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">mode</span>.<span class="ident">mode_blockflag</span> { <span class="ident">ident</span>.<span class="ident">blocksize_1</span> } <span class="kw">else</span> { <span class="ident">ident</span>.<span class="ident">blocksize_0</span> };
 	<span class="kw">let</span> <span class="ident">n</span> :<span class="ident">u16</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">bs</span>;
 	<span class="kw">let</span> <span class="ident">previous_next_window_flag</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">mode</span>.<span class="ident">mode_blockflag</span> {
-		<span class="prelude-val">Some</span>((<span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_bit_flag</span>()), <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_bit_flag</span>())))
+		<span class="prelude-val">Some</span>((<span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_bit_flag</span>()), <span class="macro">try!</span>(<span class="ident">rdr</span>.<span class="ident">read_bit_flag</span>())))
 	} <span class="kw">else</span> {
 		<span class="prelude-val">None</span>
 	};
 	<span class="comment">// Decode the floors</span>
-	<span class="kw">let</span> <span class="ident">decoded_floor_infos</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">floor_decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">rdr</span>, <span class="ident">ident</span>, <span class="ident">mapping</span>,
+	<span class="kw">let</span> <span class="ident">decoded_floor_infos</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">floor_decode</span>(<span class="kw-2">&amp;mut</span> <span class="ident">rdr</span>, <span class="ident">ident</span>, <span class="ident">mapping</span>,
 		<span class="kw-2">&amp;</span><span class="ident">setup</span>.<span class="ident">codebooks</span>, <span class="kw-2">&amp;</span><span class="ident">setup</span>.<span class="ident">floors</span>));
 
 	<span class="comment">// Now calculate the no_residue vector</span>
-	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">no_residue</span> <span class="op">=</span> <span class="ident">TinyVec</span>::<span class="op">&lt;</span>[<span class="ident">bool</span>; <span class="number">32</span>]<span class="op">&gt;</span>::<span class="ident">new</span>();
+	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">no_residue</span> <span class="op">=</span> <span class="ident">TinyVec</span>::<span class="op">&lt;</span>[<span class="ident">bool</span>; <span class="number">32</span>]<span class="op">&gt;</span><span class="ident">::new</span>();
 	<span class="kw">for</span> <span class="ident">fl</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">decoded_floor_infos</span> {
 		<span class="ident">no_residue</span>.<span class="ident">push</span>(<span class="ident">fl</span>.<span class="ident">is_unused</span>());
 	}
@@ -2136,27 +2133,27 @@ from the ident header.
 	}
 
 	<span class="comment">// Residue decode.</span>
-	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">residue_vectors</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="macro">vec</span><span class="macro">!</span>[]; <span class="ident">mapping</span>.<span class="ident">mapping_mux</span>.<span class="ident">len</span>()];
+	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">residue_vectors</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="macro">vec!</span>[]; <span class="ident">mapping</span>.<span class="ident">mapping_mux</span>.<span class="ident">len</span>()];
 	<span class="comment">// Helper variable</span>
 	<span class="kw">let</span> <span class="ident">resid_vec_len</span> <span class="op">=</span> (<span class="ident">n</span> <span class="op">/</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">usize</span>;
 	<span class="kw">for</span> (<span class="ident">i</span>, <span class="kw-2">&amp;</span><span class="ident">residue_number</span>) <span class="kw">in</span> <span class="ident">mapping</span>.<span class="ident">mapping_submap_residues</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">do_not_decode_flag</span> <span class="op">=</span> <span class="ident">TinyVec</span>::<span class="op">&lt;</span>[<span class="ident">bool</span>; <span class="number">32</span>]<span class="op">&gt;</span>::<span class="ident">new</span>();
+		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">do_not_decode_flag</span> <span class="op">=</span> <span class="ident">TinyVec</span>::<span class="op">&lt;</span>[<span class="ident">bool</span>; <span class="number">32</span>]<span class="op">&gt;</span><span class="ident">::new</span>();
 		<span class="kw">for</span> (<span class="ident">j</span>, <span class="kw-2">&amp;</span><span class="ident">mapping_mux_j</span>) <span class="kw">in</span> <span class="ident">mapping</span>.<span class="ident">mapping_mux</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-			<span class="kw">if</span> <span class="ident">mapping_mux_j</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">=</span><span class="op">=</span> <span class="ident">i</span> {
+			<span class="kw">if</span> <span class="ident">mapping_mux_j</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">==</span> <span class="ident">i</span> {
 				<span class="ident">do_not_decode_flag</span>.<span class="ident">push</span>(<span class="ident">no_residue</span>[<span class="ident">j</span>]);
 			}
 		}
 		<span class="kw">let</span> <span class="ident">cur_residue</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">setup</span>.<span class="ident">residues</span>[<span class="ident">residue_number</span> <span class="kw">as</span> <span class="ident">usize</span>];
-		<span class="kw">let</span> <span class="ident">vectors</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">residue_packet_decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">rdr</span>, <span class="ident">n</span>,
+		<span class="kw">let</span> <span class="ident">vectors</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">residue_packet_decode</span>(<span class="kw-2">&amp;mut</span> <span class="ident">rdr</span>, <span class="ident">n</span>,
 				<span class="kw-2">&amp;</span><span class="ident">do_not_decode_flag</span>, <span class="ident">cur_residue</span>, <span class="kw-2">&amp;</span><span class="ident">setup</span>.<span class="ident">codebooks</span>) {
-			<span class="prelude-val">Ok</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">v</span>,
-			<span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">AudioReadError</span>::<span class="ident">AudioBadFormat</span>),
+			<span class="prelude-val">Ok</span>(<span class="ident">v</span>) =&gt; <span class="ident">v</span>,
+			<span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">AudioReadError::AudioBadFormat</span>),
 		};
 		<span class="comment">// The vectors Vec&lt;f32&gt; now contains the do_not_decode_flag.len()</span>
 		<span class="comment">// many decoded residue vectors, each vector occupying n/2 scalars.</span>
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ch</span> <span class="op">=</span> <span class="number">0</span>;
 		<span class="kw">for</span> (<span class="ident">j</span>, <span class="kw-2">&amp;</span><span class="ident">mapping_mux_j</span>) <span class="kw">in</span> <span class="ident">mapping</span>.<span class="ident">mapping_mux</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-			<span class="kw">if</span> <span class="ident">mapping_mux_j</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">=</span><span class="op">=</span> <span class="ident">i</span> {
+			<span class="kw">if</span> <span class="ident">mapping_mux_j</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">==</span> <span class="ident">i</span> {
 				<span class="comment">// TODO get rid of this copy somehow...</span>
 				<span class="kw">let</span> <span class="ident">vec_at_ch</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">vectors</span>[<span class="ident">resid_vec_len</span> <span class="op">*</span> <span class="ident">ch</span> .. <span class="ident">resid_vec_len</span> <span class="op">*</span> (<span class="ident">ch</span> <span class="op">+</span> <span class="number">1</span>)];
 				<span class="ident">residue_vectors</span>[<span class="ident">j</span>].<span class="ident">clear</span>();
@@ -2166,12 +2163,12 @@ from the ident header.
 		}
 	}
 
-	<span class="macro">record_residue_pre_inverse</span><span class="macro">!</span>(<span class="ident">residue_vectors</span>);
+	<span class="macro">record_residue_pre_inverse!</span>(<span class="ident">residue_vectors</span>);
 
 	<span class="comment">// Inverse coupling</span>
 	<span class="kw">for</span> (<span class="kw-2">&amp;</span><span class="ident">mag</span>, <span class="kw-2">&amp;</span><span class="ident">angle</span>) <span class="kw">in</span>
 			<span class="ident">mapping</span>.<span class="ident">mapping_magnitudes</span>.<span class="ident">iter</span>().<span class="ident">rev</span>().<span class="ident">zip</span>(<span class="ident">mapping</span>.<span class="ident">mapping_angles</span>.<span class="ident">iter</span>().<span class="ident">rev</span>()) {
-		<span class="kw">let</span> (<span class="ident">mag_vector</span>, <span class="ident">angle_vector</span>) <span class="op">=</span> <span class="ident">dual_mut_idx</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">residue_vectors</span>,
+		<span class="kw">let</span> (<span class="ident">mag_vector</span>, <span class="ident">angle_vector</span>) <span class="op">=</span> <span class="ident">dual_mut_idx</span>(<span class="kw-2">&amp;mut</span> <span class="ident">residue_vectors</span>,
 			<span class="ident">mag</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">angle</span> <span class="kw">as</span> <span class="ident">usize</span>);
 		<span class="kw">for</span> (<span class="ident">m</span>, <span class="ident">a</span>) <span class="kw">in</span> <span class="ident">mag_vector</span>.<span class="ident">iter_mut</span>().<span class="ident">zip</span>(<span class="ident">angle_vector</span>.<span class="ident">iter_mut</span>()) {
 			<span class="comment">// https://github.com/rust-lang/rfcs/issues/372</span>
@@ -2182,26 +2179,26 @@ from the ident header.
 		}
 	}
 
-	<span class="macro">record_residue_post_inverse</span><span class="macro">!</span>(<span class="ident">residue_vectors</span>);
+	<span class="macro">record_residue_post_inverse!</span>(<span class="ident">residue_vectors</span>);
 
 	<span class="comment">// Dot product</span>
-	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">audio_spectri</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">ident</span>.<span class="ident">audio_channels</span> <span class="kw">as</span> <span class="ident">usize</span>);
+	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">audio_spectri</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="ident">ident</span>.<span class="ident">audio_channels</span> <span class="kw">as</span> <span class="ident">usize</span>);
 	<span class="kw">for</span> (<span class="ident">residue_vector</span>, <span class="ident">chan_decoded_floor</span>) <span class="kw">in</span>
 			<span class="ident">residue_vectors</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">decoded_floor_infos</span>.<span class="ident">iter</span>()) {
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">floor_decoded</span> :<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">chan_decoded_floor</span> {
-			<span class="kw-2">&amp;</span><span class="ident">DecodedFloor</span>::<span class="ident">TypeZero</span>(<span class="kw-2">ref</span> <span class="ident">coefficients</span>, <span class="ident">amplitude</span>, <span class="kw-2">ref</span> <span class="ident">fl</span>) <span class="op">=</span><span class="op">&gt;</span> {
+			<span class="kw-2">&amp;</span><span class="ident">DecodedFloor::TypeZero</span>(<span class="kw-2">ref</span> <span class="ident">coefficients</span>, <span class="ident">amplitude</span>, <span class="kw-2">ref</span> <span class="ident">fl</span>) =&gt; {
 				<span class="ident">floor_zero_compute_curve</span>(<span class="ident">coefficients</span>, <span class="ident">amplitude</span>,
 					<span class="ident">fl</span>, <span class="ident">mode</span>.<span class="ident">mode_blockflag</span>, <span class="ident">n</span> <span class="op">/</span> <span class="number">2</span>)
 			},
-			<span class="kw-2">&amp;</span><span class="ident">DecodedFloor</span>::<span class="ident">TypeOne</span>(<span class="kw-2">ref</span> <span class="ident">floor_y</span>, <span class="kw-2">ref</span> <span class="ident">fl</span>) <span class="op">=</span><span class="op">&gt;</span> {
+			<span class="kw-2">&amp;</span><span class="ident">DecodedFloor::TypeOne</span>(<span class="kw-2">ref</span> <span class="ident">floor_y</span>, <span class="kw-2">ref</span> <span class="ident">fl</span>) =&gt; {
 				<span class="kw">let</span> (<span class="ident">floor1_final_y</span>, <span class="ident">floor1_step2_flag</span>) <span class="op">=</span>
 					<span class="ident">floor_one_curve_compute_amplitude</span>(<span class="ident">floor_y</span>, <span class="ident">fl</span>);
 				<span class="ident">floor_one_curve_synthesis</span>(<span class="ident">floor1_final_y</span>,
 					<span class="ident">floor1_step2_flag</span>, <span class="ident">fl</span>, <span class="ident">n</span> <span class="op">/</span> <span class="number">2</span>)
 			},
-			<span class="kw-2">&amp;</span><span class="ident">DecodedFloor</span>::<span class="ident">Unused</span> <span class="op">=</span><span class="op">&gt;</span> {
+			<span class="kw-2">&amp;</span><span class="ident">DecodedFloor::Unused</span> =&gt; {
 				<span class="comment">// Generate zero&#39;d floor of length n/2</span>
-				<span class="macro">vec</span><span class="macro">!</span>[<span class="number">0.</span>; (<span class="ident">n</span> <span class="op">/</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">usize</span>]
+				<span class="macro">vec!</span>[<span class="number">0.</span>; (<span class="ident">n</span> <span class="op">/</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">usize</span>]
 			},
 		};
 
@@ -2209,8 +2206,8 @@ from the ident header.
 		<span class="comment">// The implementation should ensure this,</span>
 		<span class="comment">// but its good for debugging to have this</span>
 		<span class="comment">// confirmed.</span>
-		<span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">residue_vector</span>.<span class="ident">len</span>(), (<span class="ident">n</span> <span class="op">/</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">usize</span>);
-		<span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">floor_decoded</span>.<span class="ident">len</span>(), (<span class="ident">n</span> <span class="op">/</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">usize</span>);
+		<span class="macro">debug_assert_eq!</span>(<span class="ident">residue_vector</span>.<span class="ident">len</span>(), (<span class="ident">n</span> <span class="op">/</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">usize</span>);
+		<span class="macro">debug_assert_eq!</span>(<span class="ident">floor_decoded</span>.<span class="ident">len</span>(), (<span class="ident">n</span> <span class="op">/</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">usize</span>);
 
 		<span class="comment">// Now do the multiplication</span>
 		<span class="kw">for</span> (<span class="ident">fl_sc</span>, <span class="ident">r_sc</span>) <span class="kw">in</span> <span class="ident">floor_decoded</span>.<span class="ident">iter_mut</span>().<span class="ident">zip</span>(<span class="ident">residue_vector</span>.<span class="ident">iter</span>()) {
@@ -2219,20 +2216,20 @@ from the ident header.
 		<span class="ident">audio_spectri</span>.<span class="ident">push</span>(<span class="ident">floor_decoded</span>);
 	}
 
-	<span class="macro">record_pre_mdct</span><span class="macro">!</span>(<span class="ident">audio_spectri</span>);
+	<span class="macro">record_pre_mdct!</span>(<span class="ident">audio_spectri</span>);
 
 	<span class="comment">// Inverse MDCT</span>
 	<span class="kw">for</span> <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">spectrum</span> <span class="kw">in</span> <span class="ident">audio_spectri</span>.<span class="ident">iter_mut</span>() {
 		<span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> (<span class="ident">n</span> <span class="op">/</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">usize</span>;
-		<span class="kw">let</span> <span class="ident">ext</span> <span class="op">=</span> <span class="ident">iter</span>::<span class="ident">repeat</span>(<span class="number">0.</span>).<span class="ident">take</span>(<span class="ident">size</span>);
+		<span class="kw">let</span> <span class="ident">ext</span> <span class="op">=</span> <span class="ident">iter::repeat</span>(<span class="number">0.</span>).<span class="ident">take</span>(<span class="ident">size</span>);
 		<span class="ident">spectrum</span>.<span class="ident">extend</span>(<span class="ident">ext</span>);
 		<span class="kw">let</span> <span class="ident">cached_bd</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">ident</span>.<span class="ident">cached_bs_derived</span>[<span class="ident">mode</span>.<span class="ident">mode_blockflag</span> <span class="kw">as</span> <span class="ident">usize</span>];
 		<span class="comment">//imdct::inverse_mdct_naive(cached_bd, &amp;mut spectrum[..]);</span>
-		<span class="ident">imdct</span>::<span class="ident">inverse_mdct</span>(<span class="ident">cached_bd</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">spectrum</span>[..], <span class="ident">bs</span>);
+		<span class="ident">imdct::inverse_mdct</span>(<span class="ident">cached_bd</span>, <span class="kw-2">&amp;mut</span> <span class="ident">spectrum</span>[..], <span class="ident">bs</span>);
 		<span class="comment">//inverse_mdct_slow(&amp;mut spectrum[..]);</span>
 	}
 
-	<span class="macro">record_post_mdct</span><span class="macro">!</span>(<span class="ident">audio_spectri</span>);
+	<span class="macro">record_post_mdct!</span>(<span class="ident">audio_spectri</span>);
 
 	<span class="comment">// Compute windowing info for left window</span>
 	<span class="kw">let</span> <span class="ident">window_center</span> <span class="op">=</span> <span class="ident">n</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">1</span>;
@@ -2260,11 +2257,11 @@ from the ident header.
 	<span class="comment">// Overlap add and store last half</span>
 	<span class="comment">// in PreviousWindowRight</span>
 	<span class="comment">// Only add if prev has elements.</span>
-	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">future_prev_halves</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">ident</span>.<span class="ident">audio_channels</span> <span class="kw">as</span> <span class="ident">usize</span>);
+	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">future_prev_halves</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="ident">ident</span>.<span class="ident">audio_channels</span> <span class="kw">as</span> <span class="ident">usize</span>);
 	<span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">prev_data</span>) <span class="op">=</span> <span class="ident">pwr</span>.<span class="ident">data</span>.<span class="ident">take</span>() {
 		<span class="comment">// TODO maybe check if prev_n matches blocksize_0 or blocksize_1,</span>
 		<span class="comment">// and the channel number. Panic if no match of either.</span>
-		<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">audio_spectri</span>.<span class="ident">len</span>(), <span class="ident">prev_data</span>.<span class="ident">len</span>());
+		<span class="macro">assert_eq!</span>(<span class="ident">audio_spectri</span>.<span class="ident">len</span>(), <span class="ident">prev_data</span>.<span class="ident">len</span>());
 
 		<span class="kw">let</span> <span class="ident">win_slope</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">ident</span>.<span class="ident">cached_bs_derived</span>[<span class="ident">left_n_use_bs1</span> <span class="kw">as</span> <span class="ident">usize</span>].<span class="ident">window_slope</span>;
 
@@ -2288,7 +2285,7 @@ from the ident header.
 				<span class="kw">if</span> <span class="ident">win_slope</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="ident">plen</span> {
 					<span class="comment">// According to fuzzing, code can trigger this case,</span>
 					<span class="comment">// so let&#39;s error gracefully instead of panicing.</span>
-					<span class="macro">try</span><span class="macro">!</span>(<span class="prelude-val">Err</span>(<span class="ident">AudioReadError</span>::<span class="ident">AudioBadFormat</span>));
+					<span class="macro">try!</span>(<span class="prelude-val">Err</span>(<span class="ident">AudioReadError::AudioBadFormat</span>));
 				}
 				<span class="kw">let</span> <span class="ident">win_slope</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">win_slope</span>[<span class="number">0</span>..<span class="ident">plen</span>];
 				(<span class="ident">win_slope</span>.<span class="ident">iter</span>(), <span class="ident">win_slope</span>.<span class="ident">iter</span>().<span class="ident">rev</span>())
@@ -2320,7 +2317,7 @@ from the ident header.
 		}
 	} <span class="kw">else</span> {
 		<span class="kw">for</span> <span class="ident">chan</span> <span class="kw">in</span> <span class="ident">audio_spectri</span>.<span class="ident">iter_mut</span>() {
-			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">future_prev_half</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(
+			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">future_prev_half</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(
 				(<span class="ident">right_win_end</span> <span class="op">-</span> <span class="ident">right_win_start</span>) <span class="kw">as</span> <span class="ident">usize</span>);
 			<span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="ident">right_win_start</span> <span class="kw">as</span> <span class="ident">usize</span> .. <span class="ident">right_win_end</span> <span class="kw">as</span> <span class="ident">usize</span> {
 				<span class="ident">future_prev_half</span>.<span class="ident">push</span>(<span class="ident">chan</span>[<span class="ident">i</span>]);
@@ -2335,7 +2332,7 @@ from the ident header.
 	<span class="ident">pwr</span>.<span class="ident">data</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">future_prev_halves</span>);
 
 	<span class="comment">// Generate final integer samples</span>
-	<span class="kw">let</span> <span class="ident">final_i16_samples</span> <span class="op">=</span> <span class="ident">S</span>::<span class="ident">from_floats</span>(<span class="ident">audio_spectri</span>);
+	<span class="kw">let</span> <span class="ident">final_i16_samples</span> <span class="op">=</span> <span class="ident">S::from_floats</span>(<span class="ident">audio_spectri</span>);
 
 	<span class="prelude-val">Ok</span>(<span class="ident">final_i16_samples</span>)
 }
@@ -2348,10 +2345,10 @@ Pass your info to this function to get your raw packet data decoded.
 Panics if the passed PreviousWindowRight struct doesn&#39;t match the info
 from the ident header.
 */</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_audio_packet</span>(<span class="ident">ident</span> :<span class="kw-2">&amp;</span><span class="ident">IdentHeader</span>, <span class="ident">setup</span> :<span class="kw-2">&amp;</span><span class="ident">SetupHeader</span>, <span class="ident">packet</span> :<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">pwr</span> :<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">PreviousWindowRight</span>)
-		<span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">AudioReadError</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_audio_packet</span>(<span class="ident">ident</span> :<span class="kw-2">&amp;</span><span class="ident">IdentHeader</span>, <span class="ident">setup</span> :<span class="kw-2">&amp;</span><span class="ident">SetupHeader</span>, <span class="ident">packet</span> :<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">pwr</span> :<span class="kw-2">&amp;mut</span> <span class="ident">PreviousWindowRight</span>)
+		-&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">AudioReadError</span><span class="op">&gt;</span> {
 	<span class="ident">read_audio_packet_generic</span>(<span class="ident">ident</span>, <span class="ident">setup</span>, <span class="ident">packet</span>, <span class="ident">pwr</span>)
 }
-</pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="lewton" data-search-js="../../search-index.js"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="lewton" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
+</body></html>

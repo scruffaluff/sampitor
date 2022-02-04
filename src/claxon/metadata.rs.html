@@ -1,7 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/claxon-0.4.3/src/metadata.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>metadata.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../claxon/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;claxon-0.4.3&#x2F;src&#x2F;metadata.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>metadata.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../claxon/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -610,8 +608,7 @@
 <span id="607">607</span>
 <span id="608">608</span>
 <span id="609">609</span>
-</pre><div class="example-wrap"><pre class="rust ">
-<span class="comment">// Claxon -- A FLAC decoding library in Rust</span>
+</pre><pre class="rust"><code><span class="comment">// Claxon -- A FLAC decoding library in Rust</span>
 <span class="comment">// Copyright 2014 Ruud van Asseldonk</span>
 <span class="comment">//</span>
 <span class="comment">// Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
@@ -621,9 +618,9 @@
 <span class="doccomment">//! The `metadata` module deals with metadata at the beginning of a FLAC stream.</span>
 
 <span class="kw">use</span> <span class="ident">error</span>::{<span class="ident">Error</span>, <span class="prelude-ty">Result</span>, <span class="ident">fmt_err</span>};
-<span class="kw">use</span> <span class="ident">input</span>::<span class="ident">ReadBytes</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">slice</span>;
+<span class="kw">use</span> <span class="ident">input::ReadBytes</span>;
+<span class="kw">use</span> <span class="ident">std::str</span>;
+<span class="kw">use</span> <span class="ident">std::slice</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
 <span class="kw">struct</span> <span class="ident">MetadataBlockHeader</span> {
@@ -746,13 +743,13 @@
 <span class="doccomment">/// See `FlacReader::tags()` for more details.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Tags</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// The underlying iterator.</span>
-    <span class="ident">iter</span>: <span class="ident">slice</span>::<span class="ident">Iter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, (<span class="ident">String</span>, <span class="ident">usize</span>)<span class="op">&gt;</span>,
+    <span class="ident">iter</span>: <span class="ident">slice::Iter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, (<span class="ident">String</span>, <span class="ident">usize</span>)<span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Tags</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Returns a new `Tags` iterator.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">comments</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [(<span class="ident">String</span>, <span class="ident">usize</span>)]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Tags</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">comments</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [(<span class="ident">String</span>, <span class="ident">usize</span>)]) -&gt; <span class="ident">Tags</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="ident">Tags</span> {
             <span class="ident">iter</span>: <span class="ident">comments</span>.<span class="ident">iter</span>(),
         }
@@ -763,14 +760,14 @@
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>);
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>)<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>)<span class="op">&gt;</span> {
         <span class="kw">return</span> <span class="self">self</span>.<span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="kw-2">ref</span> <span class="ident">comment</span>, <span class="ident">sep_idx</span>)<span class="op">|</span> {
             (<span class="kw-2">&amp;</span><span class="ident">comment</span>[..<span class="ident">sep_idx</span>], <span class="kw-2">&amp;</span><span class="ident">comment</span>[<span class="ident">sep_idx</span><span class="op">+</span><span class="number">1</span>..])
         })
     }
     
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
+    <span class="kw">fn</span> <span class="ident">size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
         <span class="self">self</span>.<span class="ident">iter</span>.<span class="ident">size_hint</span>()
     }
 }
@@ -792,7 +789,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">GetTag</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Returns a new `GetTag` iterator.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">vorbis_comments</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [(<span class="ident">String</span>, <span class="ident">usize</span>)], <span class="ident">needle</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">GetTag</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">vorbis_comments</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [(<span class="ident">String</span>, <span class="ident">usize</span>)], <span class="ident">needle</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) -&gt; <span class="ident">GetTag</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="ident">GetTag</span> {
             <span class="ident">vorbis_comments</span>: <span class="ident">vorbis_comments</span>,
             <span class="ident">needle</span>: <span class="ident">needle</span>,
@@ -805,10 +802,10 @@
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>;
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span> {
         <span class="comment">// This import is actually required on Rust 1.13.</span>
         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
-        <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ascii</span>::<span class="ident">AsciiExt</span>;
+        <span class="kw">use</span> <span class="ident">std::ascii::AsciiExt</span>;
 
         <span class="kw">while</span> <span class="self">self</span>.<span class="ident">index</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">vorbis_comments</span>.<span class="ident">len</span>() {
             <span class="kw">let</span> (<span class="kw-2">ref</span> <span class="ident">comment</span>, <span class="ident">sep_idx</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">vorbis_comments</span>[<span class="self">self</span>.<span class="ident">index</span>];
@@ -824,16 +821,16 @@
 }
 
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">read_metadata_block_header</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">ReadBytes</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MetadataBlockHeader</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">byte</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_u8</span>());
+<span class="kw">fn</span> <span class="ident">read_metadata_block_header</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">ReadBytes</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;mut</span> <span class="ident">R</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MetadataBlockHeader</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">byte</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_u8</span>());
 
     <span class="comment">// The first bit specifies whether this is the last block, the next 7 bits</span>
     <span class="comment">// specify the type of the metadata block to follow.</span>
-    <span class="kw">let</span> <span class="ident">is_last</span> <span class="op">=</span> (<span class="ident">byte</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">7</span>) <span class="op">=</span><span class="op">=</span> <span class="number">1</span>;
+    <span class="kw">let</span> <span class="ident">is_last</span> <span class="op">=</span> (<span class="ident">byte</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">7</span>) <span class="op">==</span> <span class="number">1</span>;
     <span class="kw">let</span> <span class="ident">block_type</span> <span class="op">=</span> <span class="ident">byte</span> <span class="op">&amp;</span> <span class="number">0b0111_1111</span>;
 
     <span class="comment">// The length field is 24 bits, or 3 bytes.</span>
-    <span class="kw">let</span> <span class="ident">length</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_be_u24</span>());
+    <span class="kw">let</span> <span class="ident">length</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_be_u24</span>());
 
     <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="ident">MetadataBlockHeader</span> {
         <span class="ident">is_last</span>: <span class="ident">is_last</span>,
@@ -854,9 +851,9 @@
 <span class="doccomment">/// metadata blocks including their header verbatim in packets. This function</span>
 <span class="doccomment">/// can be used to decode that raw data.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_metadata_block_with_header</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">ReadBytes</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>)
-                                                     <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MetadataBlock</span><span class="op">&gt;</span> {
-  <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">read_metadata_block_header</span>(<span class="ident">input</span>));
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_metadata_block_with_header</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">ReadBytes</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;mut</span> <span class="ident">R</span>)
+                                                     -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MetadataBlock</span><span class="op">&gt;</span> {
+  <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">read_metadata_block_header</span>(<span class="ident">input</span>));
   <span class="ident">read_metadata_block</span>(<span class="ident">input</span>, <span class="ident">header</span>.<span class="ident">block_type</span>, <span class="ident">header</span>.<span class="ident">length</span>)
 }
 
@@ -871,77 +868,77 @@
 <span class="doccomment">/// a “FLAC Specific Box” which contains the block type and the raw data. This</span>
 <span class="doccomment">/// function can be used to decode that raw data.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_metadata_block</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">ReadBytes</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>,
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_metadata_block</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">ReadBytes</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;mut</span> <span class="ident">R</span>,
                                          <span class="ident">block_type</span>: <span class="ident">u8</span>,
                                          <span class="ident">length</span>: <span class="ident">u32</span>)
-                                         <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MetadataBlock</span><span class="op">&gt;</span> {
+                                         -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MetadataBlock</span><span class="op">&gt;</span> {
     <span class="kw">match</span> <span class="ident">block_type</span> {
-        <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="number">0</span> =&gt; {
             <span class="comment">// The streaminfo block has a fixed size of 34 bytes.</span>
-            <span class="kw">if</span> <span class="ident">length</span> <span class="op">=</span><span class="op">=</span> <span class="number">34</span> {
-                <span class="kw">let</span> <span class="ident">streaminfo</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">read_streaminfo_block</span>(<span class="ident">input</span>));
-                <span class="prelude-val">Ok</span>(<span class="ident">MetadataBlock</span>::<span class="ident">StreamInfo</span>(<span class="ident">streaminfo</span>))
+            <span class="kw">if</span> <span class="ident">length</span> <span class="op">==</span> <span class="number">34</span> {
+                <span class="kw">let</span> <span class="ident">streaminfo</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">read_streaminfo_block</span>(<span class="ident">input</span>));
+                <span class="prelude-val">Ok</span>(<span class="ident">MetadataBlock::StreamInfo</span>(<span class="ident">streaminfo</span>))
             } <span class="kw">else</span> {
                 <span class="ident">fmt_err</span>(<span class="string">&quot;invalid streaminfo metadata block length&quot;</span>)
             }
         }
-        <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> {
-            <span class="macro">try</span><span class="macro">!</span>(<span class="ident">read_padding_block</span>(<span class="ident">input</span>, <span class="ident">length</span>));
-            <span class="prelude-val">Ok</span>(<span class="ident">MetadataBlock</span>::<span class="ident">Padding</span> { <span class="ident">length</span>: <span class="ident">length</span> })
+        <span class="number">1</span> =&gt; {
+            <span class="macro">try!</span>(<span class="ident">read_padding_block</span>(<span class="ident">input</span>, <span class="ident">length</span>));
+            <span class="prelude-val">Ok</span>(<span class="ident">MetadataBlock::Padding</span> { <span class="ident">length</span>: <span class="ident">length</span> })
         }
-        <span class="number">2</span> <span class="op">=</span><span class="op">&gt;</span> {
-            <span class="kw">let</span> (<span class="ident">id</span>, <span class="ident">data</span>) <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">read_application_block</span>(<span class="ident">input</span>, <span class="ident">length</span>));
-            <span class="prelude-val">Ok</span>(<span class="ident">MetadataBlock</span>::<span class="ident">Application</span> {
+        <span class="number">2</span> =&gt; {
+            <span class="kw">let</span> (<span class="ident">id</span>, <span class="ident">data</span>) <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">read_application_block</span>(<span class="ident">input</span>, <span class="ident">length</span>));
+            <span class="prelude-val">Ok</span>(<span class="ident">MetadataBlock::Application</span> {
                 <span class="ident">id</span>: <span class="ident">id</span>,
                 <span class="ident">data</span>: <span class="ident">data</span>,
             })
         }
-        <span class="number">3</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="number">3</span> =&gt; {
             <span class="comment">// TODO: implement seektable reading. For now, pretend it is padding.</span>
-            <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">skip</span>(<span class="ident">length</span>));
-            <span class="prelude-val">Ok</span>(<span class="ident">MetadataBlock</span>::<span class="ident">Padding</span> { <span class="ident">length</span>: <span class="ident">length</span> })
+            <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">skip</span>(<span class="ident">length</span>));
+            <span class="prelude-val">Ok</span>(<span class="ident">MetadataBlock::Padding</span> { <span class="ident">length</span>: <span class="ident">length</span> })
         }
-        <span class="number">4</span> <span class="op">=</span><span class="op">&gt;</span> {
-            <span class="kw">let</span> <span class="ident">vorbis_comment</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">read_vorbis_comment_block</span>(<span class="ident">input</span>, <span class="ident">length</span>));
-            <span class="prelude-val">Ok</span>(<span class="ident">MetadataBlock</span>::<span class="ident">VorbisComment</span>(<span class="ident">vorbis_comment</span>))
+        <span class="number">4</span> =&gt; {
+            <span class="kw">let</span> <span class="ident">vorbis_comment</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">read_vorbis_comment_block</span>(<span class="ident">input</span>, <span class="ident">length</span>));
+            <span class="prelude-val">Ok</span>(<span class="ident">MetadataBlock::VorbisComment</span>(<span class="ident">vorbis_comment</span>))
         }
-        <span class="number">5</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="number">5</span> =&gt; {
             <span class="comment">// TODO: implement CUE sheet reading. For now, pretend it is padding.</span>
-            <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">skip</span>(<span class="ident">length</span>));
-            <span class="prelude-val">Ok</span>(<span class="ident">MetadataBlock</span>::<span class="ident">Padding</span> { <span class="ident">length</span>: <span class="ident">length</span> })
+            <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">skip</span>(<span class="ident">length</span>));
+            <span class="prelude-val">Ok</span>(<span class="ident">MetadataBlock::Padding</span> { <span class="ident">length</span>: <span class="ident">length</span> })
         }
-        <span class="number">6</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="number">6</span> =&gt; {
             <span class="comment">// TODO: implement picture reading. For now, pretend it is padding.</span>
-            <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">skip</span>(<span class="ident">length</span>));
-            <span class="prelude-val">Ok</span>(<span class="ident">MetadataBlock</span>::<span class="ident">Padding</span> { <span class="ident">length</span>: <span class="ident">length</span> })
+            <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">skip</span>(<span class="ident">length</span>));
+            <span class="prelude-val">Ok</span>(<span class="ident">MetadataBlock::Padding</span> { <span class="ident">length</span>: <span class="ident">length</span> })
         }
-        <span class="number">127</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="number">127</span> =&gt; {
             <span class="comment">// This code is invalid to avoid confusion with a frame sync code.</span>
             <span class="ident">fmt_err</span>(<span class="string">&quot;invalid metadata block type&quot;</span>)
         }
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="kw">_</span> =&gt; {
             <span class="comment">// Any other block type is &#39;reserved&#39; at the moment of writing. The</span>
             <span class="comment">// reference implementation reads it as an &#39;unknown&#39; block. That is</span>
             <span class="comment">// one way of handling it, but maybe there should be some kind of</span>
             <span class="comment">// &#39;strict&#39; mode (configurable at compile time?) so that this can</span>
             <span class="comment">// be an error if desired.</span>
-            <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">skip</span>(<span class="ident">length</span>));
-            <span class="prelude-val">Ok</span>(<span class="ident">MetadataBlock</span>::<span class="ident">Reserved</span>)
+            <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">skip</span>(<span class="ident">length</span>));
+            <span class="prelude-val">Ok</span>(<span class="ident">MetadataBlock::Reserved</span>)
         }
     }
 }
 
-<span class="kw">fn</span> <span class="ident">read_streaminfo_block</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">ReadBytes</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">StreamInfo</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">min_block_size</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_be_u16</span>());
-    <span class="kw">let</span> <span class="ident">max_block_size</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_be_u16</span>());
+<span class="kw">fn</span> <span class="ident">read_streaminfo_block</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">ReadBytes</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;mut</span> <span class="ident">R</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">StreamInfo</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">min_block_size</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_be_u16</span>());
+    <span class="kw">let</span> <span class="ident">max_block_size</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_be_u16</span>());
 
     <span class="comment">// The frame size fields are 24 bits, or 3 bytes.</span>
-    <span class="kw">let</span> <span class="ident">min_frame_size</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_be_u24</span>());
-    <span class="kw">let</span> <span class="ident">max_frame_size</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_be_u24</span>());
+    <span class="kw">let</span> <span class="ident">min_frame_size</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_be_u24</span>());
+    <span class="kw">let</span> <span class="ident">max_frame_size</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_be_u24</span>());
 
     <span class="comment">// Next up are 20 bits that determine the sample rate.</span>
-    <span class="kw">let</span> <span class="ident">sample_rate_msb</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_be_u16</span>());
-    <span class="kw">let</span> <span class="ident">sample_rate_lsb</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_u8</span>());
+    <span class="kw">let</span> <span class="ident">sample_rate_msb</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_be_u16</span>());
+    <span class="kw">let</span> <span class="ident">sample_rate_lsb</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_u8</span>());
 
     <span class="comment">// Stitch together the value from the first 16 bits,</span>
     <span class="comment">// and then the 4 most significant bits of the next byte.</span>
@@ -954,19 +951,19 @@
     <span class="comment">// The final bit is the most significant of bits per sample - 1. Bits per</span>
     <span class="comment">// sample - 1 is 5 bits in total.</span>
     <span class="kw">let</span> <span class="ident">bps_msb</span> <span class="op">=</span> <span class="ident">n_channels_bps</span> <span class="op">&amp;</span> <span class="number">1</span>;
-    <span class="kw">let</span> <span class="ident">bps_lsb_n_samples</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_u8</span>());
+    <span class="kw">let</span> <span class="ident">bps_lsb_n_samples</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_u8</span>());
 
     <span class="comment">// Stitch together these values, add 1 because # - 1 is stored.</span>
     <span class="kw">let</span> <span class="ident">bits_per_sample</span> <span class="op">=</span> (<span class="ident">bps_msb</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">4</span> <span class="op">|</span> (<span class="ident">bps_lsb_n_samples</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">4</span>)) <span class="op">+</span> <span class="number">1</span>;
 
     <span class="comment">// Number of samples in 36 bits, we have 4 already, 32 to go.</span>
     <span class="kw">let</span> <span class="ident">n_samples_msb</span> <span class="op">=</span> <span class="ident">bps_lsb_n_samples</span> <span class="op">&amp;</span> <span class="number">0b0000_1111</span>;
-    <span class="kw">let</span> <span class="ident">n_samples_lsb</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_be_u32</span>());
+    <span class="kw">let</span> <span class="ident">n_samples_lsb</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_be_u32</span>());
     <span class="kw">let</span> <span class="ident">n_samples</span> <span class="op">=</span> (<span class="ident">n_samples_msb</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">32</span> <span class="op">|</span> <span class="ident">n_samples_lsb</span> <span class="kw">as</span> <span class="ident">u64</span>;
 
     <span class="comment">// Next are 128 bits (16 bytes) of MD5 signature.</span>
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">md5sum</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">16</span>];
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">md5sum</span>));
+    <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;mut</span> <span class="ident">md5sum</span>));
 
     <span class="comment">// Lower bounds can never be larger than upper bounds. Note that 0 indicates</span>
     <span class="comment">// unknown for the frame size. Also, the block size must be at least 16.</span>
@@ -982,19 +979,19 @@
 
     <span class="comment">// A sample rate of 0 is invalid, and the maximum sample rate is limited by</span>
     <span class="comment">// the structure of the frame headers to 655350 Hz.</span>
-    <span class="kw">if</span> <span class="ident">sample_rate</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">sample_rate</span> <span class="op">&gt;</span> <span class="number">655350</span> {
+    <span class="kw">if</span> <span class="ident">sample_rate</span> <span class="op">==</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">sample_rate</span> <span class="op">&gt;</span> <span class="number">655350</span> {
         <span class="kw">return</span> <span class="ident">fmt_err</span>(<span class="string">&quot;invalid sample rate&quot;</span>);
     }
 
     <span class="kw">let</span> <span class="ident">stream_info</span> <span class="op">=</span> <span class="ident">StreamInfo</span> {
         <span class="ident">min_block_size</span>: <span class="ident">min_block_size</span>,
         <span class="ident">max_block_size</span>: <span class="ident">max_block_size</span>,
-        <span class="ident">min_frame_size</span>: <span class="kw">if</span> <span class="ident">min_frame_size</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="ident">min_frame_size</span>: <span class="kw">if</span> <span class="ident">min_frame_size</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="prelude-val">None</span>
         } <span class="kw">else</span> {
             <span class="prelude-val">Some</span>(<span class="ident">min_frame_size</span>)
         },
-        <span class="ident">max_frame_size</span>: <span class="kw">if</span> <span class="ident">max_frame_size</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="ident">max_frame_size</span>: <span class="kw">if</span> <span class="ident">max_frame_size</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="prelude-val">None</span>
         } <span class="kw">else</span> {
             <span class="prelude-val">Some</span>(<span class="ident">max_frame_size</span>)
@@ -1002,7 +999,7 @@
         <span class="ident">sample_rate</span>: <span class="ident">sample_rate</span>,
         <span class="ident">channels</span>: <span class="ident">n_channels</span> <span class="kw">as</span> <span class="ident">u32</span>,
         <span class="ident">bits_per_sample</span>: <span class="ident">bits_per_sample</span> <span class="kw">as</span> <span class="ident">u32</span>,
-        <span class="ident">samples</span>: <span class="kw">if</span> <span class="ident">n_samples</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="ident">samples</span>: <span class="kw">if</span> <span class="ident">n_samples</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="prelude-val">None</span>
         } <span class="kw">else</span> {
             <span class="prelude-val">Some</span>(<span class="ident">n_samples</span>)
@@ -1012,7 +1009,7 @@
     <span class="prelude-val">Ok</span>(<span class="ident">stream_info</span>)
 }
 
-<span class="kw">fn</span> <span class="ident">read_vorbis_comment_block</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">ReadBytes</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>, <span class="ident">length</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">VorbisComment</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">read_vorbis_comment_block</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">ReadBytes</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;mut</span> <span class="ident">R</span>, <span class="ident">length</span>: <span class="ident">u32</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">VorbisComment</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="ident">length</span> <span class="op">&lt;</span> <span class="number">8</span> {
         <span class="comment">// We expect at a minimum a 32-bit vendor string length, and a 32-bit</span>
         <span class="comment">// comment count.</span>
@@ -1034,39 +1031,39 @@
     <span class="comment">// place for that anyway.</span>
     <span class="kw">if</span> <span class="ident">length</span> <span class="op">&gt;</span> <span class="number">10</span> <span class="op">*</span> <span class="number">1024</span> <span class="op">*</span> <span class="number">1024</span> {
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="string">&quot;Vorbis comment blocks larger than 10 MiB are not supported&quot;</span>;
-        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Unsupported</span>(<span class="ident">msg</span>))
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::Unsupported</span>(<span class="ident">msg</span>))
     }
 
     <span class="comment">// The Vorbis comment block starts with a length-prefixed &quot;vendor string&quot;.</span>
     <span class="comment">// It cannot be larger than the block length - 8, because there are the</span>
     <span class="comment">// 32-bit vendor string length, and comment count.</span>
-    <span class="kw">let</span> <span class="ident">vendor_len</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_le_u32</span>());
+    <span class="kw">let</span> <span class="ident">vendor_len</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_le_u32</span>());
     <span class="kw">if</span> <span class="ident">vendor_len</span> <span class="op">&gt;</span> <span class="ident">length</span> <span class="op">-</span> <span class="number">8</span> { <span class="kw">return</span> <span class="ident">fmt_err</span>(<span class="string">&quot;vendor string too long&quot;</span>) }
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">vendor_bytes</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">vendor_len</span> <span class="kw">as</span> <span class="ident">usize</span>);
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">vendor_bytes</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="ident">vendor_len</span> <span class="kw">as</span> <span class="ident">usize</span>);
 
     <span class="comment">// We can safely set the lenght of the vector here; the uninitialized memory</span>
     <span class="comment">// is not exposed. If `read_into` succeeds, it will have overwritten all</span>
     <span class="comment">// bytes. If not, an error is returned and the memory is never exposed.</span>
     <span class="kw">unsafe</span> { <span class="ident">vendor_bytes</span>.<span class="ident">set_len</span>(<span class="ident">vendor_len</span> <span class="kw">as</span> <span class="ident">usize</span>); }
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">vendor_bytes</span>));
-    <span class="kw">let</span> <span class="ident">vendor</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">String</span>::<span class="ident">from_utf8</span>(<span class="ident">vendor_bytes</span>));
+    <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;mut</span> <span class="ident">vendor_bytes</span>));
+    <span class="kw">let</span> <span class="ident">vendor</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">String::from_utf8</span>(<span class="ident">vendor_bytes</span>));
 
     <span class="comment">// Next up is the number of comments. Because every comment is at least 4</span>
     <span class="comment">// bytes to indicate its length, there cannot be more comments than the</span>
     <span class="comment">// length of the block divided by 4. This is only an upper bound to ensure</span>
     <span class="comment">// that we don&#39;t allocate a big vector, to protect against DoS attacks.</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">comments_len</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_le_u32</span>());
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">comments_len</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_le_u32</span>());
     <span class="kw">if</span> <span class="ident">comments_len</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">length</span> <span class="op">/</span> <span class="number">4</span> {
         <span class="kw">return</span> <span class="ident">fmt_err</span>(<span class="string">&quot;too many entries for Vorbis comment block&quot;</span>)
     }
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">comments</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">comments_len</span> <span class="kw">as</span> <span class="ident">usize</span>);
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">comments</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="ident">comments_len</span> <span class="kw">as</span> <span class="ident">usize</span>);
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes_left</span> <span class="op">=</span> <span class="ident">length</span> <span class="op">-</span> <span class="number">8</span> <span class="op">-</span> <span class="ident">vendor_len</span>;
 
     <span class="comment">// For every comment, there is a length-prefixed string of the form</span>
     <span class="comment">// &quot;NAME=value&quot;.</span>
     <span class="kw">while</span> <span class="ident">bytes_left</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">4</span> <span class="op">&amp;&amp;</span> <span class="ident">comments</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="ident">comments_len</span> <span class="kw">as</span> <span class="ident">usize</span> {
-        <span class="kw">let</span> <span class="ident">comment_len</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_le_u32</span>());
+        <span class="kw">let</span> <span class="ident">comment_len</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_le_u32</span>());
         <span class="ident">bytes_left</span> <span class="op">-</span><span class="op">=</span> <span class="number">4</span>;
 
         <span class="kw">if</span> <span class="ident">comment_len</span> <span class="op">&gt;</span> <span class="ident">bytes_left</span> {
@@ -1076,20 +1073,20 @@
         <span class="comment">// Some older versions of libflac allowed writing zero-length Vorbis</span>
         <span class="comment">// comments. ALthough such files are invalid, they do occur in the wild,</span>
         <span class="comment">// so we skip over the empty comment.</span>
-        <span class="kw">if</span> <span class="ident">comment_len</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">comment_len</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="comment">// Does not overflow because `comments_len &gt; comments.len() &gt;= 0`.</span>
             <span class="ident">comments_len</span> <span class="op">-</span><span class="op">=</span> <span class="number">1</span>;
             <span class="kw">continue</span>;
         }
 
         <span class="comment">// For the same reason as above, setting the length is safe here.</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">comment_bytes</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">comment_len</span> <span class="kw">as</span> <span class="ident">usize</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">comment_bytes</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="ident">comment_len</span> <span class="kw">as</span> <span class="ident">usize</span>);
         <span class="kw">unsafe</span> { <span class="ident">comment_bytes</span>.<span class="ident">set_len</span>(<span class="ident">comment_len</span> <span class="kw">as</span> <span class="ident">usize</span>); }
-        <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">comment_bytes</span>));
+        <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;mut</span> <span class="ident">comment_bytes</span>));
 
         <span class="ident">bytes_left</span> <span class="op">-</span><span class="op">=</span> <span class="ident">comment_len</span>;
 
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">sep_index</span>) <span class="op">=</span> <span class="ident">comment_bytes</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span> <span class="op">=</span><span class="op">=</span> <span class="string">b&#39;=&#39;</span>) {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">sep_index</span>) <span class="op">=</span> <span class="ident">comment_bytes</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span> <span class="op">==</span> <span class="string">b&#39;=&#39;</span>) {
             {
                 <span class="kw">let</span> <span class="ident">name_bytes</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">comment_bytes</span>[..<span class="ident">sep_index</span>];
 
@@ -1102,7 +1099,7 @@
                 }
             }
 
-            <span class="kw">let</span> <span class="ident">comment</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">String</span>::<span class="ident">from_utf8</span>(<span class="ident">comment_bytes</span>));
+            <span class="kw">let</span> <span class="ident">comment</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">String::from_utf8</span>(<span class="ident">comment_bytes</span>));
             <span class="ident">comments</span>.<span class="ident">push</span>((<span class="ident">comment</span>, <span class="ident">sep_index</span>));
         } <span class="kw">else</span> {
             <span class="kw">return</span> <span class="ident">fmt_err</span>(<span class="string">&quot;Vorbis comment does not contain &#39;=&#39;&quot;</span>)
@@ -1125,16 +1122,16 @@
     <span class="prelude-val">Ok</span>(<span class="ident">vorbis_comment</span>)
 }
 
-<span class="kw">fn</span> <span class="ident">read_padding_block</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">ReadBytes</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>, <span class="ident">length</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">read_padding_block</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">ReadBytes</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;mut</span> <span class="ident">R</span>, <span class="ident">length</span>: <span class="ident">u32</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="comment">// The specification dictates that all bits of the padding block must be 0.</span>
     <span class="comment">// However, the reference implementation does not issue an error when this</span>
     <span class="comment">// is not the case, and frankly, when you are going to skip over these</span>
     <span class="comment">// bytes and do nothing with them whatsoever, why waste all those CPU</span>
     <span class="comment">// cycles checking that the padding is valid?</span>
-    <span class="prelude-val">Ok</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">skip</span>(<span class="ident">length</span>)))
+    <span class="prelude-val">Ok</span>(<span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">skip</span>(<span class="ident">length</span>)))
 }
 
-<span class="kw">fn</span> <span class="ident">read_application_block</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">ReadBytes</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>, <span class="ident">length</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">read_application_block</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">ReadBytes</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;mut</span> <span class="ident">R</span>, <span class="ident">length</span>: <span class="ident">u32</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="ident">length</span> <span class="op">&lt;</span> <span class="number">4</span> {
         <span class="kw">return</span> <span class="ident">fmt_err</span>(<span class="string">&quot;application block length must be at least 4 bytes&quot;</span>)
     }
@@ -1144,19 +1141,19 @@
     <span class="comment">// `read_vorbis_comment_block()`.</span>
     <span class="kw">if</span> <span class="ident">length</span> <span class="op">&gt;</span> <span class="number">10</span> <span class="op">*</span> <span class="number">1024</span> <span class="op">*</span> <span class="number">1024</span> {
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="string">&quot;application blocks larger than 10 MiB are not supported&quot;</span>;
-        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Unsupported</span>(<span class="ident">msg</span>))
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::Unsupported</span>(<span class="ident">msg</span>))
     }
 
-    <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_be_u32</span>());
+    <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_be_u32</span>());
 
     <span class="comment">// Four bytes of the block have been used for the ID, the rest is payload.</span>
     <span class="comment">// Create a vector of uninitialized memory, and read the block into it. The</span>
     <span class="comment">// uninitialized memory is never exposed: read_into will either fill the</span>
     <span class="comment">// buffer completely, or return an err, in which case the memory is not</span>
     <span class="comment">// exposed.</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">length</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">-</span> <span class="number">4</span>);
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="ident">length</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">-</span> <span class="number">4</span>);
     <span class="kw">unsafe</span> { <span class="ident">data</span>.<span class="ident">set_len</span>(<span class="ident">length</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">-</span> <span class="number">4</span>); }
-    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">input</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">data</span>));
+    <span class="macro">try!</span>(<span class="ident">input</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;mut</span> <span class="ident">data</span>));
 
     <span class="prelude-val">Ok</span>((<span class="ident">id</span>, <span class="ident">data</span>))
 }
@@ -1177,7 +1174,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">ReadBytes</span><span class="op">&gt;</span> <span class="ident">MetadataBlockReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Creates a metadata block reader that will yield at least one element.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">input</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MetadataBlockReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">input</span>: <span class="ident">R</span>) -&gt; <span class="ident">MetadataBlockReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
         <span class="ident">MetadataBlockReader</span> {
             <span class="ident">input</span>: <span class="ident">input</span>,
             <span class="ident">done</span>: <span class="bool-val">false</span>,
@@ -1185,9 +1182,9 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">read_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MetadataBlockResult</span> {
-        <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">read_metadata_block_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">input</span>));
-        <span class="kw">let</span> <span class="ident">block</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">read_metadata_block</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">input</span>, <span class="ident">header</span>.<span class="ident">block_type</span>, <span class="ident">header</span>.<span class="ident">length</span>));
+    <span class="kw">fn</span> <span class="ident">read_next</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">MetadataBlockResult</span> {
+        <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">read_metadata_block_header</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">input</span>));
+        <span class="kw">let</span> <span class="ident">block</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">read_metadata_block</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">input</span>, <span class="ident">header</span>.<span class="ident">block_type</span>, <span class="ident">header</span>.<span class="ident">length</span>));
         <span class="self">self</span>.<span class="ident">done</span> <span class="op">=</span> <span class="ident">header</span>.<span class="ident">is_last</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">block</span>)
     }
@@ -1197,7 +1194,7 @@
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">MetadataBlockResult</span>;
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MetadataBlockResult</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MetadataBlockResult</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">done</span> {
             <span class="prelude-val">None</span>
         } <span class="kw">else</span> {
@@ -1214,12 +1211,12 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
+    <span class="kw">fn</span> <span class="ident">size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
         <span class="comment">// When done, there will be no more blocks,</span>
         <span class="comment">// when not done, there will be at least one more.</span>
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">done</span> { (<span class="number">0</span>, <span class="prelude-val">Some</span>(<span class="number">0</span>)) } <span class="kw">else</span> { (<span class="number">1</span>, <span class="prelude-val">None</span>) }
     }
 }
-</pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="claxon" data-search-js="../../search-index.js"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="claxon" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
+</body></html>

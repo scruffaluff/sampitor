@@ -1,7 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/lewton-0.10.2/src/huffman_tree.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>huffman_tree.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../lewton/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;lewton-0.10.2&#x2F;src&#x2F;huffman_tree.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>huffman_tree.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../lewton/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -486,8 +484,7 @@
 <span id="483">483</span>
 <span id="484">484</span>
 <span id="485">485</span>
-</pre><div class="example-wrap"><pre class="rust ">
-<span class="comment">// Vorbis decoder written in Rust</span>
+</pre><pre class="rust"><code><span class="comment">// Vorbis decoder written in Rust</span>
 <span class="comment">//</span>
 <span class="comment">// Copyright (c) 2016 est31 &lt;MTest31@outlook.com&gt;</span>
 <span class="comment">// and contributors. All rights reserved.</span>
@@ -552,13 +549,13 @@ impl fmt::Debug for HuffTree {
 
 <span class="kw">impl</span> <span class="ident">HuffTree</span> {
 	<span class="doccomment">/// Returns whether the addition was successful</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">insert_rec</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">payload</span> :<span class="ident">u32</span>, <span class="ident">depth</span> :<span class="ident">u8</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">insert_rec</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">payload</span> :<span class="ident">u32</span>, <span class="ident">depth</span> :<span class="ident">u8</span>) -&gt; <span class="ident">bool</span> {
 		<span class="comment">//print!(&quot;INSERT payload {:?} depth {:?} &quot;, payload, depth);</span>
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">payload</span>.<span class="ident">is_some</span>() {
 			<span class="comment">//println!(&quot; =&gt; OCCUPIED AS LEAF&quot;);</span>
 			<span class="kw">return</span> <span class="bool-val">false</span>;
 		}
-		<span class="kw">if</span> <span class="ident">depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+		<span class="kw">if</span> <span class="ident">depth</span> <span class="op">==</span> <span class="number">0</span> {
 			<span class="kw">if</span> <span class="op">!</span>(<span class="self">self</span>.<span class="ident">l</span>.<span class="ident">is_none</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">r</span>.<span class="ident">is_none</span>()) {
 				<span class="comment">//println!(&quot; =&gt; INNER NODE&quot;);</span>
 				<span class="kw">return</span> <span class="bool-val">false</span>;
@@ -569,12 +566,12 @@ impl fmt::Debug for HuffTree {
 		}
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">even_childs</span> {
 			<span class="comment">//println!(&quot; =&gt; HAS EVEN CHILDS&quot;);</span>
-			<span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">l</span> {
-				<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="bool-val">false</span>,
-				<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
+			<span class="kw">match</span> <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">l</span> {
+				<span class="kw-2">&amp;mut</span> <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span> <span class="bool-val">false</span>,
+				<span class="kw-2">&amp;mut</span> <span class="prelude-val">None</span> =&gt; {
 					<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_node</span> <span class="op">=</span> <span class="ident">HuffTree</span> { <span class="ident">even_childs</span> :<span class="bool-val">true</span>, <span class="ident">payload</span> :<span class="prelude-val">None</span>, <span class="ident">l</span> :<span class="prelude-val">None</span>, <span class="ident">r</span> :<span class="prelude-val">None</span> };
 					<span class="ident">new_node</span>.<span class="ident">insert_rec</span>(<span class="ident">payload</span>, <span class="ident">depth</span> <span class="op">-</span> <span class="number">1</span>);
-					<span class="self">self</span>.<span class="ident">l</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">new_node</span>));
+					<span class="self">self</span>.<span class="ident">l</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">new_node</span>));
 					<span class="self">self</span>.<span class="ident">even_childs</span> <span class="op">=</span> <span class="bool-val">false</span>;
 					<span class="kw">return</span> <span class="bool-val">true</span>;
 				}
@@ -586,7 +583,7 @@ impl fmt::Debug for HuffTree {
 			<span class="kw">if</span> <span class="op">!</span><span class="ident">left</span>.<span class="ident">even_childs</span> {
 				<span class="kw">if</span> <span class="ident">left</span>.<span class="ident">insert_rec</span>(<span class="ident">payload</span>, <span class="ident">depth</span> <span class="op">-</span> <span class="number">1</span>) {
 					<span class="self">self</span>.<span class="ident">even_childs</span> <span class="op">=</span> <span class="ident">left</span>.<span class="ident">even_childs</span> <span class="op">&amp;&amp;</span>
-						<span class="kw">if</span> <span class="kw">let</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">right</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">r</span>.<span class="ident">as_mut</span>() { <span class="ident">right</span>.<span class="ident">even_childs</span> } <span class="kw">else</span> { <span class="bool-val">false</span> };
+						<span class="kw">if</span> <span class="kw">let</span> <span class="kw-2">&amp;mut</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">right</span>) <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">r</span>.<span class="ident">as_mut</span>() { <span class="ident">right</span>.<span class="ident">even_childs</span> } <span class="kw">else</span> { <span class="bool-val">false</span> };
 					<span class="kw">return</span> <span class="bool-val">true</span>;
 				}
 			}
@@ -595,16 +592,16 @@ impl fmt::Debug for HuffTree {
 			<span class="comment">// As left has even_childs == true, right causes</span>
 			<span class="comment">// us to have even_childs == false.</span>
 			<span class="kw">return</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">r</span> {
-				<span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">right</span>) <span class="op">=</span><span class="op">&gt;</span> {
+				<span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">right</span>) =&gt; {
 					<span class="kw">let</span> <span class="ident">success</span> <span class="op">=</span> <span class="ident">right</span>.<span class="ident">insert_rec</span>(<span class="ident">payload</span>, <span class="ident">depth</span> <span class="op">-</span> <span class="number">1</span>);
 					<span class="self">self</span>.<span class="ident">even_childs</span> <span class="op">=</span> <span class="ident">left</span>.<span class="ident">even_childs</span> <span class="op">&amp;&amp;</span> <span class="ident">right</span>.<span class="ident">even_childs</span>;
 					<span class="ident">success</span>
 				},
-				<span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
+				<span class="prelude-val">None</span> =&gt; {
 					<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_node</span> <span class="op">=</span> <span class="ident">HuffTree</span> { <span class="ident">even_childs</span> :<span class="bool-val">true</span>, <span class="ident">payload</span> :<span class="prelude-val">None</span>, <span class="ident">l</span> :<span class="prelude-val">None</span>, <span class="ident">r</span> :<span class="prelude-val">None</span> };
 					<span class="kw">let</span> <span class="ident">success</span> <span class="op">=</span> <span class="ident">new_node</span>.<span class="ident">insert_rec</span>(<span class="ident">payload</span>, <span class="ident">depth</span> <span class="op">-</span> <span class="number">1</span>);
 					<span class="self">self</span>.<span class="ident">even_childs</span> <span class="op">=</span> <span class="ident">left</span>.<span class="ident">even_childs</span> <span class="op">&amp;&amp;</span> <span class="ident">new_node</span>.<span class="ident">even_childs</span>;
-					<span class="self">self</span>.<span class="ident">r</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">new_node</span>));
+					<span class="self">self</span>.<span class="ident">r</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">new_node</span>));
 					<span class="ident">success</span>
 				}
 			};
@@ -668,44 +665,44 @@ impl fmt::Debug for HuffTree {
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// Returns the resulting tree if the array results in a valid (neither</span>
 	<span class="doccomment">/// underspecified nor overspecified) tree.</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">load_from_array</span>(<span class="ident">codebook_codeword_lengths</span> :<span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">VorbisHuffmanTree</span>, <span class="ident">HuffmanError</span><span class="op">&gt;</span> {
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">load_from_array</span>(<span class="ident">codebook_codeword_lengths</span> :<span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">VorbisHuffmanTree</span>, <span class="ident">HuffmanError</span><span class="op">&gt;</span> {
 		<span class="comment">// First step: generate a simple tree representing the</span>
 		<span class="comment">// Huffman tree</span>
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">simple_tree</span> <span class="op">=</span> <span class="ident">HuffTree</span> { <span class="ident">even_childs</span> :<span class="bool-val">true</span>, <span class="ident">payload</span> :<span class="prelude-val">None</span>, <span class="ident">l</span> :<span class="prelude-val">None</span>, <span class="ident">r</span> :<span class="prelude-val">None</span> };
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cnt</span> :<span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">last_valid_idx</span> <span class="op">=</span> <span class="prelude-val">None</span>;
 		<span class="kw">for</span> (<span class="ident">i</span>, <span class="kw-2">&amp;</span><span class="ident">codeword_length</span>) <span class="kw">in</span> <span class="ident">codebook_codeword_lengths</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-			<span class="kw">if</span> <span class="ident">codeword_length</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+			<span class="kw">if</span> <span class="ident">codeword_length</span> <span class="op">==</span> <span class="number">0</span> {
 				<span class="kw">continue</span>;
 			}
 			<span class="ident">cnt</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
 			<span class="ident">last_valid_idx</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">i</span>);
 			<span class="kw">if</span> <span class="op">!</span><span class="ident">simple_tree</span>.<span class="ident">insert_rec</span>(<span class="ident">i</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">codeword_length</span>) {
-				<span class="macro">try</span><span class="macro">!</span>(<span class="prelude-val">Err</span>(<span class="ident">HuffmanError</span>::<span class="ident">Overspecified</span>)) <span class="comment">/* Overspecified, can&#39;t be put into tree */</span>
+				<span class="macro">try!</span>(<span class="prelude-val">Err</span>(<span class="ident">HuffmanError::Overspecified</span>)) <span class="comment">/* Overspecified, can&#39;t be put into tree */</span>
 			}
 		}
 		<span class="comment">//println!(&quot;The tree:\n{:?}&quot;, simple_tree);</span>
 
 		<span class="comment">// Single entry codebook special handling</span>
-		<span class="kw">if</span> <span class="ident">cnt</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+		<span class="kw">if</span> <span class="ident">cnt</span> <span class="op">==</span> <span class="number">1</span> {
 			<span class="kw">let</span> <span class="ident">decoded</span> <span class="op">=</span> <span class="ident">last_valid_idx</span>.<span class="ident">unwrap</span>();
 			<span class="kw">let</span> <span class="ident">encoded_len</span> <span class="op">=</span> <span class="ident">codebook_codeword_lengths</span>[<span class="ident">decoded</span>];
-			<span class="kw">if</span> <span class="ident">encoded_len</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+			<span class="kw">if</span> <span class="ident">encoded_len</span> <span class="op">==</span> <span class="number">1</span> {
 				<span class="comment">// Return a vorbis tree that returns decoded for any single bit input</span>
 				<span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">VorbisHuffmanTree</span> {
-					<span class="ident">desc_prog</span> :<span class="macro">vec</span><span class="macro">!</span>[<span class="number">1u32</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">31</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="ident">decoded</span> <span class="kw">as</span> <span class="ident">u32</span>],
+					<span class="ident">desc_prog</span> :<span class="macro">vec!</span>[<span class="number">1u32</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">31</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="ident">decoded</span> <span class="kw">as</span> <span class="ident">u32</span>],
 					<span class="ident">unrolled_entries</span> :[
-						<span class="ident">UnrolledLookupEntry</span>::<span class="ident">HasEntry</span>(<span class="number">1</span>, <span class="ident">decoded</span> <span class="kw">as</span> <span class="ident">u32</span>); <span class="number">256</span>
+						<span class="ident">UnrolledLookupEntry::HasEntry</span>(<span class="number">1</span>, <span class="ident">decoded</span> <span class="kw">as</span> <span class="ident">u32</span>); <span class="number">256</span>
 					],
 				});
 			} <span class="kw">else</span> {
 				<span class="comment">// Single entry codebooks must have 1 as their only length entry</span>
-				<span class="macro">try</span><span class="macro">!</span>(<span class="prelude-val">Err</span>(<span class="ident">HuffmanError</span>::<span class="ident">InvalidSingleEntry</span>))
+				<span class="macro">try!</span>(<span class="prelude-val">Err</span>(<span class="ident">HuffmanError::InvalidSingleEntry</span>))
 			}
 		}
 
 		<span class="kw">if</span> <span class="op">!</span><span class="ident">simple_tree</span>.<span class="ident">even_childs</span> {
-			<span class="macro">try</span><span class="macro">!</span>(<span class="prelude-val">Err</span>(<span class="ident">HuffmanError</span>::<span class="ident">Underpopulated</span>)); <span class="comment">/* Underpopulated */</span>
+			<span class="macro">try!</span>(<span class="prelude-val">Err</span>(<span class="ident">HuffmanError::Underpopulated</span>)); <span class="comment">/* Underpopulated */</span>
 		}
 
 		<span class="comment">// Second step: generate the actual desc_prog</span>
@@ -714,8 +711,8 @@ impl fmt::Debug for HuffTree {
 		<span class="comment">// The general advantage of this approach over one with only the simple tree</span>
 		<span class="comment">// is better cache locality and less memory requirements (at least after the</span>
 		<span class="comment">// setup with the simple tree).</span>
-		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">desc_prog</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">cnt</span>);
-		<span class="kw">fn</span> <span class="ident">traverse</span>(<span class="ident">tree</span> :<span class="op">&amp;</span> <span class="ident">HuffTree</span>, <span class="ident">desc_prog</span> :<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">desc_prog</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="ident">cnt</span>);
+		<span class="kw">fn</span> <span class="ident">traverse</span>(<span class="ident">tree</span> :<span class="op">&amp;</span> <span class="ident">HuffTree</span>, <span class="ident">desc_prog</span> :<span class="kw-2">&amp;mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>) -&gt; <span class="ident">u32</span> {
 			<span class="kw">let</span> <span class="ident">cur_pos</span> <span class="op">=</span> <span class="ident">desc_prog</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u32</span>;
 			<span class="kw">let</span> <span class="ident">has_children</span> <span class="op">=</span> <span class="ident">tree</span>.<span class="ident">l</span>.<span class="ident">is_some</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">tree</span>.<span class="ident">r</span>.<span class="ident">is_some</span>();
 
@@ -737,16 +734,16 @@ impl fmt::Debug for HuffTree {
 			}
 			<span class="kw">return</span> <span class="ident">cur_pos</span>;
 		}
-		<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">traverse</span>(<span class="kw-2">&amp;</span><span class="ident">simple_tree</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">desc_prog</span>), <span class="number">0</span>);
+		<span class="macro">assert_eq!</span>(<span class="ident">traverse</span>(<span class="kw-2">&amp;</span><span class="ident">simple_tree</span>, <span class="kw-2">&amp;mut</span> <span class="ident">desc_prog</span>), <span class="number">0</span>);
 
 		<span class="comment">// Third step: generate unrolled entries array</span>
 		<span class="comment">// Also by pre_order traversal.</span>
 		<span class="comment">//</span>
 		<span class="comment">// This gives us a speedup over desc_prog as reading the unrolled</span>
 		<span class="comment">// entries should involve less branching and less lookups overall.</span>
-		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">unrolled_entries</span> <span class="op">=</span> [<span class="ident">UnrolledLookupEntry</span>::<span class="ident">Inconclusive</span>; <span class="number">256</span>];
+		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">unrolled_entries</span> <span class="op">=</span> [<span class="ident">UnrolledLookupEntry::Inconclusive</span>; <span class="number">256</span>];
 		<span class="kw">fn</span> <span class="ident">uroll_traverse</span>(<span class="ident">tree</span> :<span class="op">&amp;</span> <span class="ident">HuffTree</span>,
-				<span class="ident">unrolled_entries</span> :<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">UnrolledLookupEntry</span>; <span class="number">256</span>],
+				<span class="ident">unrolled_entries</span> :<span class="kw-2">&amp;mut</span> [<span class="ident">UnrolledLookupEntry</span>; <span class="number">256</span>],
 				<span class="ident">prefix</span> :<span class="ident">u32</span>, <span class="ident">prefix_idx</span> :<span class="ident">u8</span>,
 				<span class="ident">desc_prog</span> :<span class="kw-2">&amp;</span>[<span class="ident">u32</span>], <span class="ident">desc_prog_idx</span> :<span class="ident">u32</span>) {
 			<span class="kw">let</span> <span class="ident">has_children</span> <span class="op">=</span> <span class="ident">tree</span>.<span class="ident">l</span>.<span class="ident">is_some</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">tree</span>.<span class="ident">r</span>.<span class="ident">is_some</span>();
@@ -754,11 +751,11 @@ impl fmt::Debug for HuffTree {
 			<span class="kw">if</span> <span class="ident">has_children</span> {
 				<span class="comment">// There are children.</span>
 				<span class="comment">// We&#39;d like to recurse deeper. Can we?</span>
-				<span class="kw">if</span> <span class="ident">prefix_idx</span> <span class="op">=</span><span class="op">=</span> <span class="number">8</span> {
+				<span class="kw">if</span> <span class="ident">prefix_idx</span> <span class="op">==</span> <span class="number">8</span> {
 					<span class="comment">// No we can&#39;t.</span>
 					<span class="comment">// The tree is too deep.</span>
 					<span class="ident">unrolled_entries</span>[<span class="ident">prefix</span> <span class="kw">as</span> <span class="ident">usize</span>] <span class="op">=</span>
-						<span class="ident">UnrolledLookupEntry</span>::<span class="ident">InconclusiveWithHint</span>(<span class="ident">desc_prog_idx</span>);
+						<span class="ident">UnrolledLookupEntry::InconclusiveWithHint</span>(<span class="ident">desc_prog_idx</span>);
 				} <span class="kw">else</span> {
 					<span class="comment">// Recurse deeper.</span>
 					<span class="ident">uroll_traverse</span>(<span class="ident">tree</span>.<span class="ident">l</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>(),
@@ -778,14 +775,14 @@ impl fmt::Debug for HuffTree {
 				<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="ident">prefix</span> <span class="kw">as</span> <span class="ident">usize</span>;
 				<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">1</span> .. (<span class="number">1u16</span> <span class="op">&lt;</span><span class="op">&lt;</span> (<span class="number">8</span> <span class="op">-</span> <span class="ident">prefix_idx</span>)) {
 					<span class="ident">unrolled_entries</span>[<span class="ident">i</span>] <span class="op">=</span>
-						<span class="ident">UnrolledLookupEntry</span>::<span class="ident">HasEntry</span>(<span class="ident">prefix_idx</span>, <span class="ident">payload</span>);
+						<span class="ident">UnrolledLookupEntry::HasEntry</span>(<span class="ident">prefix_idx</span>, <span class="ident">payload</span>);
 					<span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="ident">it</span>;
 				}
 			}
 		}
 		<span class="kw">if</span> <span class="ident">cnt</span> <span class="op">&gt;</span> <span class="number">0</span> {
 			<span class="ident">uroll_traverse</span>(<span class="kw-2">&amp;</span><span class="ident">simple_tree</span>,
-				<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">unrolled_entries</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">desc_prog</span>, <span class="number">0</span>);
+				<span class="kw-2">&amp;mut</span> <span class="ident">unrolled_entries</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">desc_prog</span>, <span class="number">0</span>);
 		}
 
 		<span class="comment">// Now we are done, return the result</span>
@@ -796,7 +793,7 @@ impl fmt::Debug for HuffTree {
 	}
 
 	<span class="doccomment">/// Returns an iterator over this tree.</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VorbisHuffmanIter</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span> {
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="self">self</span>) -&gt; <span class="ident">VorbisHuffmanIter</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span> {
 		<span class="kw">return</span> <span class="ident">VorbisHuffmanIter</span> { <span class="ident">desc_prog</span> :<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">desc_prog</span>, <span class="ident">pos</span> :<span class="number">0</span> };
 	}
 
@@ -807,21 +804,21 @@ impl fmt::Debug for HuffTree {
 	<span class="doccomment">/// a given amount can be returned. Also, info is returned about how</span>
 	<span class="doccomment">/// far the reader can be advanced.</span>
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lookup_peeked_data</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;l</span> <span class="self">self</span>, <span class="ident">bit_count</span> :<span class="ident">u8</span>, <span class="ident">peeked_data</span> :<span class="ident">u32</span>)
-			<span class="op">-</span><span class="op">&gt;</span> <span class="ident">PeekedDataLookupResult</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span> {
+			-&gt; <span class="ident">PeekedDataLookupResult</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span> {
 		<span class="kw">if</span> <span class="ident">bit_count</span> <span class="op">&gt;</span> <span class="number">8</span> {
-			<span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Bit count {} larger than allowed 8&quot;</span>, <span class="ident">bit_count</span>);
+			<span class="macro">panic!</span>(<span class="string">&quot;Bit count {} larger than allowed 8&quot;</span>, <span class="ident">bit_count</span>);
 		}
-		<span class="kw">use</span> <span class="self">self</span>::<span class="ident">UnrolledLookupEntry</span>::<span class="kw-2">*</span>;
-		<span class="kw">use</span> <span class="self">self</span>::<span class="ident">PeekedDataLookupResult</span>::<span class="kw-2">*</span>;
+		<span class="kw">use</span> <span class="ident"><span class="self">self</span>::UnrolledLookupEntry</span>::<span class="kw-2">*</span>;
+		<span class="kw">use</span> <span class="ident"><span class="self">self</span>::PeekedDataLookupResult</span>::<span class="kw-2">*</span>;
 		<span class="kw">return</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">unrolled_entries</span>[<span class="ident">peeked_data</span> <span class="kw">as</span> <span class="ident">usize</span>] {
 			<span class="comment">// If cnt_to_remove is bigger than bit_count the result is inconclusive.</span>
 			<span class="comment">// Return in this case.</span>
 			<span class="ident">HasEntry</span>(<span class="ident">cnt_to_remove</span>, <span class="ident">payload</span>) <span class="kw">if</span> <span class="ident">cnt_to_remove</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">bit_count</span>
-				<span class="op">=</span><span class="op">&gt;</span> <span class="ident">PayloadFound</span>(<span class="ident">cnt_to_remove</span>, <span class="ident">payload</span>),
+				=&gt; <span class="ident">PayloadFound</span>(<span class="ident">cnt_to_remove</span>, <span class="ident">payload</span>),
 			<span class="ident">InconclusiveWithHint</span>(<span class="ident">hint</span>)
-				<span class="op">=</span><span class="op">&gt;</span> <span class="ident">Iter</span>(<span class="number">8</span>, <span class="ident">VorbisHuffmanIter</span> { <span class="ident">desc_prog</span> : <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">desc_prog</span>, <span class="ident">pos</span> : <span class="ident">hint</span> }),
+				=&gt; <span class="ident">Iter</span>(<span class="number">8</span>, <span class="ident">VorbisHuffmanIter</span> { <span class="ident">desc_prog</span> : <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">desc_prog</span>, <span class="ident">pos</span> : <span class="ident">hint</span> }),
 			<span class="kw">_</span>
-				<span class="op">=</span><span class="op">&gt;</span> <span class="ident">Iter</span>(<span class="number">0</span>, <span class="ident">VorbisHuffmanIter</span> { <span class="ident">desc_prog</span> : <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">desc_prog</span>, <span class="ident">pos</span> : <span class="number">0</span> }),
+				=&gt; <span class="ident">Iter</span>(<span class="number">0</span>, <span class="ident">VorbisHuffmanIter</span> { <span class="ident">desc_prog</span> : <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">desc_prog</span>, <span class="ident">pos</span> : <span class="number">0</span> }),
 		};
 	}
 }
@@ -847,7 +844,7 @@ impl fmt::Debug for HuffTree {
 	<span class="doccomment">/// Panics if the vorbis huffman treee is empty. It has to be found out</span>
 	<span class="doccomment">/// what to do if the huffman tree is empty, whether to reject the stream,</span>
 	<span class="doccomment">/// or whether to do sth else. Finding this out is a TODO.</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">bit</span> :<span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">bit</span> :<span class="ident">bool</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
 		<span class="comment">// Assertion test for the paranoid and testing, comment out if you are:</span>
 		<span class="comment">/*let cur_entry = self.desc_prog[self.pos as usize];
 		assert!((cur_entry &amp; (1u32 &lt;&lt; 31)) != 0);*/</span>
@@ -874,16 +871,16 @@ impl fmt::Debug for HuffTree {
 	<span class="kw">fn</span> <span class="ident">iter_test</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span> :<span class="ident">u32</span>, <span class="ident">path_len</span> :<span class="ident">u8</span>, <span class="ident">expected_val</span> :<span class="ident">u32</span>) {
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">itr</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">iter</span>();
 		<span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">1</span> .. <span class="ident">path_len</span> {
-			<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">itr</span>.<span class="ident">next</span>((<span class="ident">path</span> <span class="op">&amp;</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> (<span class="ident">path_len</span> <span class="op">-</span> <span class="ident">i</span>))) <span class="op">!</span><span class="op">=</span> <span class="number">0</span>), <span class="prelude-val">None</span>);
+			<span class="macro">assert_eq!</span>(<span class="ident">itr</span>.<span class="ident">next</span>((<span class="ident">path</span> <span class="op">&amp;</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> (<span class="ident">path_len</span> <span class="op">-</span> <span class="ident">i</span>))) <span class="op">!</span><span class="op">=</span> <span class="number">0</span>), <span class="prelude-val">None</span>);
 		}
-		<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">itr</span>.<span class="ident">next</span>((<span class="ident">path</span> <span class="op">&amp;</span> <span class="number">1</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span>), <span class="prelude-val">Some</span>(<span class="ident">expected_val</span>));
+		<span class="macro">assert_eq!</span>(<span class="ident">itr</span>.<span class="ident">next</span>((<span class="ident">path</span> <span class="op">&amp;</span> <span class="number">1</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span>), <span class="prelude-val">Some</span>(<span class="ident">expected_val</span>));
 	}
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">test_huffman_tree</span>() {
 	<span class="comment">// Official example from the vorbis spec section 3.2.1</span>
-	<span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree</span>::<span class="ident">load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>]).<span class="ident">unwrap</span>();
+	<span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree::load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>]).<span class="ident">unwrap</span>();
 
 	<span class="ident">tree</span>.<span class="ident">iter_test</span>(<span class="number">0b00</span>, <span class="number">2</span>, <span class="number">0</span>);
 	<span class="ident">tree</span>.<span class="ident">iter_test</span>(<span class="number">0b0100</span>, <span class="number">4</span>, <span class="number">1</span>);
@@ -896,7 +893,7 @@ impl fmt::Debug for HuffTree {
 
 	<span class="comment">// Some other example</span>
 	<span class="comment">// we mostly test the length (max 32) here</span>
-	<span class="ident">VorbisHuffmanTree</span>::<span class="ident">load_from_array</span>(<span class="kw-2">&amp;</span>[
+	<span class="ident">VorbisHuffmanTree::load_from_array</span>(<span class="kw-2">&amp;</span>[
 		<span class="number">1</span>,   <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>,  <span class="number">5</span>,  <span class="number">6</span>,  <span class="number">7</span>,  <span class="number">8</span>,  <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>, <span class="number">14</span>, <span class="number">15</span>, <span class="number">16</span>,
 		<span class="number">17</span>, <span class="number">18</span>, <span class="number">19</span>, <span class="number">20</span>, <span class="number">21</span>, <span class="number">22</span>, <span class="number">23</span>, <span class="number">24</span>, <span class="number">25</span>, <span class="number">26</span>, <span class="number">27</span>, <span class="number">28</span>, <span class="number">29</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">32</span>, <span class="number">32</span>]).<span class="ident">unwrap</span>();
 }
@@ -905,7 +902,7 @@ impl fmt::Debug for HuffTree {
 <span class="kw">fn</span> <span class="ident">test_issue_8</span>() {
 	<span class="comment">// regression test for issue 8</span>
 	<span class="comment">// make sure that it doesn&#39;t panic.</span>
-	<span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree</span>::<span class="ident">load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">625</span>]);
+	<span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree::load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">625</span>]);
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -914,31 +911,31 @@ impl fmt::Debug for HuffTree {
 	<span class="comment">// but with modifications to under- or overspecify them</span>
 
 	<span class="comment">// underspecified</span>
-	<span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree</span>::<span class="ident">load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">3</span><span class="comment">/*, 3*/</span>]);
-	<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">tree</span>.<span class="ident">is_err</span>());
+	<span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree::load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">3</span><span class="comment">/*, 3*/</span>]);
+	<span class="macro">assert!</span>(<span class="ident">tree</span>.<span class="ident">is_err</span>());
 
 	<span class="comment">// underspecified</span>
-	<span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree</span>::<span class="ident">load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="comment">/*4,*/</span> <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>]);
-	<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">tree</span>.<span class="ident">is_err</span>());
+	<span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree::load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="comment">/*4,*/</span> <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>]);
+	<span class="macro">assert!</span>(<span class="ident">tree</span>.<span class="ident">is_err</span>());
 
 	<span class="comment">// overspecified</span>
-	<span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree</span>::<span class="ident">load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span><span class="comment">/*]*/</span>,<span class="number">3</span>]);
-	<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">tree</span>.<span class="ident">is_err</span>());
+	<span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree::load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span><span class="comment">/*]*/</span>,<span class="number">3</span>]);
+	<span class="macro">assert!</span>(<span class="ident">tree</span>.<span class="ident">is_err</span>());
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">test_single_entry_huffman_tree</span>() {
 	<span class="comment">// Special testing for single entry codebooks, as required by the vorbis spec</span>
-	<span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree</span>::<span class="ident">load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">1</span>]).<span class="ident">unwrap</span>();
+	<span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree::load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">1</span>]).<span class="ident">unwrap</span>();
 	<span class="ident">tree</span>.<span class="ident">iter_test</span>(<span class="number">0b0</span>, <span class="number">1</span>, <span class="number">0</span>);
 	<span class="ident">tree</span>.<span class="ident">iter_test</span>(<span class="number">0b1</span>, <span class="number">1</span>, <span class="number">0</span>);
 
-	<span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree</span>::<span class="ident">load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>]).<span class="ident">unwrap</span>();
+	<span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree::load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>]).<span class="ident">unwrap</span>();
 	<span class="ident">tree</span>.<span class="ident">iter_test</span>(<span class="number">0b0</span>, <span class="number">1</span>, <span class="number">2</span>);
 	<span class="ident">tree</span>.<span class="ident">iter_test</span>(<span class="number">0b1</span>, <span class="number">1</span>, <span class="number">2</span>);
 
-	<span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree</span>::<span class="ident">load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">2</span>]);
-	<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">tree</span>.<span class="ident">is_err</span>());
+	<span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree::load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">2</span>]);
+	<span class="macro">assert!</span>(<span class="ident">tree</span>.<span class="ident">is_err</span>());
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -948,7 +945,7 @@ impl fmt::Debug for HuffTree {
 	<span class="comment">// Ensuring that unordered huffman trees work as well is important</span>
 	<span class="comment">// because the spec does not disallow them, and unordered</span>
 	<span class="comment">// huffman trees appear in &quot;the wild&quot;.</span>
-	<span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree</span>::<span class="ident">load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">3</span>]).<span class="ident">unwrap</span>();
+	<span class="kw">let</span> <span class="ident">tree</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree::load_from_array</span>(<span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">3</span>]).<span class="ident">unwrap</span>();
 
 	<span class="ident">tree</span>.<span class="ident">iter_test</span>(<span class="number">0b00</span>, <span class="number">2</span>, <span class="number">0</span>);
 	<span class="ident">tree</span>.<span class="ident">iter_test</span>(<span class="number">0b0100</span>, <span class="number">4</span>, <span class="number">1</span>);
@@ -963,7 +960,7 @@ impl fmt::Debug for HuffTree {
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">test_extracted_huffman_tree</span>() {
 	<span class="comment">// Extracted from a real-life vorbis file.</span>
-	<span class="ident">VorbisHuffmanTree</span>::<span class="ident">load_from_array</span>(<span class="kw-2">&amp;</span>[
+	<span class="ident">VorbisHuffmanTree::load_from_array</span>(<span class="kw-2">&amp;</span>[
 	<span class="number">5</span>,  <span class="number">6</span>, <span class="number">11</span>, <span class="number">11</span>, <span class="number">11</span>, <span class="number">11</span>, <span class="number">10</span>, <span class="number">10</span>, <span class="number">12</span>, <span class="number">11</span>,  <span class="number">5</span>,  <span class="number">2</span>, <span class="number">11</span>,  <span class="number">5</span>,  <span class="number">6</span>,  <span class="number">6</span>,
 	<span class="number">7</span>,  <span class="number">9</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">13</span>, <span class="number">10</span>,  <span class="number">7</span>, <span class="number">11</span>,  <span class="number">6</span>,  <span class="number">7</span>,  <span class="number">8</span>,  <span class="number">9</span>, <span class="number">10</span>, <span class="number">12</span>, <span class="number">11</span>,  <span class="number">5</span>,
 	<span class="number">11</span>, <span class="number">6</span>,  <span class="number">8</span>,  <span class="number">7</span>,  <span class="number">9</span>, <span class="number">11</span>, <span class="number">14</span>, <span class="number">15</span>, <span class="number">11</span>,  <span class="number">6</span>,  <span class="number">6</span>,  <span class="number">8</span>,  <span class="number">4</span>,  <span class="number">5</span>,  <span class="number">7</span>,  <span class="number">8</span>,
@@ -972,6 +969,6 @@ impl fmt::Debug for HuffTree {
 	<span class="number">12</span>,<span class="number">11</span>, <span class="number">10</span>, <span class="number">13</span>,  <span class="number">9</span>,  <span class="number">9</span>,  <span class="number">7</span>,  <span class="number">7</span>,  <span class="number">7</span>,  <span class="number">9</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">12</span>, <span class="number">15</span>, <span class="number">12</span>, <span class="number">11</span>,
 	<span class="number">9</span>,  <span class="number">8</span>,  <span class="number">8</span>,  <span class="number">8</span>]).<span class="ident">unwrap</span>();
 }
-</pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="lewton" data-search-js="../../search-index.js"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="lewton" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
+</body></html>

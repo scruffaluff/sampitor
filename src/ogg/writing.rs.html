@@ -1,7 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/ogg-0.8.0/src/writing.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>writing.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../ogg/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;ogg-0.8.0&#x2F;src&#x2F;writing.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>writing.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../ogg/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -345,8 +343,7 @@
 <span id="342">342</span>
 <span id="343">343</span>
 <span id="344">344</span>
-</pre><div class="example-wrap"><pre class="rust ">
-<span class="comment">// Ogg decoder and encoder written in Rust</span>
+</pre><pre class="rust"><code><span class="comment">// Ogg decoder and encoder written in Rust</span>
 <span class="comment">//</span>
 <span class="comment">// Copyright (c) 2016-2017 est31 &lt;MTest31@outlook.com&gt;</span>
 <span class="comment">// and contributors. All rights reserved.</span>
@@ -358,18 +355,18 @@
 Writing logic
 */</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">result</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="self">self</span>, <span class="ident">Cursor</span>, <span class="ident">Write</span>, <span class="ident">Seek</span>, <span class="ident">SeekFrom</span>};
+<span class="kw">use</span> <span class="ident">std::result</span>;
+<span class="kw">use</span> <span class="ident">std::io</span>::{<span class="self">self</span>, <span class="ident">Cursor</span>, <span class="ident">Write</span>, <span class="ident">Seek</span>, <span class="ident">SeekFrom</span>};
 <span class="kw">use</span> <span class="ident">byteorder</span>::{<span class="ident">WriteBytesExt</span>, <span class="ident">LittleEndian</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
-<span class="kw">use</span> <span class="ident">crc</span>::<span class="ident">vorbis_crc32_update</span>;
+<span class="kw">use</span> <span class="ident">std::collections::HashMap</span>;
+<span class="kw">use</span> <span class="ident">crc::vorbis_crc32_update</span>;
 
 
 <span class="doccomment">/// Ogg version of the `std::io::Result` type.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// We need `std::result::Result` at other points</span>
 <span class="doccomment">/// too, so we can&#39;t use `Result` as the name.</span>
-<span class="kw">type</span> <span class="ident">IoResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span>;
+<span class="kw">type</span> <span class="ident">IoResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">result::Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">io::Error</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/**
 Writer for packets into an Ogg stream.
@@ -377,7 +374,7 @@ Writer for packets into an Ogg stream.
 Note that the functionality of this struct isn&#39;t as well tested as for
 the `PacketReader` struct.
 */</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PacketWriter</span><span class="op">&lt;</span><span class="ident">T</span> :<span class="ident">io</span>::<span class="ident">Write</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PacketWriter</span><span class="op">&lt;</span><span class="ident">T</span> :<span class="ident">io::Write</span><span class="op">&gt;</span> {
 	<span class="ident">wtr</span> :<span class="ident">T</span>,
 
 	<span class="ident">page_vals</span> :<span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="ident">CurrentPageValues</span><span class="op">&gt;</span>,
@@ -437,14 +434,14 @@ the `PacketReader` struct.
 	<span class="ident">EndStream</span>,
 }
 
-<span class="kw">impl</span> <span class="op">&lt;</span><span class="ident">T</span> :<span class="ident">io</span>::<span class="ident">Write</span><span class="op">&gt;</span> <span class="ident">PacketWriter</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">wtr</span> :<span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+<span class="kw">impl</span> <span class="op">&lt;</span><span class="ident">T</span> :<span class="ident">io::Write</span><span class="op">&gt;</span> <span class="ident">PacketWriter</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">wtr</span> :<span class="ident">T</span>) -&gt; <span class="self">Self</span> {
 		<span class="kw">return</span> <span class="ident">PacketWriter</span> {
 			<span class="ident">wtr</span>,
-			<span class="ident">page_vals</span> : <span class="ident">HashMap</span>::<span class="ident">new</span>(),
+			<span class="ident">page_vals</span> : <span class="ident">HashMap::new</span>(),
 		};
 	}
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">T</span> {
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) -&gt; <span class="ident">T</span> {
 		<span class="self">self</span>.<span class="ident">wtr</span>
 	}
 	<span class="doccomment">/// Access the interior writer</span>
@@ -452,7 +449,7 @@ the `PacketReader` struct.
 	<span class="doccomment">/// This allows access of the writer contained inside.</span>
 	<span class="doccomment">/// No guarantees are given onto the pattern of the writes.</span>
 	<span class="doccomment">/// They may change in the future.</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">inner</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span> {
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">inner</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">T</span> {
 		<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">wtr</span>
 	}
 	<span class="doccomment">/// Access the interior writer mutably</span>
@@ -460,13 +457,13 @@ the `PacketReader` struct.
 	<span class="doccomment">/// This allows access of the writer contained inside.</span>
 	<span class="doccomment">/// No guarantees are given onto the pattern of the writes.</span>
 	<span class="doccomment">/// They may change in the future.</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">inner_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span> {
-		<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">wtr</span>
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">inner_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">T</span> {
+		<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">wtr</span>
 	}
 	<span class="doccomment">/// Write a packet</span>
 	<span class="doccomment">///</span>
 	<span class="doccomment">///</span>
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_packet</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">pck_cont</span> :<span class="ident">Box</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>, <span class="ident">serial</span> :<span class="ident">u32</span>,
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_packet</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">pck_cont</span> :<span class="ident">Box</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>, <span class="ident">serial</span> :<span class="ident">u32</span>,
 			<span class="ident">inf</span> :<span class="ident">PacketWriteEndInfo</span>,
 			<span class="comment">/* TODO find a better way to design the API around
 				passing the absgp to the underlying implementation.
@@ -474,15 +471,15 @@ the `PacketReader` struct.
 				called when we encounter a new page... with the param
 				the index inside the current page, or something.
 			*/</span>
-			<span class="ident">absgp</span> :<span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">IoResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-		<span class="kw">let</span> <span class="ident">is_end_stream</span> :<span class="ident">bool</span> <span class="op">=</span> <span class="ident">inf</span> <span class="op">=</span><span class="op">=</span> <span class="ident">PacketWriteEndInfo</span>::<span class="ident">EndStream</span>;
+			<span class="ident">absgp</span> :<span class="ident">u64</span>) -&gt; <span class="ident">IoResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+		<span class="kw">let</span> <span class="ident">is_end_stream</span> :<span class="ident">bool</span> <span class="op">=</span> <span class="ident">inf</span> <span class="op">==</span> <span class="ident">PacketWriteEndInfo::EndStream</span>;
 		<span class="kw">let</span> <span class="ident">pg</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">page_vals</span>.<span class="ident">entry</span>(<span class="ident">serial</span>).<span class="ident">or_insert</span>(
 			<span class="ident">CurrentPageValues</span> {
 				<span class="ident">first_page</span> : <span class="bool-val">true</span>,
 				<span class="ident">sequence_num</span> : <span class="number">0</span>,
 				<span class="ident">segment_cnt</span> : <span class="number">0</span>,
 				<span class="ident">cur_pg_lacing</span> :[<span class="number">0</span>; <span class="number">255</span>],
-				<span class="ident">cur_pg_data</span> :<span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="number">255</span>),
+				<span class="ident">cur_pg_data</span> :<span class="ident">Vec::with_capacity</span>(<span class="number">255</span>),
 				<span class="ident">pck_this_overflow_idx</span> : <span class="prelude-val">None</span>,
 				<span class="ident">pck_last_overflow_idx</span> : <span class="prelude-val">None</span>,
 			}
@@ -507,16 +504,16 @@ the `PacketReader` struct.
 			}
 			<span class="ident">pg</span>.<span class="ident">segment_cnt</span> <span class="op">=</span> <span class="ident">segment_in_page_i</span> <span class="op">+</span> <span class="number">1</span>;
 			<span class="ident">segment_in_page_i</span> <span class="op">=</span> (<span class="ident">segment_in_page_i</span> <span class="op">+</span> <span class="number">1</span>) <span class="op">%</span> <span class="number">255</span>;
-			<span class="kw">if</span> <span class="ident">segment_in_page_i</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+			<span class="kw">if</span> <span class="ident">segment_in_page_i</span> <span class="op">==</span> <span class="number">0</span> {
 				<span class="kw">if</span> <span class="ident">segment_i</span> <span class="op">+</span> <span class="number">1</span> <span class="op">&lt;</span> <span class="ident">needed_segments</span> {
 					<span class="comment">// We have to flush a page, but we know there are more to come...</span>
 					<span class="ident">pg</span>.<span class="ident">pck_this_overflow_idx</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">segment_i</span> <span class="op">+</span> <span class="number">1</span>) <span class="op">*</span> <span class="number">255</span>);
-					<span class="macro">tri</span><span class="macro">!</span>(<span class="ident">PacketWriter</span>::<span class="ident">write_page</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">wtr</span>, <span class="ident">serial</span>, <span class="ident">pg</span>,
+					<span class="macro">tri!</span>(<span class="ident">PacketWriter::write_page</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">wtr</span>, <span class="ident">serial</span>, <span class="ident">pg</span>,
 						<span class="bool-val">false</span>));
 				} <span class="kw">else</span> {
 					<span class="comment">// We have to write a page end, and it&#39;s the very last</span>
 					<span class="comment">// we need to write</span>
-					<span class="macro">tri</span><span class="macro">!</span>(<span class="ident">PacketWriter</span>::<span class="ident">write_page</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">wtr</span>,
+					<span class="macro">tri!</span>(<span class="ident">PacketWriter::write_page</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">wtr</span>,
 						<span class="ident">serial</span>, <span class="ident">pg</span>, <span class="ident">is_end_stream</span>));
 					<span class="comment">// Not actually required</span>
 					<span class="comment">// (it is always None except if we set it to Some directly</span>
@@ -528,9 +525,9 @@ the `PacketReader` struct.
 				<span class="ident">at_page_end</span> <span class="op">=</span> <span class="bool-val">true</span>;
 			}
 		}
-		<span class="kw">if</span> (<span class="ident">inf</span> <span class="op">!</span><span class="op">=</span> <span class="ident">PacketWriteEndInfo</span>::<span class="ident">NormalPacket</span>) <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">at_page_end</span> {
+		<span class="kw">if</span> (<span class="ident">inf</span> <span class="op">!</span><span class="op">=</span> <span class="ident">PacketWriteEndInfo::NormalPacket</span>) <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">at_page_end</span> {
 			<span class="comment">// Write a page end</span>
-			<span class="macro">tri</span><span class="macro">!</span>(<span class="ident">PacketWriter</span>::<span class="ident">write_page</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">wtr</span>, <span class="ident">serial</span>, <span class="ident">pg</span>,
+			<span class="macro">tri!</span>(<span class="ident">PacketWriter::write_page</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">wtr</span>, <span class="ident">serial</span>, <span class="ident">pg</span>,
 				<span class="ident">is_end_stream</span>));
 
 			<span class="ident">pg</span>.<span class="ident">pck_last_overflow_idx</span> <span class="op">=</span> <span class="prelude-val">None</span>;
@@ -542,37 +539,37 @@ the `PacketReader` struct.
 		<span class="comment">// All went fine.</span>
 		<span class="prelude-val">Ok</span>(())
 	}
-	<span class="kw">fn</span> <span class="ident">write_page</span>(<span class="ident">wtr</span> :<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>, <span class="ident">serial</span> :<span class="ident">u32</span>, <span class="ident">pg</span> :<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">CurrentPageValues</span>,
-			<span class="ident">last_page</span> :<span class="ident">bool</span>)  <span class="op">-</span><span class="op">&gt;</span> <span class="ident">IoResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+	<span class="kw">fn</span> <span class="ident">write_page</span>(<span class="ident">wtr</span> :<span class="kw-2">&amp;mut</span> <span class="ident">T</span>, <span class="ident">serial</span> :<span class="ident">u32</span>, <span class="ident">pg</span> :<span class="kw-2">&amp;mut</span> <span class="ident">CurrentPageValues</span>,
+			<span class="ident">last_page</span> :<span class="ident">bool</span>)  -&gt; <span class="ident">IoResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
 		{
 			<span class="comment">// The page header with everything but the lacing values:</span>
-			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hdr_cur</span> <span class="op">=</span> <span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="number">27</span>));
-			<span class="macro">tri</span><span class="macro">!</span>(<span class="ident">hdr_cur</span>.<span class="ident">write_all</span>(<span class="kw-2">&amp;</span>[<span class="number">0x4f</span>, <span class="number">0x67</span>, <span class="number">0x67</span>, <span class="number">0x53</span>, <span class="number">0x00</span>]));
+			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hdr_cur</span> <span class="op">=</span> <span class="ident">Cursor::new</span>(<span class="ident">Vec::with_capacity</span>(<span class="number">27</span>));
+			<span class="macro">tri!</span>(<span class="ident">hdr_cur</span>.<span class="ident">write_all</span>(<span class="kw-2">&amp;</span>[<span class="number">0x4f</span>, <span class="number">0x67</span>, <span class="number">0x67</span>, <span class="number">0x53</span>, <span class="number">0x00</span>]));
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">flags</span> :<span class="ident">u8</span> <span class="op">=</span> <span class="number">0</span>;
 			<span class="kw">if</span> <span class="ident">pg</span>.<span class="ident">pck_last_overflow_idx</span>.<span class="ident">is_some</span>() { <span class="ident">flags</span> <span class="op">|</span><span class="op">=</span> <span class="number">0x01</span>; }
 			<span class="kw">if</span> <span class="ident">pg</span>.<span class="ident">first_page</span> { <span class="ident">flags</span> <span class="op">|</span><span class="op">=</span> <span class="number">0x02</span>; }
 			<span class="kw">if</span> <span class="ident">last_page</span> { <span class="ident">flags</span> <span class="op">|</span><span class="op">=</span> <span class="number">0x04</span>; }
 
-			<span class="macro">tri</span><span class="macro">!</span>(<span class="ident">hdr_cur</span>.<span class="ident">write_u8</span>(<span class="ident">flags</span>));
+			<span class="macro">tri!</span>(<span class="ident">hdr_cur</span>.<span class="ident">write_u8</span>(<span class="ident">flags</span>));
 
 			<span class="kw">let</span> <span class="ident">pck_data</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">pg</span>.<span class="ident">cur_pg_data</span>;
 
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">last_finishing_pck_absgp</span> <span class="op">=</span> (<span class="op">-</span><span class="number">1i64</span>) <span class="kw">as</span> <span class="ident">u64</span>;
 			<span class="kw">for</span> (<span class="ident">idx</span>, <span class="kw-2">&amp;</span>(<span class="kw">_</span>, <span class="ident">absgp</span>)) <span class="kw">in</span> <span class="ident">pck_data</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-				<span class="kw">if</span> <span class="op">!</span>(<span class="ident">idx</span> <span class="op">+</span> <span class="number">1</span> <span class="op">=</span><span class="op">=</span> <span class="ident">pck_data</span>.<span class="ident">len</span>() <span class="op">&amp;&amp;</span>
+				<span class="kw">if</span> <span class="op">!</span>(<span class="ident">idx</span> <span class="op">+</span> <span class="number">1</span> <span class="op">==</span> <span class="ident">pck_data</span>.<span class="ident">len</span>() <span class="op">&amp;&amp;</span>
 						<span class="ident">pg</span>.<span class="ident">pck_this_overflow_idx</span>.<span class="ident">is_some</span>()) {
 					<span class="ident">last_finishing_pck_absgp</span> <span class="op">=</span> <span class="ident">absgp</span>;
 				}
 			}
 
-			<span class="macro">tri</span><span class="macro">!</span>(<span class="ident">hdr_cur</span>.<span class="ident">write_u64</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">last_finishing_pck_absgp</span>));
-			<span class="macro">tri</span><span class="macro">!</span>(<span class="ident">hdr_cur</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">serial</span>));
-			<span class="macro">tri</span><span class="macro">!</span>(<span class="ident">hdr_cur</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">pg</span>.<span class="ident">sequence_num</span>));
+			<span class="macro">tri!</span>(<span class="ident">hdr_cur</span>.<span class="ident">write_u64</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">last_finishing_pck_absgp</span>));
+			<span class="macro">tri!</span>(<span class="ident">hdr_cur</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">serial</span>));
+			<span class="macro">tri!</span>(<span class="ident">hdr_cur</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">pg</span>.<span class="ident">sequence_num</span>));
 
 			<span class="comment">// checksum, calculated later on :)</span>
-			<span class="macro">tri</span><span class="macro">!</span>(<span class="ident">hdr_cur</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>));
+			<span class="macro">tri!</span>(<span class="ident">hdr_cur</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="number">0</span>));
 
-			<span class="macro">tri</span><span class="macro">!</span>(<span class="ident">hdr_cur</span>.<span class="ident">write_u8</span>(<span class="ident">pg</span>.<span class="ident">segment_cnt</span>));
+			<span class="macro">tri!</span>(<span class="ident">hdr_cur</span>.<span class="ident">write_u8</span>(<span class="ident">pg</span>.<span class="ident">segment_cnt</span>));
 
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hash_calculated</span> :<span class="ident">u32</span>;
 
@@ -584,11 +581,11 @@ the `PacketReader` struct.
 
 			<span class="kw">for</span> (<span class="ident">idx</span>, <span class="kw-2">&amp;</span>(<span class="kw-2">ref</span> <span class="ident">pck</span>, <span class="kw">_</span>)) <span class="kw">in</span> <span class="ident">pck_data</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
 				<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">start</span> :<span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
-				<span class="kw">if</span> <span class="ident">idx</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> { <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">pg</span>.<span class="ident">pck_last_overflow_idx</span> {
+				<span class="kw">if</span> <span class="ident">idx</span> <span class="op">==</span> <span class="number">0</span> { <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">pg</span>.<span class="ident">pck_last_overflow_idx</span> {
 					<span class="ident">start</span> <span class="op">=</span> <span class="ident">idx</span>;
 				}}
 				<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">end</span> :<span class="ident">usize</span> <span class="op">=</span> <span class="ident">pck</span>.<span class="ident">len</span>();
-				<span class="kw">if</span> <span class="ident">idx</span> <span class="op">+</span> <span class="number">1</span> <span class="op">=</span><span class="op">=</span> <span class="ident">pck_data</span>.<span class="ident">len</span>() {
+				<span class="kw">if</span> <span class="ident">idx</span> <span class="op">+</span> <span class="number">1</span> <span class="op">==</span> <span class="ident">pck_data</span>.<span class="ident">len</span>() {
 					<span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">pg</span>.<span class="ident">pck_this_overflow_idx</span> {
 						<span class="ident">end</span> <span class="op">=</span> <span class="ident">idx</span>;
 					}
@@ -601,24 +598,24 @@ the `PacketReader` struct.
 			<span class="comment">// Don&#39;t do excessive checking here (that the seek</span>
 			<span class="comment">// succeeded &amp; we are at the right pos now).</span>
 			<span class="comment">// It&#39;s hopefully not required.</span>
-			<span class="macro">tri</span><span class="macro">!</span>(<span class="ident">hdr_cur</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="number">22</span>)));
-			<span class="macro">tri</span><span class="macro">!</span>(<span class="ident">hdr_cur</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">hash_calculated</span>));
+			<span class="macro">tri!</span>(<span class="ident">hdr_cur</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom::Start</span>(<span class="number">22</span>)));
+			<span class="macro">tri!</span>(<span class="ident">hdr_cur</span>.<span class="ident">write_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>(<span class="ident">hash_calculated</span>));
 
 			<span class="comment">// Now all is done, write the stuff!</span>
-			<span class="macro">tri</span><span class="macro">!</span>(<span class="ident">wtr</span>.<span class="ident">write_all</span>(<span class="ident">hdr_cur</span>.<span class="ident">get_ref</span>()));
-			<span class="macro">tri</span><span class="macro">!</span>(<span class="ident">wtr</span>.<span class="ident">write_all</span>(<span class="ident">pg_lacing</span>));
+			<span class="macro">tri!</span>(<span class="ident">wtr</span>.<span class="ident">write_all</span>(<span class="ident">hdr_cur</span>.<span class="ident">get_ref</span>()));
+			<span class="macro">tri!</span>(<span class="ident">wtr</span>.<span class="ident">write_all</span>(<span class="ident">pg_lacing</span>));
 			<span class="kw">for</span> (<span class="ident">idx</span>, <span class="kw-2">&amp;</span>(<span class="kw-2">ref</span> <span class="ident">pck</span>, <span class="kw">_</span>)) <span class="kw">in</span> <span class="ident">pck_data</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
 				<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">start</span> :<span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
-				<span class="kw">if</span> <span class="ident">idx</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> { <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">pg</span>.<span class="ident">pck_last_overflow_idx</span> {
+				<span class="kw">if</span> <span class="ident">idx</span> <span class="op">==</span> <span class="number">0</span> { <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">pg</span>.<span class="ident">pck_last_overflow_idx</span> {
 					<span class="ident">start</span> <span class="op">=</span> <span class="ident">idx</span>;
 				}}
 				<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">end</span> :<span class="ident">usize</span> <span class="op">=</span> <span class="ident">pck</span>.<span class="ident">len</span>();
-				<span class="kw">if</span> <span class="ident">idx</span> <span class="op">+</span> <span class="number">1</span> <span class="op">=</span><span class="op">=</span> <span class="ident">pck_data</span>.<span class="ident">len</span>() {
+				<span class="kw">if</span> <span class="ident">idx</span> <span class="op">+</span> <span class="number">1</span> <span class="op">==</span> <span class="ident">pck_data</span>.<span class="ident">len</span>() {
 					<span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <span class="ident">pg</span>.<span class="ident">pck_this_overflow_idx</span> {
 						<span class="ident">end</span> <span class="op">=</span> <span class="ident">idx</span>;
 					}
 				}
-				<span class="macro">tri</span><span class="macro">!</span>(<span class="ident">wtr</span>.<span class="ident">write_all</span>(<span class="kw-2">&amp;</span><span class="ident">pck</span>[<span class="ident">start</span> .. <span class="ident">end</span>]));
+				<span class="macro">tri!</span>(<span class="ident">wtr</span>.<span class="ident">write_all</span>(<span class="kw-2">&amp;</span><span class="ident">pck</span>[<span class="ident">start</span> .. <span class="ident">end</span>]));
 			}
 		}
 
@@ -645,9 +642,9 @@ the `PacketReader` struct.
 	}
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span> :<span class="ident">io</span>::<span class="ident">Seek</span> <span class="op">+</span> <span class="ident">io</span>::<span class="ident">Write</span><span class="op">&gt;</span> <span class="ident">PacketWriter</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_current_offs</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u64</span>, <span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
-		<span class="self">self</span>.<span class="ident">wtr</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="number">0</span>))
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span> :<span class="ident">io::Seek</span> <span class="op">+</span> <span class="ident">io::Write</span><span class="op">&gt;</span> <span class="ident">PacketWriter</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_current_offs</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u64</span>, <span class="ident">io::Error</span><span class="op">&gt;</span> {
+		<span class="self">self</span>.<span class="ident">wtr</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom::Current</span>(<span class="number">0</span>))
 	}
 }
 
@@ -658,38 +655,38 @@ the `PacketReader` struct.
 	<span class="comment">// Test that we can deal with recapture</span>
 	<span class="comment">// at varying distances.</span>
 	<span class="comment">// This is a regression test</span>
-	<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Write</span>;
-	<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">PacketReader</span>;
-	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">Vec</span>::<span class="ident">new</span>());
+	<span class="kw">use</span> <span class="ident">std::io::Write</span>;
+	<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::PacketReader</span>;
+	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">Cursor::new</span>(<span class="ident">Vec::new</span>());
 	<span class="kw">let</span> <span class="ident">test_arr</span> <span class="op">=</span> [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>];
 	<span class="kw">let</span> <span class="ident">test_arr_2</span> <span class="op">=</span> [<span class="number">2</span>, <span class="number">4</span>, <span class="number">8</span>, <span class="number">16</span>, <span class="number">32</span>, <span class="number">64</span>, <span class="number">128</span>, <span class="number">127</span>, <span class="number">126</span>, <span class="number">125</span>, <span class="number">124</span>];
 	<span class="kw">let</span> <span class="ident">test_arr_3</span> <span class="op">=</span> [<span class="number">3</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">17</span>, <span class="number">33</span>, <span class="number">65</span>, <span class="number">129</span>, <span class="number">129</span>, <span class="number">127</span>, <span class="number">126</span>, <span class="number">125</span>];
 	{
-		<span class="kw">let</span> <span class="ident">np</span> <span class="op">=</span> <span class="ident">PacketWriteEndInfo</span>::<span class="ident">NormalPacket</span>;
-		<span class="kw">let</span> <span class="ident">ep</span> <span class="op">=</span> <span class="ident">PacketWriteEndInfo</span>::<span class="ident">EndPage</span>;
+		<span class="kw">let</span> <span class="ident">np</span> <span class="op">=</span> <span class="ident">PacketWriteEndInfo::NormalPacket</span>;
+		<span class="kw">let</span> <span class="ident">ep</span> <span class="op">=</span> <span class="ident">PacketWriteEndInfo::EndPage</span>;
 		{
-			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">w</span> <span class="op">=</span> <span class="ident">PacketWriter</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">c</span>);
-			<span class="ident">w</span>.<span class="ident">write_packet</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">test_arr</span>), <span class="number">0xdeadb33f</span>, <span class="ident">ep</span>, <span class="number">0</span>).<span class="ident">unwrap</span>();
+			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">w</span> <span class="op">=</span> <span class="ident">PacketWriter::new</span>(<span class="kw-2">&amp;mut</span> <span class="ident">c</span>);
+			<span class="ident">w</span>.<span class="ident">write_packet</span>(<span class="ident">Box::new</span>(<span class="ident">test_arr</span>), <span class="number">0xdeadb33f</span>, <span class="ident">ep</span>, <span class="number">0</span>).<span class="ident">unwrap</span>();
 
 			<span class="comment">// Now, after the end of the page, put in some noise.</span>
 			<span class="ident">w</span>.<span class="ident">wtr</span>.<span class="ident">write_all</span>(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">38</span>]).<span class="ident">unwrap</span>();
 
-			<span class="ident">w</span>.<span class="ident">write_packet</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">test_arr_2</span>), <span class="number">0xdeadb33f</span>, <span class="ident">np</span>, <span class="number">1</span>).<span class="ident">unwrap</span>();
-			<span class="ident">w</span>.<span class="ident">write_packet</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">test_arr_3</span>), <span class="number">0xdeadb33f</span>, <span class="ident">ep</span>, <span class="number">2</span>).<span class="ident">unwrap</span>();
+			<span class="ident">w</span>.<span class="ident">write_packet</span>(<span class="ident">Box::new</span>(<span class="ident">test_arr_2</span>), <span class="number">0xdeadb33f</span>, <span class="ident">np</span>, <span class="number">1</span>).<span class="ident">unwrap</span>();
+			<span class="ident">w</span>.<span class="ident">write_packet</span>(<span class="ident">Box::new</span>(<span class="ident">test_arr_3</span>), <span class="number">0xdeadb33f</span>, <span class="ident">ep</span>, <span class="number">2</span>).<span class="ident">unwrap</span>();
 		}
 	}
 	<span class="comment">//print_u8_slice(c.get_ref());</span>
-	<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">c</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>(), <span class="number">0</span>);
+	<span class="macro">assert_eq!</span>(<span class="ident">c</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom::Start</span>(<span class="number">0</span>)).<span class="ident">unwrap</span>(), <span class="number">0</span>);
 	{
-		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">PacketReader</span>::<span class="ident">new</span>(<span class="ident">c</span>);
+		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">PacketReader::new</span>(<span class="ident">c</span>);
 		<span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> <span class="ident">r</span>.<span class="ident">read_packet</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-		<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">test_arr</span>, <span class="kw-2">*</span><span class="ident">p1</span>.<span class="ident">data</span>);
+		<span class="macro">assert_eq!</span>(<span class="ident">test_arr</span>, <span class="kw-2">*</span><span class="ident">p1</span>.<span class="ident">data</span>);
 		<span class="kw">let</span> <span class="ident">p2</span> <span class="op">=</span> <span class="ident">r</span>.<span class="ident">read_packet</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-		<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">test_arr_2</span>, <span class="kw-2">*</span><span class="ident">p2</span>.<span class="ident">data</span>);
+		<span class="macro">assert_eq!</span>(<span class="ident">test_arr_2</span>, <span class="kw-2">*</span><span class="ident">p2</span>.<span class="ident">data</span>);
 		<span class="kw">let</span> <span class="ident">p3</span> <span class="op">=</span> <span class="ident">r</span>.<span class="ident">read_packet</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-		<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">test_arr_3</span>, <span class="kw-2">*</span><span class="ident">p3</span>.<span class="ident">data</span>);
+		<span class="macro">assert_eq!</span>(<span class="ident">test_arr_3</span>, <span class="kw-2">*</span><span class="ident">p3</span>.<span class="ident">data</span>);
 	}
 }
-</pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="ogg" data-search-js="../../search-index.js"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="ogg" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
+</body></html>

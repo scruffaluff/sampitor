@@ -1,7 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/alsa-0.5.0/src/direct/pcm.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>pcm.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../alsa/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;alsa-0.5.0&#x2F;src&#x2F;direct&#x2F;pcm.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>pcm.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><script defer src="../../../main.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../alsa/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -631,8 +629,7 @@
 <span id="628">628</span>
 <span id="629">629</span>
 <span id="630">630</span>
-</pre><div class="example-wrap"><pre class="rust ">
-<span class="doccomment">/*!
+</pre><pre class="rust"><code><span class="doccomment">/*!
 This module bypasses alsa-lib and directly read and write into memory mapped kernel memory.
 In case of the sample memory, this is in many cases the DMA buffers that is transferred to the sound card.
 
@@ -655,13 +652,13 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
 
 <span class="kw">use</span> <span class="ident">libc</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">mem</span>, <span class="ident">ptr</span>, <span class="ident">fmt</span>, <span class="ident">cmp</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::{<span class="ident">Error</span>, <span class="prelude-ty">Result</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">unix</span>::<span class="ident">io</span>::<span class="ident">RawFd</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::error</span>::{<span class="ident">Error</span>, <span class="prelude-ty">Result</span>};
+<span class="kw">use</span> <span class="ident">std::os::unix::io::RawFd</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">pcm</span>, <span class="ident">PollDescriptors</span>, <span class="ident">Direction</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">pcm</span>::<span class="ident">Frames</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::pcm::Frames</span>;
+<span class="kw">use</span> <span class="ident">std::marker::PhantomData</span>;
 
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">ffi</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::ffi</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Read PCM status via a simple kernel syscall, bypassing alsa-lib.</span>
 <span class="doccomment">///</span>
@@ -674,7 +671,7 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
     <span class="doccomment">/// Unsafe because</span>
     <span class="doccomment">///  - setting appl_ptr and avail_min might make alsa-lib confused</span>
     <span class="doccomment">///  - no check that the fd is really a PCM</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">sync_ptr</span>(<span class="ident">fd</span>: <span class="ident">RawFd</span>, <span class="ident">hwsync</span>: <span class="ident">bool</span>, <span class="ident">appl_ptr</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">pcm</span>::<span class="ident">Frames</span><span class="op">&gt;</span>, <span class="ident">avail_min</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">pcm</span>::<span class="ident">Frames</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">sync_ptr</span>(<span class="ident">fd</span>: <span class="ident">RawFd</span>, <span class="ident">hwsync</span>: <span class="ident">bool</span>, <span class="ident">appl_ptr</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">pcm::Frames</span><span class="op">&gt;</span>, <span class="ident">avail_min</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">pcm::Frames</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">snd_pcm_sync_ptr</span> {
 			<span class="ident">flags</span>: (<span class="kw">if</span> <span class="ident">hwsync</span> { <span class="ident">SNDRV_PCM_SYNC_PTR_HWSYNC</span> } <span class="kw">else</span> { <span class="number">0</span> }) <span class="op">+</span>
 				(<span class="kw">if</span> <span class="ident">appl_ptr</span>.<span class="ident">is_some</span>() { <span class="ident">SNDRV_PCM_SYNC_PTR_APPL</span> } <span class="kw">else</span> { <span class="number">0</span> }) <span class="op">+</span>
@@ -685,23 +682,23 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
 					<span class="ident">avail_min</span>: <span class="ident">avail_min</span>.<span class="ident">unwrap_or</span>(<span class="number">0</span>) <span class="kw">as</span> <span class="ident">snd_pcm_uframes_t</span>,
 				}
 			},
-			<span class="ident">s</span>: <span class="ident">mem</span>::<span class="ident">zeroed</span>()
+			<span class="ident">s</span>: <span class="ident">mem::zeroed</span>()
 		};
 
-        <span class="ident">sndrv_pcm_ioctl_sync_ptr</span>(<span class="ident">fd</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">data</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span>
-            <span class="ident">Error</span>::<span class="ident">new</span>(<span class="string">&quot;SNDRV_PCM_IOCTL_SYNC_PTR&quot;</span>, <span class="ident">nix</span>::<span class="ident">errno</span>::<span class="ident">Errno</span>::<span class="ident">last</span>() <span class="kw">as</span> <span class="ident">i32</span>))<span class="question-mark">?</span>;
+        <span class="ident">sndrv_pcm_ioctl_sync_ptr</span>(<span class="ident">fd</span>, <span class="kw-2">&amp;mut</span> <span class="ident">data</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span>
+            <span class="ident">Error::new</span>(<span class="string">&quot;SNDRV_PCM_IOCTL_SYNC_PTR&quot;</span>, <span class="ident">nix::errno::Errno::last</span>() <span class="kw">as</span> <span class="ident">i32</span>))<span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">s</span>.<span class="ident">status</span>.<span class="ident">state</span>;
-        <span class="kw">if</span> (<span class="ident">i</span> <span class="op">&gt;</span><span class="op">=</span> (<span class="ident">pcm</span>::<span class="ident">State</span>::<span class="ident">Open</span> <span class="kw">as</span> <span class="ident">snd_pcm_state_t</span>)) <span class="op">&amp;&amp;</span> (<span class="ident">i</span> <span class="op">&lt;</span><span class="op">=</span> (<span class="ident">pcm</span>::<span class="ident">State</span>::<span class="ident">Disconnected</span> <span class="kw">as</span> <span class="ident">snd_pcm_state_t</span>)) {
+        <span class="kw">if</span> (<span class="ident">i</span> <span class="op">&gt;</span><span class="op">=</span> (<span class="ident">pcm::State::Open</span> <span class="kw">as</span> <span class="ident">snd_pcm_state_t</span>)) <span class="op">&amp;&amp;</span> (<span class="ident">i</span> <span class="op">&lt;</span><span class="op">=</span> (<span class="ident">pcm::State::Disconnected</span> <span class="kw">as</span> <span class="ident">snd_pcm_state_t</span>)) {
             <span class="prelude-val">Ok</span>(<span class="ident">SyncPtrStatus</span>(<span class="ident">data</span>.<span class="ident">s</span>.<span class="ident">status</span>))
         } <span class="kw">else</span> {
-            <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">unsupported</span>(<span class="string">&quot;SNDRV_PCM_IOCTL_SYNC_PTR returned broken state&quot;</span>))
+            <span class="prelude-val">Err</span>(<span class="ident">Error::unsupported</span>(<span class="string">&quot;SNDRV_PCM_IOCTL_SYNC_PTR returned broken state&quot;</span>))
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hw_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">pcm</span>::<span class="ident">Frames</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">hw_ptr</span> <span class="kw">as</span> <span class="ident">pcm</span>::<span class="ident">Frames</span> }
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">state</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">pcm</span>::<span class="ident">State</span> { <span class="kw">unsafe</span> { <span class="ident">mem</span>::<span class="ident">transmute</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">state</span> <span class="kw">as</span> <span class="ident">u8</span>) } <span class="comment">/* valid range checked in sync_ptr */</span> }
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">htstamp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">libc</span>::<span class="ident">timespec</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">tstamp</span> }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hw_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">pcm::Frames</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">hw_ptr</span> <span class="kw">as</span> <span class="ident">pcm::Frames</span> }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">state</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">pcm::State</span> { <span class="kw">unsafe</span> { <span class="ident">mem::transmute</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">state</span> <span class="kw">as</span> <span class="ident">u8</span>) } <span class="comment">/* valid range checked in sync_ptr */</span> }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">htstamp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">libc::timespec</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">tstamp</span> }
 }
 
 
@@ -724,28 +721,28 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Status</span>(<span class="ident">DriverMemory</span><span class="op">&lt;</span><span class="ident">snd_pcm_mmap_status</span><span class="op">&gt;</span>);
 
-<span class="kw">fn</span> <span class="ident">pcm_to_fd</span>(<span class="ident">p</span>: <span class="kw-2">&amp;</span><span class="ident">pcm</span>::<span class="ident">PCM</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">RawFd</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">fds</span>: [<span class="ident">libc</span>::<span class="ident">pollfd</span>; <span class="number">1</span>] <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">mem</span>::<span class="ident">zeroed</span>() };
-    <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">PollDescriptors</span>::<span class="ident">fill</span>(<span class="ident">p</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fds</span>)<span class="question-mark">?</span>;
+<span class="kw">fn</span> <span class="ident">pcm_to_fd</span>(<span class="ident">p</span>: <span class="kw-2">&amp;</span><span class="ident">pcm::PCM</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">RawFd</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">fds</span>: [<span class="ident">libc::pollfd</span>; <span class="number">1</span>] <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">mem::zeroed</span>() };
+    <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">PollDescriptors::fill</span>(<span class="ident">p</span>, <span class="kw-2">&amp;mut</span> <span class="ident">fds</span>)<span class="question-mark">?</span>;
     <span class="kw">if</span> <span class="ident">c</span> <span class="op">!</span><span class="op">=</span> <span class="number">1</span> {
-        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">unsupported</span>(<span class="string">&quot;snd_pcm_poll_descriptors returned wrong number of fds&quot;</span>))
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::unsupported</span>(<span class="string">&quot;snd_pcm_poll_descriptors returned wrong number of fds&quot;</span>))
     }
     <span class="prelude-val">Ok</span>(<span class="ident">fds</span>[<span class="number">0</span>].<span class="ident">fd</span>)
 }
 
 <span class="kw">impl</span> <span class="ident">Status</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">p</span>: <span class="kw-2">&amp;</span><span class="ident">pcm</span>::<span class="ident">PCM</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> { <span class="ident">Status</span>::<span class="ident">from_fd</span>(<span class="ident">pcm_to_fd</span>(<span class="ident">p</span>)<span class="question-mark">?</span>) }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">p</span>: <span class="kw-2">&amp;</span><span class="ident">pcm::PCM</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> { <span class="ident">Status::from_fd</span>(<span class="ident">pcm_to_fd</span>(<span class="ident">p</span>)<span class="question-mark">?</span>) }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_fd</span>(<span class="ident">fd</span>: <span class="ident">RawFd</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="ident">DriverMemory</span>::<span class="ident">new</span>(<span class="ident">fd</span>, <span class="number">1</span>, <span class="ident">SNDRV_PCM_MMAP_OFFSET_STATUS</span> <span class="kw">as</span> <span class="ident">libc</span>::<span class="ident">off_t</span>, <span class="bool-val">false</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">d</span><span class="op">|</span> <span class="ident">Status</span>(<span class="ident">d</span>))
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_fd</span>(<span class="ident">fd</span>: <span class="ident">RawFd</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="ident">DriverMemory::new</span>(<span class="ident">fd</span>, <span class="number">1</span>, <span class="ident">SNDRV_PCM_MMAP_OFFSET_STATUS</span> <span class="kw">as</span> <span class="ident">libc::off_t</span>, <span class="bool-val">false</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">d</span><span class="op">|</span> <span class="ident">Status</span>(<span class="ident">d</span>))
     }
 
     <span class="doccomment">/// Current PCM state.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">state</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">pcm</span>::<span class="ident">State</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">state</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">pcm::State</span> {
         <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">read_volatile</span>(<span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">ptr</span>).<span class="ident">state</span>);
-            <span class="macro">assert</span><span class="macro">!</span>((<span class="ident">i</span> <span class="op">&gt;</span><span class="op">=</span> (<span class="ident">pcm</span>::<span class="ident">State</span>::<span class="ident">Open</span> <span class="kw">as</span> <span class="ident">snd_pcm_state_t</span>)) <span class="op">&amp;&amp;</span> (<span class="ident">i</span> <span class="op">&lt;</span><span class="op">=</span> (<span class="ident">pcm</span>::<span class="ident">State</span>::<span class="ident">Disconnected</span> <span class="kw">as</span> <span class="ident">snd_pcm_state_t</span>)));
-            <span class="ident">mem</span>::<span class="ident">transmute</span>(<span class="ident">i</span> <span class="kw">as</span> <span class="ident">u8</span>)
+            <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="ident">ptr::read_volatile</span>(<span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">ptr</span>).<span class="ident">state</span>);
+            <span class="macro">assert!</span>((<span class="ident">i</span> <span class="op">&gt;</span><span class="op">=</span> (<span class="ident">pcm::State::Open</span> <span class="kw">as</span> <span class="ident">snd_pcm_state_t</span>)) <span class="op">&amp;&amp;</span> (<span class="ident">i</span> <span class="op">&lt;</span><span class="op">=</span> (<span class="ident">pcm::State::Disconnected</span> <span class="kw">as</span> <span class="ident">snd_pcm_state_t</span>)));
+            <span class="ident">mem::transmute</span>(<span class="ident">i</span> <span class="kw">as</span> <span class="ident">u8</span>)
         }
     }
 
@@ -756,9 +753,9 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
     <span class="doccomment">/// No guarantees given.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This value wraps at &quot;boundary&quot; (a large value you can read from SwParams).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hw_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">pcm</span>::<span class="ident">Frames</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hw_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">pcm::Frames</span> {
         <span class="kw">unsafe</span> {
-            <span class="ident">ptr</span>::<span class="ident">read_volatile</span>(<span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">ptr</span>).<span class="ident">hw_ptr</span>) <span class="kw">as</span> <span class="ident">pcm</span>::<span class="ident">Frames</span>
+            <span class="ident">ptr::read_volatile</span>(<span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">ptr</span>).<span class="ident">hw_ptr</span>) <span class="kw">as</span> <span class="ident">pcm::Frames</span>
         }
     }
 
@@ -767,9 +764,9 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
     <span class="doccomment">/// Note: This just reads the actual value in memory.</span>
     <span class="doccomment">/// Unfortunately, the timespec is too big to be read atomically on most archs.</span>
     <span class="doccomment">/// Therefore, this function can potentially give bogus result at times, at least in theory...?</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">htstamp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">libc</span>::<span class="ident">timespec</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">htstamp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">libc::timespec</span> {
         <span class="kw">unsafe</span> {
-            <span class="ident">ptr</span>::<span class="ident">read_volatile</span>(<span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">ptr</span>).<span class="ident">tstamp</span>)
+            <span class="ident">ptr::read_volatile</span>(<span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">ptr</span>).<span class="ident">tstamp</span>)
         }
     }
 
@@ -778,9 +775,9 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
     <span class="doccomment">/// Note: This just reads the actual value in memory.</span>
     <span class="doccomment">/// Unfortunately, the timespec is too big to be read atomically on most archs.</span>
     <span class="doccomment">/// Therefore, this function can potentially give bogus result at times, at least in theory...?</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">audio_htstamp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">libc</span>::<span class="ident">timespec</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">audio_htstamp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">libc::timespec</span> {
         <span class="kw">unsafe</span> {
-            <span class="ident">ptr</span>::<span class="ident">read_volatile</span>(<span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">ptr</span>).<span class="ident">audio_tstamp</span>)
+            <span class="ident">ptr::read_volatile</span>(<span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">ptr</span>).<span class="ident">audio_tstamp</span>)
         }
     }
 }
@@ -793,18 +790,18 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Control</span>(<span class="ident">DriverMemory</span><span class="op">&lt;</span><span class="ident">snd_pcm_mmap_control</span><span class="op">&gt;</span>);
 
 <span class="kw">impl</span> <span class="ident">Control</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">p</span>: <span class="kw-2">&amp;</span><span class="ident">pcm</span>::<span class="ident">PCM</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> { <span class="self">Self</span>::<span class="ident">from_fd</span>(<span class="ident">pcm_to_fd</span>(<span class="ident">p</span>)<span class="question-mark">?</span>) }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">p</span>: <span class="kw-2">&amp;</span><span class="ident">pcm::PCM</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> { <span class="ident"><span class="self">Self</span>::from_fd</span>(<span class="ident">pcm_to_fd</span>(<span class="ident">p</span>)<span class="question-mark">?</span>) }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_fd</span>(<span class="ident">fd</span>: <span class="ident">RawFd</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="ident">DriverMemory</span>::<span class="ident">new</span>(<span class="ident">fd</span>, <span class="number">1</span>, <span class="ident">SNDRV_PCM_MMAP_OFFSET_CONTROL</span> <span class="kw">as</span> <span class="ident">libc</span>::<span class="ident">off_t</span>, <span class="bool-val">true</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">d</span><span class="op">|</span> <span class="ident">Control</span>(<span class="ident">d</span>))
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_fd</span>(<span class="ident">fd</span>: <span class="ident">RawFd</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="ident">DriverMemory::new</span>(<span class="ident">fd</span>, <span class="number">1</span>, <span class="ident">SNDRV_PCM_MMAP_OFFSET_CONTROL</span> <span class="kw">as</span> <span class="ident">libc::off_t</span>, <span class="bool-val">true</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">d</span><span class="op">|</span> <span class="ident">Control</span>(<span class="ident">d</span>))
     }
 
     <span class="doccomment">/// Read number of frames application has read or written</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This value wraps at &quot;boundary&quot; (a large value you can read from SwParams).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">appl_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">pcm</span>::<span class="ident">Frames</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">appl_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">pcm::Frames</span> {
         <span class="kw">unsafe</span> {
-            <span class="ident">ptr</span>::<span class="ident">read_volatile</span>(<span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">ptr</span>).<span class="ident">appl_ptr</span>) <span class="kw">as</span> <span class="ident">pcm</span>::<span class="ident">Frames</span>
+            <span class="ident">ptr::read_volatile</span>(<span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">ptr</span>).<span class="ident">appl_ptr</span>) <span class="kw">as</span> <span class="ident">pcm::Frames</span>
         }
     }
 
@@ -813,48 +810,48 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
     <span class="doccomment">/// When the kernel wakes up due to a period interrupt, this value will</span>
     <span class="doccomment">/// be checked by the kernel. An XRUN will happen in case the application</span>
     <span class="doccomment">/// has not read or written enough data.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_appl_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">pcm</span>::<span class="ident">Frames</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_appl_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">pcm::Frames</span>) {
         <span class="kw">unsafe</span> {
-            <span class="ident">ptr</span>::<span class="ident">write_volatile</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> (<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">ptr</span>).<span class="ident">appl_ptr</span>, <span class="ident">value</span> <span class="kw">as</span> <span class="ident">snd_pcm_uframes_t</span>)
+            <span class="ident">ptr::write_volatile</span>(<span class="kw-2">&amp;mut</span> (<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">ptr</span>).<span class="ident">appl_ptr</span>, <span class="ident">value</span> <span class="kw">as</span> <span class="ident">snd_pcm_uframes_t</span>)
         }
     }
 
     <span class="doccomment">/// Read minimum number of frames in buffer in order to wakeup process</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">avail_min</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">pcm</span>::<span class="ident">Frames</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">avail_min</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">pcm::Frames</span> {
         <span class="kw">unsafe</span> {
-            <span class="ident">ptr</span>::<span class="ident">read_volatile</span>(<span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">ptr</span>).<span class="ident">avail_min</span>) <span class="kw">as</span> <span class="ident">pcm</span>::<span class="ident">Frames</span>
+            <span class="ident">ptr::read_volatile</span>(<span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">ptr</span>).<span class="ident">avail_min</span>) <span class="kw">as</span> <span class="ident">pcm::Frames</span>
         }
     }
 
     <span class="doccomment">/// Write minimum number of frames in buffer in order to wakeup process</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_avail_min</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">pcm</span>::<span class="ident">Frames</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_avail_min</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">pcm::Frames</span>) {
         <span class="kw">unsafe</span> {
-            <span class="ident">ptr</span>::<span class="ident">write_volatile</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> (<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">ptr</span>).<span class="ident">avail_min</span>, <span class="ident">value</span> <span class="kw">as</span> <span class="ident">snd_pcm_uframes_t</span>)
+            <span class="ident">ptr::write_volatile</span>(<span class="kw-2">&amp;mut</span> (<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">ptr</span>).<span class="ident">avail_min</span>, <span class="ident">value</span> <span class="kw">as</span> <span class="ident">snd_pcm_uframes_t</span>)
         }
     }
 }
 
 <span class="kw">struct</span> <span class="ident">DriverMemory</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
-   <span class="ident">ptr</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">S</span>,
-   <span class="ident">size</span>: <span class="ident">libc</span>::<span class="ident">size_t</span>,
+   <span class="ident">ptr</span>: <span class="kw-2">*mut</span> <span class="ident">S</span>,
+   <span class="ident">size</span>: <span class="ident">libc::size_t</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">DriverMemory</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
-   <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> { <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;DriverMemory({:?})&quot;</span>, <span class="self">self</span>.<span class="ident">ptr</span>) }
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">DriverMemory</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
+   <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span>) -&gt; <span class="ident">fmt::Result</span> { <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;DriverMemory({:?})&quot;</span>, <span class="self">self</span>.<span class="ident">ptr</span>) }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> <span class="ident">DriverMemory</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">fd</span>: <span class="ident">RawFd</span>, <span class="ident">count</span>: <span class="ident">usize</span>, <span class="ident">offs</span>: <span class="ident">libc</span>::<span class="ident">off_t</span>, <span class="ident">writable</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">total</span> <span class="op">=</span> <span class="ident">count</span> <span class="op">*</span> <span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>();
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">fd</span>: <span class="ident">RawFd</span>, <span class="ident">count</span>: <span class="ident">usize</span>, <span class="ident">offs</span>: <span class="ident">libc::off_t</span>, <span class="ident">writable</span>: <span class="ident">bool</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">total</span> <span class="op">=</span> <span class="ident">count</span> <span class="op">*</span> <span class="ident">mem::size_of</span>::<span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>();
         <span class="kw">let</span> <span class="ident">ps</span> <span class="op">=</span> <span class="ident">pagesize</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">total</span> <span class="op">&gt;</span> <span class="number">0</span>);
+        <span class="macro">assert!</span>(<span class="ident">total</span> <span class="op">&gt;</span> <span class="number">0</span>);
         <span class="kw">if</span> <span class="ident">total</span> <span class="op">%</span> <span class="ident">ps</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> { <span class="ident">total</span> <span class="op">+</span><span class="op">=</span> <span class="ident">ps</span> <span class="op">-</span> <span class="ident">total</span> <span class="op">%</span> <span class="ident">ps</span> };
-        <span class="kw">let</span> <span class="ident">flags</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">writable</span> { <span class="ident">libc</span>::<span class="ident">PROT_WRITE</span> <span class="op">|</span> <span class="ident">libc</span>::<span class="ident">PROT_READ</span> } <span class="kw">else</span> { <span class="ident">libc</span>::<span class="ident">PROT_READ</span> };
-        <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">libc</span>::<span class="ident">mmap</span>(<span class="ident">ptr</span>::<span class="ident">null_mut</span>(), <span class="ident">total</span>, <span class="ident">flags</span>, <span class="ident">libc</span>::<span class="ident">MAP_FILE</span> <span class="op">|</span> <span class="ident">libc</span>::<span class="ident">MAP_SHARED</span>, <span class="ident">fd</span>, <span class="ident">offs</span>) };
-        <span class="kw">if</span> <span class="ident">p</span> <span class="op">=</span><span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">null_mut</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">p</span> <span class="op">=</span><span class="op">=</span> <span class="ident">libc</span>::<span class="ident">MAP_FAILED</span> {
-            <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(<span class="string">&quot;mmap (of driver memory)&quot;</span>, <span class="ident">nix</span>::<span class="ident">errno</span>::<span class="ident">Errno</span>::<span class="ident">last</span>() <span class="kw">as</span> <span class="ident">i32</span>))
+        <span class="kw">let</span> <span class="ident">flags</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">writable</span> { <span class="ident">libc::PROT_WRITE</span> <span class="op">|</span> <span class="ident">libc::PROT_READ</span> } <span class="kw">else</span> { <span class="ident">libc::PROT_READ</span> };
+        <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">libc::mmap</span>(<span class="ident">ptr::null_mut</span>(), <span class="ident">total</span>, <span class="ident">flags</span>, <span class="ident">libc::MAP_FILE</span> <span class="op">|</span> <span class="ident">libc::MAP_SHARED</span>, <span class="ident">fd</span>, <span class="ident">offs</span>) };
+        <span class="kw">if</span> <span class="ident">p</span> <span class="op">==</span> <span class="ident">ptr::null_mut</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">p</span> <span class="op">==</span> <span class="ident">libc::MAP_FAILED</span> {
+            <span class="prelude-val">Err</span>(<span class="ident">Error::new</span>(<span class="string">&quot;mmap (of driver memory)&quot;</span>, <span class="ident">nix::errno::Errno::last</span>() <span class="kw">as</span> <span class="ident">i32</span>))
         } <span class="kw">else</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident">DriverMemory</span> { <span class="ident">ptr</span>: <span class="ident">p</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">S</span>, <span class="ident">size</span>: <span class="ident">total</span> })
+            <span class="prelude-val">Ok</span>(<span class="ident">DriverMemory</span> { <span class="ident">ptr</span>: <span class="ident">p</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">S</span>, <span class="ident">size</span>: <span class="ident">total</span> })
         }
     }
 }
@@ -863,40 +860,40 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
 <span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">DriverMemory</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {}
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">DriverMemory</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="kw">unsafe</span> {{ <span class="ident">libc</span>::<span class="ident">munmap</span>(<span class="self">self</span>.<span class="ident">ptr</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">libc</span>::<span class="ident">c_void</span>, <span class="self">self</span>.<span class="ident">size</span>); } }
+    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
+        <span class="kw">unsafe</span> {{ <span class="ident">libc::munmap</span>(<span class="self">self</span>.<span class="ident">ptr</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">libc::c_void</span>, <span class="self">self</span>.<span class="ident">size</span>); } }
     }
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">struct</span> <span class="ident">SampleData</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
     <span class="ident">mem</span>: <span class="ident">DriverMemory</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>,
-    <span class="ident">frames</span>: <span class="ident">pcm</span>::<span class="ident">Frames</span>,
+    <span class="ident">frames</span>: <span class="ident">pcm::Frames</span>,
     <span class="ident">channels</span>: <span class="ident">u32</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> <span class="ident">SampleData</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">p</span>: <span class="kw-2">&amp;</span><span class="ident">pcm</span>::<span class="ident">PCM</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">p</span>: <span class="kw-2">&amp;</span><span class="ident">pcm::PCM</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">p</span>.<span class="ident">hw_params_current</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">bufsize</span> <span class="op">=</span> <span class="ident">params</span>.<span class="ident">get_buffer_size</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">channels</span> <span class="op">=</span> <span class="ident">params</span>.<span class="ident">get_channels</span>()<span class="question-mark">?</span>;
-        <span class="kw">if</span> <span class="ident">params</span>.<span class="ident">get_access</span>()<span class="question-mark">?</span> <span class="op">!</span><span class="op">=</span> <span class="ident">pcm</span>::<span class="ident">Access</span>::<span class="ident">MMapInterleaved</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">unsupported</span>(<span class="string">&quot;Not MMAP interleaved data&quot;</span>))
+        <span class="kw">if</span> <span class="ident">params</span>.<span class="ident">get_access</span>()<span class="question-mark">?</span> <span class="op">!</span><span class="op">=</span> <span class="ident">pcm::Access::MMapInterleaved</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::unsupported</span>(<span class="string">&quot;Not MMAP interleaved data&quot;</span>))
         }
 
         <span class="kw">let</span> <span class="ident">fd</span> <span class="op">=</span> <span class="ident">pcm_to_fd</span>(<span class="ident">p</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">info</span>: <span class="ident">snd_pcm_channel_info</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
-            <span class="ident">sndrv_pcm_ioctl_channel_info</span>(<span class="ident">fd</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">info</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span>
-                <span class="ident">Error</span>::<span class="ident">new</span>(<span class="string">&quot;SNDRV_PCM_IOCTL_CHANNEL_INFO&quot;</span>, <span class="ident">nix</span>::<span class="ident">errno</span>::<span class="ident">Errno</span>::<span class="ident">last</span>() <span class="kw">as</span> <span class="ident">i32</span>))<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">info</span>: <span class="ident">snd_pcm_channel_info</span> <span class="op">=</span> <span class="ident">mem::zeroed</span>();
+            <span class="ident">sndrv_pcm_ioctl_channel_info</span>(<span class="ident">fd</span>, <span class="kw-2">&amp;mut</span> <span class="ident">info</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span>
+                <span class="ident">Error::new</span>(<span class="string">&quot;SNDRV_PCM_IOCTL_CHANNEL_INFO&quot;</span>, <span class="ident">nix::errno::Errno::last</span>() <span class="kw">as</span> <span class="ident">i32</span>))<span class="question-mark">?</span>;
             <span class="ident">info</span>
         };
         <span class="comment">// println!(&quot;{:?}&quot;, info);</span>
-        <span class="kw">if</span> (<span class="ident">info</span>.<span class="ident">step</span> <span class="op">!</span><span class="op">=</span> <span class="ident">channels</span> <span class="op">*</span> <span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>() <span class="kw">as</span> <span class="ident">u32</span> <span class="op">*</span> <span class="number">8</span>) <span class="op">|</span><span class="op">|</span> (<span class="ident">info</span>.<span class="ident">first</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>) {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">unsupported</span>(<span class="string">&quot;MMAP data size mismatch&quot;</span>))
+        <span class="kw">if</span> (<span class="ident">info</span>.<span class="ident">step</span> <span class="op">!</span><span class="op">=</span> <span class="ident">channels</span> <span class="op">*</span> <span class="ident">mem::size_of</span>::<span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>() <span class="kw">as</span> <span class="ident">u32</span> <span class="op">*</span> <span class="number">8</span>) <span class="op">|</span><span class="op">|</span> (<span class="ident">info</span>.<span class="ident">first</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>) {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::unsupported</span>(<span class="string">&quot;MMAP data size mismatch&quot;</span>))
         }
         <span class="prelude-val">Ok</span>(<span class="ident">SampleData</span> {
-            <span class="ident">mem</span>: <span class="ident">DriverMemory</span>::<span class="ident">new</span>(<span class="ident">fd</span>, (<span class="ident">bufsize</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">*</span> (<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">usize</span>), <span class="ident">info</span>.<span class="ident">offset</span> <span class="kw">as</span> <span class="ident">libc</span>::<span class="ident">off_t</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>,
+            <span class="ident">mem</span>: <span class="ident">DriverMemory::new</span>(<span class="ident">fd</span>, (<span class="ident">bufsize</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">*</span> (<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">usize</span>), <span class="ident">info</span>.<span class="ident">offset</span> <span class="kw">as</span> <span class="ident">libc::off_t</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>,
             <span class="ident">frames</span>: <span class="ident">bufsize</span>,
             <span class="ident">channels</span>: <span class="ident">channels</span>,
         })
@@ -905,9 +902,9 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
 
 
 <span class="doccomment">/// Dummy trait for better generics</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">MmapDir</span>: <span class="ident">fmt</span>::<span class="ident">Debug</span> {
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">MmapDir</span>: <span class="ident">fmt::Debug</span> {
     <span class="kw">const</span> <span class="ident">DIR</span>: <span class="ident">Direction</span>;
-    <span class="kw">fn</span> <span class="ident">avail</span>(<span class="ident">hwptr</span>: <span class="ident">Frames</span>, <span class="ident">applptr</span>: <span class="ident">Frames</span>, <span class="ident">buffersize</span>: <span class="ident">Frames</span>, <span class="ident">boundary</span>: <span class="ident">Frames</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Frames</span>;
+    <span class="kw">fn</span> <span class="ident">avail</span>(<span class="ident">hwptr</span>: <span class="ident">Frames</span>, <span class="ident">applptr</span>: <span class="ident">Frames</span>, <span class="ident">buffersize</span>: <span class="ident">Frames</span>, <span class="ident">boundary</span>: <span class="ident">Frames</span>) -&gt; <span class="ident">Frames</span>;
 }
 
 <span class="doccomment">/// Dummy struct for better generics</span>
@@ -915,9 +912,9 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Playback</span>;
 
 <span class="kw">impl</span> <span class="ident">MmapDir</span> <span class="kw">for</span> <span class="ident">Playback</span> {
-    <span class="kw">const</span> <span class="ident">DIR</span>: <span class="ident">Direction</span> <span class="op">=</span> <span class="ident">Direction</span>::<span class="ident">Playback</span>;
+    <span class="kw">const</span> <span class="ident">DIR</span>: <span class="ident">Direction</span> <span class="op">=</span> <span class="ident">Direction::Playback</span>;
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">avail</span>(<span class="ident">hwptr</span>: <span class="ident">Frames</span>, <span class="ident">applptr</span>: <span class="ident">Frames</span>, <span class="ident">buffersize</span>: <span class="ident">Frames</span>, <span class="ident">boundary</span>: <span class="ident">Frames</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Frames</span> {
+    <span class="kw">fn</span> <span class="ident">avail</span>(<span class="ident">hwptr</span>: <span class="ident">Frames</span>, <span class="ident">applptr</span>: <span class="ident">Frames</span>, <span class="ident">buffersize</span>: <span class="ident">Frames</span>, <span class="ident">boundary</span>: <span class="ident">Frames</span>) -&gt; <span class="ident">Frames</span> {
 	<span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">hwptr</span>.<span class="ident">wrapping_add</span>(<span class="ident">buffersize</span>).<span class="ident">wrapping_sub</span>(<span class="ident">applptr</span>);
 	<span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">r</span> <span class="op">&lt;</span> <span class="number">0</span> { <span class="ident">r</span>.<span class="ident">wrapping_add</span>(<span class="ident">boundary</span>) } <span class="kw">else</span> { <span class="ident">r</span> };
         <span class="kw">if</span> <span class="ident">r</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">boundary</span> <span class="kw">as</span> <span class="ident">usize</span> { <span class="ident">r</span>.<span class="ident">wrapping_sub</span>(<span class="ident">boundary</span>) } <span class="kw">else</span> { <span class="ident">r</span> }
@@ -929,9 +926,9 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Capture</span>;
 
 <span class="kw">impl</span> <span class="ident">MmapDir</span> <span class="kw">for</span> <span class="ident">Capture</span> {
-    <span class="kw">const</span> <span class="ident">DIR</span>: <span class="ident">Direction</span> <span class="op">=</span> <span class="ident">Direction</span>::<span class="ident">Capture</span>;
+    <span class="kw">const</span> <span class="ident">DIR</span>: <span class="ident">Direction</span> <span class="op">=</span> <span class="ident">Direction::Capture</span>;
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">avail</span>(<span class="ident">hwptr</span>: <span class="ident">Frames</span>, <span class="ident">applptr</span>: <span class="ident">Frames</span>, <span class="ident">_buffersize</span>: <span class="ident">Frames</span>, <span class="ident">boundary</span>: <span class="ident">Frames</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Frames</span> {
+    <span class="kw">fn</span> <span class="ident">avail</span>(<span class="ident">hwptr</span>: <span class="ident">Frames</span>, <span class="ident">applptr</span>: <span class="ident">Frames</span>, <span class="ident">_buffersize</span>: <span class="ident">Frames</span>, <span class="ident">boundary</span>: <span class="ident">Frames</span>) -&gt; <span class="ident">Frames</span> {
 	<span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">hwptr</span>.<span class="ident">wrapping_sub</span>(<span class="ident">applptr</span>);
 	<span class="kw">if</span> <span class="ident">r</span> <span class="op">&lt;</span> <span class="number">0</span> { <span class="ident">r</span>.<span class="ident">wrapping_add</span>(<span class="ident">boundary</span>) } <span class="kw">else</span> { <span class="ident">r</span> }
     }
@@ -948,13 +945,13 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
     <span class="ident">c</span>: <span class="ident">Control</span>,
     <span class="ident">ss</span>: <span class="ident">Status</span>,
     <span class="ident">bound</span>: <span class="ident">Frames</span>,
-    <span class="ident">dir</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="kw-2">*</span><span class="kw">const</span> <span class="ident">D</span><span class="op">&gt;</span>,
+    <span class="ident">dir</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="kw-2">*const</span> <span class="ident">D</span><span class="op">&gt;</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
 <span class="doccomment">/// A raw pointer to samples, and the amount of samples readable or writable.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RawSamples</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="ident">ptr</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">S</span>,
+    <span class="kw">pub</span> <span class="ident">ptr</span>: <span class="kw-2">*mut</span> <span class="ident">S</span>,
     <span class="kw">pub</span> <span class="ident">frames</span>: <span class="ident">Frames</span>,
     <span class="kw">pub</span> <span class="ident">channels</span>: <span class="ident">u32</span>,
 }
@@ -962,18 +959,18 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> <span class="ident">RawSamples</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="doccomment">/// Returns `frames` * `channels`, i e the amount of samples (of type `S`) that can be read/written.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">samples</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">isize</span> { <span class="self">self</span>.<span class="ident">frames</span> <span class="kw">as</span> <span class="ident">isize</span> <span class="op">*</span> (<span class="self">self</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">isize</span>) }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">samples</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">isize</span> { <span class="self">self</span>.<span class="ident">frames</span> <span class="kw">as</span> <span class="ident">isize</span> <span class="op">*</span> (<span class="self">self</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">isize</span>) }
 
     <span class="doccomment">/// Writes samples from an iterator.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns true if iterator was depleted, and the number of samples written.</span>
     <span class="doccomment">/// This is just raw read/write of memory.</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">write_samples</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">=</span><span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">I</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">bool</span>, <span class="ident">isize</span>) {
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">write_samples</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">=</span><span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="kw-2">&amp;mut</span> <span class="ident">I</span>) -&gt; (<span class="ident">bool</span>, <span class="ident">isize</span>) {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">z</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="ident">max_samples</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">samples</span>();
         <span class="kw">while</span> <span class="ident">z</span> <span class="op">&lt;</span> <span class="ident">max_samples</span> {
             <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">b</span>) <span class="op">=</span> <span class="ident">i</span>.<span class="ident">next</span>() { <span class="ident">b</span> } <span class="kw">else</span> { <span class="kw">return</span> (<span class="bool-val">true</span>, <span class="ident">z</span>) };
-            <span class="ident">ptr</span>::<span class="ident">write_volatile</span>(<span class="self">self</span>.<span class="ident">ptr</span>.<span class="ident">offset</span>(<span class="ident">z</span>), <span class="ident">b</span>);
+            <span class="ident">ptr::write_volatile</span>(<span class="self">self</span>.<span class="ident">ptr</span>.<span class="ident">offset</span>(<span class="ident">z</span>), <span class="ident">b</span>);
             <span class="ident">z</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
         };
         (<span class="bool-val">false</span>, <span class="ident">z</span>)
@@ -982,50 +979,50 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">D</span>: <span class="ident">MmapDir</span><span class="op">&gt;</span> <span class="ident">MmapIO</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">D</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">p</span>: <span class="kw-2">&amp;</span><span class="ident">pcm</span>::<span class="ident">PCM</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">p</span>.<span class="ident">info</span>()<span class="question-mark">?</span>.<span class="ident">get_stream</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">D</span>::<span class="ident">DIR</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">unsupported</span>(<span class="string">&quot;Wrong direction&quot;</span>));
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">p</span>: <span class="kw-2">&amp;</span><span class="ident">pcm::PCM</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">p</span>.<span class="ident">info</span>()<span class="question-mark">?</span>.<span class="ident">get_stream</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">D::DIR</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::unsupported</span>(<span class="string">&quot;Wrong direction&quot;</span>));
         }
         <span class="kw">let</span> <span class="ident">boundary</span> <span class="op">=</span> <span class="ident">p</span>.<span class="ident">sw_params_current</span>()<span class="question-mark">?</span>.<span class="ident">get_boundary</span>()<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">MmapIO</span> {
-            <span class="ident">data</span>: <span class="ident">SampleData</span>::<span class="ident">new</span>(<span class="ident">p</span>)<span class="question-mark">?</span>,
-            <span class="ident">c</span>: <span class="ident">Control</span>::<span class="ident">new</span>(<span class="ident">p</span>)<span class="question-mark">?</span>,
-            <span class="ident">ss</span>: <span class="ident">Status</span>::<span class="ident">new</span>(<span class="ident">p</span>)<span class="question-mark">?</span>,
+            <span class="ident">data</span>: <span class="ident">SampleData::new</span>(<span class="ident">p</span>)<span class="question-mark">?</span>,
+            <span class="ident">c</span>: <span class="ident">Control::new</span>(<span class="ident">p</span>)<span class="question-mark">?</span>,
+            <span class="ident">ss</span>: <span class="ident">Status::new</span>(<span class="ident">p</span>)<span class="question-mark">?</span>,
             <span class="ident">bound</span>: <span class="ident">boundary</span>,
             <span class="ident">dir</span>: <span class="ident">PhantomData</span>,
         })
     }
 }
 
-<span class="kw">pub</span> (<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new_mmap</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">D</span>: <span class="ident">MmapDir</span><span class="op">&gt;</span>(<span class="ident">p</span>: <span class="kw-2">&amp;</span><span class="ident">pcm</span>::<span class="ident">PCM</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MmapIO</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span> { <span class="ident">MmapIO</span>::<span class="ident">new</span>(<span class="ident">p</span>) }
+<span class="kw">pub</span> (<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new_mmap</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">D</span>: <span class="ident">MmapDir</span><span class="op">&gt;</span>(<span class="ident">p</span>: <span class="kw-2">&amp;</span><span class="ident">pcm::PCM</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MmapIO</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span> { <span class="ident">MmapIO::new</span>(<span class="ident">p</span>) }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">D</span>: <span class="ident">MmapDir</span><span class="op">&gt;</span> <span class="ident">MmapIO</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">D</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Read current status</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">status</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Status</span> { <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">ss</span> }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">status</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Status</span> { <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">ss</span> }
 
     <span class="doccomment">/// Read current number of frames committed by application</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This number wraps at &#39;boundary&#39;.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">appl_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Frames</span> { <span class="self">self</span>.<span class="ident">c</span>.<span class="ident">appl_ptr</span>() }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">appl_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Frames</span> { <span class="self">self</span>.<span class="ident">c</span>.<span class="ident">appl_ptr</span>() }
 
     <span class="doccomment">/// Read current number of frames read / written by hardware</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This number wraps at &#39;boundary&#39;.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hw_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Frames</span> { <span class="self">self</span>.<span class="ident">ss</span>.<span class="ident">hw_ptr</span>() }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hw_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Frames</span> { <span class="self">self</span>.<span class="ident">ss</span>.<span class="ident">hw_ptr</span>() }
 
     <span class="doccomment">/// The number at which hw_ptr and appl_ptr wraps.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">boundary</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Frames</span> { <span class="self">self</span>.<span class="ident">bound</span> }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">boundary</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Frames</span> { <span class="self">self</span>.<span class="ident">bound</span> }
 
     <span class="doccomment">/// Total number of frames in hardware buffer</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">buffer_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Frames</span> { <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">frames</span> }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">buffer_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Frames</span> { <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">frames</span> }
 
     <span class="doccomment">/// Number of channels in stream</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">channels</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> { <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">channels</span> }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">channels</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> { <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">channels</span> }
 
     <span class="doccomment">/// Notifies the kernel that frames have now been read / written by the application</span>
     <span class="doccomment">///</span>
@@ -1039,7 +1036,7 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
     <span class="doccomment">/// Number of frames available to read / write.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// In case of an underrun, this value might be bigger than the buffer size.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">avail</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Frames</span> { <span class="ident">D</span>::<span class="ident">avail</span>(<span class="self">self</span>.<span class="ident">hw_ptr</span>(), <span class="self">self</span>.<span class="ident">appl_ptr</span>(), <span class="self">self</span>.<span class="ident">buffer_size</span>(), <span class="self">self</span>.<span class="ident">boundary</span>()) }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">avail</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Frames</span> { <span class="ident">D::avail</span>(<span class="self">self</span>.<span class="ident">hw_ptr</span>(), <span class="self">self</span>.<span class="ident">appl_ptr</span>(), <span class="self">self</span>.<span class="ident">buffer_size</span>(), <span class="self">self</span>.<span class="ident">boundary</span>()) }
 
     <span class="doccomment">/// Returns raw pointers to data to read / write.</span>
     <span class="doccomment">///</span>
@@ -1049,7 +1046,7 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
     <span class="doccomment">///</span>
     <span class="doccomment">/// Since this is a ring buffer, there might be more data to read/write in the beginning</span>
     <span class="doccomment">/// of the buffer as well. If so this is returned as the second return value.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">data_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">RawSamples</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">RawSamples</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">data_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="ident">RawSamples</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">RawSamples</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span>) {
         <span class="kw">let</span> (<span class="ident">hwptr</span>, <span class="ident">applptr</span>) <span class="op">=</span> (<span class="self">self</span>.<span class="ident">hw_ptr</span>(), <span class="self">self</span>.<span class="ident">appl_ptr</span>());
         <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">channels</span>();
         <span class="kw">let</span> <span class="ident">bufsize</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">buffer_size</span>();
@@ -1057,8 +1054,8 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
         <span class="comment">// These formulas mostly mimic the behaviour of</span>
         <span class="comment">// snd_pcm_mmap_begin (in alsa-lib/src/pcm/pcm.c).</span>
         <span class="kw">let</span> <span class="ident">offs</span> <span class="op">=</span> <span class="ident">applptr</span> <span class="op">%</span> <span class="ident">bufsize</span>;
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">D</span>::<span class="ident">avail</span>(<span class="ident">hwptr</span>, <span class="ident">applptr</span>, <span class="ident">bufsize</span>, <span class="self">self</span>.<span class="ident">boundary</span>());
-        <span class="ident">a</span> <span class="op">=</span> <span class="ident">cmp</span>::<span class="ident">min</span>(<span class="ident">a</span>, <span class="ident">bufsize</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">D::avail</span>(<span class="ident">hwptr</span>, <span class="ident">applptr</span>, <span class="ident">bufsize</span>, <span class="self">self</span>.<span class="ident">boundary</span>());
+        <span class="ident">a</span> <span class="op">=</span> <span class="ident">cmp::min</span>(<span class="ident">a</span>, <span class="ident">bufsize</span>);
         <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">bufsize</span> <span class="op">-</span> <span class="ident">offs</span>;
         <span class="kw">let</span> <span class="ident">more_data</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">b</span> <span class="op">&lt;</span> <span class="ident">a</span> {
             <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="ident">a</span> <span class="op">-</span> <span class="ident">b</span>;
@@ -1073,7 +1070,7 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> <span class="ident">MmapPlayback</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Write samples to the kernel ringbuffer.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">=</span><span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">I</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Frames</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">=</span><span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="kw-2">&amp;mut</span> <span class="ident">I</span>) -&gt; <span class="ident">Frames</span> {
         <span class="kw">let</span> (<span class="ident">data</span>, <span class="ident">more_data</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">data_ptr</span>();
         <span class="kw">let</span> (<span class="ident">iter_end</span>, <span class="ident">samples</span>) <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">data</span>.<span class="ident">write_samples</span>(<span class="ident">i</span>) };
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">z</span> <span class="op">=</span> <span class="ident">samples</span> <span class="op">/</span> <span class="ident">data</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">isize</span>;
@@ -1094,7 +1091,7 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
     <span class="doccomment">///</span>
     <span class="doccomment">/// When the iterator is dropped or depleted, the read samples will be committed, i e,</span>
     <span class="doccomment">/// the kernel can then write data to the location again. So do this ASAP.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CaptureIter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">S</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="ident">CaptureIter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">S</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">data</span>, <span class="ident">more_data</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">data_ptr</span>();
         <span class="ident">CaptureIter</span> {
             <span class="ident">m</span>: <span class="self">self</span>,
@@ -1116,7 +1113,7 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">S</span>: <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Copy</span><span class="op">&gt;</span> <span class="ident">CaptureIter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">S</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">handle_max</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+    <span class="kw">fn</span> <span class="ident">handle_max</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
         <span class="self">self</span>.<span class="ident">p_offs</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">p2</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_p</span>.<span class="ident">take</span>() {
             <span class="self">self</span>.<span class="ident">samples</span> <span class="op">=</span> <span class="ident">p2</span>;
@@ -1132,12 +1129,12 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">S</span>;
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Item</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">p_offs</span> <span class="op">&gt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">samples</span>.<span class="ident">samples</span>() {
             <span class="self">self</span>.<span class="ident">handle_max</span>();
             <span class="kw">if</span> <span class="self">self</span>.<span class="ident">samples</span>.<span class="ident">frames</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">0</span> { <span class="kw">return</span> <span class="prelude-val">None</span>; }
         }
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ptr</span>::<span class="ident">read_volatile</span>(<span class="self">self</span>.<span class="ident">samples</span>.<span class="ident">ptr</span>.<span class="ident">offset</span>(<span class="self">self</span>.<span class="ident">p_offs</span>)) };
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ptr::read_volatile</span>(<span class="self">self</span>.<span class="ident">samples</span>.<span class="ident">ptr</span>.<span class="ident">offset</span>(<span class="self">self</span>.<span class="ident">p_offs</span>)) };
         <span class="self">self</span>.<span class="ident">p_offs</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
         <span class="self">self</span>.<span class="ident">read_samples</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
         <span class="prelude-val">Some</span>(<span class="ident">s</span>)
@@ -1145,7 +1142,7 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">S</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">CaptureIter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">S</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
         <span class="self">self</span>.<span class="ident">m</span>.<span class="ident">commit</span>((<span class="self">self</span>.<span class="ident">read_samples</span> <span class="op">/</span> <span class="self">self</span>.<span class="ident">m</span>.<span class="ident">data</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">isize</span>) <span class="kw">as</span> <span class="ident">Frames</span>);
     }
 }
@@ -1154,17 +1151,17 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="attribute">#[<span class="ident">ignore</span>]</span> <span class="comment">// Not everyone has a recording device on plughw:1. So let&#39;s ignore this test by default.</span>
 <span class="kw">fn</span> <span class="ident">record_from_plughw_rw</span>() {
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">pcm</span>::<span class="kw-2">*</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::pcm</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">ValueOr</span>, <span class="ident">Direction</span>};
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">CString</span>;
-    <span class="kw">let</span> <span class="ident">pcm</span> <span class="op">=</span> <span class="ident">PCM</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">CString</span>::<span class="ident">new</span>(<span class="string">&quot;plughw:1&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">Direction</span>::<span class="ident">Capture</span>, <span class="bool-val">false</span>).<span class="ident">unwrap</span>();
-    <span class="kw">let</span> <span class="ident">ss</span> <span class="op">=</span> <span class="self">self</span>::<span class="ident">Status</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">pcm</span>).<span class="ident">unwrap</span>();
-    <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="self">self</span>::<span class="ident">Control</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">pcm</span>).<span class="ident">unwrap</span>();
-    <span class="kw">let</span> <span class="ident">hwp</span> <span class="op">=</span> <span class="ident">HwParams</span>::<span class="ident">any</span>(<span class="kw-2">&amp;</span><span class="ident">pcm</span>).<span class="ident">unwrap</span>();
+    <span class="kw">use</span> <span class="ident">std::ffi::CString</span>;
+    <span class="kw">let</span> <span class="ident">pcm</span> <span class="op">=</span> <span class="ident">PCM::open</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">CString::new</span>(<span class="string">&quot;plughw:1&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">Direction::Capture</span>, <span class="bool-val">false</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">ss</span> <span class="op">=</span> <span class="ident"><span class="self">self</span>::Status::new</span>(<span class="kw-2">&amp;</span><span class="ident">pcm</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident"><span class="self">self</span>::Control::new</span>(<span class="kw-2">&amp;</span><span class="ident">pcm</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">hwp</span> <span class="op">=</span> <span class="ident">HwParams::any</span>(<span class="kw-2">&amp;</span><span class="ident">pcm</span>).<span class="ident">unwrap</span>();
     <span class="ident">hwp</span>.<span class="ident">set_channels</span>(<span class="number">2</span>).<span class="ident">unwrap</span>();
-    <span class="ident">hwp</span>.<span class="ident">set_rate</span>(<span class="number">44100</span>, <span class="ident">ValueOr</span>::<span class="ident">Nearest</span>).<span class="ident">unwrap</span>();
-    <span class="ident">hwp</span>.<span class="ident">set_format</span>(<span class="ident">Format</span>::<span class="ident">s16</span>()).<span class="ident">unwrap</span>();
-    <span class="ident">hwp</span>.<span class="ident">set_access</span>(<span class="ident">Access</span>::<span class="ident">RWInterleaved</span>).<span class="ident">unwrap</span>();
+    <span class="ident">hwp</span>.<span class="ident">set_rate</span>(<span class="number">44100</span>, <span class="ident">ValueOr::Nearest</span>).<span class="ident">unwrap</span>();
+    <span class="ident">hwp</span>.<span class="ident">set_format</span>(<span class="ident">Format::s16</span>()).<span class="ident">unwrap</span>();
+    <span class="ident">hwp</span>.<span class="ident">set_access</span>(<span class="ident">Access::RWInterleaved</span>).<span class="ident">unwrap</span>();
     <span class="ident">pcm</span>.<span class="ident">hw_params</span>(<span class="kw-2">&amp;</span><span class="ident">hwp</span>).<span class="ident">unwrap</span>();
 
     {
@@ -1172,96 +1169,96 @@ For an example of how to use this mode, look in the &quot;synth-example&quot; di
         <span class="ident">swp</span>.<span class="ident">set_tstamp_mode</span>(<span class="bool-val">true</span>).<span class="ident">unwrap</span>();
         <span class="ident">pcm</span>.<span class="ident">sw_params</span>(<span class="kw-2">&amp;</span><span class="ident">swp</span>).<span class="ident">unwrap</span>();
     }
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ss</span>.<span class="ident">state</span>(), <span class="ident">State</span>::<span class="ident">Prepared</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">ss</span>.<span class="ident">state</span>(), <span class="ident">State::Prepared</span>);
     <span class="ident">pcm</span>.<span class="ident">start</span>().<span class="ident">unwrap</span>();
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">c</span>.<span class="ident">appl_ptr</span>(), <span class="number">0</span>);
-    <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?}, {:?}&quot;</span>, <span class="ident">ss</span>, <span class="ident">c</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">c</span>.<span class="ident">appl_ptr</span>(), <span class="number">0</span>);
+    <span class="macro">println!</span>(<span class="string">&quot;{:?}, {:?}&quot;</span>, <span class="ident">ss</span>, <span class="ident">c</span>);
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0i16</span>; <span class="number">512</span><span class="kw-2">*</span><span class="number">2</span>];
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">pcm</span>.<span class="ident">io_i16</span>().<span class="ident">unwrap</span>().<span class="ident">readi</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>(), <span class="number">512</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">c</span>.<span class="ident">appl_ptr</span>(), <span class="number">512</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">pcm</span>.<span class="ident">io_i16</span>().<span class="ident">unwrap</span>().<span class="ident">readi</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>(), <span class="number">512</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">c</span>.<span class="ident">appl_ptr</span>(), <span class="number">512</span>);
 
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ss</span>.<span class="ident">state</span>(), <span class="ident">State</span>::<span class="ident">Running</span>);
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">ss</span>.<span class="ident">hw_ptr</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="number">512</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">ss</span>.<span class="ident">state</span>(), <span class="ident">State::Running</span>);
+    <span class="macro">assert!</span>(<span class="ident">ss</span>.<span class="ident">hw_ptr</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="number">512</span>);
     <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">ss</span>.<span class="ident">htstamp</span>();
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">t2</span>.<span class="ident">tv_sec</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">t2</span>.<span class="ident">tv_nsec</span> <span class="op">&gt;</span> <span class="number">0</span>);
+    <span class="macro">assert!</span>(<span class="ident">t2</span>.<span class="ident">tv_sec</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">t2</span>.<span class="ident">tv_nsec</span> <span class="op">&gt;</span> <span class="number">0</span>);
 }
 
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="attribute">#[<span class="ident">ignore</span>]</span> <span class="comment">// Not everyone has a record device on plughw:1. So let&#39;s ignore this test by default.</span>
 <span class="kw">fn</span> <span class="ident">record_from_plughw_mmap</span>() {
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">pcm</span>::<span class="kw-2">*</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::pcm</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">ValueOr</span>, <span class="ident">Direction</span>};
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">CString</span>;
+    <span class="kw">use</span> <span class="ident">std::ffi::CString</span>;
     <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">thread</span>, <span class="ident">time</span>};
 
-    <span class="kw">let</span> <span class="ident">pcm</span> <span class="op">=</span> <span class="ident">PCM</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">CString</span>::<span class="ident">new</span>(<span class="string">&quot;plughw:1&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">Direction</span>::<span class="ident">Capture</span>, <span class="bool-val">false</span>).<span class="ident">unwrap</span>();
-    <span class="kw">let</span> <span class="ident">hwp</span> <span class="op">=</span> <span class="ident">HwParams</span>::<span class="ident">any</span>(<span class="kw-2">&amp;</span><span class="ident">pcm</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">pcm</span> <span class="op">=</span> <span class="ident">PCM::open</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">CString::new</span>(<span class="string">&quot;plughw:1&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">Direction::Capture</span>, <span class="bool-val">false</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">hwp</span> <span class="op">=</span> <span class="ident">HwParams::any</span>(<span class="kw-2">&amp;</span><span class="ident">pcm</span>).<span class="ident">unwrap</span>();
     <span class="ident">hwp</span>.<span class="ident">set_channels</span>(<span class="number">2</span>).<span class="ident">unwrap</span>();
-    <span class="ident">hwp</span>.<span class="ident">set_rate</span>(<span class="number">44100</span>, <span class="ident">ValueOr</span>::<span class="ident">Nearest</span>).<span class="ident">unwrap</span>();
-    <span class="ident">hwp</span>.<span class="ident">set_format</span>(<span class="ident">Format</span>::<span class="ident">s16</span>()).<span class="ident">unwrap</span>();
-    <span class="ident">hwp</span>.<span class="ident">set_access</span>(<span class="ident">Access</span>::<span class="ident">MMapInterleaved</span>).<span class="ident">unwrap</span>();
+    <span class="ident">hwp</span>.<span class="ident">set_rate</span>(<span class="number">44100</span>, <span class="ident">ValueOr::Nearest</span>).<span class="ident">unwrap</span>();
+    <span class="ident">hwp</span>.<span class="ident">set_format</span>(<span class="ident">Format::s16</span>()).<span class="ident">unwrap</span>();
+    <span class="ident">hwp</span>.<span class="ident">set_access</span>(<span class="ident">Access::MMapInterleaved</span>).<span class="ident">unwrap</span>();
     <span class="ident">pcm</span>.<span class="ident">hw_params</span>(<span class="kw-2">&amp;</span><span class="ident">hwp</span>).<span class="ident">unwrap</span>();
 
-    <span class="kw">let</span> <span class="ident">ss</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">SyncPtrStatus</span>::<span class="ident">sync_ptr</span>(<span class="ident">pcm_to_fd</span>(<span class="kw-2">&amp;</span><span class="ident">pcm</span>).<span class="ident">unwrap</span>(), <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).<span class="ident">unwrap</span>() };
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ss</span>.<span class="ident">state</span>(), <span class="ident">State</span>::<span class="ident">Prepared</span>);
+    <span class="kw">let</span> <span class="ident">ss</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">SyncPtrStatus::sync_ptr</span>(<span class="ident">pcm_to_fd</span>(<span class="kw-2">&amp;</span><span class="ident">pcm</span>).<span class="ident">unwrap</span>(), <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).<span class="ident">unwrap</span>() };
+    <span class="macro">assert_eq!</span>(<span class="ident">ss</span>.<span class="ident">state</span>(), <span class="ident">State::Prepared</span>);
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">m</span> <span class="op">=</span> <span class="ident">pcm</span>.<span class="ident">direct_mmap_capture</span>::<span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>();
 
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">status</span>().<span class="ident">state</span>(), <span class="ident">State</span>::<span class="ident">Prepared</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">appl_ptr</span>(), <span class="number">0</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">hw_ptr</span>(), <span class="number">0</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">m</span>.<span class="ident">status</span>().<span class="ident">state</span>(), <span class="ident">State::Prepared</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">m</span>.<span class="ident">appl_ptr</span>(), <span class="number">0</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">m</span>.<span class="ident">hw_ptr</span>(), <span class="number">0</span>);
 
 
-    <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">m</span>);
+    <span class="macro">println!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">m</span>);
 
-    <span class="kw">let</span> <span class="ident">now</span> <span class="op">=</span> <span class="ident">time</span>::<span class="ident">Instant</span>::<span class="ident">now</span>();
+    <span class="kw">let</span> <span class="ident">now</span> <span class="op">=</span> <span class="ident">time::Instant::now</span>();
     <span class="ident">pcm</span>.<span class="ident">start</span>().<span class="ident">unwrap</span>();
-    <span class="kw">while</span> <span class="ident">m</span>.<span class="ident">avail</span>() <span class="op">&lt;</span> <span class="number">256</span> { <span class="ident">thread</span>::<span class="ident">sleep</span>(<span class="ident">time</span>::<span class="ident">Duration</span>::<span class="ident">from_millis</span>(<span class="number">1</span>)) };
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">now</span>.<span class="ident">elapsed</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="ident">time</span>::<span class="ident">Duration</span>::<span class="ident">from_millis</span>(<span class="number">256</span> <span class="op">*</span> <span class="number">1000</span> <span class="op">/</span> <span class="number">44100</span>));
+    <span class="kw">while</span> <span class="ident">m</span>.<span class="ident">avail</span>() <span class="op">&lt;</span> <span class="number">256</span> { <span class="ident">thread::sleep</span>(<span class="ident">time::Duration::from_millis</span>(<span class="number">1</span>)) };
+    <span class="macro">assert!</span>(<span class="ident">now</span>.<span class="ident">elapsed</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="ident">time::Duration::from_millis</span>(<span class="number">256</span> <span class="op">*</span> <span class="number">1000</span> <span class="op">/</span> <span class="number">44100</span>));
     <span class="kw">let</span> (<span class="ident">ptr1</span>, <span class="ident">md</span>) <span class="op">=</span> <span class="ident">m</span>.<span class="ident">data_ptr</span>();
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ptr1</span>.<span class="ident">channels</span>, <span class="number">2</span>);
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">ptr1</span>.<span class="ident">frames</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">256</span>);
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">md</span>.<span class="ident">is_none</span>());
-    <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Has {:?} frames at {:?} in {:?}&quot;</span>, <span class="ident">m</span>.<span class="ident">avail</span>(), <span class="ident">ptr1</span>.<span class="ident">ptr</span>, <span class="ident">now</span>.<span class="ident">elapsed</span>());
+    <span class="macro">assert_eq!</span>(<span class="ident">ptr1</span>.<span class="ident">channels</span>, <span class="number">2</span>);
+    <span class="macro">assert!</span>(<span class="ident">ptr1</span>.<span class="ident">frames</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">256</span>);
+    <span class="macro">assert!</span>(<span class="ident">md</span>.<span class="ident">is_none</span>());
+    <span class="macro">println!</span>(<span class="string">&quot;Has {:?} frames at {:?} in {:?}&quot;</span>, <span class="ident">m</span>.<span class="ident">avail</span>(), <span class="ident">ptr1</span>.<span class="ident">ptr</span>, <span class="ident">now</span>.<span class="ident">elapsed</span>());
     <span class="kw">let</span> <span class="ident">samples</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">m</span>.<span class="ident">iter</span>().<span class="ident">collect</span>();
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">samples</span>.<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="ident">ptr1</span>.<span class="ident">frames</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="number">2</span>);
-    <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Collected {} samples&quot;</span>, <span class="ident">samples</span>.<span class="ident">len</span>());
+    <span class="macro">assert!</span>(<span class="ident">samples</span>.<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="ident">ptr1</span>.<span class="ident">frames</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="number">2</span>);
+    <span class="macro">println!</span>(<span class="string">&quot;Collected {} samples&quot;</span>, <span class="ident">samples</span>.<span class="ident">len</span>());
     <span class="kw">let</span> (<span class="ident">ptr2</span>, <span class="ident">_md</span>) <span class="op">=</span> <span class="ident">m</span>.<span class="ident">data_ptr</span>();
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">unsafe</span> { <span class="ident">ptr1</span>.<span class="ident">ptr</span>.<span class="ident">offset</span>(<span class="number">256</span> <span class="op">*</span> <span class="number">2</span>) } <span class="op">&lt;</span><span class="op">=</span> <span class="ident">ptr2</span>.<span class="ident">ptr</span>);
+    <span class="macro">assert!</span>(<span class="kw">unsafe</span> { <span class="ident">ptr1</span>.<span class="ident">ptr</span>.<span class="ident">offset</span>(<span class="number">256</span> <span class="op">*</span> <span class="number">2</span>) } <span class="op">&lt;</span><span class="op">=</span> <span class="ident">ptr2</span>.<span class="ident">ptr</span>);
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="attribute">#[<span class="ident">ignore</span>]</span>
 <span class="kw">fn</span> <span class="ident">playback_to_plughw_mmap</span>() {
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">pcm</span>::<span class="kw-2">*</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::pcm</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">ValueOr</span>, <span class="ident">Direction</span>};
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">CString</span>;
+    <span class="kw">use</span> <span class="ident">std::ffi::CString</span>;
 
-    <span class="kw">let</span> <span class="ident">pcm</span> <span class="op">=</span> <span class="ident">PCM</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">CString</span>::<span class="ident">new</span>(<span class="string">&quot;plughw:1&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">Direction</span>::<span class="ident">Playback</span>, <span class="bool-val">false</span>).<span class="ident">unwrap</span>();
-    <span class="kw">let</span> <span class="ident">hwp</span> <span class="op">=</span> <span class="ident">HwParams</span>::<span class="ident">any</span>(<span class="kw-2">&amp;</span><span class="ident">pcm</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">pcm</span> <span class="op">=</span> <span class="ident">PCM::open</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">CString::new</span>(<span class="string">&quot;plughw:1&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">Direction::Playback</span>, <span class="bool-val">false</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">hwp</span> <span class="op">=</span> <span class="ident">HwParams::any</span>(<span class="kw-2">&amp;</span><span class="ident">pcm</span>).<span class="ident">unwrap</span>();
     <span class="ident">hwp</span>.<span class="ident">set_channels</span>(<span class="number">2</span>).<span class="ident">unwrap</span>();
-    <span class="ident">hwp</span>.<span class="ident">set_rate</span>(<span class="number">44100</span>, <span class="ident">ValueOr</span>::<span class="ident">Nearest</span>).<span class="ident">unwrap</span>();
-    <span class="ident">hwp</span>.<span class="ident">set_format</span>(<span class="ident">Format</span>::<span class="ident">s16</span>()).<span class="ident">unwrap</span>();
-    <span class="ident">hwp</span>.<span class="ident">set_access</span>(<span class="ident">Access</span>::<span class="ident">MMapInterleaved</span>).<span class="ident">unwrap</span>();
+    <span class="ident">hwp</span>.<span class="ident">set_rate</span>(<span class="number">44100</span>, <span class="ident">ValueOr::Nearest</span>).<span class="ident">unwrap</span>();
+    <span class="ident">hwp</span>.<span class="ident">set_format</span>(<span class="ident">Format::s16</span>()).<span class="ident">unwrap</span>();
+    <span class="ident">hwp</span>.<span class="ident">set_access</span>(<span class="ident">Access::MMapInterleaved</span>).<span class="ident">unwrap</span>();
     <span class="ident">pcm</span>.<span class="ident">hw_params</span>(<span class="kw-2">&amp;</span><span class="ident">hwp</span>).<span class="ident">unwrap</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">m</span> <span class="op">=</span> <span class="ident">pcm</span>.<span class="ident">direct_mmap_playback</span>::<span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>();
 
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">status</span>().<span class="ident">state</span>(), <span class="ident">State</span>::<span class="ident">Prepared</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">appl_ptr</span>(), <span class="number">0</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">hw_ptr</span>(), <span class="number">0</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">m</span>.<span class="ident">status</span>().<span class="ident">state</span>(), <span class="ident">State::Prepared</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">m</span>.<span class="ident">appl_ptr</span>(), <span class="number">0</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">m</span>.<span class="ident">hw_ptr</span>(), <span class="number">0</span>);
 
-    <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">m</span>);
+    <span class="macro">println!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">m</span>);
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> (<span class="number">0</span>..(<span class="ident">m</span>.<span class="ident">buffer_size</span>() <span class="op">*</span> <span class="number">2</span>)).<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span>
-        (((<span class="ident">i</span> <span class="op">/</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="number">2.0</span> <span class="op">*</span> ::<span class="ident">std</span>::<span class="ident">f32</span>::<span class="ident">consts</span>::<span class="ident">PI</span> <span class="op">/</span> <span class="number">128.0</span>).<span class="ident">sin</span>() <span class="op">*</span> <span class="number">8192.0</span>) <span class="kw">as</span> <span class="ident">i16</span>);
-    <span class="ident">m</span>.<span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">i</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">appl_ptr</span>(), <span class="ident">m</span>.<span class="ident">buffer_size</span>());
+        (((<span class="ident">i</span> <span class="op">/</span> <span class="number">2</span>) <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="number">2.0</span> <span class="op">*</span> <span class="ident">::std::f32::consts::PI</span> <span class="op">/</span> <span class="number">128.0</span>).<span class="ident">sin</span>() <span class="op">*</span> <span class="number">8192.0</span>) <span class="kw">as</span> <span class="ident">i16</span>);
+    <span class="ident">m</span>.<span class="ident">write</span>(<span class="kw-2">&amp;mut</span> <span class="ident">i</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">m</span>.<span class="ident">appl_ptr</span>(), <span class="ident">m</span>.<span class="ident">buffer_size</span>());
 
     <span class="ident">pcm</span>.<span class="ident">start</span>().<span class="ident">unwrap</span>();
     <span class="ident">pcm</span>.<span class="ident">drain</span>().<span class="ident">unwrap</span>();
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">appl_ptr</span>(), <span class="ident">m</span>.<span class="ident">buffer_size</span>());
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">hw_ptr</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="ident">m</span>.<span class="ident">buffer_size</span>());
+    <span class="macro">assert_eq!</span>(<span class="ident">m</span>.<span class="ident">appl_ptr</span>(), <span class="ident">m</span>.<span class="ident">buffer_size</span>());
+    <span class="macro">assert!</span>(<span class="ident">m</span>.<span class="ident">hw_ptr</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="ident">m</span>.<span class="ident">buffer_size</span>());
 }
-</pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="alsa" data-search-js="../../../search-index.js"></div>
-    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script></body></html>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="alsa" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
+</body></html>

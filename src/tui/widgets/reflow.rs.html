@@ -1,7 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tui-0.15.0/src/widgets/reflow.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>reflow.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../tui/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;tui-0.15.0&#x2F;src&#x2F;widgets&#x2F;reflow.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>reflow.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><script defer src="../../../main.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../tui/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -535,10 +533,9 @@
 <span id="532">532</span>
 <span id="533">533</span>
 <span id="534">534</span>
-</pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">text</span>::<span class="ident">StyledGrapheme</span>;
-<span class="kw">use</span> <span class="ident">unicode_segmentation</span>::<span class="ident">UnicodeSegmentation</span>;
-<span class="kw">use</span> <span class="ident">unicode_width</span>::<span class="ident">UnicodeWidthStr</span>;
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::text::StyledGrapheme</span>;
+<span class="kw">use</span> <span class="ident">unicode_segmentation::UnicodeSegmentation</span>;
+<span class="kw">use</span> <span class="ident">unicode_width::UnicodeWidthStr</span>;
 
 <span class="kw">const</span> <span class="ident">NBSP</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;\u{00a0}&quot;</span>;
 
@@ -546,7 +543,7 @@
 <span class="doccomment">/// Cannot implement it as Iterator since it yields slices of the internal buffer (need streaming</span>
 <span class="doccomment">/// iterators for that).</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">LineComposer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">next_line</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">StyledGrapheme</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">u16</span>)<span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">next_line</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">StyledGrapheme</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">u16</span>)<span class="op">&gt;</span>;
 }
 
 <span class="doccomment">/// A state machine that wraps lines on word boundaries.</span>
@@ -564,23 +561,23 @@
         <span class="ident">symbols</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">StyledGrapheme</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
         <span class="ident">max_line_width</span>: <span class="ident">u16</span>,
         <span class="ident">trim</span>: <span class="ident">bool</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">WordWrapper</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="ident">WordWrapper</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> {
         <span class="ident">WordWrapper</span> {
             <span class="ident">symbols</span>,
             <span class="ident">max_line_width</span>,
-            <span class="ident">current_line</span>: <span class="macro">vec</span><span class="macro">!</span>[],
-            <span class="ident">next_line</span>: <span class="macro">vec</span><span class="macro">!</span>[],
+            <span class="ident">current_line</span>: <span class="macro">vec!</span>[],
+            <span class="ident">next_line</span>: <span class="macro">vec!</span>[],
             <span class="ident">trim</span>,
         }
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> <span class="ident">LineComposer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">WordWrapper</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">next_line</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">StyledGrapheme</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">u16</span>)<span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">max_line_width</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+    <span class="kw">fn</span> <span class="ident">next_line</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">StyledGrapheme</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">u16</span>)<span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">max_line_width</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">None</span>;
         }
-        <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">swap</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">current_line</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">next_line</span>);
+        <span class="ident">std::mem::swap</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">current_line</span>, <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">next_line</span>);
         <span class="self">self</span>.<span class="ident">next_line</span>.<span class="ident">truncate</span>(<span class="number">0</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">current_line_width</span> <span class="op">=</span> <span class="self">self</span>
@@ -593,20 +590,20 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">width_to_last_word_end</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">prev_whitespace</span> <span class="op">=</span> <span class="bool-val">false</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">symbols_exhausted</span> <span class="op">=</span> <span class="bool-val">true</span>;
-        <span class="kw">for</span> <span class="ident">StyledGrapheme</span> { <span class="ident">symbol</span>, <span class="ident">style</span> } <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">symbols</span> {
+        <span class="kw">for</span> <span class="ident">StyledGrapheme</span> { <span class="ident">symbol</span>, <span class="ident">style</span> } <span class="kw">in</span> <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">symbols</span> {
             <span class="ident">symbols_exhausted</span> <span class="op">=</span> <span class="bool-val">false</span>;
-            <span class="kw">let</span> <span class="ident">symbol_whitespace</span> <span class="op">=</span> <span class="ident">symbol</span>.<span class="ident">chars</span>().<span class="ident">all</span>(<span class="kw-2">&amp;</span><span class="ident">char</span>::<span class="ident">is_whitespace</span>) <span class="op">&amp;&amp;</span> <span class="ident">symbol</span> <span class="op">!</span><span class="op">=</span> <span class="ident">NBSP</span>;
+            <span class="kw">let</span> <span class="ident">symbol_whitespace</span> <span class="op">=</span> <span class="ident">symbol</span>.<span class="ident">chars</span>().<span class="ident">all</span>(<span class="kw-2">&amp;</span><span class="ident">char::is_whitespace</span>) <span class="op">&amp;&amp;</span> <span class="ident">symbol</span> <span class="op">!</span><span class="op">=</span> <span class="ident">NBSP</span>;
 
             <span class="comment">// Ignore characters wider that the total max width.</span>
             <span class="kw">if</span> <span class="ident">symbol</span>.<span class="ident">width</span>() <span class="kw">as</span> <span class="ident">u16</span> <span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">max_line_width</span>
                 <span class="comment">// Skip leading whitespace when trim is enabled.</span>
-                <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">trim</span> <span class="op">&amp;&amp;</span> <span class="ident">symbol_whitespace</span> <span class="op">&amp;&amp;</span> <span class="ident">symbol</span> <span class="op">!</span><span class="op">=</span> <span class="string">&quot;\n&quot;</span> <span class="op">&amp;&amp;</span> <span class="ident">current_line_width</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>
+                <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">trim</span> <span class="op">&amp;&amp;</span> <span class="ident">symbol_whitespace</span> <span class="op">&amp;&amp;</span> <span class="ident">symbol</span> <span class="op">!</span><span class="op">=</span> <span class="string">&quot;\n&quot;</span> <span class="op">&amp;&amp;</span> <span class="ident">current_line_width</span> <span class="op">==</span> <span class="number">0</span>
             {
                 <span class="kw">continue</span>;
             }
 
             <span class="comment">// Break on newline and discard it.</span>
-            <span class="kw">if</span> <span class="ident">symbol</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;\n&quot;</span> {
+            <span class="kw">if</span> <span class="ident">symbol</span> <span class="op">==</span> <span class="string">&quot;\n&quot;</span> {
                 <span class="kw">if</span> <span class="ident">prev_whitespace</span> {
                     <span class="ident">current_line_width</span> <span class="op">=</span> <span class="ident">width_to_last_word_end</span>;
                     <span class="self">self</span>.<span class="ident">current_line</span>.<span class="ident">truncate</span>(<span class="ident">symbols_to_last_word_end</span>);
@@ -636,7 +633,7 @@
                     <span class="kw">let</span> <span class="ident">remainder</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">current_line</span>[<span class="ident">truncate_at</span>..];
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">remainder_nonwhite</span>) <span class="op">=</span>
                         <span class="ident">remainder</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="ident">StyledGrapheme</span> { <span class="ident">symbol</span>, .. }<span class="op">|</span> {
-                            <span class="op">!</span><span class="ident">symbol</span>.<span class="ident">chars</span>().<span class="ident">all</span>(<span class="kw-2">&amp;</span><span class="ident">char</span>::<span class="ident">is_whitespace</span>)
+                            <span class="op">!</span><span class="ident">symbol</span>.<span class="ident">chars</span>().<span class="ident">all</span>(<span class="kw-2">&amp;</span><span class="ident">char::is_whitespace</span>)
                         })
                     {
                         <span class="self">self</span>.<span class="ident">next_line</span>
@@ -673,23 +670,23 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(
         <span class="ident">symbols</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">StyledGrapheme</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
         <span class="ident">max_line_width</span>: <span class="ident">u16</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">LineTruncator</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="ident">LineTruncator</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> {
         <span class="ident">LineTruncator</span> {
             <span class="ident">symbols</span>,
             <span class="ident">max_line_width</span>,
             <span class="ident">horizontal_offset</span>: <span class="number">0</span>,
-            <span class="ident">current_line</span>: <span class="macro">vec</span><span class="macro">!</span>[],
+            <span class="ident">current_line</span>: <span class="macro">vec!</span>[],
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_horizontal_offset</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">horizontal_offset</span>: <span class="ident">u16</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_horizontal_offset</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">horizontal_offset</span>: <span class="ident">u16</span>) {
         <span class="self">self</span>.<span class="ident">horizontal_offset</span> <span class="op">=</span> <span class="ident">horizontal_offset</span>;
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> <span class="ident">LineComposer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">LineTruncator</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">next_line</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">StyledGrapheme</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">u16</span>)<span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">max_line_width</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+    <span class="kw">fn</span> <span class="ident">next_line</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">StyledGrapheme</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>], <span class="ident">u16</span>)<span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">max_line_width</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">None</span>;
         }
 
@@ -699,7 +696,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">skip_rest</span> <span class="op">=</span> <span class="bool-val">false</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">symbols_exhausted</span> <span class="op">=</span> <span class="bool-val">true</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">horizontal_offset</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">horizontal_offset</span> <span class="kw">as</span> <span class="ident">usize</span>;
-        <span class="kw">for</span> <span class="ident">StyledGrapheme</span> { <span class="ident">symbol</span>, <span class="ident">style</span> } <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">symbols</span> {
+        <span class="kw">for</span> <span class="ident">StyledGrapheme</span> { <span class="ident">symbol</span>, <span class="ident">style</span> } <span class="kw">in</span> <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">symbols</span> {
             <span class="ident">symbols_exhausted</span> <span class="op">=</span> <span class="bool-val">false</span>;
 
             <span class="comment">// Ignore characters wider that the total max width.</span>
@@ -708,7 +705,7 @@
             }
 
             <span class="comment">// Break on newline and discard it.</span>
-            <span class="kw">if</span> <span class="ident">symbol</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;\n&quot;</span> {
+            <span class="kw">if</span> <span class="ident">symbol</span> <span class="op">==</span> <span class="string">&quot;\n&quot;</span> {
                 <span class="kw">break</span>;
             }
 
@@ -718,7 +715,7 @@
                 <span class="kw">break</span>;
             }
 
-            <span class="kw">let</span> <span class="ident">symbol</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">horizontal_offset</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">let</span> <span class="ident">symbol</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">horizontal_offset</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="ident">symbol</span>
             } <span class="kw">else</span> {
                 <span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> <span class="ident">symbol</span>.<span class="ident">width</span>();
@@ -736,8 +733,8 @@
         }
 
         <span class="kw">if</span> <span class="ident">skip_rest</span> {
-            <span class="kw">for</span> <span class="ident">StyledGrapheme</span> { <span class="ident">symbol</span>, .. } <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">symbols</span> {
-                <span class="kw">if</span> <span class="ident">symbol</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;\n&quot;</span> {
+            <span class="kw">for</span> <span class="ident">StyledGrapheme</span> { <span class="ident">symbol</span>, .. } <span class="kw">in</span> <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">symbols</span> {
+                <span class="kw">if</span> <span class="ident">symbol</span> <span class="op">==</span> <span class="string">&quot;\n&quot;</span> {
                     <span class="kw">break</span>;
                 }
             }
@@ -753,9 +750,9 @@
 
 <span class="doccomment">/// This function will return a str slice which start at specified offset.</span>
 <span class="doccomment">/// As src is a unicode str, start offset has to be calculated with each character.</span>
-<span class="kw">fn</span> <span class="ident">trim_offset</span>(<span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="kw-2">mut</span> <span class="ident">offset</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
+<span class="kw">fn</span> <span class="ident">trim_offset</span>(<span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="kw-2">mut</span> <span class="ident">offset</span>: <span class="ident">usize</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">start</span> <span class="op">=</span> <span class="number">0</span>;
-    <span class="kw">for</span> <span class="ident">c</span> <span class="kw">in</span> <span class="ident">UnicodeSegmentation</span>::<span class="ident">graphemes</span>(<span class="ident">src</span>, <span class="bool-val">true</span>) {
+    <span class="kw">for</span> <span class="ident">c</span> <span class="kw">in</span> <span class="ident">UnicodeSegmentation::graphemes</span>(<span class="ident">src</span>, <span class="bool-val">true</span>) {
         <span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> <span class="ident">c</span>.<span class="ident">width</span>();
         <span class="kw">if</span> <span class="ident">w</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">offset</span> {
             <span class="ident">offset</span> <span class="op">-</span><span class="op">=</span> <span class="ident">w</span>;
@@ -770,31 +767,31 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">test</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="ident">unicode_segmentation</span>::<span class="ident">UnicodeSegmentation</span>;
+    <span class="kw">use</span> <span class="ident">unicode_segmentation::UnicodeSegmentation</span>;
 
     <span class="kw">enum</span> <span class="ident">Composer</span> {
         <span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="ident">bool</span> },
         <span class="ident">LineTruncator</span>,
     }
 
-    <span class="kw">fn</span> <span class="ident">run_composer</span>(<span class="ident">which</span>: <span class="ident">Composer</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">text_area_width</span>: <span class="ident">u16</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span>) {
-        <span class="kw">let</span> <span class="ident">style</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
+    <span class="kw">fn</span> <span class="ident">run_composer</span>(<span class="ident">which</span>: <span class="ident">Composer</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">text_area_width</span>: <span class="ident">u16</span>) -&gt; (<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span>) {
+        <span class="kw">let</span> <span class="ident">style</span> <span class="op">=</span> <span class="ident">Default::default</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">styled</span> <span class="op">=</span>
-            <span class="ident">UnicodeSegmentation</span>::<span class="ident">graphemes</span>(<span class="ident">text</span>, <span class="bool-val">true</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">g</span><span class="op">|</span> <span class="ident">StyledGrapheme</span> { <span class="ident">symbol</span>: <span class="ident">g</span>, <span class="ident">style</span> });
+            <span class="ident">UnicodeSegmentation::graphemes</span>(<span class="ident">text</span>, <span class="bool-val">true</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">g</span><span class="op">|</span> <span class="ident">StyledGrapheme</span> { <span class="ident">symbol</span>: <span class="ident">g</span>, <span class="ident">style</span> });
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">composer</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">LineComposer</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">which</span> {
-            <span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">WordWrapper</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">styled</span>, <span class="ident">text_area_width</span>, <span class="ident">trim</span>))
+            <span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span> } =&gt; {
+                <span class="ident">Box::new</span>(<span class="ident">WordWrapper::new</span>(<span class="kw-2">&amp;mut</span> <span class="ident">styled</span>, <span class="ident">text_area_width</span>, <span class="ident">trim</span>))
             }
-            <span class="ident">Composer</span>::<span class="ident">LineTruncator</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">LineTruncator</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">styled</span>, <span class="ident">text_area_width</span>)),
+            <span class="ident">Composer::LineTruncator</span> =&gt; <span class="ident">Box::new</span>(<span class="ident">LineTruncator::new</span>(<span class="kw-2">&amp;mut</span> <span class="ident">styled</span>, <span class="ident">text_area_width</span>)),
         };
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">lines</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">widths</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">lines</span> <span class="op">=</span> <span class="macro">vec!</span>[];
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">widths</span> <span class="op">=</span> <span class="macro">vec!</span>[];
         <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">styled</span>, <span class="ident">width</span>)) <span class="op">=</span> <span class="ident">composer</span>.<span class="ident">next_line</span>() {
             <span class="kw">let</span> <span class="ident">line</span> <span class="op">=</span> <span class="ident">styled</span>
                 .<span class="ident">iter</span>()
                 .<span class="ident">map</span>(<span class="op">|</span><span class="ident">StyledGrapheme</span> { <span class="ident">symbol</span>, .. }<span class="op">|</span> <span class="kw-2">*</span><span class="ident">symbol</span>)
                 .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>();
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">width</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">text_area_width</span>);
+            <span class="macro">assert!</span>(<span class="ident">width</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">text_area_width</span>);
             <span class="ident">lines</span>.<span class="ident">push</span>(<span class="ident">line</span>);
             <span class="ident">widths</span>.<span class="ident">push</span>(<span class="ident">width</span>);
         }
@@ -807,11 +804,11 @@
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">1</span>..<span class="ident">width</span> {
             <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="string">&quot;a&quot;</span>.<span class="ident">repeat</span>(<span class="ident">i</span>);
             <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span>
-                <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="kw-2">&amp;</span><span class="ident">text</span>, <span class="ident">width</span> <span class="kw">as</span> <span class="ident">u16</span>);
-            <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">LineTruncator</span>, <span class="kw-2">&amp;</span><span class="ident">text</span>, <span class="ident">width</span> <span class="kw">as</span> <span class="ident">u16</span>);
-            <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">text</span>];
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">word_wrapper</span>, <span class="ident">expected</span>);
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">line_truncator</span>, <span class="ident">expected</span>);
+                <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="kw-2">&amp;</span><span class="ident">text</span>, <span class="ident">width</span> <span class="kw">as</span> <span class="ident">u16</span>);
+            <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::LineTruncator</span>, <span class="kw-2">&amp;</span><span class="ident">text</span>, <span class="ident">width</span> <span class="kw">as</span> <span class="ident">u16</span>);
+            <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="ident">text</span>];
+            <span class="macro">assert_eq!</span>(<span class="ident">word_wrapper</span>, <span class="ident">expected</span>);
+            <span class="macro">assert_eq!</span>(<span class="ident">line_truncator</span>, <span class="ident">expected</span>);
         }
     }
 
@@ -820,12 +817,12 @@
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="number">20</span>;
         <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span>
             <span class="string">&quot;abcdefg\nhijklmno\npabcdefg\nhijklmn\nopabcdefghijk\nlmnopabcd\n\n\nefghijklmno&quot;</span>;
-        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span>);
 
         <span class="kw">let</span> <span class="ident">wrapped</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">text</span>.<span class="ident">split</span>(<span class="string">&#39;\n&#39;</span>).<span class="ident">collect</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">word_wrapper</span>, <span class="ident">wrapped</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">line_truncator</span>, <span class="ident">wrapped</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">word_wrapper</span>, <span class="ident">wrapped</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">line_truncator</span>, <span class="ident">wrapped</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -833,21 +830,21 @@
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="number">20</span>;
         <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="string">&quot;abcdefghijklmnopabcdefghijklmnopabcdefghijklmnopabcdefghijklmno&quot;</span>;
         <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span>
-            <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span> <span class="kw">as</span> <span class="ident">u16</span>);
-        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span> <span class="kw">as</span> <span class="ident">u16</span>);
+            <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span> <span class="kw">as</span> <span class="ident">u16</span>);
+        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span> <span class="kw">as</span> <span class="ident">u16</span>);
 
-        <span class="kw">let</span> <span class="ident">wrapped</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
+        <span class="kw">let</span> <span class="ident">wrapped</span> <span class="op">=</span> <span class="macro">vec!</span>[
             <span class="kw-2">&amp;</span><span class="ident">text</span>[..<span class="ident">width</span>],
             <span class="kw-2">&amp;</span><span class="ident">text</span>[<span class="ident">width</span>..<span class="ident">width</span> <span class="op">*</span> <span class="number">2</span>],
             <span class="kw-2">&amp;</span><span class="ident">text</span>[<span class="ident">width</span> <span class="op">*</span> <span class="number">2</span>..<span class="ident">width</span> <span class="op">*</span> <span class="number">3</span>],
             <span class="kw-2">&amp;</span><span class="ident">text</span>[<span class="ident">width</span> <span class="op">*</span> <span class="number">3</span>..],
         ];
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">word_wrapper</span>, <span class="ident">wrapped</span>,
             <span class="string">&quot;WordWrapper should detect the line cannot be broken on word boundary and \
              break it at line width limit.&quot;</span>
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">line_truncator</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="kw-2">&amp;</span><span class="ident">text</span>[..<span class="ident">width</span>]]);
+        <span class="macro">assert_eq!</span>(<span class="ident">line_truncator</span>, <span class="macro">vec!</span>[<span class="kw-2">&amp;</span><span class="ident">text</span>[..<span class="ident">width</span>]]);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -859,51 +856,51 @@
             <span class="string">&quot;abcd efghij    klmnopabcd efgh     ijklmnopabcdefg hijkl mnopab c d e f g h i j k l \
              m n o&quot;</span>;
         <span class="kw">let</span> (<span class="ident">word_wrapper_single_space</span>, <span class="kw">_</span>) <span class="op">=</span>
-            <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span> <span class="kw">as</span> <span class="ident">u16</span>);
+            <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span> <span class="kw">as</span> <span class="ident">u16</span>);
         <span class="kw">let</span> (<span class="ident">word_wrapper_multi_space</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(
-            <span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> },
+            <span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> },
             <span class="ident">text_multi_space</span>,
             <span class="ident">width</span> <span class="kw">as</span> <span class="ident">u16</span>,
         );
-        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span> <span class="kw">as</span> <span class="ident">u16</span>);
+        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span> <span class="kw">as</span> <span class="ident">u16</span>);
 
-        <span class="kw">let</span> <span class="ident">word_wrapped</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
+        <span class="kw">let</span> <span class="ident">word_wrapped</span> <span class="op">=</span> <span class="macro">vec!</span>[
             <span class="string">&quot;abcd efghij&quot;</span>,
             <span class="string">&quot;klmnopabcd efgh&quot;</span>,
             <span class="string">&quot;ijklmnopabcdefg&quot;</span>,
             <span class="string">&quot;hijkl mnopab c d e f&quot;</span>,
             <span class="string">&quot;g h i j k l m n o&quot;</span>,
         ];
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">word_wrapper_single_space</span>, <span class="ident">word_wrapped</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">word_wrapper_multi_space</span>, <span class="ident">word_wrapped</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">word_wrapper_single_space</span>, <span class="ident">word_wrapped</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">word_wrapper_multi_space</span>, <span class="ident">word_wrapped</span>);
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">line_truncator</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="kw-2">&amp;</span><span class="ident">text</span>[..<span class="ident">width</span>]]);
+        <span class="macro">assert_eq!</span>(<span class="ident">line_truncator</span>, <span class="macro">vec!</span>[<span class="kw-2">&amp;</span><span class="ident">text</span>[..<span class="ident">width</span>]]);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">line_composer_zero_width</span>() {
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="string">&quot;abcd efghij klmnopabcd efgh ijklmnopabcdefg hijkl mnopab &quot;</span>;
-        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span>);
 
-        <span class="kw">let</span> <span class="ident">expected</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">word_wrapper</span>, <span class="ident">expected</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">line_truncator</span>, <span class="ident">expected</span>);
+        <span class="kw">let</span> <span class="ident">expected</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
+        <span class="macro">assert_eq!</span>(<span class="ident">word_wrapper</span>, <span class="ident">expected</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">line_truncator</span>, <span class="ident">expected</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">line_composer_max_line_width_of_1</span>() {
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="number">1</span>;
         <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="string">&quot;abcd efghij klmnopabcd efgh ijklmnopabcdefg hijkl mnopab &quot;</span>;
-        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span>);
 
-        <span class="kw">let</span> <span class="ident">expected</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">UnicodeSegmentation</span>::<span class="ident">graphemes</span>(<span class="ident">text</span>, <span class="bool-val">true</span>)
+        <span class="kw">let</span> <span class="ident">expected</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">UnicodeSegmentation::graphemes</span>(<span class="ident">text</span>, <span class="bool-val">true</span>)
             .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">g</span><span class="op">|</span> <span class="ident">g</span>.<span class="ident">chars</span>().<span class="ident">any</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="op">!</span><span class="ident">c</span>.<span class="ident">is_whitespace</span>()))
             .<span class="ident">collect</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">word_wrapper</span>, <span class="ident">expected</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">line_truncator</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;a&quot;</span>]);
+        <span class="macro">assert_eq!</span>(<span class="ident">word_wrapper</span>, <span class="ident">expected</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">line_truncator</span>, <span class="macro">vec!</span>[<span class="string">&quot;a&quot;</span>]);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -911,10 +908,10 @@
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="number">1</span>;
         <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="string">&quot;コンピュータ上で文字を扱う場合、典型的には文字\naaaによる通信を行う場合にその\
                     両端点では、&quot;</span>;
-        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">word_wrapper</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;a&quot;</span>]);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">line_truncator</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;&quot;</span>, <span class="string">&quot;a&quot;</span>]);
+        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">word_wrapper</span>, <span class="macro">vec!</span>[<span class="string">&quot;&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;a&quot;</span>]);
+        <span class="macro">assert_eq!</span>(<span class="ident">line_truncator</span>, <span class="macro">vec!</span>[<span class="string">&quot;&quot;</span>, <span class="string">&quot;a&quot;</span>]);
     }
 
     <span class="doccomment">/// Tests WordWrapper with words some of which exceed line length and some not.</span>
@@ -922,10 +919,10 @@
     <span class="kw">fn</span> <span class="ident">line_composer_word_wrapper_mixed_length</span>() {
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="number">20</span>;
         <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="string">&quot;abcd efghij klmnopabcdefghijklmnopabcdefghijkl mnopab cdefghi j klmno&quot;</span>;
-        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="macro">assert_eq!</span>(
             <span class="ident">word_wrapper</span>,
-            <span class="macro">vec</span><span class="macro">!</span>[
+            <span class="macro">vec!</span>[
                 <span class="string">&quot;abcd efghij&quot;</span>,
                 <span class="string">&quot;klmnopabcdefghijklmn&quot;</span>,
                 <span class="string">&quot;opabcdefghijkl&quot;</span>,
@@ -941,28 +938,28 @@
         <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="string">&quot;コンピュータ上で文字を扱う場合、典型的には文字による通信を行う場合にその両端点\
                     では、&quot;</span>;
         <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="ident">word_wrapper_width</span>) <span class="op">=</span>
-            <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="kw-2">&amp;</span><span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">LineTruncator</span>, <span class="kw-2">&amp;</span><span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">line_truncator</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;コンピュータ上で文字&quot;</span>]);
-        <span class="kw">let</span> <span class="ident">wrapped</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
+            <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="kw-2">&amp;</span><span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::LineTruncator</span>, <span class="kw-2">&amp;</span><span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">line_truncator</span>, <span class="macro">vec!</span>[<span class="string">&quot;コンピュータ上で文字&quot;</span>]);
+        <span class="kw">let</span> <span class="ident">wrapped</span> <span class="op">=</span> <span class="macro">vec!</span>[
             <span class="string">&quot;コンピュータ上で文字&quot;</span>,
             <span class="string">&quot;を扱う場合、典型的に&quot;</span>,
             <span class="string">&quot;は文字による通信を行&quot;</span>,
             <span class="string">&quot;う場合にその両端点で&quot;</span>,
             <span class="string">&quot;は、&quot;</span>,
         ];
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">word_wrapper</span>, <span class="ident">wrapped</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">word_wrapper_width</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">width</span>, <span class="ident">width</span>, <span class="ident">width</span>, <span class="ident">width</span>, <span class="number">4</span>]);
+        <span class="macro">assert_eq!</span>(<span class="ident">word_wrapper</span>, <span class="ident">wrapped</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">word_wrapper_width</span>, <span class="macro">vec!</span>[<span class="ident">width</span>, <span class="ident">width</span>, <span class="ident">width</span>, <span class="ident">width</span>, <span class="number">4</span>]);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">line_composer_leading_whitespace_removal</span>() {
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="number">20</span>;
         <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="string">&quot;AAAAAAAAAAAAAAAAAAAA    AAA&quot;</span>;
-        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">word_wrapper</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;AAAAAAAAAAAAAAAAAAAA&quot;</span>, <span class="string">&quot;AAA&quot;</span>,]);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">line_truncator</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;AAAAAAAAAAAAAAAAAAAA&quot;</span>]);
+        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">word_wrapper</span>, <span class="macro">vec!</span>[<span class="string">&quot;AAAAAAAAAAAAAAAAAAAA&quot;</span>, <span class="string">&quot;AAA&quot;</span>,]);
+        <span class="macro">assert_eq!</span>(<span class="ident">line_truncator</span>, <span class="macro">vec!</span>[<span class="string">&quot;AAAAAAAAAAAAAAAAAAAA&quot;</span>]);
     }
 
     <span class="doccomment">/// Tests truncation of leading whitespace.</span>
@@ -970,10 +967,10 @@
     <span class="kw">fn</span> <span class="ident">line_composer_lots_of_spaces</span>() {
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="number">20</span>;
         <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="string">&quot;                                                                     &quot;</span>;
-        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">word_wrapper</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;&quot;</span>]);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">line_truncator</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;                    &quot;</span>]);
+        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">word_wrapper</span>, <span class="macro">vec!</span>[<span class="string">&quot;&quot;</span>]);
+        <span class="macro">assert_eq!</span>(<span class="ident">line_truncator</span>, <span class="macro">vec!</span>[<span class="string">&quot;                    &quot;</span>]);
     }
 
     <span class="doccomment">/// Tests an input starting with a letter, folowed by spaces - some of the behaviour is</span>
@@ -982,14 +979,14 @@
     <span class="kw">fn</span> <span class="ident">line_composer_char_plus_lots_of_spaces</span>() {
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="number">20</span>;
         <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="string">&quot;a                                                                     &quot;</span>;
-        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="kw">let</span> (<span class="ident">line_truncator</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::LineTruncator</span>, <span class="ident">text</span>, <span class="ident">width</span>);
         <span class="comment">// What&#39;s happening below is: the first line gets consumed, trailing spaces discarded,</span>
         <span class="comment">// after 20 of which a word break occurs (probably shouldn&#39;t). The second line break</span>
         <span class="comment">// discards all whitespace. The result should probably be vec![&quot;a&quot;] but it doesn&#39;t matter</span>
         <span class="comment">// that much.</span>
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">word_wrapper</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;&quot;</span>]);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">line_truncator</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;a                   &quot;</span>]);
+        <span class="macro">assert_eq!</span>(<span class="ident">word_wrapper</span>, <span class="macro">vec!</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;&quot;</span>]);
+        <span class="macro">assert_eq!</span>(<span class="ident">line_truncator</span>, <span class="macro">vec!</span>[<span class="string">&quot;a                   &quot;</span>]);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1002,10 +999,10 @@
         <span class="comment">// This happens to also be a test case for mixed width because regular spaces are single width.</span>
         <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="string">&quot;コンピュ ータ上で文字を扱う場合、 典型的には文 字による 通信を行 う場合にその両端点では、&quot;</span>;
         <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="ident">word_wrapper_width</span>) <span class="op">=</span>
-            <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="macro">assert_eq!</span>(
             <span class="ident">word_wrapper</span>,
-            <span class="macro">vec</span><span class="macro">!</span>[
+            <span class="macro">vec!</span>[
                 <span class="string">&quot;コンピュ&quot;</span>,
                 <span class="string">&quot;ータ上で文字を扱う場&quot;</span>,
                 <span class="string">&quot;合、 典型的には文&quot;</span>,
@@ -1015,7 +1012,7 @@
             ]
         );
         <span class="comment">// Odd-sized lines have a space in them.</span>
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">word_wrapper_width</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">8</span>, <span class="number">20</span>, <span class="number">17</span>, <span class="number">17</span>, <span class="number">20</span>, <span class="number">4</span>]);
+        <span class="macro">assert_eq!</span>(<span class="ident">word_wrapper_width</span>, <span class="macro">vec!</span>[<span class="number">8</span>, <span class="number">20</span>, <span class="number">17</span>, <span class="number">17</span>, <span class="number">20</span>, <span class="number">4</span>]);
     }
 
     <span class="doccomment">/// Ensure words separated by nbsp are wrapped as if they were a single one.</span>
@@ -1023,32 +1020,32 @@
     <span class="kw">fn</span> <span class="ident">line_composer_word_wrapper_nbsp</span>() {
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="number">20</span>;
         <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="string">&quot;AAAAAAAAAAAAAAA AAAA\u{00a0}AAA&quot;</span>;
-        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">word_wrapper</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;AAAAAAAAAAAAAAA&quot;</span>, <span class="string">&quot;AAAA\u{00a0}AAA&quot;</span>,]);
+        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">word_wrapper</span>, <span class="macro">vec!</span>[<span class="string">&quot;AAAAAAAAAAAAAAA&quot;</span>, <span class="string">&quot;AAAA\u{00a0}AAA&quot;</span>,]);
 
         <span class="comment">// Ensure that if the character was a regular space, it would be wrapped differently.</span>
         <span class="kw">let</span> <span class="ident">text_space</span> <span class="op">=</span> <span class="ident">text</span>.<span class="ident">replace</span>(<span class="string">&quot;\u{00a0}&quot;</span>, <span class="string">&quot; &quot;</span>);
         <span class="kw">let</span> (<span class="ident">word_wrapper_space</span>, <span class="kw">_</span>) <span class="op">=</span>
-            <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="kw-2">&amp;</span><span class="ident">text_space</span>, <span class="ident">width</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">word_wrapper_space</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;AAAAAAAAAAAAAAA AAAA&quot;</span>, <span class="string">&quot;AAA&quot;</span>,]);
+            <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">true</span> }, <span class="kw-2">&amp;</span><span class="ident">text_space</span>, <span class="ident">width</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">word_wrapper_space</span>, <span class="macro">vec!</span>[<span class="string">&quot;AAAAAAAAAAAAAAA AAAA&quot;</span>, <span class="string">&quot;AAA&quot;</span>,]);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">line_composer_word_wrapper_preserve_indentation</span>() {
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="number">20</span>;
         <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="string">&quot;AAAAAAAAAAAAAAAAAAAA    AAA&quot;</span>;
-        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">false</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">word_wrapper</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;AAAAAAAAAAAAAAAAAAAA&quot;</span>, <span class="string">&quot;   AAA&quot;</span>,]);
+        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">false</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">word_wrapper</span>, <span class="macro">vec!</span>[<span class="string">&quot;AAAAAAAAAAAAAAAAAAAA&quot;</span>, <span class="string">&quot;   AAA&quot;</span>,]);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">line_composer_word_wrapper_preserve_indentation_with_wrap</span>() {
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="number">10</span>;
         <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="string">&quot;AAA AAA AAAAA AA AAAAAA\n B\n  C\n   D&quot;</span>;
-        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">false</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">false</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="macro">assert_eq!</span>(
             <span class="ident">word_wrapper</span>,
-            <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;AAA AAA&quot;</span>, <span class="string">&quot;AAAAA AA&quot;</span>, <span class="string">&quot;AAAAAA&quot;</span>, <span class="string">&quot; B&quot;</span>, <span class="string">&quot;  C&quot;</span>, <span class="string">&quot;   D&quot;</span>]
+            <span class="macro">vec!</span>[<span class="string">&quot;AAA AAA&quot;</span>, <span class="string">&quot;AAAAA AA&quot;</span>, <span class="string">&quot;AAAAAA&quot;</span>, <span class="string">&quot; B&quot;</span>, <span class="string">&quot;  C&quot;</span>, <span class="string">&quot;   D&quot;</span>]
         );
     }
 
@@ -1056,10 +1053,10 @@
     <span class="kw">fn</span> <span class="ident">line_composer_word_wrapper_preserve_indentation_lots_of_whitespace</span>() {
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="number">10</span>;
         <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="string">&quot;               4 Indent\n                 must wrap!&quot;</span>;
-        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer</span>::<span class="ident">WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">false</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="kw">let</span> (<span class="ident">word_wrapper</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">run_composer</span>(<span class="ident">Composer::WordWrapper</span> { <span class="ident">trim</span>: <span class="bool-val">false</span> }, <span class="ident">text</span>, <span class="ident">width</span>);
+        <span class="macro">assert_eq!</span>(
             <span class="ident">word_wrapper</span>,
-            <span class="macro">vec</span><span class="macro">!</span>[
+            <span class="macro">vec!</span>[
                 <span class="string">&quot;          &quot;</span>,
                 <span class="string">&quot;    4&quot;</span>,
                 <span class="string">&quot;Indent&quot;</span>,
@@ -1070,6 +1067,6 @@
         );
     }
 }
-</pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="tui" data-search-js="../../../search-index.js"></div>
-    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script></body></html>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="tui" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
+</body></html>

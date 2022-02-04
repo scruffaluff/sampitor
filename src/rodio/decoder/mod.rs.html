@@ -1,7 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rodio-0.13.1/src/decoder/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../rodio/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;rodio-0.13.1&#x2F;src&#x2F;decoder&#x2F;mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><script defer src="../../../main.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../rodio/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -400,17 +398,16 @@
 <span id="397">397</span>
 <span id="398">398</span>
 <span id="399">399</span>
-</pre><div class="example-wrap"><pre class="rust ">
-<span class="doccomment">//! Decodes samples from an audio file.</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Decodes samples from an audio file.</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
+<span class="kw">use</span> <span class="ident">std::error::Error</span>;
+<span class="kw">use</span> <span class="ident">std::fmt</span>;
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="ident">Read</span>, <span class="ident">Seek</span>, <span class="ident">SeekFrom</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>;
+<span class="kw">use</span> <span class="ident">std::io</span>::{<span class="ident">Read</span>, <span class="ident">Seek</span>, <span class="ident">SeekFrom</span>};
+<span class="kw">use</span> <span class="ident">std::mem</span>;
+<span class="kw">use</span> <span class="ident">std::time::Duration</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Source</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::Source</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flac&quot;</span>)]</span>
 <span class="kw">mod</span> <span class="ident">flac</span>;
@@ -437,14 +434,14 @@
     <span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span>,
 {
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wav&quot;</span>)]</span>
-    <span class="ident">Wav</span>(<span class="ident">wav</span>::<span class="ident">WavDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>),
+    <span class="ident">Wav</span>(<span class="ident">wav::WavDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>),
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;vorbis&quot;</span>)]</span>
-    <span class="ident">Vorbis</span>(<span class="ident">vorbis</span>::<span class="ident">VorbisDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>),
+    <span class="ident">Vorbis</span>(<span class="ident">vorbis::VorbisDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>),
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flac&quot;</span>)]</span>
-    <span class="ident">Flac</span>(<span class="ident">flac</span>::<span class="ident">FlacDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>),
+    <span class="ident">Flac</span>(<span class="ident">flac::FlacDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>),
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mp3&quot;</span>)]</span>
-    <span class="ident">Mp3</span>(<span class="ident">mp3</span>::<span class="ident">Mp3Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>),
-    <span class="prelude-val">None</span>(::<span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>),
+    <span class="ident">Mp3</span>(<span class="ident">mp3::Mp3Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>),
+    <span class="prelude-val">None</span>(<span class="ident">::std::marker::PhantomData</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>),
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>
@@ -455,78 +452,78 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Attempts to automatically detect the format of the source of data.</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_variables</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">data</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">DecoderError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">data</span>: <span class="ident">R</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">DecoderError</span><span class="op">&gt;</span> {
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wav&quot;</span>)]</span>
-        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">wav</span>::<span class="ident">WavDecoder</span>::<span class="ident">new</span>(<span class="ident">data</span>) {
-            <span class="prelude-val">Err</span>(<span class="ident">data</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">data</span>,
-            <span class="prelude-val">Ok</span>(<span class="ident">decoder</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span>(<span class="ident">DecoderImpl</span>::<span class="ident">Wav</span>(<span class="ident">decoder</span>)));
+        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">wav::WavDecoder::new</span>(<span class="ident">data</span>) {
+            <span class="prelude-val">Err</span>(<span class="ident">data</span>) =&gt; <span class="ident">data</span>,
+            <span class="prelude-val">Ok</span>(<span class="ident">decoder</span>) =&gt; {
+                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span>(<span class="ident">DecoderImpl::Wav</span>(<span class="ident">decoder</span>)));
             }
         };
 
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flac&quot;</span>)]</span>
-        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">flac</span>::<span class="ident">FlacDecoder</span>::<span class="ident">new</span>(<span class="ident">data</span>) {
-            <span class="prelude-val">Err</span>(<span class="ident">data</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">data</span>,
-            <span class="prelude-val">Ok</span>(<span class="ident">decoder</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span>(<span class="ident">DecoderImpl</span>::<span class="ident">Flac</span>(<span class="ident">decoder</span>)));
+        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">flac::FlacDecoder::new</span>(<span class="ident">data</span>) {
+            <span class="prelude-val">Err</span>(<span class="ident">data</span>) =&gt; <span class="ident">data</span>,
+            <span class="prelude-val">Ok</span>(<span class="ident">decoder</span>) =&gt; {
+                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span>(<span class="ident">DecoderImpl::Flac</span>(<span class="ident">decoder</span>)));
             }
         };
 
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;vorbis&quot;</span>)]</span>
-        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">vorbis</span>::<span class="ident">VorbisDecoder</span>::<span class="ident">new</span>(<span class="ident">data</span>) {
-            <span class="prelude-val">Err</span>(<span class="ident">data</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">data</span>,
-            <span class="prelude-val">Ok</span>(<span class="ident">decoder</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span>(<span class="ident">DecoderImpl</span>::<span class="ident">Vorbis</span>(<span class="ident">decoder</span>)));
+        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">vorbis::VorbisDecoder::new</span>(<span class="ident">data</span>) {
+            <span class="prelude-val">Err</span>(<span class="ident">data</span>) =&gt; <span class="ident">data</span>,
+            <span class="prelude-val">Ok</span>(<span class="ident">decoder</span>) =&gt; {
+                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span>(<span class="ident">DecoderImpl::Vorbis</span>(<span class="ident">decoder</span>)));
             }
         };
 
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mp3&quot;</span>)]</span>
-        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">mp3</span>::<span class="ident">Mp3Decoder</span>::<span class="ident">new</span>(<span class="ident">data</span>) {
-            <span class="prelude-val">Err</span>(<span class="ident">data</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">data</span>,
-            <span class="prelude-val">Ok</span>(<span class="ident">decoder</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span>(<span class="ident">DecoderImpl</span>::<span class="ident">Mp3</span>(<span class="ident">decoder</span>)));
+        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">mp3::Mp3Decoder::new</span>(<span class="ident">data</span>) {
+            <span class="prelude-val">Err</span>(<span class="ident">data</span>) =&gt; <span class="ident">data</span>,
+            <span class="prelude-val">Ok</span>(<span class="ident">decoder</span>) =&gt; {
+                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span>(<span class="ident">DecoderImpl::Mp3</span>(<span class="ident">decoder</span>)));
             }
         };
 
-        <span class="prelude-val">Err</span>(<span class="ident">DecoderError</span>::<span class="ident">UnrecognizedFormat</span>)
+        <span class="prelude-val">Err</span>(<span class="ident">DecoderError::UnrecognizedFormat</span>)
     }
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_looped</span>(<span class="ident">data</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">LoopedDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">DecoderError</span><span class="op">&gt;</span> {
-        <span class="self">Self</span>::<span class="ident">new</span>(<span class="ident">data</span>).<span class="ident">map</span>(<span class="ident">LoopedDecoder</span>::<span class="ident">new</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_looped</span>(<span class="ident">data</span>: <span class="ident">R</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">LoopedDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">DecoderError</span><span class="op">&gt;</span> {
+        <span class="ident"><span class="self">Self</span>::new</span>(<span class="ident">data</span>).<span class="ident">map</span>(<span class="ident">LoopedDecoder::new</span>)
     }
 
     <span class="doccomment">/// Builds a new decoder from wav data.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wav&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_wav</span>(<span class="ident">data</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">DecoderError</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="ident">wav</span>::<span class="ident">WavDecoder</span>::<span class="ident">new</span>(<span class="ident">data</span>) {
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">DecoderError</span>::<span class="ident">UnrecognizedFormat</span>),
-            <span class="prelude-val">Ok</span>(<span class="ident">decoder</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span>(<span class="ident">DecoderImpl</span>::<span class="ident">Wav</span>(<span class="ident">decoder</span>))),
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_wav</span>(<span class="ident">data</span>: <span class="ident">R</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">DecoderError</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="ident">wav::WavDecoder::new</span>(<span class="ident">data</span>) {
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">DecoderError::UnrecognizedFormat</span>),
+            <span class="prelude-val">Ok</span>(<span class="ident">decoder</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span>(<span class="ident">DecoderImpl::Wav</span>(<span class="ident">decoder</span>))),
         }
     }
 
     <span class="doccomment">/// Builds a new decoder from flac data.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flac&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_flac</span>(<span class="ident">data</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">DecoderError</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="ident">flac</span>::<span class="ident">FlacDecoder</span>::<span class="ident">new</span>(<span class="ident">data</span>) {
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">DecoderError</span>::<span class="ident">UnrecognizedFormat</span>),
-            <span class="prelude-val">Ok</span>(<span class="ident">decoder</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span>(<span class="ident">DecoderImpl</span>::<span class="ident">Flac</span>(<span class="ident">decoder</span>))),
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_flac</span>(<span class="ident">data</span>: <span class="ident">R</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">DecoderError</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="ident">flac::FlacDecoder::new</span>(<span class="ident">data</span>) {
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">DecoderError::UnrecognizedFormat</span>),
+            <span class="prelude-val">Ok</span>(<span class="ident">decoder</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span>(<span class="ident">DecoderImpl::Flac</span>(<span class="ident">decoder</span>))),
         }
     }
 
     <span class="doccomment">/// Builds a new decoder from vorbis data.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;vorbis&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_vorbis</span>(<span class="ident">data</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">DecoderError</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="ident">vorbis</span>::<span class="ident">VorbisDecoder</span>::<span class="ident">new</span>(<span class="ident">data</span>) {
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">DecoderError</span>::<span class="ident">UnrecognizedFormat</span>),
-            <span class="prelude-val">Ok</span>(<span class="ident">decoder</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span>(<span class="ident">DecoderImpl</span>::<span class="ident">Vorbis</span>(<span class="ident">decoder</span>))),
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_vorbis</span>(<span class="ident">data</span>: <span class="ident">R</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">DecoderError</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="ident">vorbis::VorbisDecoder::new</span>(<span class="ident">data</span>) {
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">DecoderError::UnrecognizedFormat</span>),
+            <span class="prelude-val">Ok</span>(<span class="ident">decoder</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span>(<span class="ident">DecoderImpl::Vorbis</span>(<span class="ident">decoder</span>))),
         }
     }
 
     <span class="doccomment">/// Builds a new decoder from mp3 data.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mp3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_mp3</span>(<span class="ident">data</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">DecoderError</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="ident">mp3</span>::<span class="ident">Mp3Decoder</span>::<span class="ident">new</span>(<span class="ident">data</span>) {
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">DecoderError</span>::<span class="ident">UnrecognizedFormat</span>),
-            <span class="prelude-val">Ok</span>(<span class="ident">decoder</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span>(<span class="ident">DecoderImpl</span>::<span class="ident">Mp3</span>(<span class="ident">decoder</span>))),
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_mp3</span>(<span class="ident">data</span>: <span class="ident">R</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">DecoderError</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="ident">mp3::Mp3Decoder::new</span>(<span class="ident">data</span>) {
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">DecoderError::UnrecognizedFormat</span>),
+            <span class="prelude-val">Ok</span>(<span class="ident">decoder</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">Decoder</span>(<span class="ident">DecoderImpl::Mp3</span>(<span class="ident">decoder</span>))),
         }
     }
 }
@@ -535,7 +532,7 @@
 <span class="kw">where</span>
     <span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span> <span class="op">+</span> <span class="ident">Send</span>,
 {
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">decoder</span>: <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">LoopedDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">decoder</span>: <span class="ident">Decoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>) -&gt; <span class="ident">LoopedDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
         <span class="self">Self</span>(<span class="ident">decoder</span>.<span class="number">0</span>)
     }
 }
@@ -547,32 +544,32 @@
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">i16</span>;
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="number">0</span> {
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="number">0</span> {
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wav&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Wav</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">next</span>(),
+            <span class="ident">DecoderImpl::Wav</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">next</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;vorbis&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Vorbis</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">next</span>(),
+            <span class="ident">DecoderImpl::Vorbis</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">next</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flac&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Flac</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">next</span>(),
+            <span class="ident">DecoderImpl::Flac</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">next</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mp3&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Mp3</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">next</span>(),
-            <span class="ident">DecoderImpl</span>::<span class="prelude-val">None</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="ident">DecoderImpl::Mp3</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">next</span>(),
+            <span class="ident">DecoderImpl::None</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
         }
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
+    <span class="kw">fn</span> <span class="ident">size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span> {
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wav&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Wav</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">size_hint</span>(),
+            <span class="ident">DecoderImpl::Wav</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">size_hint</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;vorbis&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Vorbis</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">size_hint</span>(),
+            <span class="ident">DecoderImpl::Vorbis</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">size_hint</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flac&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Flac</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">size_hint</span>(),
+            <span class="ident">DecoderImpl::Flac</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">size_hint</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mp3&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Mp3</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">size_hint</span>(),
-            <span class="ident">DecoderImpl</span>::<span class="prelude-val">None</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="number">0</span>, <span class="prelude-val">None</span>),
+            <span class="ident">DecoderImpl::Mp3</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">size_hint</span>(),
+            <span class="ident">DecoderImpl::None</span>(<span class="kw">_</span>) =&gt; (<span class="number">0</span>, <span class="prelude-val">None</span>),
         }
     }
 }
@@ -582,62 +579,62 @@
     <span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span>,
 {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">current_frame_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">current_frame_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span> {
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wav&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Wav</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">current_frame_len</span>(),
+            <span class="ident">DecoderImpl::Wav</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">current_frame_len</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;vorbis&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Vorbis</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">current_frame_len</span>(),
+            <span class="ident">DecoderImpl::Vorbis</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">current_frame_len</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flac&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Flac</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">current_frame_len</span>(),
+            <span class="ident">DecoderImpl::Flac</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">current_frame_len</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mp3&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Mp3</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">current_frame_len</span>(),
-            <span class="ident">DecoderImpl</span>::<span class="prelude-val">None</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="number">0</span>),
+            <span class="ident">DecoderImpl::Mp3</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">current_frame_len</span>(),
+            <span class="ident">DecoderImpl::None</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Some</span>(<span class="number">0</span>),
         }
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">channels</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u16</span> {
+    <span class="kw">fn</span> <span class="ident">channels</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u16</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span> {
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wav&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Wav</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">channels</span>(),
+            <span class="ident">DecoderImpl::Wav</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">channels</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;vorbis&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Vorbis</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">channels</span>(),
+            <span class="ident">DecoderImpl::Vorbis</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">channels</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flac&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Flac</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">channels</span>(),
+            <span class="ident">DecoderImpl::Flac</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">channels</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mp3&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Mp3</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">channels</span>(),
-            <span class="ident">DecoderImpl</span>::<span class="prelude-val">None</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">0</span>,
+            <span class="ident">DecoderImpl::Mp3</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">channels</span>(),
+            <span class="ident">DecoderImpl::None</span>(<span class="kw">_</span>) =&gt; <span class="number">0</span>,
         }
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">sample_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">fn</span> <span class="ident">sample_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span> {
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wav&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Wav</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">sample_rate</span>(),
+            <span class="ident">DecoderImpl::Wav</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">sample_rate</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;vorbis&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Vorbis</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">sample_rate</span>(),
+            <span class="ident">DecoderImpl::Vorbis</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">sample_rate</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flac&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Flac</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">sample_rate</span>(),
+            <span class="ident">DecoderImpl::Flac</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">sample_rate</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mp3&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Mp3</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">sample_rate</span>(),
-            <span class="ident">DecoderImpl</span>::<span class="prelude-val">None</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">1</span>,
+            <span class="ident">DecoderImpl::Mp3</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">sample_rate</span>(),
+            <span class="ident">DecoderImpl::None</span>(<span class="kw">_</span>) =&gt; <span class="number">1</span>,
         }
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">total_duration</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Duration</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">total_duration</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Duration</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span> {
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wav&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Wav</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">total_duration</span>(),
+            <span class="ident">DecoderImpl::Wav</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">total_duration</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;vorbis&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Vorbis</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">total_duration</span>(),
+            <span class="ident">DecoderImpl::Vorbis</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">total_duration</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flac&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Flac</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">total_duration</span>(),
+            <span class="ident">DecoderImpl::Flac</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">total_duration</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mp3&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Mp3</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">total_duration</span>(),
-            <span class="ident">DecoderImpl</span>::<span class="prelude-val">None</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Duration</span>::<span class="ident">default</span>()),
+            <span class="ident">DecoderImpl::Mp3</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">total_duration</span>(),
+            <span class="ident">DecoderImpl::None</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Some</span>(<span class="ident">Duration::default</span>()),
         }
     }
 }
@@ -649,58 +646,58 @@
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">i16</span>;
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">sample</span>) <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="number">0</span> {
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">sample</span>) <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="number">0</span> {
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wav&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Wav</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">next</span>(),
+            <span class="ident">DecoderImpl::Wav</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">next</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;vorbis&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Vorbis</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">next</span>(),
+            <span class="ident">DecoderImpl::Vorbis</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">next</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flac&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Flac</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">next</span>(),
+            <span class="ident">DecoderImpl::Flac</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">next</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mp3&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Mp3</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">next</span>(),
-            <span class="ident">DecoderImpl</span>::<span class="prelude-val">None</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="ident">DecoderImpl::Mp3</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">next</span>(),
+            <span class="ident">DecoderImpl::None</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
         } {
             <span class="prelude-val">Some</span>(<span class="ident">sample</span>)
         } <span class="kw">else</span> {
-            <span class="kw">let</span> <span class="ident">decoder</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="number">0</span>, <span class="ident">DecoderImpl</span>::<span class="prelude-val">None</span>(<span class="ident">Default</span>::<span class="ident">default</span>()));
+            <span class="kw">let</span> <span class="ident">decoder</span> <span class="op">=</span> <span class="ident">mem::replace</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="number">0</span>, <span class="ident">DecoderImpl::None</span>(<span class="ident">Default::default</span>()));
             <span class="kw">let</span> (<span class="ident">decoder</span>, <span class="ident">sample</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">decoder</span> {
                 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wav&quot;</span>)]</span>
-                <span class="ident">DecoderImpl</span>::<span class="ident">Wav</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">DecoderImpl::Wav</span>(<span class="ident">source</span>) =&gt; {
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">source</span>.<span class="ident">into_inner</span>();
-                    <span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="number">0</span>)).<span class="ident">ok</span>()<span class="question-mark">?</span>;
-                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">source</span> <span class="op">=</span> <span class="ident">wav</span>::<span class="ident">WavDecoder</span>::<span class="ident">new</span>(<span class="ident">reader</span>).<span class="ident">ok</span>()<span class="question-mark">?</span>;
+                    <span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom::Start</span>(<span class="number">0</span>)).<span class="ident">ok</span>()<span class="question-mark">?</span>;
+                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">source</span> <span class="op">=</span> <span class="ident">wav::WavDecoder::new</span>(<span class="ident">reader</span>).<span class="ident">ok</span>()<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">sample</span> <span class="op">=</span> <span class="ident">source</span>.<span class="ident">next</span>();
-                    (<span class="ident">DecoderImpl</span>::<span class="ident">Wav</span>(<span class="ident">source</span>), <span class="ident">sample</span>)
+                    (<span class="ident">DecoderImpl::Wav</span>(<span class="ident">source</span>), <span class="ident">sample</span>)
                 }
                 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;vorbis&quot;</span>)]</span>
-                <span class="ident">DecoderImpl</span>::<span class="ident">Vorbis</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="kw">use</span> <span class="ident">lewton</span>::<span class="ident">inside_ogg</span>::<span class="ident">OggStreamReader</span>;
+                <span class="ident">DecoderImpl::Vorbis</span>(<span class="ident">source</span>) =&gt; {
+                    <span class="kw">use</span> <span class="ident">lewton::inside_ogg::OggStreamReader</span>;
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">source</span>.<span class="ident">into_inner</span>().<span class="ident">into_inner</span>();
-                    <span class="ident">reader</span>.<span class="ident">seek_bytes</span>(<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="number">0</span>)).<span class="ident">ok</span>()<span class="question-mark">?</span>;
-                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">source</span> <span class="op">=</span> <span class="ident">vorbis</span>::<span class="ident">VorbisDecoder</span>::<span class="ident">from_stream_reader</span>(
-                        <span class="ident">OggStreamReader</span>::<span class="ident">from_ogg_reader</span>(<span class="ident">reader</span>).<span class="ident">ok</span>()<span class="question-mark">?</span>,
+                    <span class="ident">reader</span>.<span class="ident">seek_bytes</span>(<span class="ident">SeekFrom::Start</span>(<span class="number">0</span>)).<span class="ident">ok</span>()<span class="question-mark">?</span>;
+                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">source</span> <span class="op">=</span> <span class="ident">vorbis::VorbisDecoder::from_stream_reader</span>(
+                        <span class="ident">OggStreamReader::from_ogg_reader</span>(<span class="ident">reader</span>).<span class="ident">ok</span>()<span class="question-mark">?</span>,
                     );
                     <span class="kw">let</span> <span class="ident">sample</span> <span class="op">=</span> <span class="ident">source</span>.<span class="ident">next</span>();
-                    (<span class="ident">DecoderImpl</span>::<span class="ident">Vorbis</span>(<span class="ident">source</span>), <span class="ident">sample</span>)
+                    (<span class="ident">DecoderImpl::Vorbis</span>(<span class="ident">source</span>), <span class="ident">sample</span>)
                 }
                 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flac&quot;</span>)]</span>
-                <span class="ident">DecoderImpl</span>::<span class="ident">Flac</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">DecoderImpl::Flac</span>(<span class="ident">source</span>) =&gt; {
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">source</span>.<span class="ident">into_inner</span>();
-                    <span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="number">0</span>)).<span class="ident">ok</span>()<span class="question-mark">?</span>;
-                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">source</span> <span class="op">=</span> <span class="ident">flac</span>::<span class="ident">FlacDecoder</span>::<span class="ident">new</span>(<span class="ident">reader</span>).<span class="ident">ok</span>()<span class="question-mark">?</span>;
+                    <span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom::Start</span>(<span class="number">0</span>)).<span class="ident">ok</span>()<span class="question-mark">?</span>;
+                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">source</span> <span class="op">=</span> <span class="ident">flac::FlacDecoder::new</span>(<span class="ident">reader</span>).<span class="ident">ok</span>()<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">sample</span> <span class="op">=</span> <span class="ident">source</span>.<span class="ident">next</span>();
-                    (<span class="ident">DecoderImpl</span>::<span class="ident">Flac</span>(<span class="ident">source</span>), <span class="ident">sample</span>)
+                    (<span class="ident">DecoderImpl::Flac</span>(<span class="ident">source</span>), <span class="ident">sample</span>)
                 }
                 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mp3&quot;</span>)]</span>
-                <span class="ident">DecoderImpl</span>::<span class="ident">Mp3</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">DecoderImpl::Mp3</span>(<span class="ident">source</span>) =&gt; {
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">source</span>.<span class="ident">into_inner</span>();
-                    <span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="number">0</span>)).<span class="ident">ok</span>()<span class="question-mark">?</span>;
-                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">source</span> <span class="op">=</span> <span class="ident">mp3</span>::<span class="ident">Mp3Decoder</span>::<span class="ident">new</span>(<span class="ident">reader</span>).<span class="ident">ok</span>()<span class="question-mark">?</span>;
+                    <span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom::Start</span>(<span class="number">0</span>)).<span class="ident">ok</span>()<span class="question-mark">?</span>;
+                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">source</span> <span class="op">=</span> <span class="ident">mp3::Mp3Decoder::new</span>(<span class="ident">reader</span>).<span class="ident">ok</span>()<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">sample</span> <span class="op">=</span> <span class="ident">source</span>.<span class="ident">next</span>();
-                    (<span class="ident">DecoderImpl</span>::<span class="ident">Mp3</span>(<span class="ident">source</span>), <span class="ident">sample</span>)
+                    (<span class="ident">DecoderImpl::Mp3</span>(<span class="ident">source</span>), <span class="ident">sample</span>)
                 }
-                <span class="ident">none</span> @ <span class="ident">DecoderImpl</span>::<span class="prelude-val">None</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">none</span>, <span class="prelude-val">None</span>),
+                <span class="ident">none</span> @ <span class="ident">DecoderImpl::None</span>(<span class="kw">_</span>) =&gt; (<span class="ident">none</span>, <span class="prelude-val">None</span>),
             };
             <span class="self">self</span>.<span class="number">0</span> <span class="op">=</span> <span class="ident">decoder</span>;
             <span class="ident">sample</span>
@@ -708,17 +705,17 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
+    <span class="kw">fn</span> <span class="ident">size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span> {
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wav&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Wav</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">source</span>.<span class="ident">size_hint</span>().<span class="number">0</span>, <span class="prelude-val">None</span>),
+            <span class="ident">DecoderImpl::Wav</span>(<span class="ident">source</span>) =&gt; (<span class="ident">source</span>.<span class="ident">size_hint</span>().<span class="number">0</span>, <span class="prelude-val">None</span>),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;vorbis&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Vorbis</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">source</span>.<span class="ident">size_hint</span>().<span class="number">0</span>, <span class="prelude-val">None</span>),
+            <span class="ident">DecoderImpl::Vorbis</span>(<span class="ident">source</span>) =&gt; (<span class="ident">source</span>.<span class="ident">size_hint</span>().<span class="number">0</span>, <span class="prelude-val">None</span>),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flac&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Flac</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">source</span>.<span class="ident">size_hint</span>().<span class="number">0</span>, <span class="prelude-val">None</span>),
+            <span class="ident">DecoderImpl::Flac</span>(<span class="ident">source</span>) =&gt; (<span class="ident">source</span>.<span class="ident">size_hint</span>().<span class="number">0</span>, <span class="prelude-val">None</span>),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mp3&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Mp3</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">source</span>.<span class="ident">size_hint</span>().<span class="number">0</span>, <span class="prelude-val">None</span>),
-            <span class="ident">DecoderImpl</span>::<span class="prelude-val">None</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="number">0</span>, <span class="prelude-val">None</span>),
+            <span class="ident">DecoderImpl::Mp3</span>(<span class="ident">source</span>) =&gt; (<span class="ident">source</span>.<span class="ident">size_hint</span>().<span class="number">0</span>, <span class="prelude-val">None</span>),
+            <span class="ident">DecoderImpl::None</span>(<span class="kw">_</span>) =&gt; (<span class="number">0</span>, <span class="prelude-val">None</span>),
         }
     }
 }
@@ -728,52 +725,52 @@
     <span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span>,
 {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">current_frame_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">current_frame_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span> {
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wav&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Wav</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">current_frame_len</span>(),
+            <span class="ident">DecoderImpl::Wav</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">current_frame_len</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;vorbis&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Vorbis</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">current_frame_len</span>(),
+            <span class="ident">DecoderImpl::Vorbis</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">current_frame_len</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flac&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Flac</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">current_frame_len</span>(),
+            <span class="ident">DecoderImpl::Flac</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">current_frame_len</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mp3&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Mp3</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">current_frame_len</span>(),
-            <span class="ident">DecoderImpl</span>::<span class="prelude-val">None</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="number">0</span>),
+            <span class="ident">DecoderImpl::Mp3</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">current_frame_len</span>(),
+            <span class="ident">DecoderImpl::None</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Some</span>(<span class="number">0</span>),
         }
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">channels</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u16</span> {
+    <span class="kw">fn</span> <span class="ident">channels</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u16</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span> {
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wav&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Wav</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">channels</span>(),
+            <span class="ident">DecoderImpl::Wav</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">channels</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;vorbis&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Vorbis</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">channels</span>(),
+            <span class="ident">DecoderImpl::Vorbis</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">channels</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flac&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Flac</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">channels</span>(),
+            <span class="ident">DecoderImpl::Flac</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">channels</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mp3&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Mp3</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">channels</span>(),
-            <span class="ident">DecoderImpl</span>::<span class="prelude-val">None</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">0</span>,
+            <span class="ident">DecoderImpl::Mp3</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">channels</span>(),
+            <span class="ident">DecoderImpl::None</span>(<span class="kw">_</span>) =&gt; <span class="number">0</span>,
         }
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">sample_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">fn</span> <span class="ident">sample_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span> {
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wav&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Wav</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">sample_rate</span>(),
+            <span class="ident">DecoderImpl::Wav</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">sample_rate</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;vorbis&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Vorbis</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">sample_rate</span>(),
+            <span class="ident">DecoderImpl::Vorbis</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">sample_rate</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flac&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Flac</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">sample_rate</span>(),
+            <span class="ident">DecoderImpl::Flac</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">sample_rate</span>(),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mp3&quot;</span>)]</span>
-            <span class="ident">DecoderImpl</span>::<span class="ident">Mp3</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source</span>.<span class="ident">sample_rate</span>(),
-            <span class="ident">DecoderImpl</span>::<span class="prelude-val">None</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="number">1</span>,
+            <span class="ident">DecoderImpl::Mp3</span>(<span class="ident">source</span>) =&gt; <span class="ident">source</span>.<span class="ident">sample_rate</span>(),
+            <span class="ident">DecoderImpl::None</span>(<span class="kw">_</span>) =&gt; <span class="number">1</span>,
         }
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">total_duration</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Duration</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">total_duration</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Duration</span><span class="op">&gt;</span> {
         <span class="prelude-val">None</span>
     }
 }
@@ -785,21 +782,21 @@
     <span class="ident">UnrecognizedFormat</span>,
 }
 
-<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">DecoderError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">DecoderError</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">DecoderError</span>::<span class="ident">UnrecognizedFormat</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Unrecognized format&quot;</span>),
+            <span class="ident">DecoderError::UnrecognizedFormat</span> =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;Unrecognized format&quot;</span>),
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Error</span> <span class="kw">for</span> <span class="ident">DecoderError</span> {
-    <span class="kw">fn</span> <span class="ident">description</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
+    <span class="kw">fn</span> <span class="ident">description</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">DecoderError</span>::<span class="ident">UnrecognizedFormat</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;Unrecognized format&quot;</span>,
+            <span class="ident">DecoderError::UnrecognizedFormat</span> =&gt; <span class="string">&quot;Unrecognized format&quot;</span>,
         }
     }
 }
-</pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="rodio" data-search-js="../../../search-index.js"></div>
-    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script></body></html>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="rodio" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
+</body></html>

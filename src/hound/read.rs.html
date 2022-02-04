@@ -1,7 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/hound-3.4.0/src/read.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>read.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../hound/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;hound-3.4.0&#x2F;src&#x2F;read.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>read.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../hound/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1188,8 +1186,7 @@
 <span id="1185">1185</span>
 <span id="1186">1186</span>
 <span id="1187">1187</span>
-</pre><div class="example-wrap"><pre class="rust ">
-<span class="comment">// Hound -- A wav encoding and decoding library in Rust</span>
+</pre><pre class="rust"><code><span class="comment">// Hound -- A wav encoding and decoding library in Rust</span>
 <span class="comment">// Copyright (C) 2015 Ruud van Asseldonk</span>
 <span class="comment">//</span>
 <span class="comment">// Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
@@ -1201,82 +1198,82 @@
 <span class="comment">// See the License for the specific language governing permissions and</span>
 <span class="comment">// limitations under the License.</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fs</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">marker</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>;
+<span class="kw">use</span> <span class="ident">std::cmp</span>;
+<span class="kw">use</span> <span class="ident">std::fs</span>;
+<span class="kw">use</span> <span class="ident">std::io</span>;
+<span class="kw">use</span> <span class="ident">std::marker</span>;
+<span class="kw">use</span> <span class="ident">std::mem</span>;
+<span class="kw">use</span> <span class="ident">std::path</span>;
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Error</span>, <span class="prelude-ty">Result</span>, <span class="ident">Sample</span>, <span class="ident">SampleFormat</span>, <span class="ident">WavSpec</span>};
 
 <span class="doccomment">/// Extends the functionality of `io::Read` with additional methods.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The methods may be used on any type that implements `io::Read`.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ReadExt</span>: <span class="ident">io</span>::<span class="ident">Read</span> {
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ReadExt</span>: <span class="ident">io::Read</span> {
     <span class="doccomment">/// Reads as many bytes as `buf` is long.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This may issue multiple `read` calls internally. An error is returned</span>
     <span class="doccomment">/// if `read` read 0 bytes before the buffer is full.</span>
     <span class="comment">//  TODO: There is an RFC proposing a method like this for the standard library.</span>
-    <span class="kw">fn</span> <span class="ident">read_into</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">read_into</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>]) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
 
     <span class="doccomment">/// Reads `n` bytes and returns them in a vector.</span>
-    <span class="kw">fn</span> <span class="ident">read_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">n</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">read_bytes</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">n</span>: <span class="ident">usize</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Skip over `n` bytes.</span>
-    <span class="kw">fn</span> <span class="ident">skip_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">n</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">skip_bytes</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">n</span>: <span class="ident">usize</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
 
     <span class="doccomment">/// Reads a single byte and interprets it as an 8-bit signed integer.</span>
-    <span class="kw">fn</span> <span class="ident">read_i8</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i8</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">read_i8</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">i8</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Reads a single byte and interprets it as an 8-bit unsigned integer.</span>
-    <span class="kw">fn</span> <span class="ident">read_u8</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">read_u8</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Reads two bytes and interprets them as a little-endian 16-bit signed integer.</span>
-    <span class="kw">fn</span> <span class="ident">read_le_i16</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">read_le_i16</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Reads two bytes and interprets them as a little-endian 16-bit unsigned integer.</span>
-    <span class="kw">fn</span> <span class="ident">read_le_u16</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">read_le_u16</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Reads three bytes and interprets them as a little-endian 24-bit signed integer.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The sign bit will be extended into the most significant byte.</span>
-    <span class="kw">fn</span> <span class="ident">read_le_i24</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">read_le_i24</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Reads three bytes and interprets them as a little-endian 24-bit unsigned integer.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The most significant byte will be 0.</span>
-    <span class="kw">fn</span> <span class="ident">read_le_u24</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">read_le_u24</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Reads four bytes and interprets them as a little-endian 32-bit signed integer.</span>
-    <span class="kw">fn</span> <span class="ident">read_le_i32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">read_le_i32</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Reads four bytes and interprets them as a little-endian 32-bit unsigned integer.</span>
-    <span class="kw">fn</span> <span class="ident">read_le_u32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">read_le_u32</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Reads four bytes and interprets them as a little-endian 32-bit IEEE float.</span>
-    <span class="kw">fn</span> <span class="ident">read_le_f32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">read_le_f32</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>;
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="ident">ReadExt</span> <span class="kw">for</span> <span class="ident">R</span>
-    <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span>
+    <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">io::Read</span>
 {
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">read_into</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_into</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>]) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">n</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">while</span> <span class="ident">n</span> <span class="op">&lt;</span> <span class="ident">buf</span>.<span class="ident">len</span>() {
-            <span class="kw">let</span> <span class="ident">progress</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[<span class="ident">n</span>..]));
+            <span class="kw">let</span> <span class="ident">progress</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="self">self</span>.<span class="ident">read</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>[<span class="ident">n</span>..]));
             <span class="kw">if</span> <span class="ident">progress</span> <span class="op">&gt;</span> <span class="number">0</span> {
                 <span class="ident">n</span> <span class="op">+</span><span class="op">=</span> <span class="ident">progress</span>;
             } <span class="kw">else</span> {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>, <span class="string">&quot;Failed to read enough bytes.&quot;</span>));
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io::Error::new</span>(<span class="ident">io::ErrorKind::Other</span>, <span class="string">&quot;Failed to read enough bytes.&quot;</span>));
             }
         }
         <span class="prelude-val">Ok</span>(())
     }
 
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">skip_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">n</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">skip_bytes</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">n</span>: <span class="ident">usize</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="comment">// Read from the input in chunks of 1024 bytes at a time, and discard</span>
         <span class="comment">// the result. 1024 is a tradeoff between doing a lot of calls, and</span>
         <span class="comment">// using too much stack space. This method is not in a hot path, so it</span>
@@ -1284,59 +1281,59 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">n_read</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">1024</span>];
         <span class="kw">while</span> <span class="ident">n_read</span> <span class="op">&lt;</span> <span class="ident">n</span> {
-            <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="ident">cmp</span>::<span class="ident">min</span>(<span class="ident">n</span> <span class="op">-</span> <span class="ident">n_read</span>, <span class="number">1024</span>);
-            <span class="kw">let</span> <span class="ident">progress</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[<span class="number">0</span>..<span class="ident">end</span>]));
+            <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="ident">cmp::min</span>(<span class="ident">n</span> <span class="op">-</span> <span class="ident">n_read</span>, <span class="number">1024</span>);
+            <span class="kw">let</span> <span class="ident">progress</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="self">self</span>.<span class="ident">read</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>[<span class="number">0</span>..<span class="ident">end</span>]));
             <span class="kw">if</span> <span class="ident">progress</span> <span class="op">&gt;</span> <span class="number">0</span> {
                 <span class="ident">n_read</span> <span class="op">+</span><span class="op">=</span> <span class="ident">progress</span>;
             } <span class="kw">else</span> {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>, <span class="string">&quot;Failed to read enough bytes.&quot;</span>));
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io::Error::new</span>(<span class="ident">io::ErrorKind::Other</span>, <span class="string">&quot;Failed to read enough bytes.&quot;</span>));
             }
         }
         <span class="prelude-val">Ok</span>(())
     }
 
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">read_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">n</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_bytes</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">n</span>: <span class="ident">usize</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="comment">// We allocate a runtime fixed size buffer, and we are going to read</span>
         <span class="comment">// into it, so zeroing or filling the buffer is a waste. This method</span>
         <span class="comment">// is safe, because the contents of the buffer are only exposed when</span>
         <span class="comment">// they have been overwritten completely by the read.</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">n</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="ident">n</span>);
         <span class="kw">unsafe</span> { <span class="ident">buf</span>.<span class="ident">set_len</span>(<span class="ident">n</span>); }
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[..]));
+        <span class="macro">try!</span>(<span class="self">self</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>[..]));
         <span class="prelude-val">Ok</span>(<span class="ident">buf</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">read_i8</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i8</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_i8</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">i8</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">read_u8</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span> <span class="kw">as</span> <span class="ident">i8</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">read_u8</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_u8</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">1</span>];
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>));
+        <span class="macro">try!</span>(<span class="self">self</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>));
         <span class="prelude-val">Ok</span>(<span class="ident">buf</span>[<span class="number">0</span>])
     }
 
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">read_le_i16</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_le_i16</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">read_le_u16</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span> <span class="kw">as</span> <span class="ident">i16</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">read_le_u16</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_le_u16</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">2</span>];
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>));
+        <span class="macro">try!</span>(<span class="self">self</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>));
         <span class="prelude-val">Ok</span>((<span class="ident">buf</span>[<span class="number">1</span>] <span class="kw">as</span> <span class="ident">u16</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">8</span> <span class="op">|</span> (<span class="ident">buf</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">u16</span>))
     }
 
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">read_le_i24</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_le_i24</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">read_le_u24</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span>
             <span class="comment">// Test the sign bit, if it is set, extend the sign bit into the</span>
             <span class="comment">// most significant byte.</span>
-            <span class="kw">if</span> <span class="ident">x</span> <span class="op">&amp;</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">23</span>) <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">x</span> <span class="op">&amp;</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">23</span>) <span class="op">==</span> <span class="number">0</span> {
                 <span class="ident">x</span> <span class="kw">as</span> <span class="ident">i32</span>
             } <span class="kw">else</span> {
                 (<span class="ident">x</span> <span class="op">|</span> <span class="number">0xff_00_00_00</span>) <span class="kw">as</span> <span class="ident">i32</span>
@@ -1345,28 +1342,28 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">read_le_u24</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_le_u24</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">3</span>];
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>));
+        <span class="macro">try!</span>(<span class="self">self</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>));
         <span class="prelude-val">Ok</span>((<span class="ident">buf</span>[<span class="number">2</span>] <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">16</span> <span class="op">|</span> (<span class="ident">buf</span>[<span class="number">1</span>] <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">8</span> <span class="op">|</span> (<span class="ident">buf</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">u32</span>))
     }
 
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">read_le_i32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_le_i32</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">read_le_u32</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span> <span class="kw">as</span> <span class="ident">i32</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">read_le_u32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_le_u32</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">4</span>];
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>));
+        <span class="macro">try!</span>(<span class="self">self</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>));
         <span class="prelude-val">Ok</span>((<span class="ident">buf</span>[<span class="number">3</span>] <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">24</span> <span class="op">|</span> (<span class="ident">buf</span>[<span class="number">2</span>] <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">16</span> <span class="op">|</span>
            (<span class="ident">buf</span>[<span class="number">1</span>] <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">8</span>  <span class="op">|</span> (<span class="ident">buf</span>[<span class="number">0</span>] <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">0</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">read_le_f32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">read_le_u32</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">u</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="ident">mem</span>::<span class="ident">transmute</span>(<span class="ident">u</span>) })
+    <span class="kw">fn</span> <span class="ident">read_le_f32</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">read_le_u32</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">u</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="ident">mem::transmute</span>(<span class="ident">u</span>) })
     }
 }
 
@@ -1433,7 +1430,7 @@
     <span class="kw">where</span> <span class="ident">R</span>: <span class="lifetime">&#39;wr</span>
 {
     <span class="ident">reader</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;wr</span> <span class="kw-2">mut</span> <span class="ident">WavReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
-    <span class="ident">phantom_sample</span>: <span class="ident">marker</span>::<span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>,
+    <span class="ident">phantom_sample</span>: <span class="ident">marker::PhantomData</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>,
 }
 
 <span class="doccomment">/// An iterator that yields samples of type `S` read from a `WavReader`.</span>
@@ -1442,7 +1439,7 @@
 <span class="doccomment">/// file, otherwise every iteration will return an error.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WavIntoSamples</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">S</span><span class="op">&gt;</span> {
     <span class="ident">reader</span>: <span class="ident">WavReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
-    <span class="ident">phantom_sample</span>: <span class="ident">marker</span>::<span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>,
+    <span class="ident">phantom_sample</span>: <span class="ident">marker::PhantomData</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>,
 }
 
 <span class="doccomment">/// Reads the RIFF WAVE header, returns the supposed file size.</span>
@@ -1453,21 +1450,21 @@
 <span class="doccomment">/// file.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The returned file size cannot be larger than 2&lt;sup&gt;32&lt;/sup&gt; + 7 bytes.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_wave_header</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span><span class="op">&gt;</span>(<span class="ident">reader</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_wave_header</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">io::Read</span><span class="op">&gt;</span>(<span class="ident">reader</span>: <span class="kw-2">&amp;mut</span> <span class="ident">R</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> {
     <span class="comment">// Every WAVE file starts with the four bytes &#39;RIFF&#39; and a file length.</span>
     <span class="comment">// TODO: the old approach of having a slice on the stack and reading</span>
     <span class="comment">// into it is more cumbersome, but also avoids a heap allocation. Is</span>
     <span class="comment">// the compiler smart enough to avoid the heap allocation anyway? I</span>
     <span class="comment">// would not expect it to be.</span>
-    <span class="kw">if</span> <span class="string">b&quot;RIFF&quot;</span> <span class="op">!</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_bytes</span>(<span class="number">4</span>))[..] {
-        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">FormatError</span>(<span class="string">&quot;no RIFF tag found&quot;</span>));
+    <span class="kw">if</span> <span class="string">b&quot;RIFF&quot;</span> <span class="op">!</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">read_bytes</span>(<span class="number">4</span>))[..] {
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::FormatError</span>(<span class="string">&quot;no RIFF tag found&quot;</span>));
     }
 
-    <span class="kw">let</span> <span class="ident">file_len</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u32</span>());
+    <span class="kw">let</span> <span class="ident">file_len</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u32</span>());
 
     <span class="comment">// Next four bytes indicate the file type, which should be WAVE.</span>
-    <span class="kw">if</span> <span class="string">b&quot;WAVE&quot;</span> <span class="op">!</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_bytes</span>(<span class="number">4</span>))[..] {
-        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">FormatError</span>(<span class="string">&quot;no WAVE tag found&quot;</span>));
+    <span class="kw">if</span> <span class="string">b&quot;WAVE&quot;</span> <span class="op">!</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">read_bytes</span>(<span class="number">4</span>))[..] {
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::FormatError</span>(<span class="string">&quot;no WAVE tag found&quot;</span>));
     }
 
     <span class="comment">// The stored file length does not include the &quot;RIFF&quot; magic and 4-byte</span>
@@ -1480,17 +1477,17 @@
 <span class="doccomment">/// Returns the information from the fmt chunk and the length of the data</span>
 <span class="doccomment">/// chunk in bytes. Afterwards, the reader will be positioned at the first</span>
 <span class="doccomment">/// content byte of the data chunk.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_until_data</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">WavSpecEx</span>, <span class="ident">u32</span>)<span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_until_data</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">io::Read</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">R</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">WavSpecEx</span>, <span class="ident">u32</span>)<span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">spec_opt</span> <span class="op">=</span> <span class="prelude-val">None</span>;
 
     <span class="kw">loop</span> {
-        <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">WavReader</span>::<span class="ident">read_chunk_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">reader</span>));
+        <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">WavReader::read_chunk_header</span>(<span class="kw-2">&amp;mut</span> <span class="ident">reader</span>));
         <span class="kw">match</span> <span class="ident">header</span>.<span class="ident">kind</span> {
-            <span class="ident">ChunkKind</span>::<span class="ident">Fmt</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">WavReader</span>::<span class="ident">read_fmt_chunk</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">reader</span>, <span class="ident">header</span>.<span class="ident">len</span>));
+            <span class="ident">ChunkKind::Fmt</span> =&gt; {
+                <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">WavReader::read_fmt_chunk</span>(<span class="kw-2">&amp;mut</span> <span class="ident">reader</span>, <span class="ident">header</span>.<span class="ident">len</span>));
                 <span class="ident">spec_opt</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">spec</span>);
             }
-            <span class="ident">ChunkKind</span>::<span class="ident">Fact</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">ChunkKind::Fact</span> =&gt; {
                 <span class="comment">// All (compressed) non-PCM formats must have a fact chunk</span>
                 <span class="comment">// (Rev. 3 documentation). The chunk contains at least one</span>
                 <span class="comment">// value, the number of samples in the file.</span>
@@ -1503,18 +1500,18 @@
                 <span class="comment">// http://www-mmsp.ece.mcgill.ca/documents/audioformats/wave/wave.html</span>
                 <span class="kw">let</span> <span class="ident">_samples_per_channel</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_le_u32</span>();
             }
-            <span class="ident">ChunkKind</span>::<span class="ident">Data</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">ChunkKind::Data</span> =&gt; {
                 <span class="comment">// The &quot;fmt&quot; chunk must precede the &quot;data&quot; chunk. Any</span>
                 <span class="comment">// chunks that come after the data chunk will be ignored.</span>
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">spec</span>) <span class="op">=</span> <span class="ident">spec_opt</span> {
                     <span class="kw">return</span> <span class="prelude-val">Ok</span>((<span class="ident">spec</span>, <span class="ident">header</span>.<span class="ident">len</span>));
                 } <span class="kw">else</span> {
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">FormatError</span>(<span class="string">&quot;missing fmt chunk&quot;</span>));
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::FormatError</span>(<span class="string">&quot;missing fmt chunk&quot;</span>));
                 }
             }
-            <span class="ident">ChunkKind</span>::<span class="ident">Unknown</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">ChunkKind::Unknown</span> =&gt; {
                 <span class="comment">// Ignore the chunk; skip all of its bytes.</span>
-                <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">skip_bytes</span>(<span class="ident">header</span>.<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>));
+                <span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">skip_bytes</span>(<span class="ident">header</span>.<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>));
             }
         }
         <span class="comment">// If no data chunk is ever encountered, the function will return</span>
@@ -1523,32 +1520,32 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="ident">WavReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span>
+    <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">io::Read</span>
 {
     <span class="doccomment">/// Attempts to read an 8-byte chunk header.</span>
-    <span class="kw">fn</span> <span class="ident">read_chunk_header</span>(<span class="ident">reader</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ChunkHeader</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_chunk_header</span>(<span class="ident">reader</span>: <span class="kw-2">&amp;mut</span> <span class="ident">R</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ChunkHeader</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">kind_str</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">4</span>];
-        <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">kind_str</span>));
-        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u32</span>());
+        <span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;mut</span> <span class="ident">kind_str</span>));
+        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u32</span>());
 
         <span class="kw">let</span> <span class="ident">kind</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">kind_str</span>[..] {
-            <span class="string">b&quot;fmt &quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ChunkKind</span>::<span class="ident">Fmt</span>,
-            <span class="string">b&quot;fact&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ChunkKind</span>::<span class="ident">Fact</span>,
-            <span class="string">b&quot;data&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ChunkKind</span>::<span class="ident">Data</span>,
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ChunkKind</span>::<span class="ident">Unknown</span>,
+            <span class="string">b&quot;fmt &quot;</span> =&gt; <span class="ident">ChunkKind::Fmt</span>,
+            <span class="string">b&quot;fact&quot;</span> =&gt; <span class="ident">ChunkKind::Fact</span>,
+            <span class="string">b&quot;data&quot;</span> =&gt; <span class="ident">ChunkKind::Data</span>,
+            <span class="kw">_</span> =&gt; <span class="ident">ChunkKind::Unknown</span>,
         };
 
         <span class="prelude-val">Ok</span>(<span class="ident">ChunkHeader</span> { <span class="ident">kind</span>: <span class="ident">kind</span>, <span class="ident">len</span>: <span class="ident">len</span> })
     }
 
     <span class="doccomment">/// Reads the fmt chunk of the file, returns the information it provides.</span>
-    <span class="kw">fn</span> <span class="ident">read_fmt_chunk</span>(<span class="ident">reader</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>, <span class="ident">chunk_len</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">WavSpecEx</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_fmt_chunk</span>(<span class="ident">reader</span>: <span class="kw-2">&amp;mut</span> <span class="ident">R</span>, <span class="ident">chunk_len</span>: <span class="ident">u32</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">WavSpecEx</span><span class="op">&gt;</span> {
         <span class="comment">// A minimum chunk length of at least 16 is assumed. Note: actually,</span>
         <span class="comment">// the first 14 bytes contain enough information to fully specify the</span>
         <span class="comment">// file. I have not encountered a file with a 14-byte fmt section</span>
         <span class="comment">// though. If you ever encounter such file, please contact me.</span>
         <span class="kw">if</span> <span class="ident">chunk_len</span> <span class="op">&lt;</span> <span class="number">16</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">FormatError</span>(<span class="string">&quot;invalid fmt chunk size&quot;</span>));
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::FormatError</span>(<span class="string">&quot;invalid fmt chunk size&quot;</span>));
         }
 
         <span class="comment">// Read the WAVEFORMAT struct, as defined at</span>
@@ -1588,39 +1585,39 @@
         <span class="comment">// is misleading though, because it is the number of bits used to store</span>
         <span class="comment">// a sample, not all of the bits need to be valid for all versions of</span>
         <span class="comment">// the WAVE format.)</span>
-        <span class="kw">let</span> <span class="ident">format_tag</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u16</span>());
-        <span class="kw">let</span> <span class="ident">n_channels</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u16</span>());
-        <span class="kw">let</span> <span class="ident">n_samples_per_sec</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u32</span>());
-        <span class="kw">let</span> <span class="ident">n_bytes_per_sec</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u32</span>());
-        <span class="kw">let</span> <span class="ident">block_align</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u16</span>());
-        <span class="kw">let</span> <span class="ident">bits_per_sample</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u16</span>());
+        <span class="kw">let</span> <span class="ident">format_tag</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u16</span>());
+        <span class="kw">let</span> <span class="ident">n_channels</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u16</span>());
+        <span class="kw">let</span> <span class="ident">n_samples_per_sec</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u32</span>());
+        <span class="kw">let</span> <span class="ident">n_bytes_per_sec</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u32</span>());
+        <span class="kw">let</span> <span class="ident">block_align</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u16</span>());
+        <span class="kw">let</span> <span class="ident">bits_per_sample</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u16</span>());
 
-        <span class="kw">if</span> <span class="ident">n_channels</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">FormatError</span>(<span class="string">&quot;file contains zero channels&quot;</span>));
+        <span class="kw">if</span> <span class="ident">n_channels</span> <span class="op">==</span> <span class="number">0</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::FormatError</span>(<span class="string">&quot;file contains zero channels&quot;</span>));
         }
 
         <span class="comment">// Two of the stored fields are redundant, and may be ignored. We do</span>
         <span class="comment">// validate them to fail early for ill-formed files.</span>
         <span class="kw">if</span> (<span class="prelude-val">Some</span>(<span class="ident">bits_per_sample</span>) <span class="op">!</span><span class="op">=</span> (<span class="ident">block_align</span> <span class="op">/</span> <span class="ident">n_channels</span>).<span class="ident">checked_mul</span>(<span class="number">8</span>)) <span class="op">|</span><span class="op">|</span>
            (<span class="prelude-val">Some</span>(<span class="ident">n_bytes_per_sec</span>) <span class="op">!</span><span class="op">=</span> (<span class="ident">block_align</span> <span class="kw">as</span> <span class="ident">u32</span>).<span class="ident">checked_mul</span>(<span class="ident">n_samples_per_sec</span>)) {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">FormatError</span>(<span class="string">&quot;inconsistent fmt chunk&quot;</span>));
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::FormatError</span>(<span class="string">&quot;inconsistent fmt chunk&quot;</span>));
         }
 
         <span class="comment">// The bits per sample for a WAVEFORMAT struct is the number of bits</span>
         <span class="comment">// used to store a sample. Therefore, it must be a multiple of 8.</span>
         <span class="kw">if</span> <span class="ident">bits_per_sample</span> <span class="op">%</span> <span class="number">8</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">FormatError</span>(<span class="string">&quot;bits per sample is not a multiple of 8&quot;</span>));
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::FormatError</span>(<span class="string">&quot;bits per sample is not a multiple of 8&quot;</span>));
         }
 
-        <span class="kw">if</span> <span class="ident">bits_per_sample</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">FormatError</span>(<span class="string">&quot;bits per sample is 0&quot;</span>));
+        <span class="kw">if</span> <span class="ident">bits_per_sample</span> <span class="op">==</span> <span class="number">0</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::FormatError</span>(<span class="string">&quot;bits per sample is 0&quot;</span>));
         }
 
         <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> <span class="ident">WavSpec</span> {
             <span class="ident">channels</span>: <span class="ident">n_channels</span>,
             <span class="ident">sample_rate</span>: <span class="ident">n_samples_per_sec</span>,
             <span class="ident">bits_per_sample</span>: <span class="ident">bits_per_sample</span>,
-            <span class="ident">sample_format</span>: <span class="ident">SampleFormat</span>::<span class="ident">Int</span>,
+            <span class="ident">sample_format</span>: <span class="ident">SampleFormat::Int</span>,
         };
 
         <span class="comment">// The different format tag definitions can be found in mmreg.h that is</span>
@@ -1632,24 +1629,24 @@
         <span class="kw">const</span> <span class="ident">IEEE_FLOAT</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="number">0x0003</span>;
         <span class="kw">const</span> <span class="ident">EXTENSIBLE</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="number">0xfffe</span>;
         <span class="kw">match</span> <span class="ident">format_tag</span> {
-            <span class="ident">PCM</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">WavReader</span>::<span class="ident">read_wave_format_pcm</span>(<span class="ident">reader</span>, <span class="ident">chunk_len</span>, <span class="ident">spec</span>),
-            <span class="ident">ADPCM</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Unsupported</span>),
-            <span class="ident">IEEE_FLOAT</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">WavReader</span>::<span class="ident">read_wave_format_ieee_float</span>(<span class="ident">reader</span>, <span class="ident">chunk_len</span>, <span class="ident">spec</span>),
-            <span class="ident">EXTENSIBLE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">WavReader</span>::<span class="ident">read_wave_format_extensible</span>(<span class="ident">reader</span>, <span class="ident">chunk_len</span>, <span class="ident">spec</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Unsupported</span>),
+            <span class="ident">PCM</span> =&gt; <span class="ident">WavReader::read_wave_format_pcm</span>(<span class="ident">reader</span>, <span class="ident">chunk_len</span>, <span class="ident">spec</span>),
+            <span class="ident">ADPCM</span> =&gt; <span class="prelude-val">Err</span>(<span class="ident">Error::Unsupported</span>),
+            <span class="ident">IEEE_FLOAT</span> =&gt; <span class="ident">WavReader::read_wave_format_ieee_float</span>(<span class="ident">reader</span>, <span class="ident">chunk_len</span>, <span class="ident">spec</span>),
+            <span class="ident">EXTENSIBLE</span> =&gt; <span class="ident">WavReader::read_wave_format_extensible</span>(<span class="ident">reader</span>, <span class="ident">chunk_len</span>, <span class="ident">spec</span>),
+            <span class="kw">_</span> =&gt; <span class="prelude-val">Err</span>(<span class="ident">Error::Unsupported</span>),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">read_wave_format_pcm</span>(<span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">R</span>, <span class="ident">chunk_len</span>: <span class="ident">u32</span>, <span class="ident">spec</span>: <span class="ident">WavSpec</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">WavSpecEx</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_wave_format_pcm</span>(<span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">R</span>, <span class="ident">chunk_len</span>: <span class="ident">u32</span>, <span class="ident">spec</span>: <span class="ident">WavSpec</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">WavSpecEx</span><span class="op">&gt;</span> {
         <span class="comment">// When there is a PCMWAVEFORMAT struct, the chunk is 16 bytes long.</span>
         <span class="comment">// The WAVEFORMATEX structs includes two extra bytes, `cbSize`.</span>
         <span class="kw">let</span> <span class="ident">is_wave_format_ex</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">chunk_len</span> {
-            <span class="number">16</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
-            <span class="number">18</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
+            <span class="number">16</span> =&gt; <span class="bool-val">false</span>,
+            <span class="number">18</span> =&gt; <span class="bool-val">true</span>,
             <span class="comment">// Other sizes are unexpected, but such files do occur in the wild,</span>
             <span class="comment">// and reading these files is still possible, so we allow this.</span>
-            <span class="number">40</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">FormatError</span>(<span class="string">&quot;unexpected fmt chunk size&quot;</span>)),
+            <span class="number">40</span> =&gt; <span class="bool-val">true</span>,
+            <span class="kw">_</span> =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::FormatError</span>(<span class="string">&quot;unexpected fmt chunk size&quot;</span>)),
         };
 
         <span class="kw">if</span> <span class="ident">is_wave_format_ex</span> {
@@ -1657,7 +1654,7 @@
             <span class="comment">// additional data. However, for WAVE_FORMAT_PCM, the member should</span>
             <span class="comment">// be ignored, see https://msdn.microsoft.com/en-us/library/ms713497.aspx.</span>
             <span class="comment">// Nonzero values do in fact occur in practice.</span>
-            <span class="kw">let</span> <span class="ident">_cb_size</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u16</span>());
+            <span class="kw">let</span> <span class="ident">_cb_size</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u16</span>());
 
             <span class="comment">// For WAVE_FORMAT_PCM in WAVEFORMATEX, only 8 or 16 bits per</span>
             <span class="comment">// sample are valid according to</span>
@@ -1666,16 +1663,16 @@
             <span class="comment">// structure, but such files do occur in the wild nonetheless, and</span>
             <span class="comment">// there is no good reason why we couldn&#39;t read them.</span>
             <span class="kw">match</span> <span class="ident">spec</span>.<span class="ident">bits_per_sample</span> {
-                <span class="number">8</span> <span class="op">=</span><span class="op">&gt;</span> {}
-                <span class="number">16</span> <span class="op">=</span><span class="op">&gt;</span> {}
-                <span class="number">24</span> <span class="op">=</span><span class="op">&gt;</span> {}
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">FormatError</span>(<span class="string">&quot;bits per sample is not 8 or 16&quot;</span>)),
+                <span class="number">8</span> =&gt; {}
+                <span class="number">16</span> =&gt; {}
+                <span class="number">24</span> =&gt; {}
+                <span class="kw">_</span> =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::FormatError</span>(<span class="string">&quot;bits per sample is not 8 or 16&quot;</span>)),
             }
         }
 
         <span class="comment">// If the chunk len was longer than expected, ignore the additional bytes.</span>
-        <span class="kw">if</span> <span class="ident">chunk_len</span> <span class="op">=</span><span class="op">=</span> <span class="number">40</span> {
-            <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">skip_bytes</span>(<span class="number">22</span>));
+        <span class="kw">if</span> <span class="ident">chunk_len</span> <span class="op">==</span> <span class="number">40</span> {
+            <span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">skip_bytes</span>(<span class="number">22</span>));
         }
 
         <span class="kw">let</span> <span class="ident">spec_ex</span> <span class="op">=</span> <span class="ident">WavSpecEx</span> {
@@ -1686,21 +1683,21 @@
     }
 
     <span class="kw">fn</span> <span class="ident">read_wave_format_ieee_float</span>(<span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">R</span>, <span class="ident">chunk_len</span>: <span class="ident">u32</span>, <span class="ident">spec</span>: <span class="ident">WavSpec</span>)
-                                   <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">WavSpecEx</span><span class="op">&gt;</span> {
+                                   -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">WavSpecEx</span><span class="op">&gt;</span> {
         <span class="comment">// When there is a PCMWAVEFORMAT struct, the chunk is 16 bytes long.</span>
         <span class="comment">// The WAVEFORMATEX structs includes two extra bytes, `cbSize`.</span>
-        <span class="kw">let</span> <span class="ident">is_wave_format_ex</span> <span class="op">=</span> <span class="ident">chunk_len</span> <span class="op">=</span><span class="op">=</span> <span class="number">18</span>;
+        <span class="kw">let</span> <span class="ident">is_wave_format_ex</span> <span class="op">=</span> <span class="ident">chunk_len</span> <span class="op">==</span> <span class="number">18</span>;
 
         <span class="kw">if</span> <span class="op">!</span><span class="ident">is_wave_format_ex</span> <span class="op">&amp;&amp;</span> <span class="ident">chunk_len</span> <span class="op">!</span><span class="op">=</span> <span class="number">16</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">FormatError</span>(<span class="string">&quot;unexpected fmt chunk size&quot;</span>));
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::FormatError</span>(<span class="string">&quot;unexpected fmt chunk size&quot;</span>));
         }
 
         <span class="kw">if</span> <span class="ident">is_wave_format_ex</span> {
             <span class="comment">// For WAVE_FORMAT_IEEE_FLOAT which we are reading, there should</span>
             <span class="comment">// be no extra data, so `cbSize` should be 0.</span>
-            <span class="kw">let</span> <span class="ident">cb_size</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u16</span>());
+            <span class="kw">let</span> <span class="ident">cb_size</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u16</span>());
             <span class="kw">if</span> <span class="ident">cb_size</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">FormatError</span>(<span class="string">&quot;unexpected WAVEFORMATEX size&quot;</span>));
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::FormatError</span>(<span class="string">&quot;unexpected WAVEFORMATEX size&quot;</span>));
             }
         }
 
@@ -1711,12 +1708,12 @@
         <span class="comment">// Note that some applications support 64 bits per sample. This is</span>
         <span class="comment">// not yet supported by hound.</span>
         <span class="kw">if</span> <span class="ident">spec</span>.<span class="ident">bits_per_sample</span> <span class="op">!</span><span class="op">=</span> <span class="number">32</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">FormatError</span>(<span class="string">&quot;bits per sample is not 32&quot;</span>));
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::FormatError</span>(<span class="string">&quot;bits per sample is not 32&quot;</span>));
         }
 
         <span class="kw">let</span> <span class="ident">spec_ex</span> <span class="op">=</span> <span class="ident">WavSpecEx</span> {
             <span class="ident">spec</span>: <span class="ident">WavSpec</span> {
-                <span class="ident">sample_format</span>: <span class="ident">SampleFormat</span>::<span class="ident">Float</span>,
+                <span class="ident">sample_format</span>: <span class="ident">SampleFormat::Float</span>,
                 ..<span class="ident">spec</span>
             },
             <span class="ident">bytes_per_sample</span>: <span class="ident">spec</span>.<span class="ident">bits_per_sample</span> <span class="op">/</span> <span class="number">8</span>,
@@ -1725,21 +1722,21 @@
     }
 
     <span class="kw">fn</span> <span class="ident">read_wave_format_extensible</span>(<span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">R</span>, <span class="ident">chunk_len</span>: <span class="ident">u32</span>, <span class="ident">spec</span>: <span class="ident">WavSpec</span>)
-                                   <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">WavSpecEx</span><span class="op">&gt;</span> {
+                                   -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">WavSpecEx</span><span class="op">&gt;</span> {
         <span class="comment">// 16 bytes were read already, there must be two more for the `cbSize`</span>
         <span class="comment">// field, and `cbSize` itself must be at least 22, so the chunk length</span>
         <span class="comment">// must be at least 40.</span>
         <span class="kw">if</span> <span class="ident">chunk_len</span> <span class="op">&lt;</span> <span class="number">40</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">FormatError</span>(<span class="string">&quot;unexpected fmt chunk size&quot;</span>));
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::FormatError</span>(<span class="string">&quot;unexpected fmt chunk size&quot;</span>));
         }
 
         <span class="comment">// `cbSize` is the last field of the WAVEFORMATEX struct.</span>
-        <span class="kw">let</span> <span class="ident">cb_size</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u16</span>());
+        <span class="kw">let</span> <span class="ident">cb_size</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u16</span>());
 
         <span class="comment">// `cbSize` must be at least 22, but in this case we assume that it is</span>
         <span class="comment">// 22, because we would not know how to handle extra data anyway.</span>
         <span class="kw">if</span> <span class="ident">cb_size</span> <span class="op">!</span><span class="op">=</span> <span class="number">22</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">FormatError</span>(<span class="string">&quot;unexpected WAVEFORMATEXTENSIBLE size&quot;</span>));
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::FormatError</span>(<span class="string">&quot;unexpected WAVEFORMATEXTENSIBLE size&quot;</span>));
         }
 
         <span class="comment">// What follows is the rest of the `WAVEFORMATEXTENSIBLE` struct, as</span>
@@ -1756,19 +1753,19 @@
         <span class="comment">//   GUID    SubFormat;</span>
         <span class="comment">// } WAVEFORMATEXTENSIBLE, *PWAVEFORMATEXTENSIBLE;</span>
         <span class="comment">// ```</span>
-        <span class="kw">let</span> <span class="ident">valid_bits_per_sample</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u16</span>());
-        <span class="kw">let</span> <span class="ident">_channel_mask</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u32</span>()); <span class="comment">// Not used for now.</span>
+        <span class="kw">let</span> <span class="ident">valid_bits_per_sample</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u16</span>());
+        <span class="kw">let</span> <span class="ident">_channel_mask</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">read_le_u32</span>()); <span class="comment">// Not used for now.</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">subformat</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">16</span>];
-        <span class="macro">try</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">subformat</span>));
+        <span class="macro">try!</span>(<span class="ident">reader</span>.<span class="ident">read_into</span>(<span class="kw-2">&amp;mut</span> <span class="ident">subformat</span>));
 
         <span class="comment">// Several GUIDS are defined. At the moment, only the following are supported:</span>
         <span class="comment">//</span>
         <span class="comment">// * KSDATAFORMAT_SUBTYPE_PCM (PCM audio with integer samples).</span>
         <span class="comment">// * KSDATAFORMAT_SUBTYPE_IEEE_FLOAT (PCM audio with floating point samples).</span>
         <span class="kw">let</span> <span class="ident">sample_format</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">subformat</span> {
-            <span class="kw">super</span>::<span class="ident">KSDATAFORMAT_SUBTYPE_PCM</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">SampleFormat</span>::<span class="ident">Int</span>,
-            <span class="kw">super</span>::<span class="ident">KSDATAFORMAT_SUBTYPE_IEEE_FLOAT</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">SampleFormat</span>::<span class="ident">Float</span>,
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Unsupported</span>),
+            <span class="ident"><span class="kw">super</span>::KSDATAFORMAT_SUBTYPE_PCM</span> =&gt; <span class="ident">SampleFormat::Int</span>,
+            <span class="ident"><span class="kw">super</span>::KSDATAFORMAT_SUBTYPE_IEEE_FLOAT</span> =&gt; <span class="ident">SampleFormat::Float</span>,
+            <span class="kw">_</span> =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::Unsupported</span>),
         };
 
         <span class="kw">let</span> <span class="ident">spec_ex</span> <span class="op">=</span> <span class="ident">WavSpecEx</span> {
@@ -1786,9 +1783,9 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// The header is read immediately. Reading the data will be done on</span>
     <span class="doccomment">/// demand.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">WavReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="macro">try</span><span class="macro">!</span>(<span class="ident">read_wave_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">reader</span>));
-        <span class="kw">let</span> (<span class="ident">spec_ex</span>, <span class="ident">data_len</span>) <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">read_until_data</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">reader</span>));
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">R</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">WavReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="macro">try!</span>(<span class="ident">read_wave_header</span>(<span class="kw-2">&amp;mut</span> <span class="ident">reader</span>));
+        <span class="kw">let</span> (<span class="ident">spec_ex</span>, <span class="ident">data_len</span>) <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">read_until_data</span>(<span class="kw-2">&amp;mut</span> <span class="ident">reader</span>));
 
         <span class="kw">let</span> <span class="ident">num_samples</span> <span class="op">=</span> <span class="ident">data_len</span> <span class="op">/</span> <span class="ident">spec_ex</span>.<span class="ident">bytes_per_sample</span> <span class="kw">as</span> <span class="ident">u32</span>;
 
@@ -1799,14 +1796,14 @@
         <span class="comment">// decode the file, as it is invalid.</span>
         <span class="kw">if</span> <span class="ident">num_samples</span> <span class="op">*</span> <span class="ident">spec_ex</span>.<span class="ident">bytes_per_sample</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">!</span><span class="op">=</span> <span class="ident">data_len</span> {
             <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="string">&quot;data chunk length is not a multiple of sample size&quot;</span>;
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">FormatError</span>(<span class="ident">msg</span>));
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::FormatError</span>(<span class="ident">msg</span>));
         }
 
         <span class="comment">// The number of samples must be a multiple of the number of channels,</span>
         <span class="comment">// otherwise the last inter-channel sample would not have data for all</span>
         <span class="comment">// channels.</span>
         <span class="kw">if</span> <span class="ident">num_samples</span> <span class="op">%</span> <span class="ident">spec_ex</span>.<span class="ident">spec</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">FormatError</span>(<span class="string">&quot;invalid data chunk length&quot;</span>));
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::FormatError</span>(<span class="string">&quot;invalid data chunk length&quot;</span>));
         }
 
         <span class="kw">let</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader</span> {
@@ -1821,7 +1818,7 @@
     }
 
     <span class="doccomment">/// Returns information about the WAVE file.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">spec</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">WavSpec</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">spec</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">WavSpec</span> {
         <span class="self">self</span>.<span class="ident">spec</span>
     }
 
@@ -1840,20 +1837,20 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// The type of `S` (int or float) must match `spec().sample_format`,</span>
     <span class="doccomment">/// otherwise every iteration will return an error.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">samples</span><span class="op">&lt;</span><span class="lifetime">&#39;wr</span>, <span class="ident">S</span>: <span class="ident">Sample</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;wr</span> <span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">WavSamples</span><span class="op">&lt;</span><span class="lifetime">&#39;wr</span>, <span class="ident">R</span>, <span class="ident">S</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">samples</span><span class="op">&lt;</span><span class="lifetime">&#39;wr</span>, <span class="ident">S</span>: <span class="ident">Sample</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;wr</span> <span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="ident">WavSamples</span><span class="op">&lt;</span><span class="lifetime">&#39;wr</span>, <span class="ident">R</span>, <span class="ident">S</span><span class="op">&gt;</span> {
         <span class="ident">WavSamples</span> {
             <span class="ident">reader</span>: <span class="self">self</span>,
-            <span class="ident">phantom_sample</span>: <span class="ident">marker</span>::<span class="ident">PhantomData</span>,
+            <span class="ident">phantom_sample</span>: <span class="ident">marker::PhantomData</span>,
         }
     }
 
     <span class="doccomment">/// Same as `samples`, but takes ownership of the `WavReader`.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See `samples()` for more info.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_samples</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Sample</span><span class="op">&gt;</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">WavIntoSamples</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">S</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_samples</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Sample</span><span class="op">&gt;</span>(<span class="self">self</span>) -&gt; <span class="ident">WavIntoSamples</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">S</span><span class="op">&gt;</span> {
         <span class="ident">WavIntoSamples</span> {
             <span class="ident">reader</span>: <span class="self">self</span>,
-            <span class="ident">phantom_sample</span>: <span class="ident">marker</span>::<span class="ident">PhantomData</span>,
+            <span class="ident">phantom_sample</span>: <span class="ident">marker::PhantomData</span>,
         }
     }
 
@@ -1863,7 +1860,7 @@
     <span class="doccomment">/// in units of samples. The duration in seconds can be obtained by</span>
     <span class="doccomment">/// dividing this number by the sample rate. The duration is independent of</span>
     <span class="doccomment">/// how many samples have been read already.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">duration</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">duration</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
         <span class="self">self</span>.<span class="ident">num_samples</span> <span class="op">/</span> <span class="self">self</span>.<span class="ident">spec</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">u32</span>
     }
 
@@ -1873,12 +1870,12 @@
     <span class="doccomment">/// channels. The length is independent of how many samples have been read</span>
     <span class="doccomment">/// already. To get the number of samples left, use `len()` on the</span>
     <span class="doccomment">/// `samples()` iterator.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
         <span class="self">self</span>.<span class="ident">num_samples</span>
     }
 
     <span class="doccomment">/// Destroys the `WavReader` and returns the underlying reader.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">R</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) -&gt; <span class="ident">R</span> {
         <span class="self">self</span>.<span class="ident">reader</span>
     }
 
@@ -1892,90 +1889,90 @@
     <span class="doccomment">/// `duration()` depends on the reader&#39;s `Seek` implementation.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This method requires that the inner reader `R` implements `Seek`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">seek</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">time</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
-        <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Seek</span>,
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">seek</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">time</span>: <span class="ident">u32</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+        <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">io::Seek</span>,
     {
         <span class="kw">let</span> <span class="ident">bytes_per_sample</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">spec</span>.<span class="ident">bits_per_sample</span> <span class="op">/</span> <span class="number">8</span>;
         <span class="kw">let</span> <span class="ident">sample_position</span> <span class="op">=</span> <span class="ident">time</span> <span class="op">*</span> <span class="self">self</span>.<span class="ident">spec</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">u32</span>;
         <span class="kw">let</span> <span class="ident">offset_samples</span> <span class="op">=</span> <span class="ident">sample_position</span> <span class="kw">as</span> <span class="ident">i64</span> <span class="op">-</span> <span class="self">self</span>.<span class="ident">samples_read</span> <span class="kw">as</span> <span class="ident">i64</span>;
         <span class="kw">let</span> <span class="ident">offset_bytes</span> <span class="op">=</span> <span class="ident">offset_samples</span> <span class="op">*</span> <span class="ident">bytes_per_sample</span> <span class="kw">as</span> <span class="ident">i64</span>;
-        <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">io</span>::<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="ident">offset_bytes</span>)));
+        <span class="macro">try!</span>(<span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">io::SeekFrom::Current</span>(<span class="ident">offset_bytes</span>)));
         <span class="self">self</span>.<span class="ident">samples_read</span> <span class="op">=</span> <span class="ident">sample_position</span>;
         <span class="prelude-val">Ok</span>(())
     }
 }
 
-<span class="kw">impl</span> <span class="ident">WavReader</span><span class="op">&lt;</span><span class="ident">io</span>::<span class="ident">BufReader</span><span class="op">&lt;</span><span class="ident">fs</span>::<span class="ident">File</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+<span class="kw">impl</span> <span class="ident">WavReader</span><span class="op">&lt;</span><span class="ident">io::BufReader</span><span class="op">&lt;</span><span class="ident">fs::File</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Attempts to create a reader that reads from the specified file.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is a convenience constructor that opens a `File`, wraps it in a</span>
     <span class="doccomment">/// `BufReader` and then constructs a `WavReader` from it.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">open</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">path</span>::<span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">filename</span>: <span class="ident">P</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">WavReader</span><span class="op">&lt;</span><span class="ident">io</span>::<span class="ident">BufReader</span><span class="op">&lt;</span><span class="ident">fs</span>::<span class="ident">File</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">fs</span>::<span class="ident">File</span>::<span class="ident">open</span>(<span class="ident">filename</span>));
-        <span class="kw">let</span> <span class="ident">buf_reader</span> <span class="op">=</span> <span class="ident">io</span>::<span class="ident">BufReader</span>::<span class="ident">new</span>(<span class="ident">file</span>);
-        <span class="ident">WavReader</span>::<span class="ident">new</span>(<span class="ident">buf_reader</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">open</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">path::Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">filename</span>: <span class="ident">P</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">WavReader</span><span class="op">&lt;</span><span class="ident">io::BufReader</span><span class="op">&lt;</span><span class="ident">fs::File</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="macro">try!</span>(<span class="ident">fs::File::open</span>(<span class="ident">filename</span>));
+        <span class="kw">let</span> <span class="ident">buf_reader</span> <span class="op">=</span> <span class="ident">io::BufReader::new</span>(<span class="ident">file</span>);
+        <span class="ident">WavReader::new</span>(<span class="ident">buf_reader</span>)
     }
 }
 
-<span class="kw">fn</span> <span class="ident">iter_next</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">reader</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">WavReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span>,
+<span class="kw">fn</span> <span class="ident">iter_next</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">reader</span>: <span class="kw-2">&amp;mut</span> <span class="ident">WavReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">io::Read</span>,
           <span class="ident">S</span>: <span class="ident">Sample</span>
 {
     <span class="kw">if</span> <span class="ident">reader</span>.<span class="ident">samples_read</span> <span class="op">&lt;</span> <span class="ident">reader</span>.<span class="ident">num_samples</span> {
         <span class="ident">reader</span>.<span class="ident">samples_read</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-        <span class="kw">let</span> <span class="ident">sample</span> <span class="op">=</span> <span class="ident">Sample</span>::<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">reader</span>.<span class="ident">reader</span>,
+        <span class="kw">let</span> <span class="ident">sample</span> <span class="op">=</span> <span class="ident">Sample::read</span>(<span class="kw-2">&amp;mut</span> <span class="ident">reader</span>.<span class="ident">reader</span>,
                                   <span class="ident">reader</span>.<span class="ident">spec</span>.<span class="ident">sample_format</span>,
                                   <span class="ident">reader</span>.<span class="ident">bytes_per_sample</span>,
                                   <span class="ident">reader</span>.<span class="ident">spec</span>.<span class="ident">bits_per_sample</span>);
-        <span class="prelude-val">Some</span>(<span class="ident">sample</span>.<span class="ident">map_err</span>(<span class="ident">Error</span>::<span class="ident">from</span>))
+        <span class="prelude-val">Some</span>(<span class="ident">sample</span>.<span class="ident">map_err</span>(<span class="ident">Error::from</span>))
     } <span class="kw">else</span> {
         <span class="prelude-val">None</span>
     }
 }
 
-<span class="kw">fn</span> <span class="ident">iter_size_hint</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>(<span class="ident">reader</span>: <span class="kw-2">&amp;</span><span class="ident">WavReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
+<span class="kw">fn</span> <span class="ident">iter_size_hint</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>(<span class="ident">reader</span>: <span class="kw-2">&amp;</span><span class="ident">WavReader</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>) -&gt; (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
     <span class="kw">let</span> <span class="ident">samples_left</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">num_samples</span> <span class="op">-</span> <span class="ident">reader</span>.<span class="ident">samples_read</span>;
     (<span class="ident">samples_left</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="prelude-val">Some</span>(<span class="ident">samples_left</span> <span class="kw">as</span> <span class="ident">usize</span>))
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;wr</span>, <span class="ident">R</span>, <span class="ident">S</span><span class="op">&gt;</span> <span class="ident">Iterator</span> <span class="kw">for</span> <span class="ident">WavSamples</span><span class="op">&lt;</span><span class="lifetime">&#39;wr</span>, <span class="ident">R</span>, <span class="ident">S</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span>,
+    <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">io::Read</span>,
           <span class="ident">S</span>: <span class="ident">Sample</span>
 {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="ident">iter_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">reader</span>)
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="ident">iter_next</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">reader</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
+    <span class="kw">fn</span> <span class="ident">size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
         <span class="ident">iter_size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">reader</span>)
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;wr</span>, <span class="ident">R</span>, <span class="ident">S</span><span class="op">&gt;</span> <span class="ident">ExactSizeIterator</span> <span class="kw">for</span> <span class="ident">WavSamples</span><span class="op">&lt;</span><span class="lifetime">&#39;wr</span>, <span class="ident">R</span>, <span class="ident">S</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span>,
+    <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">io::Read</span>,
           <span class="ident">S</span>: <span class="ident">Sample</span>
 {
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">S</span><span class="op">&gt;</span> <span class="ident">Iterator</span> <span class="kw">for</span> <span class="ident">WavIntoSamples</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">S</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span>,
+    <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">io::Read</span>,
           <span class="ident">S</span>: <span class="ident">Sample</span>
 {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="ident">iter_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">reader</span>)
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="ident">iter_next</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">reader</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
+    <span class="kw">fn</span> <span class="ident">size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
         <span class="ident">iter_size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">reader</span>)
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">S</span><span class="op">&gt;</span> <span class="ident">ExactSizeIterator</span> <span class="kw">for</span> <span class="ident">WavIntoSamples</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">S</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">io</span>::<span class="ident">Read</span>,
+    <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">io::Read</span>,
           <span class="ident">S</span>: <span class="ident">Sample</span>
 {
 }
@@ -1987,8 +1984,8 @@
                   <span class="string">&quot;testsamples/waveformatextensible-32bit-48kHz-stereo.wav&quot;</span>];
 
     <span class="kw">for</span> <span class="ident">fname</span> <span class="kw">in</span> <span class="ident">files</span> {
-        <span class="kw">let</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="ident">fname</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">*</span> <span class="ident">reader</span>.<span class="ident">duration</span>(),
+        <span class="kw">let</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="ident">fname</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq!</span>(<span class="ident">reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">*</span> <span class="ident">reader</span>.<span class="ident">duration</span>(),
                    <span class="ident">reader</span>.<span class="ident">len</span>());
     }
 }
@@ -1996,20 +1993,20 @@
 <span class="doccomment">/// Tests reading a wave file with the PCMWAVEFORMAT struct.</span>
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">read_wav_pcm_wave_format_pcm</span>() {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="string">&quot;testsamples/pcmwaveformat-16bit-44100Hz-mono.wav&quot;</span>)
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="string">&quot;testsamples/pcmwaveformat-16bit-44100Hz-mono.wav&quot;</span>)
         .<span class="ident">unwrap</span>();
 
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">1</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_rate</span>, <span class="number">44100</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">16</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat</span>::<span class="ident">Int</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">1</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_rate</span>, <span class="number">44100</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">16</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat::Int</span>);
 
     <span class="kw">let</span> <span class="ident">samples</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">wav_reader</span>.<span class="ident">samples</span>()
         .<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">unwrap</span>())
         .<span class="ident">collect</span>();
 
     <span class="comment">// The test file has been prepared with these exact four samples.</span>
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="op">-</span><span class="number">3</span>, <span class="number">5</span>, <span class="op">-</span><span class="number">7</span>]);
+    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="op">-</span><span class="number">3</span>, <span class="number">5</span>, <span class="op">-</span><span class="number">7</span>]);
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2020,43 +2017,43 @@
                  <span class="string">&quot;testsamples/waveformatex-16bit-44100Hz-mono-extra.wav&quot;</span>];
 
     <span class="kw">for</span> <span class="ident">file</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">files</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="ident">file</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="ident">file</span>).<span class="ident">unwrap</span>();
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">1</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_rate</span>, <span class="number">44100</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">16</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat</span>::<span class="ident">Int</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_rate</span>, <span class="number">44100</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">16</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat::Int</span>);
 
         <span class="kw">let</span> <span class="ident">sample</span> <span class="op">=</span> <span class="ident">wav_reader</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">sample</span>, <span class="number">2</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">sample</span>, <span class="number">2</span>);
     }
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">len_and_size_hint_are_correct</span>() {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="string">&quot;testsamples/pcmwaveformat-16bit-44100Hz-mono.wav&quot;</span>)
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="string">&quot;testsamples/pcmwaveformat-16bit-44100Hz-mono.wav&quot;</span>)
         .<span class="ident">unwrap</span>();
 
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">len</span>(), <span class="number">4</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">len</span>(), <span class="number">4</span>);
 
     {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">samples</span> <span class="op">=</span> <span class="ident">wav_reader</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span>();
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">samples</span>.<span class="ident">size_hint</span>(), (<span class="number">4</span>, <span class="prelude-val">Some</span>(<span class="number">4</span>)));
+        <span class="macro">assert_eq!</span>(<span class="ident">samples</span>.<span class="ident">size_hint</span>(), (<span class="number">4</span>, <span class="prelude-val">Some</span>(<span class="number">4</span>)));
         <span class="ident">samples</span>.<span class="ident">next</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">samples</span>.<span class="ident">size_hint</span>(), (<span class="number">3</span>, <span class="prelude-val">Some</span>(<span class="number">3</span>)));
+        <span class="macro">assert_eq!</span>(<span class="ident">samples</span>.<span class="ident">size_hint</span>(), (<span class="number">3</span>, <span class="prelude-val">Some</span>(<span class="number">3</span>)));
     }
 
     <span class="comment">// Reading should not affect the initial length.</span>
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">len</span>(), <span class="number">4</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">len</span>(), <span class="number">4</span>);
 
     <span class="comment">// Creating a new iterator resumes where the previous iterator stopped.</span>
     {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">samples</span> <span class="op">=</span> <span class="ident">wav_reader</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span>();
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">samples</span>.<span class="ident">size_hint</span>(), (<span class="number">3</span>, <span class="prelude-val">Some</span>(<span class="number">3</span>)));
+        <span class="macro">assert_eq!</span>(<span class="ident">samples</span>.<span class="ident">size_hint</span>(), (<span class="number">3</span>, <span class="prelude-val">Some</span>(<span class="number">3</span>)));
         <span class="ident">samples</span>.<span class="ident">next</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">samples</span>.<span class="ident">size_hint</span>(), (<span class="number">2</span>, <span class="prelude-val">Some</span>(<span class="number">2</span>)));
+        <span class="macro">assert_eq!</span>(<span class="ident">samples</span>.<span class="ident">size_hint</span>(), (<span class="number">2</span>, <span class="prelude-val">Some</span>(<span class="number">2</span>)));
     }
 }
 
@@ -2067,22 +2064,22 @@
                   <span class="string">&quot;testsamples/waveformatextensible-32bit-48kHz-stereo.wav&quot;</span>];
 
     <span class="kw">for</span> <span class="ident">fname</span> <span class="kw">in</span> <span class="ident">files</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="ident">fname</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="ident">fname</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">len</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>();
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">len</span> {
             <span class="kw">let</span> <span class="ident">remaining</span> <span class="op">=</span> (<span class="ident">len</span> <span class="op">-</span> <span class="ident">i</span>) <span class="kw">as</span> <span class="ident">usize</span>;
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">iter</span>.<span class="ident">size_hint</span>(), (<span class="ident">remaining</span>, <span class="prelude-val">Some</span>(<span class="ident">remaining</span>)));
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">is_some</span>());
+            <span class="macro">assert_eq!</span>(<span class="ident">iter</span>.<span class="ident">size_hint</span>(), (<span class="ident">remaining</span>, <span class="prelude-val">Some</span>(<span class="ident">remaining</span>)));
+            <span class="macro">assert!</span>(<span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">is_some</span>());
         }
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">is_none</span>());
+        <span class="macro">assert!</span>(<span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">is_none</span>());
     }
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">samples_equals_into_samples</span>() {
-    <span class="kw">let</span> <span class="ident">wav_reader_val</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="string">&quot;testsamples/pcmwaveformat-8bit-44100Hz-mono.wav&quot;</span>).<span class="ident">unwrap</span>();
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader_ref</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="string">&quot;testsamples/pcmwaveformat-8bit-44100Hz-mono.wav&quot;</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">wav_reader_val</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="string">&quot;testsamples/pcmwaveformat-8bit-44100Hz-mono.wav&quot;</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader_ref</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="string">&quot;testsamples/pcmwaveformat-8bit-44100Hz-mono.wav&quot;</span>).<span class="ident">unwrap</span>();
 
     <span class="kw">let</span> <span class="ident">samples_val</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">wav_reader_val</span>.<span class="ident">into_samples</span>()
                                               .<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">unwrap</span>())
@@ -2092,90 +2089,90 @@
                                               .<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">unwrap</span>())
                                               .<span class="ident">collect</span>();
 
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">samples_val</span>, <span class="ident">samples_ref</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">samples_val</span>, <span class="ident">samples_ref</span>);
 }
 
 <span class="doccomment">/// Tests reading a wave file with the WAVEFORMATEX struct.</span>
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">read_wav_wave_format_ex_pcm</span>() {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="string">&quot;testsamples/waveformatex-16bit-44100Hz-mono.wav&quot;</span>)
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="string">&quot;testsamples/waveformatex-16bit-44100Hz-mono.wav&quot;</span>)
         .<span class="ident">unwrap</span>();
 
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">1</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_rate</span>, <span class="number">44100</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">16</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat</span>::<span class="ident">Int</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">1</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_rate</span>, <span class="number">44100</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">16</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat::Int</span>);
 
     <span class="kw">let</span> <span class="ident">samples</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">wav_reader</span>.<span class="ident">samples</span>()
                                       .<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">unwrap</span>())
                                       .<span class="ident">collect</span>();
 
     <span class="comment">// The test file has been prepared with these exact four samples.</span>
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="op">-</span><span class="number">3</span>, <span class="number">5</span>, <span class="op">-</span><span class="number">7</span>]);
+    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="op">-</span><span class="number">3</span>, <span class="number">5</span>, <span class="op">-</span><span class="number">7</span>]);
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">read_wav_wave_format_ex_ieee_float</span>() {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="string">&quot;testsamples/waveformatex-ieeefloat-44100Hz-mono.wav&quot;</span>)
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="string">&quot;testsamples/waveformatex-ieeefloat-44100Hz-mono.wav&quot;</span>)
         .<span class="ident">unwrap</span>();
 
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">1</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_rate</span>, <span class="number">44100</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">32</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat</span>::<span class="ident">Float</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">1</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_rate</span>, <span class="number">44100</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">32</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat::Float</span>);
 
     <span class="kw">let</span> <span class="ident">samples</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">wav_reader</span>.<span class="ident">samples</span>()
                                       .<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">unwrap</span>())
                                       .<span class="ident">collect</span>();
 
     <span class="comment">// The test file has been prepared with these exact four samples.</span>
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="number">2.0</span>, <span class="number">3.0</span>, <span class="op">-</span><span class="number">16411.0</span>, <span class="number">1019.0</span>]);
+    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="number">2.0</span>, <span class="number">3.0</span>, <span class="op">-</span><span class="number">16411.0</span>, <span class="number">1019.0</span>]);
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">read_wav_stereo</span>() {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="string">&quot;testsamples/waveformatex-16bit-44100Hz-stereo.wav&quot;</span>)
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="string">&quot;testsamples/waveformatex-16bit-44100Hz-stereo.wav&quot;</span>)
         .<span class="ident">unwrap</span>();
 
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">2</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_rate</span>, <span class="number">44100</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">16</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat</span>::<span class="ident">Int</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">2</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_rate</span>, <span class="number">44100</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">16</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat::Int</span>);
 
     <span class="kw">let</span> <span class="ident">samples</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">wav_reader</span>.<span class="ident">samples</span>()
                                       .<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">unwrap</span>())
                                       .<span class="ident">collect</span>();
 
     <span class="comment">// The test file has been prepared with these exact eight samples.</span>
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="op">-</span><span class="number">3</span>, <span class="number">5</span>, <span class="op">-</span><span class="number">7</span>, <span class="number">11</span>, <span class="op">-</span><span class="number">13</span>, <span class="number">17</span>, <span class="op">-</span><span class="number">19</span>]);
+    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="op">-</span><span class="number">3</span>, <span class="number">5</span>, <span class="op">-</span><span class="number">7</span>, <span class="number">11</span>, <span class="op">-</span><span class="number">13</span>, <span class="number">17</span>, <span class="op">-</span><span class="number">19</span>]);
 
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">read_wav_pcm_wave_format_8bit</span>() {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="string">&quot;testsamples/pcmwaveformat-8bit-44100Hz-mono.wav&quot;</span>)
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="string">&quot;testsamples/pcmwaveformat-8bit-44100Hz-mono.wav&quot;</span>)
                                    .<span class="ident">unwrap</span>();
 
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">1</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">8</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat</span>::<span class="ident">Int</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">1</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">8</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat::Int</span>);
 
     <span class="kw">let</span> <span class="ident">samples</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">wav_reader</span>.<span class="ident">samples</span>()
                                       .<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">unwrap</span>())
                                       .<span class="ident">collect</span>();
 
     <span class="comment">// The test file has been prepared with these exact four samples.</span>
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="number">19</span>, <span class="op">-</span><span class="number">53</span>, <span class="number">89</span>, <span class="op">-</span><span class="number">127</span>]);
+    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="number">19</span>, <span class="op">-</span><span class="number">53</span>, <span class="number">89</span>, <span class="op">-</span><span class="number">127</span>]);
 }
 
 <span class="doccomment">/// Regression test for a real-world wav file encountered in Quake.</span>
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">read_wav_wave_format_ex_8bit</span>() {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="string">&quot;testsamples/waveformatex-8bit-11025Hz-mono.wav&quot;</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="string">&quot;testsamples/waveformatex-8bit-11025Hz-mono.wav&quot;</span>).<span class="ident">unwrap</span>();
 
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">1</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">8</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat</span>::<span class="ident">Int</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">1</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">8</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat::Int</span>);
 
     <span class="kw">let</span> <span class="ident">samples</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">wav_reader</span>.<span class="ident">samples</span>()
                                       .<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">unwrap</span>())
@@ -2183,60 +2180,60 @@
 
     <span class="comment">// The audio data has been zeroed out, but for 8-bit files, a zero means a</span>
     <span class="comment">// sample value of 128.</span>
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="op">-</span><span class="number">128</span>, <span class="op">-</span><span class="number">128</span>, <span class="op">-</span><span class="number">128</span>, <span class="op">-</span><span class="number">128</span>]);
+    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="op">-</span><span class="number">128</span>, <span class="op">-</span><span class="number">128</span>, <span class="op">-</span><span class="number">128</span>, <span class="op">-</span><span class="number">128</span>]);
 }
 
 <span class="doccomment">/// This test sample tests both reading the WAVEFORMATEXTENSIBLE header, and 24-bit samples.</span>
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">read_wav_wave_format_extensible_pcm_24bit</span>() {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="string">&quot;testsamples/waveformatextensible-24bit-192kHz-mono.wav&quot;</span>)
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="string">&quot;testsamples/waveformatextensible-24bit-192kHz-mono.wav&quot;</span>)
         .<span class="ident">unwrap</span>();
 
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">1</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_rate</span>, <span class="number">192_000</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">24</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat</span>::<span class="ident">Int</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">1</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_rate</span>, <span class="number">192_000</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">24</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat::Int</span>);
 
     <span class="kw">let</span> <span class="ident">samples</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">wav_reader</span>.<span class="ident">samples</span>()
                                       .<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">unwrap</span>())
                                       .<span class="ident">collect</span>();
 
     <span class="comment">// The test file has been prepared with these exact four samples.</span>
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="op">-</span><span class="number">17</span>, <span class="number">4_194_319</span>, <span class="op">-</span><span class="number">6_291_437</span>, <span class="number">8_355_817</span>]);
+    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="op">-</span><span class="number">17</span>, <span class="number">4_194_319</span>, <span class="op">-</span><span class="number">6_291_437</span>, <span class="number">8_355_817</span>]);
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">read_wav_32bit</span>() {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="string">&quot;testsamples/waveformatextensible-32bit-48kHz-stereo.wav&quot;</span>)
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="string">&quot;testsamples/waveformatextensible-32bit-48kHz-stereo.wav&quot;</span>)
                                    .<span class="ident">unwrap</span>();
 
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">32</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat</span>::<span class="ident">Int</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">32</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat::Int</span>);
 
     <span class="kw">let</span> <span class="ident">samples</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">wav_reader</span>.<span class="ident">samples</span>()
                                       .<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">unwrap</span>())
                                       .<span class="ident">collect</span>();
 
     <span class="comment">// The test file has been prepared with these exact four samples.</span>
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="number">19</span>, <span class="op">-</span><span class="number">229_373</span>, <span class="number">33_587_161</span>, <span class="op">-</span><span class="number">2_147_483_497</span>]);
+    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="number">19</span>, <span class="op">-</span><span class="number">229_373</span>, <span class="number">33_587_161</span>, <span class="op">-</span><span class="number">2_147_483_497</span>]);
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">read_wav_wave_format_extensible_ieee_float</span>() {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span>
-        <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="string">&quot;testsamples/waveformatextensible-ieeefloat-44100Hz-mono.wav&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="ident">WavReader::open</span>(<span class="string">&quot;testsamples/waveformatextensible-ieeefloat-44100Hz-mono.wav&quot;</span>).<span class="ident">unwrap</span>();
 
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">1</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_rate</span>, <span class="number">44100</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">32</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat</span>::<span class="ident">Float</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">channels</span>, <span class="number">1</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_rate</span>, <span class="number">44100</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">32</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat::Float</span>);
 
     <span class="kw">let</span> <span class="ident">samples</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">wav_reader</span>.<span class="ident">samples</span>()
                                       .<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">unwrap</span>())
                                       .<span class="ident">collect</span>();
 
     <span class="comment">// The test file has been prepared with these exact four samples.</span>
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="number">2.0</span>, <span class="number">3.0</span>, <span class="op">-</span><span class="number">16411.0</span>, <span class="number">1019.0</span>]);
+    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="number">2.0</span>, <span class="number">3.0</span>, <span class="op">-</span><span class="number">16411.0</span>, <span class="number">1019.0</span>]);
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2250,90 +2247,90 @@
     <span class="comment">// but the size of the fmt chunk is one that would be expected of a</span>
     <span class="comment">// WAVEFORMATEXTENSIBLE chunk. The bits per sample is 24, which is invalid</span>
     <span class="comment">// for WAVEFORMATEX, but we can read it nonetheless.</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="string">&quot;testsamples/nonstandard-01.wav&quot;</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wav_reader</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="string">&quot;testsamples/nonstandard-01.wav&quot;</span>).<span class="ident">unwrap</span>();
 
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">24</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat</span>::<span class="ident">Int</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">bits_per_sample</span>, <span class="number">24</span>);
+    <span class="macro">assert_eq!</span>(<span class="ident">wav_reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span>, <span class="ident">SampleFormat::Int</span>);
 
     <span class="kw">let</span> <span class="ident">samples</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">wav_reader</span>.<span class="ident">samples</span>()
                                       .<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">unwrap</span>())
                                       .<span class="ident">collect</span>();
 
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>]);
+    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">samples</span>[..], <span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>]);
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">wide_read_should_signal_error</span>() {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader24</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="string">&quot;testsamples/waveformatextensible-24bit-192kHz-mono.wav&quot;</span>)
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader24</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="string">&quot;testsamples/waveformatextensible-24bit-192kHz-mono.wav&quot;</span>)
         .<span class="ident">unwrap</span>();
 
     <span class="comment">// Even though we know the first value is 17, and it should fit in an `i8`,</span>
     <span class="comment">// a general 24-bit sample will not fit in an `i8`, so this should fail.</span>
     <span class="comment">// 16-bit is still not wide enough, but 32-bit should do the trick.</span>
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader24</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i8</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>());
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader24</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>());
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader24</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_ok</span>());
+    <span class="macro">assert!</span>(<span class="ident">reader24</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i8</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>());
+    <span class="macro">assert!</span>(<span class="ident">reader24</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>());
+    <span class="macro">assert!</span>(<span class="ident">reader24</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_ok</span>());
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader32</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="string">&quot;testsamples/waveformatextensible-32bit-48kHz-stereo.wav&quot;</span>)
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader32</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="string">&quot;testsamples/waveformatextensible-32bit-48kHz-stereo.wav&quot;</span>)
         .<span class="ident">unwrap</span>();
 
     <span class="comment">// In general, 32-bit samples will not fit in anything but an `i32`.</span>
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader32</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i8</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>());
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader32</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>());
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader32</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_ok</span>());
+    <span class="macro">assert!</span>(<span class="ident">reader32</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i8</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>());
+    <span class="macro">assert!</span>(<span class="ident">reader32</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>());
+    <span class="macro">assert!</span>(<span class="ident">reader32</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_ok</span>());
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">sample_format_mismatch_should_signal_error</span>() {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader_f32</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="string">&quot;testsamples/waveformatex-ieeefloat-44100Hz-mono.wav&quot;</span>)
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader_f32</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="string">&quot;testsamples/waveformatex-ieeefloat-44100Hz-mono.wav&quot;</span>)
         .<span class="ident">unwrap</span>();
 
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader_f32</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i8</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>());
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader_f32</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>());
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader_f32</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>());
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader_f32</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_ok</span>());
+    <span class="macro">assert!</span>(<span class="ident">reader_f32</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i8</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>());
+    <span class="macro">assert!</span>(<span class="ident">reader_f32</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>());
+    <span class="macro">assert!</span>(<span class="ident">reader_f32</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>());
+    <span class="macro">assert!</span>(<span class="ident">reader_f32</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_ok</span>());
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader_i8</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="string">&quot;testsamples/pcmwaveformat-8bit-44100Hz-mono.wav&quot;</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader_i8</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="string">&quot;testsamples/pcmwaveformat-8bit-44100Hz-mono.wav&quot;</span>).<span class="ident">unwrap</span>();
 
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader_i8</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i8</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_ok</span>());
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader_i8</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_ok</span>());
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader_i8</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_ok</span>());
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader_i8</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>());
+    <span class="macro">assert!</span>(<span class="ident">reader_i8</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i8</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_ok</span>());
+    <span class="macro">assert!</span>(<span class="ident">reader_i8</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_ok</span>());
+    <span class="macro">assert!</span>(<span class="ident">reader_i8</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_ok</span>());
+    <span class="macro">assert!</span>(<span class="ident">reader_i8</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>());
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">fuzz_crashes_should_be_fixed</span>() {
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fs</span>;
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">OsStr</span>;
+    <span class="kw">use</span> <span class="ident">std::fs</span>;
+    <span class="kw">use</span> <span class="ident">std::ffi::OsStr</span>;
 
     <span class="comment">// This is a regression test: all crashes and other issues found through</span>
     <span class="comment">// fuzzing should not cause a crash.</span>
-    <span class="kw">let</span> <span class="ident">dir</span> <span class="op">=</span> <span class="ident">fs</span>::<span class="ident">read_dir</span>(<span class="string">&quot;testsamples/fuzz&quot;</span>).<span class="ident">ok</span>()
+    <span class="kw">let</span> <span class="ident">dir</span> <span class="op">=</span> <span class="ident">fs::read_dir</span>(<span class="string">&quot;testsamples/fuzz&quot;</span>).<span class="ident">ok</span>()
                  .<span class="ident">expect</span>(<span class="string">&quot;failed to enumerate fuzz test corpus&quot;</span>);
     <span class="kw">for</span> <span class="ident">path</span> <span class="kw">in</span> <span class="ident">dir</span> {
         <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">ok</span>().<span class="ident">expect</span>(<span class="string">&quot;failed to obtain path info&quot;</span>).<span class="ident">path</span>();
-        <span class="kw">let</span> <span class="ident">is_file</span> <span class="op">=</span> <span class="ident">fs</span>::<span class="ident">metadata</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>).<span class="ident">unwrap</span>().<span class="ident">file_type</span>().<span class="ident">is_file</span>();
-        <span class="kw">if</span> <span class="ident">is_file</span> <span class="op">&amp;&amp;</span> <span class="ident">path</span>.<span class="ident">extension</span>() <span class="op">=</span><span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">OsStr</span>::<span class="ident">new</span>(<span class="string">&quot;wav&quot;</span>)) {
-            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;    testing {} ...&quot;</span>, <span class="ident">path</span>.<span class="ident">to_str</span>()
+        <span class="kw">let</span> <span class="ident">is_file</span> <span class="op">=</span> <span class="ident">fs::metadata</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>).<span class="ident">unwrap</span>().<span class="ident">file_type</span>().<span class="ident">is_file</span>();
+        <span class="kw">if</span> <span class="ident">is_file</span> <span class="op">&amp;&amp;</span> <span class="ident">path</span>.<span class="ident">extension</span>() <span class="op">==</span> <span class="prelude-val">Some</span>(<span class="ident">OsStr::new</span>(<span class="string">&quot;wav&quot;</span>)) {
+            <span class="macro">println!</span>(<span class="string">&quot;    testing {} ...&quot;</span>, <span class="ident">path</span>.<span class="ident">to_str</span>()
                                                .<span class="ident">expect</span>(<span class="string">&quot;unsupported filename&quot;</span>));
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="ident">path</span>) {
-                <span class="prelude-val">Ok</span>(<span class="ident">r</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">r</span>,
-                <span class="prelude-val">Err</span>(..) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">continue</span>,
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">WavReader::open</span>(<span class="ident">path</span>) {
+                <span class="prelude-val">Ok</span>(<span class="ident">r</span>) =&gt; <span class="ident">r</span>,
+                <span class="prelude-val">Err</span>(..) =&gt; <span class="kw">continue</span>,
             };
             <span class="kw">match</span> <span class="ident">reader</span>.<span class="ident">spec</span>().<span class="ident">sample_format</span> {
-                <span class="ident">SampleFormat</span>::<span class="ident">Int</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">SampleFormat::Int</span> =&gt; {
                     <span class="kw">for</span> <span class="ident">sample</span> <span class="kw">in</span> <span class="ident">reader</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>() {
                         <span class="kw">match</span> <span class="ident">sample</span> {
-                            <span class="prelude-val">Ok</span>(..) <span class="op">=</span><span class="op">&gt;</span> { }
-                            <span class="prelude-val">Err</span>(..) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">break</span>,
+                            <span class="prelude-val">Ok</span>(..) =&gt; { }
+                            <span class="prelude-val">Err</span>(..) =&gt; <span class="kw">break</span>,
                         }
                     }
                 }
-                <span class="ident">SampleFormat</span>::<span class="ident">Float</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">SampleFormat::Float</span> =&gt; {
                     <span class="kw">for</span> <span class="ident">sample</span> <span class="kw">in</span> <span class="ident">reader</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>() {
                         <span class="kw">match</span> <span class="ident">sample</span> {
-                            <span class="prelude-val">Ok</span>(..) <span class="op">=</span><span class="op">&gt;</span> { }
-                            <span class="prelude-val">Err</span>(..) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">break</span>,
+                            <span class="prelude-val">Ok</span>(..) =&gt; { }
+                            <span class="prelude-val">Err</span>(..) =&gt; <span class="kw">break</span>,
                         }
                     }
                 }
@@ -2348,13 +2345,13 @@
                   <span class="string">&quot;testsamples/waveformatex-16bit-44100Hz-stereo.wav&quot;</span>,
                   <span class="string">&quot;testsamples/waveformatextensible-32bit-48kHz-stereo.wav&quot;</span>];
     <span class="kw">for</span> <span class="ident">fname</span> <span class="kw">in</span> <span class="ident">files</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">WavReader</span>::<span class="ident">open</span>(<span class="ident">fname</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">WavReader::open</span>(<span class="ident">fname</span>).<span class="ident">unwrap</span>();
 
         <span class="comment">// Seeking back to the start should &quot;reset&quot; the reader.</span>
         <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">count</span>();
         <span class="ident">reader</span>.<span class="ident">seek</span>(<span class="number">0</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">samples_read</span>, <span class="number">0</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">count</span>, <span class="ident">reader</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">count</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">reader</span>.<span class="ident">samples_read</span>, <span class="number">0</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">count</span>, <span class="ident">reader</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">count</span>());
 
         <span class="comment">// Seek to the last sample.</span>
         <span class="kw">let</span> <span class="ident">last_time</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">duration</span>() <span class="op">-</span> <span class="number">1</span>;
@@ -2363,19 +2360,19 @@
         {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">samples</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>();
             <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">channels</span> {
-                <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">samples</span>.<span class="ident">next</span>().<span class="ident">is_some</span>());
+                <span class="macro">assert!</span>(<span class="ident">samples</span>.<span class="ident">next</span>().<span class="ident">is_some</span>());
             }
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">samples</span>.<span class="ident">next</span>().<span class="ident">is_none</span>());
+            <span class="macro">assert!</span>(<span class="ident">samples</span>.<span class="ident">next</span>().<span class="ident">is_none</span>());
         }
 
         <span class="comment">// Seeking beyond the audio data produces no samples.</span>
         <span class="kw">let</span> <span class="ident">num_samples</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">len</span>();
         <span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">num_samples</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">is_none</span>());
-        <span class="ident">reader</span>.<span class="ident">seek</span>(::<span class="ident">std</span>::<span class="ident">u32</span>::<span class="ident">MAX</span> <span class="op">/</span> <span class="ident">channels</span> <span class="kw">as</span> <span class="ident">u32</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">is_none</span>());
+        <span class="macro">assert!</span>(<span class="ident">reader</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">is_none</span>());
+        <span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">::std::u32::MAX</span> <span class="op">/</span> <span class="ident">channels</span> <span class="kw">as</span> <span class="ident">u32</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert!</span>(<span class="ident">reader</span>.<span class="ident">samples</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>().<span class="ident">next</span>().<span class="ident">is_none</span>());
     }
 }
-</pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="hound" data-search-js="../../search-index.js"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="hound" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
+</body></html>

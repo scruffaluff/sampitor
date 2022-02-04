@@ -1,7 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tui-0.15.0/src/buffer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>buffer.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../tui/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;tui-0.15.0&#x2F;src&#x2F;buffer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>buffer.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../tui/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -746,15 +744,14 @@
 <span id="743">743</span>
 <span id="744">744</span>
 <span id="745">745</span>
-</pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">layout</span>::<span class="ident">Rect</span>,
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">layout::Rect</span>,
     <span class="ident">style</span>::{<span class="ident">Color</span>, <span class="ident">Modifier</span>, <span class="ident">Style</span>},
     <span class="ident">text</span>::{<span class="ident">Span</span>, <span class="ident">Spans</span>},
 };
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">min</span>;
-<span class="kw">use</span> <span class="ident">unicode_segmentation</span>::<span class="ident">UnicodeSegmentation</span>;
-<span class="kw">use</span> <span class="ident">unicode_width</span>::<span class="ident">UnicodeWidthStr</span>;
+<span class="kw">use</span> <span class="ident">std::cmp::min</span>;
+<span class="kw">use</span> <span class="ident">unicode_segmentation::UnicodeSegmentation</span>;
+<span class="kw">use</span> <span class="ident">unicode_width::UnicodeWidthStr</span>;
 
 <span class="doccomment">/// A buffer cell</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>)]</span>
@@ -766,29 +763,29 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Cell</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_symbol</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">symbol</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Cell</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_symbol</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">symbol</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">Cell</span> {
         <span class="self">self</span>.<span class="ident">symbol</span>.<span class="ident">clear</span>();
         <span class="self">self</span>.<span class="ident">symbol</span>.<span class="ident">push_str</span>(<span class="ident">symbol</span>);
         <span class="self">self</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_char</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ch</span>: <span class="ident">char</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Cell</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_char</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">ch</span>: <span class="ident">char</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">Cell</span> {
         <span class="self">self</span>.<span class="ident">symbol</span>.<span class="ident">clear</span>();
         <span class="self">self</span>.<span class="ident">symbol</span>.<span class="ident">push</span>(<span class="ident">ch</span>);
         <span class="self">self</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_fg</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">color</span>: <span class="ident">Color</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Cell</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_fg</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">color</span>: <span class="ident">Color</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">Cell</span> {
         <span class="self">self</span>.<span class="ident">fg</span> <span class="op">=</span> <span class="ident">color</span>;
         <span class="self">self</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_bg</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">color</span>: <span class="ident">Color</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Cell</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_bg</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">color</span>: <span class="ident">Color</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">Cell</span> {
         <span class="self">self</span>.<span class="ident">bg</span> <span class="op">=</span> <span class="ident">color</span>;
         <span class="self">self</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_style</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">style</span>: <span class="ident">Style</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Cell</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_style</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">style</span>: <span class="ident">Style</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">Cell</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">c</span>) <span class="op">=</span> <span class="ident">style</span>.<span class="ident">fg</span> {
             <span class="self">self</span>.<span class="ident">fg</span> <span class="op">=</span> <span class="ident">c</span>;
         }
@@ -800,29 +797,29 @@
         <span class="self">self</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">style</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Style</span> {
-        <span class="ident">Style</span>::<span class="ident">default</span>()
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">style</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Style</span> {
+        <span class="ident">Style::default</span>()
             .<span class="ident">fg</span>(<span class="self">self</span>.<span class="ident">fg</span>)
             .<span class="ident">bg</span>(<span class="self">self</span>.<span class="ident">bg</span>)
             .<span class="ident">add_modifier</span>(<span class="self">self</span>.<span class="ident">modifier</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reset</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reset</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
         <span class="self">self</span>.<span class="ident">symbol</span>.<span class="ident">clear</span>();
         <span class="self">self</span>.<span class="ident">symbol</span>.<span class="ident">push</span>(<span class="string">&#39; &#39;</span>);
-        <span class="self">self</span>.<span class="ident">fg</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">Reset</span>;
-        <span class="self">self</span>.<span class="ident">bg</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">Reset</span>;
-        <span class="self">self</span>.<span class="ident">modifier</span> <span class="op">=</span> <span class="ident">Modifier</span>::<span class="ident">empty</span>();
+        <span class="self">self</span>.<span class="ident">fg</span> <span class="op">=</span> <span class="ident">Color::Reset</span>;
+        <span class="self">self</span>.<span class="ident">bg</span> <span class="op">=</span> <span class="ident">Color::Reset</span>;
+        <span class="self">self</span>.<span class="ident">modifier</span> <span class="op">=</span> <span class="ident">Modifier::empty</span>();
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Cell</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cell</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() -&gt; <span class="ident">Cell</span> {
         <span class="ident">Cell</span> {
             <span class="ident">symbol</span>: <span class="string">&quot; &quot;</span>.<span class="ident">into</span>(),
-            <span class="ident">fg</span>: <span class="ident">Color</span>::<span class="ident">Reset</span>,
-            <span class="ident">bg</span>: <span class="ident">Color</span>::<span class="ident">Reset</span>,
-            <span class="ident">modifier</span>: <span class="ident">Modifier</span>::<span class="ident">empty</span>(),
+            <span class="ident">fg</span>: <span class="ident">Color::Reset</span>,
+            <span class="ident">bg</span>: <span class="ident">Color::Reset</span>,
+            <span class="ident">modifier</span>: <span class="ident">Modifier::empty</span>(),
         }
     }
 }
@@ -864,25 +861,25 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Buffer</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Buffer</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() -&gt; <span class="ident">Buffer</span> {
         <span class="ident">Buffer</span> {
-            <span class="ident">area</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
-            <span class="ident">content</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
+            <span class="ident">area</span>: <span class="ident">Default::default</span>(),
+            <span class="ident">content</span>: <span class="ident">Vec::new</span>(),
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Buffer</span> {
     <span class="doccomment">/// Returns a Buffer with all cells set to the default one</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty</span>(<span class="ident">area</span>: <span class="ident">Rect</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Buffer</span> {
-        <span class="kw">let</span> <span class="ident">cell</span>: <span class="ident">Cell</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
-        <span class="ident">Buffer</span>::<span class="ident">filled</span>(<span class="ident">area</span>, <span class="kw-2">&amp;</span><span class="ident">cell</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty</span>(<span class="ident">area</span>: <span class="ident">Rect</span>) -&gt; <span class="ident">Buffer</span> {
+        <span class="kw">let</span> <span class="ident">cell</span>: <span class="ident">Cell</span> <span class="op">=</span> <span class="ident">Default::default</span>();
+        <span class="ident">Buffer::filled</span>(<span class="ident">area</span>, <span class="kw-2">&amp;</span><span class="ident">cell</span>)
     }
 
     <span class="doccomment">/// Returns a Buffer with all cells initialized with the attributes of the given Cell</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">filled</span>(<span class="ident">area</span>: <span class="ident">Rect</span>, <span class="ident">cell</span>: <span class="kw-2">&amp;</span><span class="ident">Cell</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Buffer</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">filled</span>(<span class="ident">area</span>: <span class="ident">Rect</span>, <span class="ident">cell</span>: <span class="kw-2">&amp;</span><span class="ident">Cell</span>) -&gt; <span class="ident">Buffer</span> {
         <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">area</span>.<span class="ident">area</span>() <span class="kw">as</span> <span class="ident">usize</span>;
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">content</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">size</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">content</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="ident">size</span>);
         <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">size</span> {
             <span class="ident">content</span>.<span class="ident">push</span>(<span class="ident">cell</span>.<span class="ident">clone</span>());
         }
@@ -890,7 +887,7 @@
     }
 
     <span class="doccomment">/// Returns a Buffer containing the given lines</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_lines</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">lines</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Buffer</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_lines</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">lines</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>) -&gt; <span class="ident">Buffer</span>
     <span class="kw">where</span>
         <span class="ident">S</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span>,
     {
@@ -900,38 +897,38 @@
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="ident">i</span>.<span class="ident">as_ref</span>().<span class="ident">width</span>() <span class="kw">as</span> <span class="ident">u16</span>)
             .<span class="ident">max</span>()
             .<span class="ident">unwrap_or_default</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">empty</span>(<span class="ident">Rect</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Buffer::empty</span>(<span class="ident">Rect</span> {
             <span class="ident">x</span>: <span class="number">0</span>,
             <span class="ident">y</span>: <span class="number">0</span>,
             <span class="ident">width</span>,
             <span class="ident">height</span>,
         });
         <span class="kw">for</span> (<span class="ident">y</span>, <span class="ident">line</span>) <span class="kw">in</span> <span class="ident">lines</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-            <span class="ident">buffer</span>.<span class="ident">set_string</span>(<span class="number">0</span>, <span class="ident">y</span> <span class="kw">as</span> <span class="ident">u16</span>, <span class="ident">line</span>, <span class="ident">Style</span>::<span class="ident">default</span>());
+            <span class="ident">buffer</span>.<span class="ident">set_string</span>(<span class="number">0</span>, <span class="ident">y</span> <span class="kw">as</span> <span class="ident">u16</span>, <span class="ident">line</span>, <span class="ident">Style::default</span>());
         }
         <span class="ident">buffer</span>
     }
 
     <span class="doccomment">/// Returns the content of the buffer as a slice</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">content</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">Cell</span>] {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">content</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[<span class="ident">Cell</span>] {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">content</span>
     }
 
     <span class="doccomment">/// Returns the area covered by this buffer</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">area</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Rect</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">area</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Rect</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">area</span>
     }
 
     <span class="doccomment">/// Returns a reference to Cell at the given coordinates</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u16</span>, <span class="ident">y</span>: <span class="ident">u16</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Cell</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u16</span>, <span class="ident">y</span>: <span class="ident">u16</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Cell</span> {
         <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">index_of</span>(<span class="ident">x</span>, <span class="ident">y</span>);
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">content</span>[<span class="ident">i</span>]
     }
 
     <span class="doccomment">/// Returns a mutable reference to Cell at the given coordinates</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u16</span>, <span class="ident">y</span>: <span class="ident">u16</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Cell</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u16</span>, <span class="ident">y</span>: <span class="ident">u16</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">Cell</span> {
         <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">index_of</span>(<span class="ident">x</span>, <span class="ident">y</span>);
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">content</span>[<span class="ident">i</span>]
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">content</span>[<span class="ident">i</span>]
     }
 
     <span class="doccomment">/// Returns the index in the Vec&lt;Cell&gt; for the given global (x, y) coordinates.</span>
@@ -962,8 +959,8 @@
     <span class="doccomment">/// // starts at (200, 100).</span>
     <span class="doccomment">/// buffer.index_of(0, 0); // Panics</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index_of</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u16</span>, <span class="ident">y</span>: <span class="ident">u16</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
-        <span class="macro">debug_assert</span><span class="macro">!</span>(
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index_of</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u16</span>, <span class="ident">y</span>: <span class="ident">u16</span>) -&gt; <span class="ident">usize</span> {
+        <span class="macro">debug_assert!</span>(
             <span class="ident">x</span> <span class="op">&gt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">area</span>.<span class="ident">left</span>()
                 <span class="op">&amp;&amp;</span> <span class="ident">x</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">area</span>.<span class="ident">right</span>()
                 <span class="op">&amp;&amp;</span> <span class="ident">y</span> <span class="op">&gt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">area</span>.<span class="ident">top</span>()
@@ -1003,8 +1000,8 @@
     <span class="doccomment">/// // Index 100 is the 101th cell, which lies outside of the area of this Buffer.</span>
     <span class="doccomment">/// buffer.pos_of(100); // Panics</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pos_of</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u16</span>, <span class="ident">u16</span>) {
-        <span class="macro">debug_assert</span><span class="macro">!</span>(
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pos_of</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) -&gt; (<span class="ident">u16</span>, <span class="ident">u16</span>) {
+        <span class="macro">debug_assert!</span>(
             <span class="ident">i</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">content</span>.<span class="ident">len</span>(),
             <span class="string">&quot;Trying to get the coords of a cell outside the buffer: i={} len={}&quot;</span>,
             <span class="ident">i</span>,
@@ -1017,33 +1014,33 @@
     }
 
     <span class="doccomment">/// Print a string, starting at the position (x, y)</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_string</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u16</span>, <span class="ident">y</span>: <span class="ident">u16</span>, <span class="ident">string</span>: <span class="ident">S</span>, <span class="ident">style</span>: <span class="ident">Style</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_string</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u16</span>, <span class="ident">y</span>: <span class="ident">u16</span>, <span class="ident">string</span>: <span class="ident">S</span>, <span class="ident">style</span>: <span class="ident">Style</span>)
     <span class="kw">where</span>
         <span class="ident">S</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span>,
     {
-        <span class="self">self</span>.<span class="ident">set_stringn</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">string</span>, <span class="ident">usize</span>::<span class="ident">MAX</span>, <span class="ident">style</span>);
+        <span class="self">self</span>.<span class="ident">set_stringn</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">string</span>, <span class="ident">usize::MAX</span>, <span class="ident">style</span>);
     }
 
     <span class="doccomment">/// Print at most the first n characters of a string if enough space is available</span>
     <span class="doccomment">/// until the end of the line</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_stringn</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
         <span class="ident">x</span>: <span class="ident">u16</span>,
         <span class="ident">y</span>: <span class="ident">u16</span>,
         <span class="ident">string</span>: <span class="ident">S</span>,
         <span class="ident">width</span>: <span class="ident">usize</span>,
         <span class="ident">style</span>: <span class="ident">Style</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u16</span>, <span class="ident">u16</span>)
+    ) -&gt; (<span class="ident">u16</span>, <span class="ident">u16</span>)
     <span class="kw">where</span>
         <span class="ident">S</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span>,
     {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">index</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">index_of</span>(<span class="ident">x</span>, <span class="ident">y</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">x_offset</span> <span class="op">=</span> <span class="ident">x</span> <span class="kw">as</span> <span class="ident">usize</span>;
-        <span class="kw">let</span> <span class="ident">graphemes</span> <span class="op">=</span> <span class="ident">UnicodeSegmentation</span>::<span class="ident">graphemes</span>(<span class="ident">string</span>.<span class="ident">as_ref</span>(), <span class="bool-val">true</span>);
+        <span class="kw">let</span> <span class="ident">graphemes</span> <span class="op">=</span> <span class="ident">UnicodeSegmentation::graphemes</span>(<span class="ident">string</span>.<span class="ident">as_ref</span>(), <span class="bool-val">true</span>);
         <span class="kw">let</span> <span class="ident">max_offset</span> <span class="op">=</span> <span class="ident">min</span>(<span class="self">self</span>.<span class="ident">area</span>.<span class="ident">right</span>() <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">width</span>.<span class="ident">saturating_add</span>(<span class="ident">x</span> <span class="kw">as</span> <span class="ident">usize</span>));
         <span class="kw">for</span> <span class="ident">s</span> <span class="kw">in</span> <span class="ident">graphemes</span> {
             <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">width</span>();
-            <span class="kw">if</span> <span class="ident">width</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">width</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">continue</span>;
             }
             <span class="comment">// `x_offset + width &gt; max_offset` could be integer overflow on 32-bit machines if we</span>
@@ -1064,11 +1061,11 @@
         (<span class="ident">x_offset</span> <span class="kw">as</span> <span class="ident">u16</span>, <span class="ident">y</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_spans</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u16</span>, <span class="ident">y</span>: <span class="ident">u16</span>, <span class="ident">spans</span>: <span class="kw-2">&amp;</span><span class="ident">Spans</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">width</span>: <span class="ident">u16</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u16</span>, <span class="ident">u16</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_spans</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u16</span>, <span class="ident">y</span>: <span class="ident">u16</span>, <span class="ident">spans</span>: <span class="kw-2">&amp;</span><span class="ident">Spans</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">width</span>: <span class="ident">u16</span>) -&gt; (<span class="ident">u16</span>, <span class="ident">u16</span>) {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">remaining_width</span> <span class="op">=</span> <span class="ident">width</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">x</span>;
         <span class="kw">for</span> <span class="ident">span</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">spans</span>.<span class="number">0</span> {
-            <span class="kw">if</span> <span class="ident">remaining_width</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">remaining_width</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">break</span>;
             }
             <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">set_stringn</span>(
@@ -1085,7 +1082,7 @@
         (<span class="ident">x</span>, <span class="ident">y</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_span</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u16</span>, <span class="ident">y</span>: <span class="ident">u16</span>, <span class="ident">span</span>: <span class="kw-2">&amp;</span><span class="ident">Span</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">width</span>: <span class="ident">u16</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u16</span>, <span class="ident">u16</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_span</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u16</span>, <span class="ident">y</span>: <span class="ident">u16</span>, <span class="ident">span</span>: <span class="kw-2">&amp;</span><span class="ident">Span</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">width</span>: <span class="ident">u16</span>) -&gt; (<span class="ident">u16</span>, <span class="ident">u16</span>) {
         <span class="self">self</span>.<span class="ident">set_stringn</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">span</span>.<span class="ident">content</span>.<span class="ident">as_ref</span>(), <span class="ident">width</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">span</span>.<span class="ident">style</span>)
     }
 
@@ -1093,7 +1090,7 @@
         <span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.10.0&quot;</span>,
         <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;You should use styling capabilities of `Buffer::set_style`&quot;</span>
     )]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_background</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">area</span>: <span class="ident">Rect</span>, <span class="ident">color</span>: <span class="ident">Color</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_background</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">area</span>: <span class="ident">Rect</span>, <span class="ident">color</span>: <span class="ident">Color</span>) {
         <span class="kw">for</span> <span class="ident">y</span> <span class="kw">in</span> <span class="ident">area</span>.<span class="ident">top</span>()..<span class="ident">area</span>.<span class="ident">bottom</span>() {
             <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="ident">area</span>.<span class="ident">left</span>()..<span class="ident">area</span>.<span class="ident">right</span>() {
                 <span class="self">self</span>.<span class="ident">get_mut</span>(<span class="ident">x</span>, <span class="ident">y</span>).<span class="ident">set_bg</span>(<span class="ident">color</span>);
@@ -1101,7 +1098,7 @@
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_style</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">area</span>: <span class="ident">Rect</span>, <span class="ident">style</span>: <span class="ident">Style</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_style</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">area</span>: <span class="ident">Rect</span>, <span class="ident">style</span>: <span class="ident">Style</span>) {
         <span class="kw">for</span> <span class="ident">y</span> <span class="kw">in</span> <span class="ident">area</span>.<span class="ident">top</span>()..<span class="ident">area</span>.<span class="ident">bottom</span>() {
             <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="ident">area</span>.<span class="ident">left</span>()..<span class="ident">area</span>.<span class="ident">right</span>() {
                 <span class="self">self</span>.<span class="ident">get_mut</span>(<span class="ident">x</span>, <span class="ident">y</span>).<span class="ident">set_style</span>(<span class="ident">style</span>);
@@ -1111,27 +1108,27 @@
 
     <span class="doccomment">/// Resize the buffer so that the mapped area matches the given area and that the buffer</span>
     <span class="doccomment">/// length is equal to area.width * area.height</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">resize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">area</span>: <span class="ident">Rect</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">resize</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">area</span>: <span class="ident">Rect</span>) {
         <span class="kw">let</span> <span class="ident">length</span> <span class="op">=</span> <span class="ident">area</span>.<span class="ident">area</span>() <span class="kw">as</span> <span class="ident">usize</span>;
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">content</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="ident">length</span> {
             <span class="self">self</span>.<span class="ident">content</span>.<span class="ident">truncate</span>(<span class="ident">length</span>);
         } <span class="kw">else</span> {
-            <span class="self">self</span>.<span class="ident">content</span>.<span class="ident">resize</span>(<span class="ident">length</span>, <span class="ident">Default</span>::<span class="ident">default</span>());
+            <span class="self">self</span>.<span class="ident">content</span>.<span class="ident">resize</span>(<span class="ident">length</span>, <span class="ident">Default::default</span>());
         }
         <span class="self">self</span>.<span class="ident">area</span> <span class="op">=</span> <span class="ident">area</span>;
     }
 
     <span class="doccomment">/// Reset all cells in the buffer</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reset</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="kw">for</span> <span class="ident">c</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">content</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reset</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
+        <span class="kw">for</span> <span class="ident">c</span> <span class="kw">in</span> <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">content</span> {
             <span class="ident">c</span>.<span class="ident">reset</span>();
         }
     }
 
     <span class="doccomment">/// Merge an other buffer into this one</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">merge</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">merge</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>) {
         <span class="kw">let</span> <span class="ident">area</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">area</span>.<span class="ident">union</span>(<span class="ident">other</span>.<span class="ident">area</span>);
-        <span class="kw">let</span> <span class="ident">cell</span>: <span class="ident">Cell</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
+        <span class="kw">let</span> <span class="ident">cell</span>: <span class="ident">Cell</span> <span class="op">=</span> <span class="ident">Default::default</span>();
         <span class="self">self</span>.<span class="ident">content</span>.<span class="ident">resize</span>(<span class="ident">area</span>.<span class="ident">area</span>() <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">cell</span>.<span class="ident">clone</span>());
 
         <span class="comment">// Move original content to the appropriate space</span>
@@ -1186,19 +1183,19 @@
     <span class="doccomment">/// Next:    `aコ`</span>
     <span class="doccomment">/// Updates: `0: a, 1: コ` (double width symbol at index 1 - skip index 2)</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">diff</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">u16</span>, <span class="ident">u16</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Cell</span>)<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">diff</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Buffer</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">u16</span>, <span class="ident">u16</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Cell</span>)<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">previous_buffer</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">content</span>;
         <span class="kw">let</span> <span class="ident">next_buffer</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">content</span>;
         <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">area</span>.<span class="ident">width</span>;
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">updates</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">u16</span>, <span class="ident">u16</span>, <span class="kw-2">&amp;</span><span class="ident">Cell</span>)<span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">updates</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">u16</span>, <span class="ident">u16</span>, <span class="kw-2">&amp;</span><span class="ident">Cell</span>)<span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec!</span>[];
         <span class="comment">// Cells invalidated by drawing/replacing preceeding multi-width characters:</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">invalidated</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="comment">// Cells from the current buffer to skip due to preceeding multi-width characters taking their</span>
         <span class="comment">// place (the skipped cells should be blank anyway):</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">to_skip</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">for</span> (<span class="ident">i</span>, (<span class="ident">current</span>, <span class="ident">previous</span>)) <span class="kw">in</span> <span class="ident">next_buffer</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">previous_buffer</span>.<span class="ident">iter</span>()).<span class="ident">enumerate</span>() {
-            <span class="kw">if</span> (<span class="ident">current</span> <span class="op">!</span><span class="op">=</span> <span class="ident">previous</span> <span class="op">|</span><span class="op">|</span> <span class="ident">invalidated</span> <span class="op">&gt;</span> <span class="number">0</span>) <span class="op">&amp;&amp;</span> <span class="ident">to_skip</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> (<span class="ident">current</span> <span class="op">!</span><span class="op">=</span> <span class="ident">previous</span> <span class="op">|</span><span class="op">|</span> <span class="ident">invalidated</span> <span class="op">&gt;</span> <span class="number">0</span>) <span class="op">&amp;&amp;</span> <span class="ident">to_skip</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">i</span> <span class="kw">as</span> <span class="ident">u16</span> <span class="op">%</span> <span class="ident">width</span>;
                 <span class="kw">let</span> <span class="ident">y</span> <span class="op">=</span> <span class="ident">i</span> <span class="kw">as</span> <span class="ident">u16</span> <span class="op">/</span> <span class="ident">width</span>;
                 <span class="ident">updates</span>.<span class="ident">push</span>((<span class="ident">x</span>, <span class="ident">y</span>, <span class="kw-2">&amp;</span><span class="ident">next_buffer</span>[<span class="ident">i</span>]));
@@ -1206,8 +1203,8 @@
 
             <span class="ident">to_skip</span> <span class="op">=</span> <span class="ident">current</span>.<span class="ident">symbol</span>.<span class="ident">width</span>().<span class="ident">saturating_sub</span>(<span class="number">1</span>);
 
-            <span class="kw">let</span> <span class="ident">affected_width</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">max</span>(<span class="ident">current</span>.<span class="ident">symbol</span>.<span class="ident">width</span>(), <span class="ident">previous</span>.<span class="ident">symbol</span>.<span class="ident">width</span>());
-            <span class="ident">invalidated</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">max</span>(<span class="ident">affected_width</span>, <span class="ident">invalidated</span>).<span class="ident">saturating_sub</span>(<span class="number">1</span>);
+            <span class="kw">let</span> <span class="ident">affected_width</span> <span class="op">=</span> <span class="ident">std::cmp::max</span>(<span class="ident">current</span>.<span class="ident">symbol</span>.<span class="ident">width</span>(), <span class="ident">previous</span>.<span class="ident">symbol</span>.<span class="ident">width</span>());
+            <span class="ident">invalidated</span> <span class="op">=</span> <span class="ident">std::cmp::max</span>(<span class="ident">affected_width</span>, <span class="ident">invalidated</span>).<span class="ident">saturating_sub</span>(<span class="number">1</span>);
         }
         <span class="ident">updates</span>
     }
@@ -1217,31 +1214,31 @@
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
-    <span class="kw">fn</span> <span class="ident">cell</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cell</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cell</span> <span class="op">=</span> <span class="ident">Cell</span>::<span class="ident">default</span>();
+    <span class="kw">fn</span> <span class="ident">cell</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">Cell</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cell</span> <span class="op">=</span> <span class="ident">Cell::default</span>();
         <span class="ident">cell</span>.<span class="ident">set_symbol</span>(<span class="ident">s</span>);
         <span class="ident">cell</span>
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">it_translates_to_and_from_coordinates</span>() {
-        <span class="kw">let</span> <span class="ident">rect</span> <span class="op">=</span> <span class="ident">Rect</span>::<span class="ident">new</span>(<span class="number">200</span>, <span class="number">100</span>, <span class="number">50</span>, <span class="number">80</span>);
-        <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">empty</span>(<span class="ident">rect</span>);
+        <span class="kw">let</span> <span class="ident">rect</span> <span class="op">=</span> <span class="ident">Rect::new</span>(<span class="number">200</span>, <span class="number">100</span>, <span class="number">50</span>, <span class="number">80</span>);
+        <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Buffer::empty</span>(<span class="ident">rect</span>);
 
         <span class="comment">// First cell is at the upper left corner.</span>
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buf</span>.<span class="ident">pos_of</span>(<span class="number">0</span>), (<span class="number">200</span>, <span class="number">100</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buf</span>.<span class="ident">index_of</span>(<span class="number">200</span>, <span class="number">100</span>), <span class="number">0</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">buf</span>.<span class="ident">pos_of</span>(<span class="number">0</span>), (<span class="number">200</span>, <span class="number">100</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">buf</span>.<span class="ident">index_of</span>(<span class="number">200</span>, <span class="number">100</span>), <span class="number">0</span>);
 
         <span class="comment">// Last cell is in the lower right.</span>
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buf</span>.<span class="ident">pos_of</span>(<span class="ident">buf</span>.<span class="ident">content</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span>), (<span class="number">249</span>, <span class="number">179</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buf</span>.<span class="ident">index_of</span>(<span class="number">249</span>, <span class="number">179</span>), <span class="ident">buf</span>.<span class="ident">content</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">buf</span>.<span class="ident">pos_of</span>(<span class="ident">buf</span>.<span class="ident">content</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span>), (<span class="number">249</span>, <span class="number">179</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">buf</span>.<span class="ident">index_of</span>(<span class="number">249</span>, <span class="number">179</span>), <span class="ident">buf</span>.<span class="ident">content</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="attribute">#[<span class="ident">should_panic</span>(<span class="ident">expected</span> <span class="op">=</span> <span class="string">&quot;outside the buffer&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">pos_of_panics_on_out_of_bounds</span>() {
-        <span class="kw">let</span> <span class="ident">rect</span> <span class="op">=</span> <span class="ident">Rect</span>::<span class="ident">new</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">10</span>, <span class="number">10</span>);
-        <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">empty</span>(<span class="ident">rect</span>);
+        <span class="kw">let</span> <span class="ident">rect</span> <span class="op">=</span> <span class="ident">Rect::new</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">10</span>, <span class="number">10</span>);
+        <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Buffer::empty</span>(<span class="ident">rect</span>);
 
         <span class="comment">// There are a total of 100 cells; zero-indexed means that 100 would be the 101st cell.</span>
         <span class="ident">buf</span>.<span class="ident">pos_of</span>(<span class="number">100</span>);
@@ -1250,8 +1247,8 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="attribute">#[<span class="ident">should_panic</span>(<span class="ident">expected</span> <span class="op">=</span> <span class="string">&quot;outside the buffer&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">index_of_panics_on_out_of_bounds</span>() {
-        <span class="kw">let</span> <span class="ident">rect</span> <span class="op">=</span> <span class="ident">Rect</span>::<span class="ident">new</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">10</span>, <span class="number">10</span>);
-        <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">empty</span>(<span class="ident">rect</span>);
+        <span class="kw">let</span> <span class="ident">rect</span> <span class="op">=</span> <span class="ident">Rect::new</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">10</span>, <span class="number">10</span>);
+        <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Buffer::empty</span>(<span class="ident">rect</span>);
 
         <span class="comment">// width is 10; zero-indexed means that 10 would be the 11th cell.</span>
         <span class="ident">buf</span>.<span class="ident">index_of</span>(<span class="number">10</span>, <span class="number">0</span>);
@@ -1259,103 +1256,103 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">buffer_set_string</span>() {
-        <span class="kw">let</span> <span class="ident">area</span> <span class="op">=</span> <span class="ident">Rect</span>::<span class="ident">new</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">1</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">empty</span>(<span class="ident">area</span>);
+        <span class="kw">let</span> <span class="ident">area</span> <span class="op">=</span> <span class="ident">Rect::new</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">1</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Buffer::empty</span>(<span class="ident">area</span>);
 
         <span class="comment">// Zero-width</span>
-        <span class="ident">buffer</span>.<span class="ident">set_stringn</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;aaa&quot;</span>, <span class="number">0</span>, <span class="ident">Style</span>::<span class="ident">default</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;     &quot;</span>]));
+        <span class="ident">buffer</span>.<span class="ident">set_stringn</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;aaa&quot;</span>, <span class="number">0</span>, <span class="ident">Style::default</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[<span class="string">&quot;     &quot;</span>]));
 
-        <span class="ident">buffer</span>.<span class="ident">set_string</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;aaa&quot;</span>, <span class="ident">Style</span>::<span class="ident">default</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;aaa  &quot;</span>]));
+        <span class="ident">buffer</span>.<span class="ident">set_string</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;aaa&quot;</span>, <span class="ident">Style::default</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[<span class="string">&quot;aaa  &quot;</span>]));
 
         <span class="comment">// Width limit:</span>
-        <span class="ident">buffer</span>.<span class="ident">set_stringn</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;bbbbbbbbbbbbbb&quot;</span>, <span class="number">4</span>, <span class="ident">Style</span>::<span class="ident">default</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;bbbb &quot;</span>]));
+        <span class="ident">buffer</span>.<span class="ident">set_stringn</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;bbbbbbbbbbbbbb&quot;</span>, <span class="number">4</span>, <span class="ident">Style::default</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[<span class="string">&quot;bbbb &quot;</span>]));
 
-        <span class="ident">buffer</span>.<span class="ident">set_string</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;12345&quot;</span>, <span class="ident">Style</span>::<span class="ident">default</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;12345&quot;</span>]));
+        <span class="ident">buffer</span>.<span class="ident">set_string</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;12345&quot;</span>, <span class="ident">Style::default</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[<span class="string">&quot;12345&quot;</span>]));
 
         <span class="comment">// Width truncation:</span>
-        <span class="ident">buffer</span>.<span class="ident">set_string</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;123456&quot;</span>, <span class="ident">Style</span>::<span class="ident">default</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;12345&quot;</span>]));
+        <span class="ident">buffer</span>.<span class="ident">set_string</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;123456&quot;</span>, <span class="ident">Style::default</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[<span class="string">&quot;12345&quot;</span>]));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">buffer_set_string_zero_width</span>() {
-        <span class="kw">let</span> <span class="ident">area</span> <span class="op">=</span> <span class="ident">Rect</span>::<span class="ident">new</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">empty</span>(<span class="ident">area</span>);
+        <span class="kw">let</span> <span class="ident">area</span> <span class="op">=</span> <span class="ident">Rect::new</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Buffer::empty</span>(<span class="ident">area</span>);
 
         <span class="comment">// Leading grapheme with zero width</span>
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="string">&quot;\u{1}a&quot;</span>;
-        <span class="ident">buffer</span>.<span class="ident">set_stringn</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="ident">s</span>, <span class="number">1</span>, <span class="ident">Style</span>::<span class="ident">default</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;a&quot;</span>]));
+        <span class="ident">buffer</span>.<span class="ident">set_stringn</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="ident">s</span>, <span class="number">1</span>, <span class="ident">Style::default</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[<span class="string">&quot;a&quot;</span>]));
 
         <span class="comment">// Trailing grapheme with zero with</span>
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="string">&quot;a\u{1}&quot;</span>;
-        <span class="ident">buffer</span>.<span class="ident">set_stringn</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="ident">s</span>, <span class="number">1</span>, <span class="ident">Style</span>::<span class="ident">default</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;a&quot;</span>]));
+        <span class="ident">buffer</span>.<span class="ident">set_stringn</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="ident">s</span>, <span class="number">1</span>, <span class="ident">Style::default</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[<span class="string">&quot;a&quot;</span>]));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">buffer_set_string_double_width</span>() {
-        <span class="kw">let</span> <span class="ident">area</span> <span class="op">=</span> <span class="ident">Rect</span>::<span class="ident">new</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">1</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">empty</span>(<span class="ident">area</span>);
-        <span class="ident">buffer</span>.<span class="ident">set_string</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;コン&quot;</span>, <span class="ident">Style</span>::<span class="ident">default</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;コン &quot;</span>]));
+        <span class="kw">let</span> <span class="ident">area</span> <span class="op">=</span> <span class="ident">Rect::new</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">1</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Buffer::empty</span>(<span class="ident">area</span>);
+        <span class="ident">buffer</span>.<span class="ident">set_string</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;コン&quot;</span>, <span class="ident">Style::default</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[<span class="string">&quot;コン &quot;</span>]));
 
         <span class="comment">// Only 1 space left.</span>
-        <span class="ident">buffer</span>.<span class="ident">set_string</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;コンピ&quot;</span>, <span class="ident">Style</span>::<span class="ident">default</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;コン &quot;</span>]));
+        <span class="ident">buffer</span>.<span class="ident">set_string</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&quot;コンピ&quot;</span>, <span class="ident">Style::default</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">buffer</span>, <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[<span class="string">&quot;コン &quot;</span>]));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">buffer_with_lines</span>() {
         <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span>
-            <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;┌────────┐&quot;</span>, <span class="string">&quot;│コンピュ│&quot;</span>, <span class="string">&quot;│ーa 上で│&quot;</span>, <span class="string">&quot;└────────┘&quot;</span>]);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buffer</span>.<span class="ident">area</span>.<span class="ident">x</span>, <span class="number">0</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buffer</span>.<span class="ident">area</span>.<span class="ident">y</span>, <span class="number">0</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buffer</span>.<span class="ident">area</span>.<span class="ident">width</span>, <span class="number">10</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buffer</span>.<span class="ident">area</span>.<span class="ident">height</span>, <span class="number">4</span>);
+            <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[<span class="string">&quot;┌────────┐&quot;</span>, <span class="string">&quot;│コンピュ│&quot;</span>, <span class="string">&quot;│ーa 上で│&quot;</span>, <span class="string">&quot;└────────┘&quot;</span>]);
+        <span class="macro">assert_eq!</span>(<span class="ident">buffer</span>.<span class="ident">area</span>.<span class="ident">x</span>, <span class="number">0</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">buffer</span>.<span class="ident">area</span>.<span class="ident">y</span>, <span class="number">0</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">buffer</span>.<span class="ident">area</span>.<span class="ident">width</span>, <span class="number">10</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">buffer</span>.<span class="ident">area</span>.<span class="ident">height</span>, <span class="number">4</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">buffer_diffing_empty_empty</span>() {
-        <span class="kw">let</span> <span class="ident">area</span> <span class="op">=</span> <span class="ident">Rect</span>::<span class="ident">new</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">40</span>, <span class="number">40</span>);
-        <span class="kw">let</span> <span class="ident">prev</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">empty</span>(<span class="ident">area</span>);
-        <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">empty</span>(<span class="ident">area</span>);
+        <span class="kw">let</span> <span class="ident">area</span> <span class="op">=</span> <span class="ident">Rect::new</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">40</span>, <span class="number">40</span>);
+        <span class="kw">let</span> <span class="ident">prev</span> <span class="op">=</span> <span class="ident">Buffer::empty</span>(<span class="ident">area</span>);
+        <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> <span class="ident">Buffer::empty</span>(<span class="ident">area</span>);
         <span class="kw">let</span> <span class="ident">diff</span> <span class="op">=</span> <span class="ident">prev</span>.<span class="ident">diff</span>(<span class="kw-2">&amp;</span><span class="ident">next</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">diff</span>, <span class="macro">vec</span><span class="macro">!</span>[]);
+        <span class="macro">assert_eq!</span>(<span class="ident">diff</span>, <span class="macro">vec!</span>[]);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">buffer_diffing_empty_filled</span>() {
-        <span class="kw">let</span> <span class="ident">area</span> <span class="op">=</span> <span class="ident">Rect</span>::<span class="ident">new</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">40</span>, <span class="number">40</span>);
-        <span class="kw">let</span> <span class="ident">prev</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">empty</span>(<span class="ident">area</span>);
-        <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">filled</span>(<span class="ident">area</span>, <span class="ident">Cell</span>::<span class="ident">default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;a&quot;</span>));
+        <span class="kw">let</span> <span class="ident">area</span> <span class="op">=</span> <span class="ident">Rect::new</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">40</span>, <span class="number">40</span>);
+        <span class="kw">let</span> <span class="ident">prev</span> <span class="op">=</span> <span class="ident">Buffer::empty</span>(<span class="ident">area</span>);
+        <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> <span class="ident">Buffer::filled</span>(<span class="ident">area</span>, <span class="ident">Cell::default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;a&quot;</span>));
         <span class="kw">let</span> <span class="ident">diff</span> <span class="op">=</span> <span class="ident">prev</span>.<span class="ident">diff</span>(<span class="kw-2">&amp;</span><span class="ident">next</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">diff</span>.<span class="ident">len</span>(), <span class="number">40</span> <span class="op">*</span> <span class="number">40</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">diff</span>.<span class="ident">len</span>(), <span class="number">40</span> <span class="op">*</span> <span class="number">40</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">buffer_diffing_filled_filled</span>() {
-        <span class="kw">let</span> <span class="ident">area</span> <span class="op">=</span> <span class="ident">Rect</span>::<span class="ident">new</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">40</span>, <span class="number">40</span>);
-        <span class="kw">let</span> <span class="ident">prev</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">filled</span>(<span class="ident">area</span>, <span class="ident">Cell</span>::<span class="ident">default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;a&quot;</span>));
-        <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">filled</span>(<span class="ident">area</span>, <span class="ident">Cell</span>::<span class="ident">default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;a&quot;</span>));
+        <span class="kw">let</span> <span class="ident">area</span> <span class="op">=</span> <span class="ident">Rect::new</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">40</span>, <span class="number">40</span>);
+        <span class="kw">let</span> <span class="ident">prev</span> <span class="op">=</span> <span class="ident">Buffer::filled</span>(<span class="ident">area</span>, <span class="ident">Cell::default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;a&quot;</span>));
+        <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> <span class="ident">Buffer::filled</span>(<span class="ident">area</span>, <span class="ident">Cell::default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;a&quot;</span>));
         <span class="kw">let</span> <span class="ident">diff</span> <span class="op">=</span> <span class="ident">prev</span>.<span class="ident">diff</span>(<span class="kw-2">&amp;</span><span class="ident">next</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">diff</span>, <span class="macro">vec</span><span class="macro">!</span>[]);
+        <span class="macro">assert_eq!</span>(<span class="ident">diff</span>, <span class="macro">vec!</span>[]);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">buffer_diffing_single_width</span>() {
-        <span class="kw">let</span> <span class="ident">prev</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[
+        <span class="kw">let</span> <span class="ident">prev</span> <span class="op">=</span> <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[
             <span class="string">&quot;          &quot;</span>,
             <span class="string">&quot;┌Title─┐  &quot;</span>,
             <span class="string">&quot;│      │  &quot;</span>,
             <span class="string">&quot;│      │  &quot;</span>,
             <span class="string">&quot;└──────┘  &quot;</span>,
         ]);
-        <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[
+        <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[
             <span class="string">&quot;          &quot;</span>,
             <span class="string">&quot;┌TITLE─┐  &quot;</span>,
             <span class="string">&quot;│      │  &quot;</span>,
@@ -1363,9 +1360,9 @@
             <span class="string">&quot;└──────┘  &quot;</span>,
         ]);
         <span class="kw">let</span> <span class="ident">diff</span> <span class="op">=</span> <span class="ident">prev</span>.<span class="ident">diff</span>(<span class="kw-2">&amp;</span><span class="ident">next</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">diff</span>,
-            <span class="macro">vec</span><span class="macro">!</span>[
+            <span class="macro">vec!</span>[
                 (<span class="number">2</span>, <span class="number">1</span>, <span class="kw-2">&amp;</span><span class="ident">cell</span>(<span class="string">&quot;I&quot;</span>)),
                 (<span class="number">3</span>, <span class="number">1</span>, <span class="kw-2">&amp;</span><span class="ident">cell</span>(<span class="string">&quot;T&quot;</span>)),
                 (<span class="number">4</span>, <span class="number">1</span>, <span class="kw-2">&amp;</span><span class="ident">cell</span>(<span class="string">&quot;L&quot;</span>)),
@@ -1375,20 +1372,20 @@
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="attribute">#[<span class="ident">rustfmt</span>::<span class="ident">skip</span>]</span>
+    <span class="attribute">#[<span class="ident">rustfmt::skip</span>]</span>
     <span class="kw">fn</span> <span class="ident">buffer_diffing_multi_width</span>() {
-        <span class="kw">let</span> <span class="ident">prev</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[
+        <span class="kw">let</span> <span class="ident">prev</span> <span class="op">=</span> <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[
             <span class="string">&quot;┌Title─┐  &quot;</span>,
             <span class="string">&quot;└──────┘  &quot;</span>,
         ]);
-        <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[
+        <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[
             <span class="string">&quot;┌称号──┐  &quot;</span>,
             <span class="string">&quot;└──────┘  &quot;</span>,
         ]);
         <span class="kw">let</span> <span class="ident">diff</span> <span class="op">=</span> <span class="ident">prev</span>.<span class="ident">diff</span>(<span class="kw-2">&amp;</span><span class="ident">next</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">diff</span>,
-            <span class="macro">vec</span><span class="macro">!</span>[
+            <span class="macro">vec!</span>[
                 (<span class="number">1</span>, <span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">cell</span>(<span class="string">&quot;称&quot;</span>)),
                 <span class="comment">// Skipped &quot;i&quot;</span>
                 (<span class="number">3</span>, <span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">cell</span>(<span class="string">&quot;号&quot;</span>)),
@@ -1400,98 +1397,98 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">buffer_diffing_multi_width_offset</span>() {
-        <span class="kw">let</span> <span class="ident">prev</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;┌称号──┐&quot;</span>]);
-        <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;┌─称号─┐&quot;</span>]);
+        <span class="kw">let</span> <span class="ident">prev</span> <span class="op">=</span> <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[<span class="string">&quot;┌称号──┐&quot;</span>]);
+        <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[<span class="string">&quot;┌─称号─┐&quot;</span>]);
 
         <span class="kw">let</span> <span class="ident">diff</span> <span class="op">=</span> <span class="ident">prev</span>.<span class="ident">diff</span>(<span class="kw-2">&amp;</span><span class="ident">next</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">diff</span>,
-            <span class="macro">vec</span><span class="macro">!</span>[(<span class="number">1</span>, <span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">cell</span>(<span class="string">&quot;─&quot;</span>)), (<span class="number">2</span>, <span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">cell</span>(<span class="string">&quot;称&quot;</span>)), (<span class="number">4</span>, <span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">cell</span>(<span class="string">&quot;号&quot;</span>)),]
+            <span class="macro">vec!</span>[(<span class="number">1</span>, <span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">cell</span>(<span class="string">&quot;─&quot;</span>)), (<span class="number">2</span>, <span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">cell</span>(<span class="string">&quot;称&quot;</span>)), (<span class="number">4</span>, <span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">cell</span>(<span class="string">&quot;号&quot;</span>)),]
         );
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">buffer_merge</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">one</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">filled</span>(
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">one</span> <span class="op">=</span> <span class="ident">Buffer::filled</span>(
             <span class="ident">Rect</span> {
                 <span class="ident">x</span>: <span class="number">0</span>,
                 <span class="ident">y</span>: <span class="number">0</span>,
                 <span class="ident">width</span>: <span class="number">2</span>,
                 <span class="ident">height</span>: <span class="number">2</span>,
             },
-            <span class="ident">Cell</span>::<span class="ident">default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;1&quot;</span>),
+            <span class="ident">Cell::default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;1&quot;</span>),
         );
-        <span class="kw">let</span> <span class="ident">two</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">filled</span>(
+        <span class="kw">let</span> <span class="ident">two</span> <span class="op">=</span> <span class="ident">Buffer::filled</span>(
             <span class="ident">Rect</span> {
                 <span class="ident">x</span>: <span class="number">0</span>,
                 <span class="ident">y</span>: <span class="number">2</span>,
                 <span class="ident">width</span>: <span class="number">2</span>,
                 <span class="ident">height</span>: <span class="number">2</span>,
             },
-            <span class="ident">Cell</span>::<span class="ident">default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;2&quot;</span>),
+            <span class="ident">Cell::default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;2&quot;</span>),
         );
         <span class="ident">one</span>.<span class="ident">merge</span>(<span class="kw-2">&amp;</span><span class="ident">two</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">one</span>, <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;11&quot;</span>, <span class="string">&quot;11&quot;</span>, <span class="string">&quot;22&quot;</span>, <span class="string">&quot;22&quot;</span>]));
+        <span class="macro">assert_eq!</span>(<span class="ident">one</span>, <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[<span class="string">&quot;11&quot;</span>, <span class="string">&quot;11&quot;</span>, <span class="string">&quot;22&quot;</span>, <span class="string">&quot;22&quot;</span>]));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">buffer_merge2</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">one</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">filled</span>(
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">one</span> <span class="op">=</span> <span class="ident">Buffer::filled</span>(
             <span class="ident">Rect</span> {
                 <span class="ident">x</span>: <span class="number">2</span>,
                 <span class="ident">y</span>: <span class="number">2</span>,
                 <span class="ident">width</span>: <span class="number">2</span>,
                 <span class="ident">height</span>: <span class="number">2</span>,
             },
-            <span class="ident">Cell</span>::<span class="ident">default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;1&quot;</span>),
+            <span class="ident">Cell::default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;1&quot;</span>),
         );
-        <span class="kw">let</span> <span class="ident">two</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">filled</span>(
+        <span class="kw">let</span> <span class="ident">two</span> <span class="op">=</span> <span class="ident">Buffer::filled</span>(
             <span class="ident">Rect</span> {
                 <span class="ident">x</span>: <span class="number">0</span>,
                 <span class="ident">y</span>: <span class="number">0</span>,
                 <span class="ident">width</span>: <span class="number">2</span>,
                 <span class="ident">height</span>: <span class="number">2</span>,
             },
-            <span class="ident">Cell</span>::<span class="ident">default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;2&quot;</span>),
+            <span class="ident">Cell::default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;2&quot;</span>),
         );
         <span class="ident">one</span>.<span class="ident">merge</span>(<span class="kw-2">&amp;</span><span class="ident">two</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">one</span>,
-            <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;22  &quot;</span>, <span class="string">&quot;22  &quot;</span>, <span class="string">&quot;  11&quot;</span>, <span class="string">&quot;  11&quot;</span>])
+            <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[<span class="string">&quot;22  &quot;</span>, <span class="string">&quot;22  &quot;</span>, <span class="string">&quot;  11&quot;</span>, <span class="string">&quot;  11&quot;</span>])
         );
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">buffer_merge3</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">one</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">filled</span>(
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">one</span> <span class="op">=</span> <span class="ident">Buffer::filled</span>(
             <span class="ident">Rect</span> {
                 <span class="ident">x</span>: <span class="number">3</span>,
                 <span class="ident">y</span>: <span class="number">3</span>,
                 <span class="ident">width</span>: <span class="number">2</span>,
                 <span class="ident">height</span>: <span class="number">2</span>,
             },
-            <span class="ident">Cell</span>::<span class="ident">default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;1&quot;</span>),
+            <span class="ident">Cell::default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;1&quot;</span>),
         );
-        <span class="kw">let</span> <span class="ident">two</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">filled</span>(
+        <span class="kw">let</span> <span class="ident">two</span> <span class="op">=</span> <span class="ident">Buffer::filled</span>(
             <span class="ident">Rect</span> {
                 <span class="ident">x</span>: <span class="number">1</span>,
                 <span class="ident">y</span>: <span class="number">1</span>,
                 <span class="ident">width</span>: <span class="number">3</span>,
                 <span class="ident">height</span>: <span class="number">4</span>,
             },
-            <span class="ident">Cell</span>::<span class="ident">default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;2&quot;</span>),
+            <span class="ident">Cell::default</span>().<span class="ident">set_symbol</span>(<span class="string">&quot;2&quot;</span>),
         );
         <span class="ident">one</span>.<span class="ident">merge</span>(<span class="kw-2">&amp;</span><span class="ident">two</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">merged</span> <span class="op">=</span> <span class="ident">Buffer</span>::<span class="ident">with_lines</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;222 &quot;</span>, <span class="string">&quot;222 &quot;</span>, <span class="string">&quot;2221&quot;</span>, <span class="string">&quot;2221&quot;</span>]);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">merged</span> <span class="op">=</span> <span class="ident">Buffer::with_lines</span>(<span class="macro">vec!</span>[<span class="string">&quot;222 &quot;</span>, <span class="string">&quot;222 &quot;</span>, <span class="string">&quot;2221&quot;</span>, <span class="string">&quot;2221&quot;</span>]);
         <span class="ident">merged</span>.<span class="ident">area</span> <span class="op">=</span> <span class="ident">Rect</span> {
             <span class="ident">x</span>: <span class="number">1</span>,
             <span class="ident">y</span>: <span class="number">1</span>,
             <span class="ident">width</span>: <span class="number">4</span>,
             <span class="ident">height</span>: <span class="number">4</span>,
         };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">one</span>, <span class="ident">merged</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">one</span>, <span class="ident">merged</span>);
     }
 }
-</pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="tui" data-search-js="../../search-index.js"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="tui" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
+</body></html>
