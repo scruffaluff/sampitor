@@ -32,8 +32,7 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Sampitor ${{ steps.extract_tag.outputs.tag }}
           body: >-
-            See the
-            [changelog](https://github.com/wolfgangwazzlestrauss/sampitor/blob/${{
+            See the [changelog](https://github.com/scruffaluff/sampitor/blob/${{
             steps.extract_tag.outputs.tag }}/CHANGELOG.md) for more information.
 
   archive:
@@ -121,7 +120,7 @@ jobs:
           file: ./docker/Dockerfile.${{ matrix.target }}
           load: true
           push: false
-          tags: wolfgangwazzlestrauss/cross-sampitor:${{ matrix.target }}
+          tags: scruffaluff/cross-sampitor:${{ matrix.target }}
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:

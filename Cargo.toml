@@ -4,17 +4,17 @@
 # https://doc.rust-lang.org/cargo/reference/manifest.html.
 
 [package]
-authors = ["Macklan Weinstein <wolfgangwazzlestrauss@gmail.com>"]
+authors = ["Macklan Weinstein <macklan.weinstein@gmail.com>"]
 categories = ["command-line-utilities", "multimedia::audio"]
 description = "Digital audio editor for the terminal"
-documentation = "https://wolfgangwazzlestrauss.github.io/sampitor"
+documentation = "https://scruffaluff.github.io/sampitor"
 edition = "2018"
-homepage = "https://wolfgangwazzlestrauss.github.io/sampitor"
+homepage = "https://scruffaluff.github.io/sampitor"
 keywords = ["audio", "editor", "terminal"]
 license = "MIT"
 name = "sampitor"
 readme = "README.md"
-repository = "https://github.com/wolfgangwazzlestrauss/sampitor"
+repository = "https://github.com/scruffaluff/sampitor"
 version = "0.0.2"
 
 [dependencies]

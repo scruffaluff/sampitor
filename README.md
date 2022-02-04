@@ -1,14 +1,14 @@
 # Sampitor
 
-![](https://github.com/wolfgangwazzlestrauss/sampitor/workflows/build/badge.svg)
-![](https://img.shields.io/github/repo-size/wolfgangwazzlestrauss/sampitor)
-![](https://img.shields.io/github/license/wolfgangwazzlestrauss/sampitor)
+![](https://github.com/scruffaluff/sampitor/workflows/build/badge.svg)
+![](https://img.shields.io/github/repo-size/scruffaluff/sampitor)
+![](https://img.shields.io/github/license/scruffaluff/sampitor)
 
 ---
 
-**Documentation**: https://wolfgangwazzlestrauss.github.io/sampitor
+**Documentation**: https://scruffaluff.github.io/sampitor
 
-**Source Code**: https://github.com/wolfgangwazzlestrauss/sampitor
+**Source Code**: https://github.com/scruffaluff/sampitor
 
 ---
 
@@ -20,7 +20,7 @@ Sampitor is a digital audio editor for the terminal build on top of
 
 Sampitor provides compiled binaries for each GitHub release. You can install
 Sampitor by visiting the latest
-[release page](https://github.com/wolfgangwazzlestrauss/sampitor/releases/latest),
+[release page](https://github.com/scruffaluff/sampitor/releases/latest),
 downloading a release archive, extracting it, and copying the binary to a
 directory in your system `PATH`.
 
@@ -36,9 +36,9 @@ Cargo will compile Sampitor and place the binary file into `$HOME/.cargo/bin`.
 
 For guidance on setting up a development environment and how to make a
 contribution, see the
-[Contributing Guide](https://github.com/wolfgangwazzlestrauss/sampitor/blob/master/CONTRIBUTING.md).
+[Contributing Guide](https://github.com/scruffaluff/sampitor/blob/master/CONTRIBUTING.md).
 
 ## License
 
-YamlTable is distributed under the
-[MIT license](https://github.com/wolfgangwazzlestrauss/sampitor/blob/master/LICENSE.md).
+Sampitor is distributed under the
+[MIT license](https://github.com/scruffaluff/sampitor/blob/master/LICENSE.md).
