@@ -3,8 +3,8 @@
         </a><h2 class="location"></h2>
     </nav>
     <nav class="sidebar"><a class="sidebar-logo" href="../eyre/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"><a href="#">Crate eyre</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 0.6.5</li><li><a id="all-types" href="all.html">All Items</a></li></div></ul><section><div class="block"><ul><li><a href="#reexports">Re-exports</a></li><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li><li><a href="#types">Type Definitions</a></li></ul></div></section><div id="sidebar-vars" data-name="eyre" data-ty="mod" data-relpath=""></div><script defer src="sidebar-items.js"></script></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../eyre/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><div class="theme-picker hidden"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="22" height="22" alt="Pick another theme!" src="../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="main-heading">
-    <h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">eyre</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/eyre/lib.rs.html#1-1135">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>This library provides <a href="https://docs.rs/eyre/*/eyre/struct.Report.html"><code>eyre::Report</code></a>, a trait object based
+        </a><h2 class="location"><a href="#">Crate eyre</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 0.6.8</li><li><a id="all-types" href="all.html">All Items</a></li></div></ul><section><div class="block"><ul><li><a href="#reexports">Re-exports</a></li><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li><li><a href="#types">Type Definitions</a></li></ul></div></section><div id="sidebar-vars" data-name="eyre" data-ty="mod" data-relpath=""></div><script defer src="sidebar-items.js"></script></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../eyre/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><div class="theme-picker hidden"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="22" height="22" alt="Pick another theme!" src="../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="main-heading">
+    <h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">eyre</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/eyre/lib.rs.html#1-1241">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>This library provides <a href="https://docs.rs/eyre/*/eyre/struct.Report.html"><code>eyre::Report</code></a>, a trait object based
 error handling type for easy idiomatic error handling and reporting in Rust
 applications.</p>
 <p>This crate is a fork of <a href="https://github.com/dtolnay/anyhow"><code>anyhow</code></a>  with a support for customized
@@ -21,7 +21,7 @@ handlers for eyre and short summaries of what features they provide.</p>
 so that it can be captured on stable. The report format is identical to
 <code>DefaultHandler</code>’s report format.</li>
 <li><a href="https://github.com/yaahc/color-eyre"><code>color-eyre</code></a>: Captures a <code>backtrace::Backtrace</code> and a
-<code>tracing_error::SpanTrace</code>. Provides a <code>Help</code> trait for attaching warnings
+<code>tracing_error::SpanTrace</code>. Provides a <code>Section</code> trait for attaching warnings
 and suggestions to error reports. The end report is then pretty printed with
 the help of <a href="https://github.com/athre0z/color-backtrace"><code>color-backtrace</code></a>, <a href="https://github.com/yaahc/color-spantrace"><code>color-spantrace</code></a>, and <code>ansi_term</code>. Check
 out the README on <a href="https://github.com/yaahc/color-eyre"><code>color-eyre</code></a> for details on the report format.</li>
@@ -29,6 +29,30 @@ out the README on <a href="https://github.com/yaahc/color-eyre"><code>color-eyre
 information, for when you do not wish to capture <code>Backtrace</code>s with errors.</li>
 <li><a href="https://github.com/yaahc/jane-eyre"><code>jane-eyre</code></a>: A report handler crate that exists purely for the pun.
 Currently just re-exports <code>color-eyre</code>.</li>
+</ul>
+<h3 id="usage-recommendations-and-stability-considerations"><a href="#usage-recommendations-and-stability-considerations">Usage Recommendations and Stability Considerations</a></h3>
+<p><strong>We recommend users do not re-export types from this library as part their
+own public API for libraries with external users.</strong> The main reason for this
+is that it will make your library API break if we ever bump the major version
+number on eyre and your users upgrade the eyre version they use in their
+application code before you upgrade your own eyre dep version<sup id="fnref1"><a href="#fn1">1</a></sup>.</p>
+<p>However, even beyond this API stability hazard, there are other good reasons
+to avoid using <code>eyre::Report</code> as your public error type.</p>
+<ul>
+<li>You export an undocumented error interface that is otherwise still
+accessible via downcast, making it hard for users to react to specific
+errors while not preventing them from depending on details you didn’t mean
+to make part of your public API.
+<ul>
+<li>This in turn makes the error types of all libraries you use a part of
+your public API as well, and makes changing any of those libraries into an
+undetectable runtime breakage.</li>
+</ul>
+</li>
+<li>If many of your errors are constructed from strings you encourage your
+users to use string comparision for reacting to specific errors which is
+brittle and turns updating error messages into a potentially undetectable
+runtime breakage.</li>
 </ul>
 <h3 id="details"><a href="#details">Details</a></h3>
 <ul>
@@ -117,6 +141,12 @@ supports string interpolation and produces an <code>eyre::Report</code>.</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">eyre!</span>(<span class="string">&quot;Missing attribute: {}&quot;</span>, <span class="ident">missing</span>));</code></pre></div>
 </li>
+<li>
+<p>On newer versions of the compiler (e.g. 1.58 and later) this macro also
+supports format args captures.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">eyre!</span>(<span class="string">&quot;Missing attribute: {missing}&quot;</span>));</code></pre></div>
+</li>
 </ul>
 <h3 id="no-std-support"><a href="#no-std-support">No-std support</a></h3>
 <p><strong>NOTE</strong>: tests are currently broken for <code>no_std</code> so I cannot guarantee that
@@ -169,7 +199,7 @@ anyhow:</p>
 <p><strong>NOTE</strong>: However, to help with porting we do provide a <code>ContextCompat</code> trait which
 implements <code>context</code> for options which you can import to make existing
 <code>.context</code> calls compile.</p>
-</div></details><h2 id="reexports" class="small-section-header"><a href="#reexports">Re-exports</a></h2>
+<div class="footnotes"><hr><ol><li id="fn1"><p>example and explanation of breakage https://github.com/yaahc/eyre/issues/30#issuecomment-647650361&nbsp;<a href="#fnref1">↩</a></p></li></ol></div></div></details><h2 id="reexports" class="small-section-header"><a href="#reexports">Re-exports</a></h2>
 <div class="item-table"><div class="item-row"><div class="item-left import-item" id="reexport.format_err"><code>pub use <a class="macro" href="macro.eyre.html" title="macro eyre::eyre">eyre</a> as format_err;</code></div><div class="item-right docblock-short"></div></div><div class="item-row"><div class="item-left import-item" id="reexport.anyhow"><code>pub use <a class="macro" href="macro.eyre.html" title="macro eyre::eyre">eyre</a> as anyhow;</code></div><div class="item-right docblock-short"></div></div><div class="item-row"><div class="item-left import-item" id="reexport.Error"><code>pub use <a class="struct" href="struct.Report.html" title="struct eyre::Report">Report</a> as Error;</code></div><div class="item-right docblock-short"></div></div><div class="item-row"><div class="item-left import-item" id="reexport.Context"><code>pub use <a class="trait" href="trait.WrapErr.html" title="trait eyre::WrapErr">WrapErr</a> as Context;</code></div><div class="item-right docblock-short"></div></div></div><h2 id="macros" class="small-section-header"><a href="#macros">Macros</a></h2>
 <div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.bail.html" title="eyre::bail macro">bail</a></div><div class="item-right docblock-short"><p>Return early with an error.</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.ensure.html" title="eyre::ensure macro">ensure</a></div><div class="item-right docblock-short"><p>Return early with an error if a condition is not satisfied.</p>

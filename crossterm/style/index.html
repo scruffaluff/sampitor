@@ -4,7 +4,7 @@
     </nav>
     <nav class="sidebar"><a class="sidebar-logo" href="../../crossterm/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"><a href="#">Module style</a></h2><div class="sidebar-elems"><section><div class="block"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div></section><div id="sidebar-vars" data-name="style" data-ty="mod" data-relpath="./"></div><script defer src="./sidebar-items.js"></script></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../crossterm/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><div class="theme-picker hidden"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="22" height="22" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="main-heading">
-    <h1 class="fqn"><span class="in-band">Module <a href="../index.html">crossterm</a>::<wbr><a class="mod" href="#">style</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../../src/crossterm/style.rs.html#1-401">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A module to apply attributes and colors on your text.</p>
+    <h1 class="fqn"><span class="in-band">Module <a href="../index.html">crossterm</a>::<wbr><a class="mod" href="#">style</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../../src/crossterm/style.rs.html#1-433">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A module to apply attributes and colors on your text.</p>
 <h2 id="style"><a href="#style">Style</a></h2>
 <p>The <code>style</code> module provides a functionality to apply attributes and colors on your text.</p>
 <p>This documentation does not contain a lot of examples. The reason is that it’s fairly
@@ -44,9 +44,10 @@ platform-specific notes of the following types:</p>
     )
 }</code></pre></div>
 <p>Functions:</p>
-<p>Using functions from <a href="trait.Colorize.html"><code>Colorize</code></a> on a <code>String</code> or <code>&amp;'static str</code> to color it.</p>
+<p>Using functions from <a href="trait.Stylize.html"><code>Stylize</code></a> on a <code>String</code> or <code>&amp;'static str</code> to color
+it.</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use</span> <span class="ident">crossterm::style::Colorize</span>;
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use</span> <span class="ident">crossterm::style::Stylize</span>;
 
 <span class="macro">println!</span>(<span class="string">&quot;{}&quot;</span>, <span class="string">&quot;Red foreground color &amp; blue background.&quot;</span>.<span class="ident">red</span>().<span class="ident">on_blue</span>());</code></pre></div>
 <h4 id="attributes"><a href="#attributes">Attributes</a></h4>
@@ -70,9 +71,10 @@ platform-specific notes of the following types:</p>
     )
 }</code></pre></div>
 <p>Functions:</p>
-<p>Using <a href="trait.Styler.html"><code>Styler</code></a> functions on a <code>String</code> or <code>&amp;'static str</code> to set attributes to it.</p>
+<p>Using <a href="trait.Stylize.html"><code>Stylize</code></a> functions on a <code>String</code> or <code>&amp;'static str</code> to set
+attributes to it.</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use</span> <span class="ident">crossterm::style::Styler</span>;
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use</span> <span class="ident">crossterm::style::Stylize</span>;
 
 <span class="macro">println!</span>(<span class="string">&quot;{}&quot;</span>, <span class="string">&quot;Bold&quot;</span>.<span class="ident">bold</span>());
 <span class="macro">println!</span>(<span class="string">&quot;{}&quot;</span>, <span class="string">&quot;Underlined&quot;</span>.<span class="ident">underlined</span>());
@@ -105,8 +107,7 @@ platform-specific notes of the following types:</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.Color.html" title="crossterm::style::Color enum">Color</a></div><div class="item-right docblock-short"><p>Represents a color.</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.Colored.html" title="crossterm::style::Colored enum">Colored</a></div><div class="item-right docblock-short"><p>Represents a foreground or background color.</p>
 </div></div></div><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2>
-<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Colorize.html" title="crossterm::style::Colorize trait">Colorize</a></div><div class="item-right docblock-short"><p>Provides a set of methods to set the colors.</p>
-</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Styler.html" title="crossterm::style::Styler trait">Styler</a></div><div class="item-right docblock-short"><p>Provides a set of methods to set the text attributes.</p>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Stylize.html" title="crossterm::style::Stylize trait">Stylize</a></div><div class="item-right docblock-short"><p>Provides a set of methods to set attributes and colors.</p>
 </div></div></div><h2 id="functions" class="small-section-header"><a href="#functions">Functions</a></h2>
 <div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.available_color_count.html" title="crossterm::style::available_color_count fn">available_color_count</a></div><div class="item-right docblock-short"><p>Returns available color count.</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.style.html" title="crossterm::style::style fn">style</a></div><div class="item-right docblock-short"><p>Creates a <code>StyledContent</code>.</p>

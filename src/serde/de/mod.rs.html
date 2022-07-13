@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-1.0.125/src/de/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><script defer src="../../../main.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-1.0.139/src/de/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><script defer src="../../../main.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script>
     <noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../serde/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"></h2>
     </nav>
@@ -2278,6 +2278,31 @@
 <span id="2273">2273</span>
 <span id="2274">2274</span>
 <span id="2275">2275</span>
+<span id="2276">2276</span>
+<span id="2277">2277</span>
+<span id="2278">2278</span>
+<span id="2279">2279</span>
+<span id="2280">2280</span>
+<span id="2281">2281</span>
+<span id="2282">2282</span>
+<span id="2283">2283</span>
+<span id="2284">2284</span>
+<span id="2285">2285</span>
+<span id="2286">2286</span>
+<span id="2287">2287</span>
+<span id="2288">2288</span>
+<span id="2289">2289</span>
+<span id="2290">2290</span>
+<span id="2291">2291</span>
+<span id="2292">2292</span>
+<span id="2293">2293</span>
+<span id="2294">2294</span>
+<span id="2295">2295</span>
+<span id="2296">2296</span>
+<span id="2297">2297</span>
+<span id="2298">2298</span>
+<span id="2299">2299</span>
+<span id="2300">2300</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Generic data structure deserialization framework.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! The two most important traits in this module are [`Deserialize`] and</span>
@@ -2384,7 +2409,7 @@
 <span class="doccomment">//! [`Deserialize`]: ../trait.Deserialize.html</span>
 <span class="doccomment">//! [`Deserializer`]: ../trait.Deserializer.html</span>
 <span class="doccomment">//! [`LinkedHashMap&lt;K, V&gt;`]: https://docs.rs/linked-hash-map/*/linked_hash_map/struct.LinkedHashMap.html</span>
-<span class="doccomment">//! [`bincode`]: https://github.com/servo/bincode</span>
+<span class="doccomment">//! [`bincode`]: https://github.com/bincode-org/bincode</span>
 <span class="doccomment">//! [`linked-hash-map`]: https://crates.io/crates/linked-hash-map</span>
 <span class="doccomment">//! [`serde_derive`]: https://crates.io/crates/serde_derive</span>
 <span class="doccomment">//! [`serde_json`]: https://github.com/serde-rs/json</span>
@@ -2398,6 +2423,8 @@
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">value</span>;
 
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">no_integer128</span>))]</span>
+<span class="kw">mod</span> <span class="ident">format</span>;
 <span class="kw">mod</span> <span class="ident">ignored_any</span>;
 <span class="kw">mod</span> <span class="ident">impls</span>;
 <span class="kw">mod</span> <span class="ident">utf8</span>;
@@ -2986,6 +3013,11 @@
 <span class="doccomment">///             where</span>
 <span class="doccomment">///                 A: SeqAccess&lt;&#39;de&gt;,</span>
 <span class="doccomment">///             {</span>
+<span class="doccomment">///                 // Decrease the number of reallocations if there are many elements</span>
+<span class="doccomment">///                 if let Some(size_hint) = seq.size_hint() {</span>
+<span class="doccomment">///                    self.0.reserve(size_hint);</span>
+<span class="doccomment">///                 }</span>
+<span class="doccomment">///</span>
 <span class="doccomment">///                 // Visit each element in the inner array and push it onto</span>
 <span class="doccomment">///                 // the existing vector.</span>
 <span class="doccomment">///                 while let Some(elem) = seq.next_element()? {</span>
@@ -3287,7 +3319,7 @@
     <span class="doccomment">/// `Deserializer`.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// If the `Visitor` would benefit from taking ownership of `String` data,</span>
-    <span class="doccomment">/// indiciate this to the `Deserializer` by using `deserialize_string`</span>
+    <span class="doccomment">/// indicate this to the `Deserializer` by using `deserialize_string`</span>
     <span class="doccomment">/// instead.</span>
     <span class="kw">fn</span> <span class="ident">deserialize_str</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">visitor</span>: <span class="ident">V</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">V::Value</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span>
     <span class="kw">where</span>
@@ -3493,6 +3525,20 @@
     <span class="kw">fn</span> <span class="ident">is_human_readable</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
         <span class="bool-val">true</span>
     }
+
+    <span class="comment">// Not public API.</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">no_serde_derive</span>), <span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;alloc&quot;</span>)))]</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">__deserialize_content</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>(
+        <span class="self">self</span>,
+        <span class="kw">_</span>: <span class="ident">::actually_private::T</span>,
+        <span class="ident">visitor</span>: <span class="ident">V</span>,
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">::private::de::Content</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">V</span>: <span class="ident">Visitor</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span>, <span class="ident">Value</span> <span class="op">=</span> <span class="ident">::private::de::Content</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    {
+        <span class="self">self</span>.<span class="ident">deserialize_any</span>(<span class="ident">visitor</span>)
+    }
 }
 
 <span class="comment">////////////////////////////////////////////////////////////////////////////////</span>
@@ -3632,8 +3678,10 @@
         <span class="kw">where</span>
             <span class="ident">E</span>: <span class="ident">Error</span>,
         {
-            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">v</span>;
-            <span class="prelude-val">Err</span>(<span class="ident">Error::invalid_type</span>(<span class="ident">Unexpected::Other</span>(<span class="string">&quot;i128&quot;</span>), <span class="kw-2">&amp;</span><span class="self">self</span>))
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">58</span>];
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">format::Buf::new</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>);
+            <span class="ident">fmt::Write::write_fmt</span>(<span class="kw-2">&amp;mut</span> <span class="ident">writer</span>, <span class="macro">format_args!</span>(<span class="string">&quot;integer `{}` as i128&quot;</span>, <span class="ident">v</span>)).<span class="ident">unwrap</span>();
+            <span class="prelude-val">Err</span>(<span class="ident">Error::invalid_type</span>(<span class="ident">Unexpected::Other</span>(<span class="ident">writer</span>.<span class="ident">as_str</span>()), <span class="kw-2">&amp;</span><span class="self">self</span>))
         }
     }
 
@@ -3692,8 +3740,10 @@
         <span class="kw">where</span>
             <span class="ident">E</span>: <span class="ident">Error</span>,
         {
-            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">v</span>;
-            <span class="prelude-val">Err</span>(<span class="ident">Error::invalid_type</span>(<span class="ident">Unexpected::Other</span>(<span class="string">&quot;u128&quot;</span>), <span class="kw-2">&amp;</span><span class="self">self</span>))
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">57</span>];
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">format::Buf::new</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>);
+            <span class="ident">fmt::Write::write_fmt</span>(<span class="kw-2">&amp;mut</span> <span class="ident">writer</span>, <span class="macro">format_args!</span>(<span class="string">&quot;integer `{}` as u128&quot;</span>, <span class="ident">v</span>)).<span class="ident">unwrap</span>();
+            <span class="prelude-val">Err</span>(<span class="ident">Error::invalid_type</span>(<span class="ident">Unexpected::Other</span>(<span class="ident">writer</span>.<span class="ident">as_str</span>()), <span class="kw-2">&amp;</span><span class="self">self</span>))
         }
     }
 
@@ -3994,7 +4044,7 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span>, <span class="lifetime">&#39;a</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="ident">SeqAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">A</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span>, <span class="lifetime">&#39;a</span>, <span class="ident">A</span>: <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span> <span class="ident">SeqAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">A</span>
 <span class="kw">where</span>
     <span class="ident">A</span>: <span class="ident">SeqAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
 {
@@ -4147,7 +4197,7 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span>, <span class="lifetime">&#39;a</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="ident">MapAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">A</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span>, <span class="lifetime">&#39;a</span>, <span class="ident">A</span>: <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span> <span class="ident">MapAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">A</span>
 <span class="kw">where</span>
     <span class="ident">A</span>: <span class="ident">MapAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
 {

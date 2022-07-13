@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/alsa-0.5.0/src/seq.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>seq.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/alsa-0.6.0/src/seq.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>seq.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
     <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../alsa/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"></h2>
     </nav>
@@ -1570,28 +1570,6 @@
 <span id="1565">1565</span>
 <span id="1566">1566</span>
 <span id="1567">1567</span>
-<span id="1568">1568</span>
-<span id="1569">1569</span>
-<span id="1570">1570</span>
-<span id="1571">1571</span>
-<span id="1572">1572</span>
-<span id="1573">1573</span>
-<span id="1574">1574</span>
-<span id="1575">1575</span>
-<span id="1576">1576</span>
-<span id="1577">1577</span>
-<span id="1578">1578</span>
-<span id="1579">1579</span>
-<span id="1580">1580</span>
-<span id="1581">1581</span>
-<span id="1582">1582</span>
-<span id="1583">1583</span>
-<span id="1584">1584</span>
-<span id="1585">1585</span>
-<span id="1586">1586</span>
-<span id="1587">1587</span>
-<span id="1588">1588</span>
-<span id="1589">1589</span>
 </pre><pre class="rust"><code><span class="doccomment">//! MIDI sequencer I/O and enumeration</span>
 
 <span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_uint</span>, <span class="ident">c_int</span>, <span class="ident">c_short</span>, <span class="ident">c_uchar</span>, <span class="ident">c_void</span>, <span class="ident">c_long</span>, <span class="ident">size_t</span>, <span class="ident">pollfd</span>};
@@ -1612,7 +1590,7 @@
 
 <span class="doccomment">/// [snd_seq_t](http://www.alsa-project.org/alsa-doc/alsa-lib/group___sequencer.html) wrapper</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// To access the functions ``event_input`, `event_input_pending` and `set_input_buffer_size`,</span>
+<span class="doccomment">/// To access the functions `event_input`, `event_input_pending` and `set_input_buffer_size`,</span>
 <span class="doccomment">/// you first have to obtain an instance of `Input` by calling `input()`. Only one instance of</span>
 <span class="doccomment">/// `Input` may exist at any time for a given `Seq`.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Seq</span>(<span class="kw-2">*mut</span> <span class="ident">alsa::snd_seq_t</span>, <span class="ident">cell::Cell</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>);
@@ -1760,7 +1738,7 @@
 
     <span class="doccomment">/// Call this function to obtain an instance of `Input` to access the functions `event_input`,</span>
     <span class="doccomment">/// `event_input_pending` and `set_input_buffer_size`. See the documentation of `Input` for details.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">input</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>) -&gt; <span class="ident">Input</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">input</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Input</span> {
         <span class="ident">Input::new</span>(<span class="self">self</span>)
     }
 
@@ -1789,7 +1767,7 @@
         <span class="ident">Input</span>(<span class="ident">s</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">event_input</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">event_input</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&gt;</span> {
         <span class="comment">// The returned event might reference the input buffer of the `Seq`.</span>
         <span class="comment">// Therefore we mutably borrow the `Input` structure, preventing any</span>
         <span class="comment">// other function call that might change the input buffer while the</span>
@@ -2081,12 +2059,12 @@
     <span class="kw">type</span> <span class="prelude-val">Err</span> <span class="op">=</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">std::error::Error</span><span class="op">&gt;</span>;
 
     <span class="kw">fn</span> <span class="ident">from_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">std::result::Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Err</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">split</span>: <span class="ident">Split</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">trim</span>().<span class="ident">split</span>(<span class="string">&quot;:&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">split</span>: <span class="ident">Split</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">char</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">trim</span>().<span class="ident">split</span>(<span class="string">&#39;:&#39;</span>);
         <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> <span class="ident">split</span>.<span class="ident">next</span>()
-                          .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="string">&quot;no client provided&quot;</span>)<span class="question-mark">?</span>
+                          .<span class="ident">ok_or</span>(<span class="string">&quot;no client provided&quot;</span>)<span class="question-mark">?</span>
                           .<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">port</span> <span class="op">=</span> <span class="ident">split</span>.<span class="ident">next</span>()
-                        .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="string">&quot;no port provided&quot;</span>)<span class="question-mark">?</span>
+                        .<span class="ident">ok_or</span>(<span class="string">&quot;no port provided&quot;</span>)<span class="question-mark">?</span>
                         .<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
         <span class="kw">match</span> <span class="ident">split</span>.<span class="ident">next</span>() {
             <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; {
@@ -2203,7 +2181,7 @@
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
-<span class="doccomment">/// Iterates over port subscriptions for a givent client:port/type.</span>
+<span class="doccomment">/// Iterates over port subscriptions for a given client:port/type.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PortSubscribeIter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">seq</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Seq</span>,
     <span class="ident">addr</span>: <span class="ident">Addr</span>,
@@ -2257,7 +2235,7 @@
 <span class="doccomment">/// [snd_seq_event_t](http://www.alsa-project.org/alsa-doc/alsa-lib/structsnd__seq__event__t.html) wrapper</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Fields of the event is not directly exposed. Instead call `Event::new` to set data (which can be, e g, an EvNote).</span>
-<span class="doccomment">/// Use `get_type` and `get_data` to retreive data.</span>
+<span class="doccomment">/// Use `get_type` and `get_data` to retrieve data.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The lifetime parameter refers to the lifetime of an associated external buffer that might be used for</span>
 <span class="doccomment">/// variable-length messages (e.g. SysEx).</span>
@@ -2314,7 +2292,7 @@
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">extract</span><span class="op">&lt;</span><span class="lifetime">&#39;any</span><span class="op">&gt;</span>(<span class="ident">z</span>: <span class="kw-2">&amp;mut</span> <span class="ident">alsa::snd_seq_event_t</span>, <span class="ident">func</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&lt;</span><span class="lifetime">&#39;any</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="ident">EventType::from_c_int</span>((<span class="kw-2">*</span><span class="ident">z</span>).<span class="ident">type_</span> <span class="kw">as</span> <span class="ident">c_int</span>, <span class="ident">func</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">ext_data</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">Event::has_ext_data</span>(<span class="ident">t</span>) {
-            <span class="macro">assert!</span>((<span class="kw-2">*</span><span class="ident">z</span>).<span class="ident">flags</span> <span class="op">&amp;</span> <span class="ident">alsa::SND_SEQ_EVENT_LENGTH_MASK</span> <span class="op">!</span><span class="op">=</span> <span class="ident">alsa::SND_SEQ_EVENT_LENGTH_FIXED</span>);
+            <span class="macro">assert_ne!</span>((<span class="kw-2">*</span><span class="ident">z</span>).<span class="ident">flags</span> <span class="op">&amp;</span> <span class="ident">alsa::SND_SEQ_EVENT_LENGTH_MASK</span>, <span class="ident">alsa::SND_SEQ_EVENT_LENGTH_FIXED</span>);
             <span class="prelude-val">Some</span>(<span class="ident">Cow::Borrowed</span>({
                 <span class="kw">let</span> <span class="ident">zz</span>: <span class="kw-2">&amp;</span><span class="ident">EvExtPacked</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="ident">z</span>).<span class="ident">data</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">alsa::snd_seq_event__bindgen_ty_1</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span>);
                 <span class="ident">slice::from_raw_parts</span>((<span class="kw-2">*</span><span class="ident">zz</span>).<span class="ident">ptr</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">u8</span>, (<span class="kw-2">*</span><span class="ident">zz</span>).<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>)
@@ -2348,7 +2326,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_data</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="ident">EventData</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> { <span class="kw">if</span> <span class="ident">D::has_data</span>(<span class="self">self</span>.<span class="number">1</span>) { <span class="prelude-val">Some</span>(<span class="ident">D::get_data</span>(<span class="self">self</span>)) } <span class="kw">else</span> { <span class="prelude-val">None</span> } }
 
     <span class="doccomment">/// Extract the variable-length data carried by events of type `Sysex`, `Bounce`, or the `UsrVar` types.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_ext</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> [<span class="ident">u8</span>]<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_ext</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="ident">Event::has_ext_data</span>(<span class="self">self</span>.<span class="number">1</span>) {
             <span class="kw">match</span> <span class="self">self</span>.<span class="number">2</span> {
                 <span class="prelude-val">Some</span>(<span class="ident">Cow::Owned</span>(<span class="kw-2">ref</span> <span class="ident">vec</span>)) =&gt; <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">vec</span>[..]),
@@ -2447,51 +2425,47 @@
 
 <span class="doccomment">/// Low level methods to set/get data on an Event. Don&#39;t use these directly, use generic methods on Event instead.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">EventData</span> {
+    <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="ident">ev</span>: <span class="kw-2">&amp;</span><span class="ident">Event</span>) -&gt; <span class="self">Self</span>;
     <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span>;
     <span class="kw">fn</span> <span class="ident">set_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ev</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Event</span>);
-    <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="ident">ev</span>: <span class="kw-2">&amp;</span><span class="ident">Event</span>) -&gt; <span class="self">Self</span>;
 }
 
 <span class="kw">impl</span> <span class="ident">EventData</span> <span class="kw">for</span> () {
+    <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Event</span>) -&gt; <span class="self">Self</span> {}
     <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
-         <span class="kw">match</span> <span class="ident">e</span> {
-             <span class="ident">EventType::TuneRequest</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Reset</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Sensing</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::None</span> =&gt; <span class="bool-val">true</span>,
-             <span class="kw">_</span> =&gt; <span class="bool-val">false</span>,
-         }
+         <span class="macro">matches!</span>(<span class="ident">e</span>,
+             <span class="ident">EventType::TuneRequest</span> <span class="op">|</span>
+             <span class="ident">EventType::Reset</span> <span class="op">|</span>
+             <span class="ident">EventType::Sensing</span> <span class="op">|</span>
+             <span class="ident">EventType::None</span>)
     }
     <span class="kw">fn</span> <span class="ident">set_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Event</span>) {}
-    <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Event</span>) -&gt; <span class="self">Self</span> {}
 }
 
 <span class="kw">impl</span> <span class="ident">EventData</span> <span class="kw">for</span> [<span class="ident">u8</span>; <span class="number">12</span>] {
-    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
-         <span class="kw">match</span> <span class="ident">e</span> {
-             <span class="ident">EventType::Echo</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Oss</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Usr0</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Usr1</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Usr2</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Usr3</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Usr4</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Usr5</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Usr6</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Usr7</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Usr8</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Usr9</span> =&gt; <span class="bool-val">true</span>,
-             <span class="kw">_</span> =&gt; <span class="bool-val">false</span>,
-         }
-    }
-    <span class="kw">fn</span> <span class="ident">set_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ev</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Event</span>) {
-         <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;mut</span> <span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span>.<span class="ident">raw8</span> };
-         <span class="ident">z</span>.<span class="ident">d</span> <span class="op">=</span> <span class="kw-2">*</span><span class="self">self</span>;
-    }
     <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="ident">ev</span>: <span class="kw-2">&amp;</span><span class="ident">Event</span>) -&gt; <span class="self">Self</span> {
          <span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ptr::read</span>(<span class="kw-2">&amp;</span><span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span>) };
          <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="ident">d</span>.<span class="ident">raw8</span> };
          <span class="ident">z</span>.<span class="ident">d</span>
+    }
+    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
+         <span class="macro">matches!</span>(<span class="ident">e</span>,
+             <span class="ident">EventType::Echo</span> <span class="op">|</span>
+             <span class="ident">EventType::Oss</span> <span class="op">|</span>
+             <span class="ident">EventType::Usr0</span> <span class="op">|</span>
+             <span class="ident">EventType::Usr1</span> <span class="op">|</span>
+             <span class="ident">EventType::Usr2</span> <span class="op">|</span>
+             <span class="ident">EventType::Usr3</span> <span class="op">|</span>
+             <span class="ident">EventType::Usr4</span> <span class="op">|</span>
+             <span class="ident">EventType::Usr5</span> <span class="op">|</span>
+             <span class="ident">EventType::Usr6</span> <span class="op">|</span>
+             <span class="ident">EventType::Usr7</span> <span class="op">|</span>
+             <span class="ident">EventType::Usr8</span> <span class="op">|</span>
+             <span class="ident">EventType::Usr9</span>)
+    }
+    <span class="kw">fn</span> <span class="ident">set_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ev</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Event</span>) {
+         <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;mut</span> <span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span>.<span class="ident">raw8</span> };
+         <span class="ident">z</span>.<span class="ident">d</span> <span class="op">=</span> <span class="kw-2">*</span><span class="self">self</span>;
     }
 }
 
@@ -2506,18 +2480,16 @@
 }
 
 <span class="kw">impl</span> <span class="ident">EventData</span> <span class="kw">for</span> <span class="ident">EvNote</span> {
-    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
-         <span class="kw">match</span> <span class="ident">e</span> {
-             <span class="ident">EventType::Note</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Noteon</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Noteoff</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Keypress</span> =&gt; <span class="bool-val">true</span>,
-             <span class="kw">_</span> =&gt; <span class="bool-val">false</span>,
-         }
-    }
     <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="ident">ev</span>: <span class="kw-2">&amp;</span><span class="ident">Event</span>) -&gt; <span class="self">Self</span> {
          <span class="kw">let</span> <span class="ident">z</span>: <span class="kw-2">&amp;</span><span class="ident">alsa::snd_seq_ev_note_t</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="kw-2">&amp;</span><span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">alsa::snd_seq_event__bindgen_ty_1</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span>) };
          <span class="ident">EvNote</span> { <span class="ident">channel</span>: <span class="ident">z</span>.<span class="ident">channel</span> <span class="kw">as</span> <span class="ident">u8</span>, <span class="ident">note</span>: <span class="ident">z</span>.<span class="ident">note</span> <span class="kw">as</span> <span class="ident">u8</span>, <span class="ident">velocity</span>: <span class="ident">z</span>.<span class="ident">velocity</span> <span class="kw">as</span> <span class="ident">u8</span>, <span class="ident">off_velocity</span>: <span class="ident">z</span>.<span class="ident">off_velocity</span> <span class="kw">as</span> <span class="ident">u8</span>, <span class="ident">duration</span>: <span class="ident">z</span>.<span class="ident">duration</span> <span class="kw">as</span> <span class="ident">u32</span> }
+    }
+    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
+         <span class="macro">matches!</span>(<span class="ident">e</span>,
+             <span class="ident">EventType::Note</span> <span class="op">|</span>
+             <span class="ident">EventType::Noteon</span> <span class="op">|</span>
+             <span class="ident">EventType::Noteoff</span> <span class="op">|</span>
+             <span class="ident">EventType::Keypress</span>)
     }
     <span class="kw">fn</span> <span class="ident">set_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ev</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Event</span>) {
          <span class="kw">let</span> <span class="ident">z</span>: <span class="kw-2">&amp;mut</span> <span class="ident">alsa::snd_seq_ev_note_t</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;mut</span> <span class="kw-2">*</span>(<span class="kw-2">&amp;mut</span> <span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">alsa::snd_seq_event__bindgen_ty_1</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="kw">_</span>) };
@@ -2537,26 +2509,24 @@
 }
 
 <span class="kw">impl</span> <span class="ident">EventData</span> <span class="kw">for</span> <span class="ident">EvCtrl</span> {
-    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
-         <span class="kw">match</span> <span class="ident">e</span> {
-             <span class="ident">EventType::Controller</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Pgmchange</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Chanpress</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Pitchbend</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Control14</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Nonregparam</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Regparam</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Songpos</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Songsel</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Qframe</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Timesign</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Keysign</span> =&gt; <span class="bool-val">true</span>,
-             <span class="kw">_</span> =&gt; <span class="bool-val">false</span>,
-         }
-    }
     <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="ident">ev</span>: <span class="kw-2">&amp;</span><span class="ident">Event</span>) -&gt; <span class="self">Self</span> {
          <span class="kw">let</span> <span class="ident">z</span>: <span class="kw-2">&amp;</span><span class="ident">alsa::snd_seq_ev_ctrl_t</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="kw-2">&amp;</span><span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">alsa::snd_seq_event__bindgen_ty_1</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span>) };
          <span class="ident">EvCtrl</span> { <span class="ident">channel</span>: <span class="ident">z</span>.<span class="ident">channel</span> <span class="kw">as</span> <span class="ident">u8</span>, <span class="ident">param</span>: <span class="ident">z</span>.<span class="ident">param</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">value</span>: <span class="ident">z</span>.<span class="ident">value</span> <span class="kw">as</span> <span class="ident">i32</span> }
+    }
+    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
+         <span class="macro">matches!</span>(<span class="ident">e</span>,
+             <span class="ident">EventType::Controller</span> <span class="op">|</span>
+             <span class="ident">EventType::Pgmchange</span> <span class="op">|</span>
+             <span class="ident">EventType::Chanpress</span> <span class="op">|</span>
+             <span class="ident">EventType::Pitchbend</span> <span class="op">|</span>
+             <span class="ident">EventType::Control14</span> <span class="op">|</span>
+             <span class="ident">EventType::Nonregparam</span> <span class="op">|</span>
+             <span class="ident">EventType::Regparam</span> <span class="op">|</span>
+             <span class="ident">EventType::Songpos</span> <span class="op">|</span>
+             <span class="ident">EventType::Songsel</span> <span class="op">|</span>
+             <span class="ident">EventType::Qframe</span> <span class="op">|</span>
+             <span class="ident">EventType::Timesign</span> <span class="op">|</span>
+             <span class="ident">EventType::Keysign</span>)
     }
     <span class="kw">fn</span> <span class="ident">set_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ev</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Event</span>) {
          <span class="kw">let</span> <span class="ident">z</span>: <span class="kw-2">&amp;mut</span> <span class="ident">alsa::snd_seq_ev_ctrl_t</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;mut</span> <span class="kw-2">*</span>(<span class="kw-2">&amp;mut</span> <span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">alsa::snd_seq_event__bindgen_ty_1</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="kw">_</span>) };
@@ -2567,20 +2537,18 @@
 }
 
 <span class="kw">impl</span> <span class="ident">EventData</span> <span class="kw">for</span> <span class="ident">Addr</span> {
-    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
-         <span class="kw">match</span> <span class="ident">e</span> {
-             <span class="ident">EventType::ClientStart</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::ClientExit</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::ClientChange</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::PortStart</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::PortExit</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::PortChange</span> =&gt; <span class="bool-val">true</span>,
-             <span class="kw">_</span> =&gt; <span class="bool-val">false</span>,
-         }
-    }
     <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="ident">ev</span>: <span class="kw-2">&amp;</span><span class="ident">Event</span>) -&gt; <span class="self">Self</span> {
          <span class="kw">let</span> <span class="ident">z</span>: <span class="kw-2">&amp;</span><span class="ident">alsa::snd_seq_addr_t</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="kw-2">&amp;</span><span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">alsa::snd_seq_event__bindgen_ty_1</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span>) };
          <span class="ident">Addr</span> { <span class="ident">client</span>: <span class="ident">z</span>.<span class="ident">client</span> <span class="kw">as</span> <span class="ident">i32</span>, <span class="ident">port</span>: <span class="ident">z</span>.<span class="ident">port</span> <span class="kw">as</span> <span class="ident">i32</span> }
+    }
+    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
+         <span class="macro">matches!</span>(<span class="ident">e</span>,
+             <span class="ident">EventType::ClientStart</span> <span class="op">|</span>
+             <span class="ident">EventType::ClientExit</span> <span class="op">|</span>
+             <span class="ident">EventType::ClientChange</span> <span class="op">|</span>
+             <span class="ident">EventType::PortStart</span> <span class="op">|</span>
+             <span class="ident">EventType::PortExit</span> <span class="op">|</span>
+             <span class="ident">EventType::PortChange</span>)
     }
     <span class="kw">fn</span> <span class="ident">set_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ev</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Event</span>) {
          <span class="kw">let</span> <span class="ident">z</span>: <span class="kw-2">&amp;mut</span> <span class="ident">alsa::snd_seq_addr_t</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;mut</span> <span class="kw-2">*</span>(<span class="kw-2">&amp;mut</span> <span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">alsa::snd_seq_event__bindgen_ty_1</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="kw">_</span>) };
@@ -2597,13 +2565,6 @@
 }
 
 <span class="kw">impl</span> <span class="ident">EventData</span> <span class="kw">for</span> <span class="ident">Connect</span> {
-    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
-         <span class="kw">match</span> <span class="ident">e</span> {
-             <span class="ident">EventType::PortSubscribed</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::PortUnsubscribed</span> =&gt; <span class="bool-val">true</span>,
-             <span class="kw">_</span> =&gt; <span class="bool-val">false</span>,
-         }
-    }
     <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="ident">ev</span>: <span class="kw-2">&amp;</span><span class="ident">Event</span>) -&gt; <span class="self">Self</span> {
          <span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ptr::read</span>(<span class="kw-2">&amp;</span><span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span>) };
          <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="ident">d</span>.<span class="ident">connect</span> };
@@ -2611,6 +2572,11 @@
              <span class="ident">sender</span>: <span class="ident">Addr</span> { <span class="ident">client</span>: <span class="ident">z</span>.<span class="ident">sender</span>.<span class="ident">client</span> <span class="kw">as</span> <span class="ident">i32</span>, <span class="ident">port</span>: <span class="ident">z</span>.<span class="ident">sender</span>.<span class="ident">port</span> <span class="kw">as</span> <span class="ident">i32</span> },
              <span class="ident">dest</span>: <span class="ident">Addr</span> { <span class="ident">client</span>: <span class="ident">z</span>.<span class="ident">dest</span>.<span class="ident">client</span> <span class="kw">as</span> <span class="ident">i32</span>, <span class="ident">port</span>: <span class="ident">z</span>.<span class="ident">dest</span>.<span class="ident">port</span> <span class="kw">as</span> <span class="ident">i32</span> }
          }
+    }
+    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
+         <span class="macro">matches!</span>(<span class="ident">e</span>,
+             <span class="ident">EventType::PortSubscribed</span> <span class="op">|</span>
+             <span class="ident">EventType::PortUnsubscribed</span>)
     }
     <span class="kw">fn</span> <span class="ident">set_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ev</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Event</span>) {
          <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;mut</span> <span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span>.<span class="ident">connect</span> };
@@ -2633,20 +2599,18 @@
 }
 
 <span class="kw">impl</span> <span class="ident">EventData</span> <span class="kw">for</span> <span class="ident">EvQueueControl</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
-         <span class="kw">match</span> <span class="ident">e</span> {
-             <span class="ident">EventType::Start</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Continue</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Stop</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Clock</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::QueueSkew</span> =&gt; <span class="bool-val">true</span>,
-             <span class="kw">_</span> =&gt; <span class="bool-val">false</span>,
-         }
-    }
     <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="ident">ev</span>: <span class="kw-2">&amp;</span><span class="ident">Event</span>) -&gt; <span class="self">Self</span> {
          <span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ptr::read</span>(<span class="kw-2">&amp;</span><span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span>) };
          <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="ident">d</span>.<span class="ident">queue</span> };
          <span class="ident">EvQueueControl</span> { <span class="ident">queue</span>: <span class="ident">z</span>.<span class="ident">queue</span> <span class="kw">as</span> <span class="ident">i32</span>, <span class="ident">value</span>: () }
+    }
+    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
+         <span class="macro">matches!</span>(<span class="ident">e</span>,
+             <span class="ident">EventType::Start</span> <span class="op">|</span>
+             <span class="ident">EventType::Continue</span> <span class="op">|</span>
+             <span class="ident">EventType::Stop</span> <span class="op">|</span>
+             <span class="ident">EventType::Clock</span> <span class="op">|</span>
+             <span class="ident">EventType::QueueSkew</span>)
     }
     <span class="kw">fn</span> <span class="ident">set_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ev</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Event</span>) {
          <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;mut</span> <span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span>.<span class="ident">queue</span> };
@@ -2655,17 +2619,15 @@
 }
 
 <span class="kw">impl</span> <span class="ident">EventData</span> <span class="kw">for</span> <span class="ident">EvQueueControl</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
-         <span class="kw">match</span> <span class="ident">e</span> {
-             <span class="ident">EventType::Tempo</span> =&gt; <span class="bool-val">true</span>,
-             <span class="kw">_</span> =&gt; <span class="bool-val">false</span>,
-         }
-    }
     <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="ident">ev</span>: <span class="kw-2">&amp;</span><span class="ident">Event</span>) -&gt; <span class="self">Self</span> { <span class="kw">unsafe</span> {
          <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">d</span> <span class="op">=</span> <span class="ident">ptr::read</span>(<span class="kw-2">&amp;</span><span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span>);
          <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="ident">d</span>.<span class="ident">queue</span>;
          <span class="ident">EvQueueControl</span> { <span class="ident">queue</span>: <span class="ident">z</span>.<span class="ident">queue</span> <span class="kw">as</span> <span class="ident">i32</span>, <span class="ident">value</span>: <span class="ident">z</span>.<span class="ident">param</span>.<span class="ident">value</span> <span class="kw">as</span> <span class="ident">i32</span> }
     } }
+    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
+         <span class="macro">matches!</span>(<span class="ident">e</span>,
+             <span class="ident">EventType::Tempo</span>)
+    }
     <span class="kw">fn</span> <span class="ident">set_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ev</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Event</span>) { <span class="kw">unsafe</span> {
          <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span>.<span class="ident">queue</span>;
          <span class="ident">z</span>.<span class="ident">queue</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">queue</span> <span class="kw">as</span> <span class="ident">c_uchar</span>;
@@ -2674,19 +2636,17 @@
 }
 
 <span class="kw">impl</span> <span class="ident">EventData</span> <span class="kw">for</span> <span class="ident">EvQueueControl</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
-         <span class="kw">match</span> <span class="ident">e</span> {
-             <span class="ident">EventType::SyncPos</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Tick</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::SetposTick</span> =&gt; <span class="bool-val">true</span>,
-             <span class="kw">_</span> =&gt; <span class="bool-val">false</span>,
-         }
-    }
     <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="ident">ev</span>: <span class="kw-2">&amp;</span><span class="ident">Event</span>) -&gt; <span class="self">Self</span> { <span class="kw">unsafe</span> {
          <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">d</span> <span class="op">=</span> <span class="ident">ptr::read</span>(<span class="kw-2">&amp;</span><span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span>);
          <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="ident">d</span>.<span class="ident">queue</span>;
          <span class="ident">EvQueueControl</span> { <span class="ident">queue</span>: <span class="ident">z</span>.<span class="ident">queue</span> <span class="kw">as</span> <span class="ident">i32</span>, <span class="ident">value</span>: <span class="ident">z</span>.<span class="ident">param</span>.<span class="ident">position</span> <span class="kw">as</span> <span class="ident">u32</span> }
     } }
+    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
+         <span class="macro">matches!</span>(<span class="ident">e</span>,
+             <span class="ident">EventType::SyncPos</span> <span class="op">|</span>
+             <span class="ident">EventType::Tick</span> <span class="op">|</span>
+             <span class="ident">EventType::SetposTick</span>)
+    }
     <span class="kw">fn</span> <span class="ident">set_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ev</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Event</span>) { <span class="kw">unsafe</span> {
          <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span>.<span class="ident">queue</span>;
          <span class="ident">z</span>.<span class="ident">queue</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">queue</span> <span class="kw">as</span> <span class="ident">c_uchar</span>;
@@ -2695,18 +2655,16 @@
 }
 
 <span class="kw">impl</span> <span class="ident">EventData</span> <span class="kw">for</span> <span class="ident">EvQueueControl</span><span class="op">&lt;</span><span class="ident">time::Duration</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
-         <span class="kw">match</span> <span class="ident">e</span> {
-             <span class="ident">EventType::SetposTime</span> =&gt; <span class="bool-val">true</span>,
-             <span class="kw">_</span> =&gt; <span class="bool-val">false</span>,
-         }
-    }
     <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="ident">ev</span>: <span class="kw-2">&amp;</span><span class="ident">Event</span>) -&gt; <span class="self">Self</span> { <span class="kw">unsafe</span> {
          <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">d</span> <span class="op">=</span> <span class="ident">ptr::read</span>(<span class="kw-2">&amp;</span><span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span>);
          <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="ident">d</span>.<span class="ident">queue</span>;
          <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="ident">z</span>.<span class="ident">param</span>.<span class="ident">time</span>.<span class="ident">time</span>;
          <span class="ident">EvQueueControl</span> { <span class="ident">queue</span>: <span class="ident">z</span>.<span class="ident">queue</span> <span class="kw">as</span> <span class="ident">i32</span>, <span class="ident">value</span>: <span class="ident">time::Duration::new</span>(<span class="ident">t</span>.<span class="ident">tv_sec</span> <span class="kw">as</span> <span class="ident">u64</span>, <span class="ident">t</span>.<span class="ident">tv_nsec</span> <span class="kw">as</span> <span class="ident">u32</span>) }
     } }
+    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
+         <span class="macro">matches!</span>(<span class="ident">e</span>,
+             <span class="ident">EventType::SetposTime</span>)
+    }
     <span class="kw">fn</span> <span class="ident">set_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ev</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Event</span>) { <span class="kw">unsafe</span> {
          <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span>.<span class="ident">queue</span>;
          <span class="ident">z</span>.<span class="ident">queue</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">queue</span> <span class="kw">as</span> <span class="ident">c_uchar</span>;
@@ -2726,17 +2684,15 @@
 }
 
 <span class="kw">impl</span> <span class="ident">EventData</span> <span class="kw">for</span> <span class="ident">EvResult</span> {
-    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
-         <span class="kw">match</span> <span class="ident">e</span> {
-             <span class="ident">EventType::System</span> =&gt; <span class="bool-val">true</span>,
-             <span class="ident">EventType::Result</span> =&gt; <span class="bool-val">true</span>,
-             <span class="kw">_</span> =&gt; <span class="bool-val">false</span>,
-         }
-    }
     <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="ident">ev</span>: <span class="kw-2">&amp;</span><span class="ident">Event</span>) -&gt; <span class="self">Self</span> {
          <span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">ptr::read</span>(<span class="kw-2">&amp;</span><span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span>) };
          <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="ident">d</span>.<span class="ident">result</span> };
          <span class="ident">EvResult</span> { <span class="ident">event</span>: <span class="ident">z</span>.<span class="ident">event</span> <span class="kw">as</span> <span class="ident">i32</span>, <span class="ident">result</span>: <span class="ident">z</span>.<span class="ident">result</span> <span class="kw">as</span> <span class="ident">i32</span> }
+    }
+    <span class="kw">fn</span> <span class="ident">has_data</span>(<span class="ident">e</span>: <span class="ident">EventType</span>) -&gt; <span class="ident">bool</span> {
+         <span class="macro">matches!</span>(<span class="ident">e</span>,
+             <span class="ident">EventType::System</span> <span class="op">|</span>
+             <span class="ident">EventType::Result</span>)
     }
     <span class="kw">fn</span> <span class="ident">set_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ev</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Event</span>) {
          <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;mut</span> <span class="ident">ev</span>.<span class="number">0</span>.<span class="ident">data</span>.<span class="ident">result</span> };

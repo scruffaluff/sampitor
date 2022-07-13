@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/alsa-0.5.0/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/alsa-0.6.0/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
     <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../alsa/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"></h2>
     </nav>
@@ -136,9 +136,16 @@
 <span id="131">131</span>
 <span id="132">132</span>
 <span id="133">133</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Thin but safe wrappers for [ALSA](http://http://alsa-project.org).</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Thin but safe wrappers for [ALSA](https://alsa-project.org).</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! [Github repo](https://github.com/diwic/alsa-rs)</span>
+<span class="doccomment">//! [GitHub repo](https://github.com/diwic/alsa-rs)</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! [Crates.io](https://crates.io/crates/alsa)</span>
 <span class="doccomment">//!</span>
@@ -146,10 +153,13 @@
 <span class="doccomment">//! functions and structs might be added as requested.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Most functions map 1-to-1 to alsa-lib functions, e g, `ctl::CardInfo::get_id()` is a wrapper around</span>
-<span class="doccomment">//! `snd_ctl_card_info_get_id` and the [alsa-lib documentation](http://www.alsa-project.org/alsa-doc/alsa-lib/)</span>
+<span class="doccomment">//! `snd_ctl_card_info_get_id` and the [alsa-lib documentation](https://www.alsa-project.org/alsa-doc/alsa-lib/)</span>
 <span class="doccomment">//! can be consulted for additional information.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Enjoy!</span>
+
+<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::all</span>)]</span>
+<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">clippy::correctness</span>, <span class="ident">clippy::suspicious</span>, <span class="ident">clippy::perf</span>)]</span>
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">alsa_sys</span> <span class="kw">as</span> <span class="ident">alsa</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
@@ -265,6 +275,10 @@ $(
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">direct</span>;
 
 <span class="doccomment">/// Re-exports from the nix crate.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Use these re-exports instead of also depending on the nix crate. There</span>
+<span class="doccomment">/// is no guarantee that these will match a specific nix version, it may</span>
+<span class="doccomment">/// change between minor updates of the library.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">nix</span> {
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">nix_the_crate::Error</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">nix_the_crate::errno</span>;

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/alsa-0.5.0/src/mixer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mixer.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/alsa-0.6.0/src/mixer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mixer.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
     <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../alsa/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"></h2>
     </nav>
@@ -668,8 +668,8 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">find_selem</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">SelemId</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Selem</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">selem</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">alsa::snd_mixer_find_selem</span>(<span class="self">self</span>.<span class="number">0</span>, <span class="ident">id</span>.<span class="ident">as_ptr</span>()) };
 
-        <span class="kw">if</span> <span class="ident">selem</span> <span class="op">==</span> <span class="ident">ptr::null_mut</span>() { <span class="prelude-val">None</span> }
-        <span class="kw">else</span> { <span class="prelude-val">Some</span>(<span class="ident">Selem</span>(<span class="ident">Elem</span> {<span class="ident">handle</span>: <span class="ident">selem</span>, <span class="ident">mixer</span>: <span class="self">self</span>})) }
+        <span class="kw">if</span> <span class="ident">selem</span>.<span class="ident">is_null</span>() { <span class="prelude-val">None</span> }
+        <span class="kw">else</span> { <span class="prelude-val">Some</span>(<span class="ident">Selem</span>(<span class="ident">Elem</span> {<span class="ident">handle</span>: <span class="ident">selem</span>, <span class="ident">_mixer</span>: <span class="self">self</span>})) }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">open</span>(<span class="ident">nonblock</span>: <span class="ident">bool</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Mixer</span><span class="op">&gt;</span> {
@@ -765,7 +765,7 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Elem</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>{
     <span class="ident">handle</span>: <span class="kw-2">*mut</span> <span class="ident">alsa::snd_mixer_elem_t</span>,
-    <span class="ident">mixer</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Mixer</span>
+    <span class="ident">_mixer</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Mixer</span>
 }
 
 <span class="doccomment">/// Iterator for all elements of mixer</span>
@@ -789,7 +789,7 @@
             <span class="prelude-val">None</span>
         } <span class="kw">else</span> {
             <span class="self">self</span>.<span class="ident">last_handle</span> <span class="op">=</span> <span class="ident">elem</span>;
-            <span class="prelude-val">Some</span>(<span class="ident">Elem</span> { <span class="ident">handle</span>: <span class="ident">elem</span>, <span class="ident">mixer</span>: <span class="self">self</span>.<span class="ident">mixer</span>})
+            <span class="prelude-val">Some</span>(<span class="ident">Elem</span> { <span class="ident">handle</span>: <span class="ident">elem</span>, <span class="ident">_mixer</span>: <span class="self">self</span>.<span class="ident">mixer</span>})
         }
     }
 
@@ -809,7 +809,7 @@
         <span class="ident">s</span>
     }
 
-    <span class="doccomment">/// Returns an empty (zeroed) SelemId. This id is not a useable id and need to be initialized</span>
+    <span class="doccomment">/// Returns an empty (zeroed) SelemId. This id is not a usable id and need to be initialized</span>
     <span class="doccomment">/// like `SelemId::new()` does</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty</span>() -&gt; <span class="ident">SelemId</span> {
         <span class="macro">assert!</span>(<span class="kw">unsafe</span> { <span class="ident">alsa::snd_mixer_selem_id_sizeof</span>() } <span class="kw">as</span> <span class="ident">usize</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">SELEM_ID_SIZE</span>);
@@ -1146,7 +1146,7 @@
                     <span class="macro">print!</span>(<span class="string">&quot;Playback = {} - {}&quot;</span>, <span class="ident">vmin</span>, <span class="ident">vmax</span>);
                     <span class="macro">print!</span>(<span class="string">&quot; ({} dB - {} dB)&quot;</span>, <span class="ident">mbmin</span>.<span class="ident">to_db</span>(), <span class="ident">mbmax</span>.<span class="ident">to_db</span>());
                 }
-                <span class="macro">println!</span>(<span class="string">&quot;&quot;</span>);
+                <span class="macro">println!</span>();
             }
 
             <span class="kw">if</span> <span class="ident">selem</span>.<span class="ident">is_enumerated</span>() {
@@ -1156,7 +1156,7 @@
                 <span class="kw">for</span> <span class="ident">v</span> <span class="kw">in</span> <span class="ident">SelemChannelId::all</span>().<span class="ident">iter</span>().<span class="ident">filter_map</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">v</span><span class="op">|</span> <span class="ident">selem</span>.<span class="ident">get_enum_item</span>(<span class="ident">v</span>).<span class="ident">ok</span>()) {
                     <span class="macro">print!</span>(<span class="string">&quot;{}, &quot;</span>, <span class="ident">selem</span>.<span class="ident">get_enum_item_name</span>(<span class="ident">v</span>).<span class="ident">unwrap</span>());
                 }
-                <span class="macro">println!</span>(<span class="string">&quot;&quot;</span>);
+                <span class="macro">println!</span>();
             }
 
             <span class="kw">if</span> <span class="ident">selem</span>.<span class="ident">can_capture</span>() {
@@ -1164,7 +1164,7 @@
                 <span class="kw">for</span> <span class="ident">channel</span> <span class="kw">in</span> <span class="ident">SelemChannelId::all</span>() {
                     <span class="kw">if</span> <span class="ident">selem</span>.<span class="ident">has_capture_channel</span>(<span class="kw-2">*</span><span class="ident">channel</span>) { <span class="macro">print!</span>(<span class="string">&quot;{}, &quot;</span>, <span class="ident">channel</span>) };
                 }
-                <span class="macro">println!</span>(<span class="string">&quot;&quot;</span>);
+                <span class="macro">println!</span>();
                 <span class="macro">print!</span>(<span class="string">&quot;\t  Capture volumes: &quot;</span>);
                 <span class="kw">for</span> <span class="ident">channel</span> <span class="kw">in</span> <span class="ident">SelemChannelId::all</span>() {
                     <span class="kw">if</span> <span class="ident">selem</span>.<span class="ident">has_capture_channel</span>(<span class="kw-2">*</span><span class="ident">channel</span>) { <span class="macro">print!</span>(<span class="string">&quot;{}: {} ({} dB), &quot;</span>, <span class="ident">channel</span>,
@@ -1172,7 +1172,7 @@
                         <span class="kw">match</span> <span class="ident">selem</span>.<span class="ident">get_capture_vol_db</span>(<span class="kw-2">*</span><span class="ident">channel</span>) {<span class="prelude-val">Ok</span>(<span class="ident">v</span>) =&gt; <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">v</span>.<span class="ident">to_db</span>()), <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="string">&quot;n/a&quot;</span>.<span class="ident">to_string</span>()}
                     );}
                 }
-                <span class="macro">println!</span>(<span class="string">&quot;&quot;</span>);
+                <span class="macro">println!</span>();
             }
 
             <span class="kw">if</span> <span class="ident">selem</span>.<span class="ident">can_playback</span>() {
@@ -1184,7 +1184,7 @@
                         <span class="kw">if</span> <span class="ident">selem</span>.<span class="ident">has_playback_channel</span>(<span class="kw-2">*</span><span class="ident">channel</span>) { <span class="macro">print!</span>(<span class="string">&quot;{}, &quot;</span>, <span class="ident">channel</span>) };
                     }
                 }
-                <span class="macro">println!</span>(<span class="string">&quot;&quot;</span>);
+                <span class="macro">println!</span>();
                 <span class="kw">if</span> <span class="ident">selem</span>.<span class="ident">has_playback_volume</span>() {
                     <span class="macro">print!</span>(<span class="string">&quot;\t  Playback volumes: &quot;</span>);
                     <span class="kw">for</span> <span class="ident">channel</span> <span class="kw">in</span> <span class="ident">SelemChannelId::all</span>() {
@@ -1194,7 +1194,7 @@
                             <span class="kw">match</span> <span class="ident">selem</span>.<span class="ident">get_playback_vol_db</span>(<span class="kw-2">*</span><span class="ident">channel</span>) {<span class="prelude-val">Ok</span>(<span class="ident">v</span>) =&gt; <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">v</span>.<span class="ident">to_db</span>()), <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="string">&quot;n/a&quot;</span>.<span class="ident">to_string</span>()}
                         );}
                     }
-                    <span class="macro">println!</span>(<span class="string">&quot;&quot;</span>);
+                    <span class="macro">println!</span>();
                 }
             }
         }
@@ -1216,7 +1216,7 @@
 
     <span class="kw">let</span> <span class="ident">old</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="ident">selem</span>.<span class="ident">get_playback_volume</span>(<span class="ident">channel</span>).<span class="ident">unwrap</span>();
     <span class="kw">let</span> <span class="ident">new</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="ident">rmax</span> <span class="op">/</span> <span class="number">2</span>;
-    <span class="macro">assert!</span>( <span class="ident">new</span> <span class="op">!</span><span class="op">=</span> <span class="ident">old</span> );
+    <span class="macro">assert_ne!</span>(<span class="ident">new</span>, <span class="ident">old</span>);
 
     <span class="macro">println!</span>(<span class="string">&quot;Changing volume of {} from {} to {}&quot;</span>, <span class="ident">channel</span>, <span class="ident">old</span>, <span class="ident">new</span>);
     <span class="ident">selem</span>.<span class="ident">set_playback_volume</span>(<span class="ident">channel</span>, <span class="ident">new</span>).<span class="ident">unwrap</span>();
@@ -1244,7 +1244,7 @@
 
     <span class="kw">let</span> <span class="ident">old</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="ident">selem</span>.<span class="ident">get_capture_volume</span>(<span class="ident">channel</span>).<span class="ident">unwrap</span>();
     <span class="kw">let</span> <span class="ident">new</span>: <span class="ident">i64</span> <span class="op">=</span> <span class="ident">rmax</span> <span class="op">/</span> <span class="number">2</span>;
-    <span class="macro">assert!</span>( <span class="ident">new</span> <span class="op">!</span><span class="op">=</span> <span class="ident">old</span> );
+    <span class="macro">assert_ne!</span>(<span class="ident">new</span>, <span class="ident">old</span>);
 
     <span class="macro">println!</span>(<span class="string">&quot;Changing volume of {} from {} to {}&quot;</span>, <span class="ident">channel</span>, <span class="ident">old</span>, <span class="ident">new</span>);
     <span class="ident">selem</span>.<span class="ident">set_capture_volume</span>(<span class="ident">channel</span>, <span class="ident">new</span>).<span class="ident">unwrap</span>();

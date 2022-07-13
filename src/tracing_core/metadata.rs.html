@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-core-0.1.17/src/metadata.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>metadata.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-core-0.1.28/src/metadata.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>metadata.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
     <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../tracing_core/index.html"><div class="logo-container"><img src="https://raw.githubusercontent.com/tokio-rs/tracing/master/assets/logo-type.png" alt="logo"></div>
         </a><h2 class="location"></h2>
     </nav>
@@ -877,6 +877,195 @@
 <span id="870">870</span>
 <span id="871">871</span>
 <span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
+<span id="938">938</span>
+<span id="939">939</span>
+<span id="940">940</span>
+<span id="941">941</span>
+<span id="942">942</span>
+<span id="943">943</span>
+<span id="944">944</span>
+<span id="945">945</span>
+<span id="946">946</span>
+<span id="947">947</span>
+<span id="948">948</span>
+<span id="949">949</span>
+<span id="950">950</span>
+<span id="951">951</span>
+<span id="952">952</span>
+<span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
+<span id="957">957</span>
+<span id="958">958</span>
+<span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
+<span id="972">972</span>
+<span id="973">973</span>
+<span id="974">974</span>
+<span id="975">975</span>
+<span id="976">976</span>
+<span id="977">977</span>
+<span id="978">978</span>
+<span id="979">979</span>
+<span id="980">980</span>
+<span id="981">981</span>
+<span id="982">982</span>
+<span id="983">983</span>
+<span id="984">984</span>
+<span id="985">985</span>
+<span id="986">986</span>
+<span id="987">987</span>
+<span id="988">988</span>
+<span id="989">989</span>
+<span id="990">990</span>
+<span id="991">991</span>
+<span id="992">992</span>
+<span id="993">993</span>
+<span id="994">994</span>
+<span id="995">995</span>
+<span id="996">996</span>
+<span id="997">997</span>
+<span id="998">998</span>
+<span id="999">999</span>
+<span id="1000">1000</span>
+<span id="1001">1001</span>
+<span id="1002">1002</span>
+<span id="1003">1003</span>
+<span id="1004">1004</span>
+<span id="1005">1005</span>
+<span id="1006">1006</span>
+<span id="1007">1007</span>
+<span id="1008">1008</span>
+<span id="1009">1009</span>
+<span id="1010">1010</span>
+<span id="1011">1011</span>
+<span id="1012">1012</span>
+<span id="1013">1013</span>
+<span id="1014">1014</span>
+<span id="1015">1015</span>
+<span id="1016">1016</span>
+<span id="1017">1017</span>
+<span id="1018">1018</span>
+<span id="1019">1019</span>
+<span id="1020">1020</span>
+<span id="1021">1021</span>
+<span id="1022">1022</span>
+<span id="1023">1023</span>
+<span id="1024">1024</span>
+<span id="1025">1025</span>
+<span id="1026">1026</span>
+<span id="1027">1027</span>
+<span id="1028">1028</span>
+<span id="1029">1029</span>
+<span id="1030">1030</span>
+<span id="1031">1031</span>
+<span id="1032">1032</span>
+<span id="1033">1033</span>
+<span id="1034">1034</span>
+<span id="1035">1035</span>
+<span id="1036">1036</span>
+<span id="1037">1037</span>
+<span id="1038">1038</span>
+<span id="1039">1039</span>
+<span id="1040">1040</span>
+<span id="1041">1041</span>
+<span id="1042">1042</span>
+<span id="1043">1043</span>
+<span id="1044">1044</span>
+<span id="1045">1045</span>
+<span id="1046">1046</span>
+<span id="1047">1047</span>
+<span id="1048">1048</span>
+<span id="1049">1049</span>
+<span id="1050">1050</span>
+<span id="1051">1051</span>
+<span id="1052">1052</span>
+<span id="1053">1053</span>
+<span id="1054">1054</span>
+<span id="1055">1055</span>
+<span id="1056">1056</span>
+<span id="1057">1057</span>
+<span id="1058">1058</span>
+<span id="1059">1059</span>
+<span id="1060">1060</span>
+<span id="1061">1061</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Metadata describing trace data.</span>
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">callsite</span>, <span class="ident">field</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::stdlib</span>::{
@@ -893,7 +1082,9 @@
 <span class="doccomment">///   or event occurred. The `tracing` macros default to using the module</span>
 <span class="doccomment">///   path where the span or event originated as the target, but it may be</span>
 <span class="doccomment">///   overridden.</span>
-<span class="doccomment">/// - A [verbosity level].</span>
+<span class="doccomment">/// - A [verbosity level]. This determines how verbose a given span or event</span>
+<span class="doccomment">///   is, and allows enabling or disabling more verbose diagnostics</span>
+<span class="doccomment">///   situationally. See the documentation for the [`Level`] type for details.</span>
 <span class="doccomment">/// - The names of the [fields] defined by the span or event.</span>
 <span class="doccomment">/// - Whether the metadata corresponds to a span or event.</span>
 <span class="doccomment">///</span>
@@ -912,31 +1103,28 @@
 <span class="doccomment">/// _significantly_ lower than that of creating the actual span. Therefore,</span>
 <span class="doccomment">/// filtering is based on metadata, rather than on the constructed span.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// &lt;div class=&quot;information&quot;&gt;</span>
-<span class="doccomment">///     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
-<span class="doccomment">/// &lt;/div&gt;</span>
-<span class="doccomment">/// &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
 <span class="doccomment">/// &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
-<span class="doccomment">/// &lt;strong&gt;Note&lt;/strong&gt;: Although instances of &lt;code&gt;Metadata&lt;/code&gt; cannot</span>
-<span class="doccomment">/// be compared directly, they provide a method &lt;a href=&quot;struct.Metadata.html#method.id&quot;&gt;</span>
-<span class="doccomment">/// &lt;code&gt;id&lt;/code&gt;&lt;/a&gt;, returning an opaque &lt;a href=&quot;../callsite/struct.Identifier.html&quot;&gt;</span>
-<span class="doccomment">/// callsite identifier&lt;/a&gt;  which uniquely identifies the callsite where the metadata</span>
-<span class="doccomment">/// originated. This can be used to determine if two &lt;code&gt;Metadata&lt;/code&gt; correspond to</span>
-<span class="doccomment">/// the same callsite.</span>
-<span class="doccomment">/// &lt;/pre&gt;&lt;/div&gt;</span>
+<span class="doccomment">///     &lt;strong&gt;Note&lt;/strong&gt;: Although instances of &lt;code&gt;Metadata&lt;/code&gt;</span>
+<span class="doccomment">///     cannot be compared directly, they provide a method</span>
+<span class="doccomment">///     &lt;a href=&quot;struct.Metadata.html#method.id&quot;&gt;&lt;code&gt;id&lt;/code&gt;&lt;/a&gt;, returning</span>
+<span class="doccomment">///     an opaque &lt;a href=&quot;../callsite/struct.Identifier.html&quot;&gt;callsite</span>
+<span class="doccomment">///     identifier&lt;/a&gt;which uniquely identifies the callsite where the metadata</span>
+<span class="doccomment">///     originated. This can be used to determine if two &lt;code&gt;Metadata&lt;/code&gt;</span>
+<span class="doccomment">///     correspond to the same callsite.</span>
+<span class="doccomment">/// &lt;/pre&gt;</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// [span]: ../span/index.html</span>
-<span class="doccomment">/// [event]: ../event/index.html</span>
-<span class="doccomment">/// [name]: #method.name</span>
-<span class="doccomment">/// [target]: #method.target</span>
-<span class="doccomment">/// [fields]: #method.fields</span>
-<span class="doccomment">/// [verbosity level]: #method.level</span>
-<span class="doccomment">/// [file name]: #method.file</span>
-<span class="doccomment">/// [line number]: #method.line</span>
-<span class="doccomment">/// [module path]: #method.module</span>
-<span class="doccomment">/// [`Subscriber`]: ../subscriber/trait.Subscriber.html</span>
-<span class="doccomment">/// [`id`]: struct.Metadata.html#method.id</span>
-<span class="doccomment">/// [callsite identifier]: ../callsite/struct.Identifier.html</span>
+<span class="doccomment">/// [span]: super::span</span>
+<span class="doccomment">/// [event]: super::event</span>
+<span class="doccomment">/// [name]: Metadata::name()</span>
+<span class="doccomment">/// [target]: Metadata::target()</span>
+<span class="doccomment">/// [fields]: Metadata::fields()</span>
+<span class="doccomment">/// [verbosity level]: Metadata::level()</span>
+<span class="doccomment">/// [file name]: Metadata::file()</span>
+<span class="doccomment">/// [line number]: Metadata::line()</span>
+<span class="doccomment">/// [module path]: Metadata::module_path()</span>
+<span class="doccomment">/// [`Subscriber`]: super::subscriber::Subscriber</span>
+<span class="doccomment">/// [`id`]: Metadata::id</span>
+<span class="doccomment">/// [callsite identifier]: super::callsite::Identifier</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Metadata</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// The name of the span described by this metadata.</span>
     <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
@@ -969,24 +1157,157 @@
 }
 
 <span class="doccomment">/// Indicates whether the callsite is a span or event.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Kind</span>(<span class="ident">KindInner</span>);
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Kind</span>(<span class="ident">u8</span>);
 
 <span class="doccomment">/// Describes the level of verbosity of a span or event.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Comparing Levels</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// `Level` implements the [`PartialOrd`] and [`Ord`] traits, allowing two</span>
+<span class="doccomment">/// `Level`s to be compared to determine which is considered more or less</span>
+<span class="doccomment">/// verbose. Levels which are more verbose are considered &quot;greater than&quot; levels</span>
+<span class="doccomment">/// which are less verbose, with [`Level::ERROR`] considered the lowest, and</span>
+<span class="doccomment">/// [`Level::TRACE`] considered the highest.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For example:</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// use tracing_core::Level;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// assert!(Level::TRACE &gt; Level::DEBUG);</span>
+<span class="doccomment">/// assert!(Level::ERROR &lt; Level::WARN);</span>
+<span class="doccomment">/// assert!(Level::INFO &lt;= Level::DEBUG);</span>
+<span class="doccomment">/// assert_eq!(Level::TRACE, Level::TRACE);</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Filtering</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// `Level`s are typically used to implement filtering that determines which</span>
+<span class="doccomment">/// spans and events are enabled. Depending on the use case, more or less</span>
+<span class="doccomment">/// verbose diagnostics may be desired. For example, when running in</span>
+<span class="doccomment">/// development, [`DEBUG`]-level traces may be enabled by default. When running in</span>
+<span class="doccomment">/// production, only [`INFO`]-level and lower traces might be enabled. Libraries</span>
+<span class="doccomment">/// may include very verbose diagnostics at the [`DEBUG`] and/or [`TRACE`] levels.</span>
+<span class="doccomment">/// Applications using those libraries typically chose to ignore those traces. However, when</span>
+<span class="doccomment">/// debugging an issue involving said libraries, it may be useful to temporarily</span>
+<span class="doccomment">/// enable the more verbose traces.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The [`LevelFilter`] type is provided to enable filtering traces by</span>
+<span class="doccomment">/// verbosity. `Level`s can be compared against [`LevelFilter`]s, and</span>
+<span class="doccomment">/// [`LevelFilter`] has a variant for each `Level`, which compares analogously</span>
+<span class="doccomment">/// to that level. In addition, [`LevelFilter`] adds a [`LevelFilter::OFF`]</span>
+<span class="doccomment">/// variant, which is considered &quot;less verbose&quot; than every other `Level`. This is</span>
+<span class="doccomment">/// intended to allow filters to completely disable tracing in a particular context.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For example:</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// use tracing_core::{Level, LevelFilter};</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// assert!(LevelFilter::OFF &lt; Level::TRACE);</span>
+<span class="doccomment">/// assert!(LevelFilter::TRACE &gt; Level::DEBUG);</span>
+<span class="doccomment">/// assert!(LevelFilter::ERROR &lt; Level::WARN);</span>
+<span class="doccomment">/// assert!(LevelFilter::INFO &lt;= Level::DEBUG);</span>
+<span class="doccomment">/// assert!(LevelFilter::INFO &gt;= Level::INFO);</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ## Examples</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Below is a simple example of how a [`Subscriber`] could implement filtering through</span>
+<span class="doccomment">/// a [`LevelFilter`]. When a span or event is recorded, the [`Subscriber::enabled`] method</span>
+<span class="doccomment">/// compares the span or event&#39;s `Level` against the configured [`LevelFilter`].</span>
+<span class="doccomment">/// The optional [`Subscriber::max_level_hint`] method can also be implemented to allow spans</span>
+<span class="doccomment">/// and events above a maximum verbosity level to be skipped more efficiently,</span>
+<span class="doccomment">/// often improving performance in short-lived programs.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// use tracing_core::{span, Event, Level, LevelFilter, Subscriber, Metadata};</span>
+<span class="doccomment">/// # use tracing_core::span::{Id, Record, Current};</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// #[derive(Debug)]</span>
+<span class="doccomment">/// pub struct MySubscriber {</span>
+<span class="doccomment">///     /// The most verbose level that this subscriber will enable.</span>
+<span class="doccomment">///     max_level: LevelFilter,</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     // ...</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// impl MySubscriber {</span>
+<span class="doccomment">///     /// Returns a new `MySubscriber` which will record spans and events up to</span>
+<span class="doccomment">///     /// `max_level`.</span>
+<span class="doccomment">///     pub fn with_max_level(max_level: LevelFilter) -&gt; Self {</span>
+<span class="doccomment">///         Self {</span>
+<span class="doccomment">///             max_level,</span>
+<span class="doccomment">///             // ...</span>
+<span class="doccomment">///         }</span>
+<span class="doccomment">///     }</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// impl Subscriber for MySubscriber {</span>
+<span class="doccomment">///     fn enabled(&amp;self, meta: &amp;Metadata&lt;&#39;_&gt;) -&gt; bool {</span>
+<span class="doccomment">///         // A span or event is enabled if it is at or below the configured</span>
+<span class="doccomment">///         // maximum level.</span>
+<span class="doccomment">///         meta.level() &lt;= &amp;self.max_level</span>
+<span class="doccomment">///     }</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     // This optional method returns the most verbose level that this</span>
+<span class="doccomment">///     // subscriber will enable. Although implementing this method is not</span>
+<span class="doccomment">///     // *required*, it permits additional optimizations when it is provided,</span>
+<span class="doccomment">///     // allowing spans and events above the max level to be skipped</span>
+<span class="doccomment">///     // more efficiently.</span>
+<span class="doccomment">///     fn max_level_hint(&amp;self) -&gt; Option&lt;LevelFilter&gt; {</span>
+<span class="doccomment">///         Some(self.max_level)</span>
+<span class="doccomment">///     }</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     // Implement the rest of the subscriber...</span>
+<span class="doccomment">///     fn new_span(&amp;self, span: &amp;span::Attributes&lt;&#39;_&gt;) -&gt; span::Id {</span>
+<span class="doccomment">///         // ...</span>
+<span class="doccomment">///         # drop(span); Id::from_u64(1)</span>
+<span class="doccomment">///     }</span>
+
+<span class="doccomment">///     fn event(&amp;self, event: &amp;Event&lt;&#39;_&gt;) {</span>
+<span class="doccomment">///         // ...</span>
+<span class="doccomment">///         # drop(event);</span>
+<span class="doccomment">///     }</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     // ...</span>
+<span class="doccomment">///     # fn enter(&amp;self, _: &amp;Id) {}</span>
+<span class="doccomment">///     # fn exit(&amp;self, _: &amp;Id) {}</span>
+<span class="doccomment">///     # fn record(&amp;self, _: &amp;Id, _: &amp;Record&lt;&#39;_&gt;) {}</span>
+<span class="doccomment">///     # fn record_follows_from(&amp;self, _: &amp;Id, _: &amp;Id) {}</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// It is worth noting that the `tracing-subscriber` crate provides [additional</span>
+<span class="doccomment">/// APIs][envfilter] for performing more sophisticated filtering, such as</span>
+<span class="doccomment">/// enabling different levels based on which module or crate a span or event is</span>
+<span class="doccomment">/// recorded in.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// [`DEBUG`]: Level::DEBUG</span>
+<span class="doccomment">/// [`INFO`]: Level::INFO</span>
+<span class="doccomment">/// [`TRACE`]: Level::TRACE</span>
+<span class="doccomment">/// [`Subscriber::enabled`]: crate::subscriber::Subscriber::enabled</span>
+<span class="doccomment">/// [`Subscriber::max_level_hint`]: crate::subscriber::Subscriber::max_level_hint</span>
+<span class="doccomment">/// [`Subscriber`]: crate::subscriber::Subscriber</span>
+<span class="doccomment">/// [envfilter]: https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Level</span>(<span class="ident">LevelInner</span>);
 
-<span class="doccomment">/// A filter comparable to a verbosity `Level`.</span>
+<span class="doccomment">/// A filter comparable to a verbosity [`Level`].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// If a `Level` is considered less than a `LevelFilter`, it should be</span>
-<span class="doccomment">/// considered disabled; if greater than or equal to the `LevelFilter`, that</span>
-<span class="doccomment">/// level is enabled.</span>
+<span class="doccomment">/// If a [`Level`] is considered less than a `LevelFilter`, it should be</span>
+<span class="doccomment">/// considered enabled; if greater than or equal to the `LevelFilter`,</span>
+<span class="doccomment">/// that level is disabled. See [`LevelFilter::current`] for more</span>
+<span class="doccomment">/// details.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Note that this is essentially identical to the `Level` type, but with the</span>
-<span class="doccomment">/// addition of an `OFF` level that completely disables all trace</span>
+<span class="doccomment">/// addition of an [`OFF`] level that completely disables all trace</span>
 <span class="doccomment">/// instrumentation.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// See the documentation for the [`Level`] type to see how `Level`s</span>
+<span class="doccomment">/// and `LevelFilter`s interact.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// [`OFF`]: LevelFilter::OFF</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LevelFilter</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Level</span><span class="op">&gt;</span>);
 
 <span class="doccomment">/// Indicates that a string could not be parsed to a valid level.</span>
@@ -1115,33 +1436,78 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
-<span class="kw">enum</span> <span class="ident">KindInner</span> {
-    <span class="ident">Event</span>,
-    <span class="ident">Span</span>,
-}
-
 <span class="kw">impl</span> <span class="ident">Kind</span> {
+    <span class="kw">const</span> <span class="ident">EVENT_BIT</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">0</span>;
+    <span class="kw">const</span> <span class="ident">SPAN_BIT</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">1</span>;
+    <span class="kw">const</span> <span class="ident">HINT_BIT</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">2</span>;
+
     <span class="doccomment">/// `Event` callsite</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">EVENT</span>: <span class="ident">Kind</span> <span class="op">=</span> <span class="ident">Kind</span>(<span class="ident">KindInner::Event</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">EVENT</span>: <span class="ident">Kind</span> <span class="op">=</span> <span class="ident">Kind</span>(<span class="ident"><span class="self">Self</span>::EVENT_BIT</span>);
 
     <span class="doccomment">/// `Span` callsite</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">SPAN</span>: <span class="ident">Kind</span> <span class="op">=</span> <span class="ident">Kind</span>(<span class="ident">KindInner::Span</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">SPAN</span>: <span class="ident">Kind</span> <span class="op">=</span> <span class="ident">Kind</span>(<span class="ident"><span class="self">Self</span>::SPAN_BIT</span>);
+
+    <span class="doccomment">/// `enabled!` callsite. [`Subscriber`][`crate::subscriber::Subscriber`]s can assume</span>
+    <span class="doccomment">/// this `Kind` means they will never recieve a</span>
+    <span class="doccomment">/// full event with this [`Metadata`].</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">HINT</span>: <span class="ident">Kind</span> <span class="op">=</span> <span class="ident">Kind</span>(<span class="ident"><span class="self">Self</span>::HINT_BIT</span>);
 
     <span class="doccomment">/// Return true if the callsite kind is `Span`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_span</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Kind</span>(<span class="ident">KindInner::Span</span>) =&gt; <span class="bool-val">true</span>,
-            <span class="kw">_</span> =&gt; <span class="bool-val">false</span>,
-        }
+        <span class="self">self</span>.<span class="number">0</span> <span class="op">&amp;</span> <span class="ident"><span class="self">Self</span>::SPAN_BIT</span> <span class="op">==</span> <span class="ident"><span class="self">Self</span>::SPAN_BIT</span>
     }
 
     <span class="doccomment">/// Return true if the callsite kind is `Event`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_event</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Kind</span>(<span class="ident">KindInner::Event</span>) =&gt; <span class="bool-val">true</span>,
-            <span class="kw">_</span> =&gt; <span class="bool-val">false</span>,
+        <span class="self">self</span>.<span class="number">0</span> <span class="op">&amp;</span> <span class="ident"><span class="self">Self</span>::EVENT_BIT</span> <span class="op">==</span> <span class="ident"><span class="self">Self</span>::EVENT_BIT</span>
+    }
+
+    <span class="doccomment">/// Return true if the callsite kind is `Hint`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="number">0</span> <span class="op">&amp;</span> <span class="ident"><span class="self">Self</span>::HINT_BIT</span> <span class="op">==</span> <span class="ident"><span class="self">Self</span>::HINT_BIT</span>
+    }
+
+    <span class="doccomment">/// Sets that this `Kind` is a [hint](Self::HINT).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This can be called on [`SPAN`](Self::SPAN) and [`EVENT`](Self::EVENT)</span>
+    <span class="doccomment">/// kinds to construct a hint callsite that also counts as a span or event.</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">hint</span>(<span class="self">self</span>) -&gt; <span class="self">Self</span> {
+        <span class="self">Self</span>(<span class="self">self</span>.<span class="number">0</span> <span class="op">|</span> <span class="ident"><span class="self">Self</span>::HINT_BIT</span>)
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">Kind</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
+        <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Kind(&quot;</span>)<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">has_bits</span> <span class="op">=</span> <span class="bool-val">false</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">write_bit</span> <span class="op">=</span> <span class="op">|</span><span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">|</span> {
+            <span class="kw">if</span> <span class="ident">has_bits</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; | &quot;</span>)<span class="question-mark">?</span>;
+            }
+            <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="ident">name</span>)<span class="question-mark">?</span>;
+            <span class="ident">has_bits</span> <span class="op">=</span> <span class="bool-val">true</span>;
+            <span class="prelude-val">Ok</span>(())
+        };
+
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_event</span>() {
+            <span class="ident">write_bit</span>(<span class="string">&quot;EVENT&quot;</span>)<span class="question-mark">?</span>;
         }
+
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_span</span>() {
+            <span class="ident">write_bit</span>(<span class="string">&quot;SPAN&quot;</span>)<span class="question-mark">?</span>;
+        }
+
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_hint</span>() {
+            <span class="ident">write_bit</span>(<span class="string">&quot;HINT&quot;</span>)<span class="question-mark">?</span>;
+        }
+
+        <span class="comment">// if none of the expected bits were set, something is messed up, so</span>
+        <span class="comment">// just print the bits for debugging purposes</span>
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">has_bits</span> {
+            <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{:#b}&quot;</span>, <span class="self">self</span>.<span class="number">0</span>)<span class="question-mark">?</span>;
+        }
+
+        <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;)&quot;</span>)
     }
 }
 
@@ -1168,6 +1534,19 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Designates very low priority, often extremely verbose, information.</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">TRACE</span>: <span class="ident">Level</span> <span class="op">=</span> <span class="ident">Level</span>(<span class="ident">LevelInner::Trace</span>);
+
+    <span class="doccomment">/// Returns the string representation of the `Level`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This returns the same string as the `fmt::Display` implementation.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Level::TRACE</span> =&gt; <span class="string">&quot;TRACE&quot;</span>,
+            <span class="ident">Level::DEBUG</span> =&gt; <span class="string">&quot;DEBUG&quot;</span>,
+            <span class="ident">Level::INFO</span> =&gt; <span class="string">&quot;INFO&quot;</span>,
+            <span class="ident">Level::WARN</span> =&gt; <span class="string">&quot;WARN&quot;</span>,
+            <span class="ident">Level::ERROR</span> =&gt; <span class="string">&quot;ERROR&quot;</span>,
+        }
+    }
 }
 
 <span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">Level</span> {
@@ -1251,10 +1630,10 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Level</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">LevelFilter</span> {
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">LevelFilter</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Level</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">into</span>(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Level</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">into_level</span>()
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">filter</span>: <span class="ident">LevelFilter</span>) -&gt; <span class="self">Self</span> {
+        <span class="ident">filter</span>.<span class="ident">into_level</span>()
     }
 }
 
@@ -1293,8 +1672,7 @@
     <span class="doccomment">/// Returns the most verbose [`Level`] that this filter accepts, or `None`</span>
     <span class="doccomment">/// if it is [`OFF`].</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// [`Level`]: ../struct.Level.html</span>
-    <span class="doccomment">/// [`OFF`]: #associatedconstant.OFF</span>
+    <span class="doccomment">/// [`OFF`]: LevelFilter::OFF</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">into_level</span>(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Level</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="number">0</span>
     }
@@ -1325,10 +1703,10 @@
     <span class="doccomment">/// Therefore, comparing a given span or event&#39;s level to the returned</span>
     <span class="doccomment">/// `LevelFilter` **can** be used for determining if something is</span>
     <span class="doccomment">/// *disabled*, but **should not** be used for determining if something is</span>
-    <span class="doccomment">/// *enabled*.`</span>
+    <span class="doccomment">/// *enabled*.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// [`Level`]: ../struct.Level.html</span>
-    <span class="doccomment">/// [`Subscriber`]: ../../trait.Subscriber.html</span>
+    <span class="doccomment">/// [`Level`]: super::Level</span>
+    <span class="doccomment">/// [`Subscriber`]: super::Subscriber</span>
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">current</span>() -&gt; <span class="self">Self</span> {
         <span class="kw">match</span> <span class="ident">MAX_LEVEL</span>.<span class="ident">load</span>(<span class="ident">Ordering::Relaxed</span>) {
@@ -1433,7 +1811,7 @@
                 <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">eq_ignore_ascii_case</span>(<span class="string">&quot;off&quot;</span>) =&gt; <span class="prelude-val">Some</span>(<span class="ident">LevelFilter::OFF</span>),
                 <span class="kw">_</span> =&gt; <span class="prelude-val">None</span>,
             })
-            .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">ParseLevelFilterError</span>(()))
+            .<span class="ident">ok_or</span>(<span class="ident">ParseLevelFilterError</span>(()))
     }
 }
 
@@ -1704,10 +2082,10 @@
             (<span class="ident">LevelFilter::TRACE</span>, <span class="prelude-val">Some</span>(<span class="ident">Level::TRACE</span>)),
         ];
         <span class="kw">for</span> (<span class="ident">filter</span>, <span class="ident">level</span>) <span class="kw">in</span> <span class="ident">mapping</span>.<span class="ident">iter</span>() {
-            <span class="macro">assert_eq!</span>(<span class="ident">filter</span>.<span class="ident">clone</span>().<span class="ident">into_level</span>(), <span class="kw-2">*</span><span class="ident">level</span>);
+            <span class="macro">assert_eq!</span>(<span class="ident">filter</span>.<span class="ident">into_level</span>(), <span class="kw-2">*</span><span class="ident">level</span>);
             <span class="kw">match</span> <span class="ident">level</span> {
                 <span class="prelude-val">Some</span>(<span class="ident">level</span>) =&gt; {
-                    <span class="kw">let</span> <span class="ident">actual</span>: <span class="ident">LevelFilter</span> <span class="op">=</span> <span class="ident">level</span>.<span class="ident">clone</span>().<span class="ident">into</span>();
+                    <span class="kw">let</span> <span class="ident">actual</span>: <span class="ident">LevelFilter</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">level</span>).<span class="ident">into</span>();
                     <span class="macro">assert_eq!</span>(<span class="ident">actual</span>, <span class="kw-2">*</span><span class="ident">filter</span>);
                 }
                 <span class="prelude-val">None</span> =&gt; {

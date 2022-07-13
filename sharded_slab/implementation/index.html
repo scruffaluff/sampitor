@@ -4,7 +4,7 @@
     </nav>
     <nav class="sidebar"><a class="sidebar-logo" href="../../sharded_slab/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"><a href="#">Module implementation</a></h2><div class="sidebar-elems"><div id="sidebar-vars" data-name="implementation" data-ty="mod" data-relpath="./"></div><script defer src="./sidebar-items.js"></script></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../sharded_slab/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><div class="theme-picker hidden"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="22" height="22" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="main-heading">
-    <h1 class="fqn"><span class="in-band">Module <a href="../index.html">sharded_slab</a>::<wbr><a class="mod" href="#">implementation</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../../src/sharded_slab/implementation.rs.html#4-129">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Notes on <code>sharded-slab</code>’s implementation and design.</p>
+    <h1 class="fqn"><span class="in-band">Module <a href="../index.html">sharded_slab</a>::<wbr><a class="mod" href="#">implementation</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../../src/sharded_slab/implementation.rs.html#4-138">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Notes on <code>sharded-slab</code>’s implementation and design.</p>
 <h2 id="design"><a href="#design">Design</a></h2>
 <p>The sharded slab’s design is strongly inspired by the ideas presented by
 Leijen, Zorn, and de Moura in <a href="https://www.microsoft.com/en-us/research/uploads/prod/2019/06/mimalloc-tr-v1.pdf">Mimalloc: Free List Sharding in
@@ -26,7 +26,7 @@ indices into the backing array.</p>
 <p>When allocations and deallocations can occur concurrently across threads,
 they must synchronize accesses to the free list; either by putting the
 entire allocator state inside of a lock, or by using atomic operations to
-treat the free list as a lock-free structure (such as a Treiber stack). In
+treat the free list as a lock-free structure (such as a <a href="https://en.wikipedia.org/wiki/Treiber_stack">Treiber stack</a>). In
 both cases, there is a significant performance cost — even when the free
 list is lock-free, it is likely that a noticeable amount of time will be
 spent in compare-and-swap loops. Ideally, the global synchronzation point
@@ -52,7 +52,7 @@ of allocations can occur without any synchronization at all; and
 deallocations only require synchronization when an object has left its
 parent thread (a relatively uncommon case).</p>
 <h2 id="implementation"><a href="#implementation">Implementation</a></h2>
-<p>A slab is represented as an array of <a href="../trait.Config.html#associatedconstant.MAX_THREADS"><code>MAX_THREADS</code></a> <em>shards</em>. A shard
+<p>A slab is represented as an array of <a href="https://docs.rs/sharded-slab/latest/sharded_slab/trait.Config.html#associatedconstant.MAX_THREADS"><code>MAX_THREADS</code></a> <em>shards</em>. A shard
 consists of a vector of one or more <em>pages</em> plus associated metadata.
 Finally, a page consists of an array of <em>slots</em>, head indices for the local
 and remote free lists.</p>
@@ -66,7 +66,7 @@ and remote free lists.</p>
 │ shard 3     │    │ local_head──┼──┘     ├────────┤ │
 └─────────────┘    │ remote_head─┼──┐     │        │◀┘
       ...          ├─────────────┤  │     │  next──┼─┐
-┌─────────────┐    │   page 3    │  │     ├────────┤ │
+┌─────────────┐    │ page 3      │  │     ├────────┤ │
 │ shard n     │    └─────────────┘  │     │XXXXXXXX│ │
 └─────────────┘          ...        │     ├────────┤ │
                    ┌─────────────┐  │     │XXXXXXXX│ │
@@ -80,7 +80,7 @@ and remote free lists.</p>
 subsequent page added after the first is twice as large as the page that
 preceeds it.</p>
 <div class="example-wrap"><pre class="language-text"><code>
- pg.
+pg.
 ┌───┐   ┌─┬─┐
 │ 0 │───▶ │ │
 ├───┤   ├─┼─┼─┬─┐

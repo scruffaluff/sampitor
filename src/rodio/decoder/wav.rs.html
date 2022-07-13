@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rodio-0.13.1/src/decoder/wav.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>wav.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><script defer src="../../../main.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rodio-0.15.0/src/decoder/wav.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>wav.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><script defer src="../../../main.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script>
     <noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../rodio/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"></h2>
     </nav>
@@ -181,6 +181,25 @@
 <span id="176">176</span>
 <span id="177">177</span>
 <span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::io</span>::{<span class="ident">Read</span>, <span class="ident">Seek</span>, <span class="ident">SeekFrom</span>};
 <span class="kw">use</span> <span class="ident">std::time::Duration</span>;
 
@@ -194,6 +213,7 @@
     <span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span>,
 {
     <span class="ident">reader</span>: <span class="ident">SamplesIterator</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
+    <span class="ident">total_duration</span>: <span class="ident">Duration</span>,
     <span class="ident">sample_rate</span>: <span class="ident">u32</span>,
     <span class="ident">channels</span>: <span class="ident">u16</span>,
 }
@@ -210,15 +230,22 @@
 
         <span class="kw">let</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">WavReader::new</span>(<span class="ident">data</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">spec</span>();
+        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>;
         <span class="kw">let</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">SamplesIterator</span> {
             <span class="ident">reader</span>,
             <span class="ident">samples_read</span>: <span class="number">0</span>,
         };
 
+        <span class="kw">let</span> <span class="ident">sample_rate</span> <span class="op">=</span> <span class="ident">spec</span>.<span class="ident">sample_rate</span>;
+        <span class="kw">let</span> <span class="ident">channels</span> <span class="op">=</span> <span class="ident">spec</span>.<span class="ident">channels</span>;
+        <span class="kw">let</span> <span class="ident">total_duration</span> <span class="op">=</span>
+            <span class="ident">Duration::from_micros</span>((<span class="number">1_000_000</span> <span class="op">*</span> <span class="ident">len</span>) <span class="op">/</span> (<span class="ident">sample_rate</span> <span class="kw">as</span> <span class="ident">u64</span> <span class="op">*</span> <span class="ident">channels</span> <span class="kw">as</span> <span class="ident">u64</span>));
+
         <span class="prelude-val">Ok</span>(<span class="ident">WavDecoder</span> {
             <span class="ident">reader</span>,
-            <span class="ident">sample_rate</span>: <span class="ident">spec</span>.<span class="ident">sample_rate</span>,
-            <span class="ident">channels</span>: <span class="ident">spec</span>.<span class="ident">channels</span>,
+            <span class="ident">total_duration</span>,
+            <span class="ident">sample_rate</span>,
+            <span class="ident">channels</span>,
         })
     }
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) -&gt; <span class="ident">R</span> {
@@ -248,6 +275,10 @@
                 <span class="self">self</span>.<span class="ident">samples_read</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
                 <span class="ident">f32_to_i16</span>(<span class="ident">value</span>.<span class="ident">unwrap_or</span>(<span class="number">0.0</span>))
             }),
+            (<span class="ident">SampleFormat::Int</span>, <span class="number">8</span>) =&gt; <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">samples</span>().<span class="ident">next</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">value</span><span class="op">|</span> {
+                <span class="self">self</span>.<span class="ident">samples_read</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+                <span class="ident">i8_to_i16</span>(<span class="ident">value</span>.<span class="ident">unwrap_or</span>(<span class="number">0</span>))
+            }),
             (<span class="ident">SampleFormat::Int</span>, <span class="number">16</span>) =&gt; <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">samples</span>().<span class="ident">next</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">value</span><span class="op">|</span> {
                 <span class="self">self</span>.<span class="ident">samples_read</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
                 <span class="ident">value</span>.<span class="ident">unwrap_or</span>(<span class="number">0</span>)
@@ -256,9 +287,9 @@
                 <span class="self">self</span>.<span class="ident">samples_read</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
                 <span class="ident">i24_to_i16</span>(<span class="ident">value</span>.<span class="ident">unwrap_or</span>(<span class="number">0</span>))
             }),
-            (<span class="ident">SampleFormat::Int</span>, <span class="number">8</span>) =&gt; <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">samples</span>().<span class="ident">next</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">value</span><span class="op">|</span> {
+            (<span class="ident">SampleFormat::Int</span>, <span class="number">32</span>) =&gt; <span class="self">self</span>.<span class="ident">reader</span>.<span class="ident">samples</span>().<span class="ident">next</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">value</span><span class="op">|</span> {
                 <span class="self">self</span>.<span class="ident">samples_read</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-                <span class="ident">i8_to_i16</span>(<span class="ident">value</span>.<span class="ident">unwrap_or</span>(<span class="number">0</span>))
+                <span class="ident">i32_to_i16</span>(<span class="ident">value</span>.<span class="ident">unwrap_or</span>(<span class="number">0</span>))
             }),
             (<span class="ident">sample_format</span>, <span class="ident">bits_per_sample</span>) =&gt; <span class="macro">panic!</span>(
                 <span class="string">&quot;Unimplemented wav spec: {:?}, {}&quot;</span>,
@@ -297,8 +328,7 @@
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">total_duration</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Duration</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">ms</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span> <span class="op">*</span> <span class="number">1000</span> <span class="op">/</span> (<span class="self">self</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">u64</span> <span class="op">*</span> <span class="self">self</span>.<span class="ident">sample_rate</span> <span class="kw">as</span> <span class="ident">u64</span>);
-        <span class="prelude-val">Some</span>(<span class="ident">Duration::from_millis</span>(<span class="ident">ms</span>))
+        <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">total_duration</span>)
     }
 }
 
@@ -346,6 +376,12 @@
     (<span class="ident">f</span>.<span class="ident">max</span>(<span class="op">-</span><span class="number">1.0</span>).<span class="ident">min</span>(<span class="number">1.0</span>) <span class="op">*</span> <span class="ident">i16::max_value</span>() <span class="kw">as</span> <span class="ident">f32</span>) <span class="kw">as</span> <span class="ident">i16</span>
 }
 
+<span class="doccomment">/// Returns an 8-bit WAV int as an i16. This scales the sample value by a factor</span>
+<span class="doccomment">/// of 256.</span>
+<span class="kw">fn</span> <span class="ident">i8_to_i16</span>(<span class="ident">i</span>: <span class="ident">i8</span>) -&gt; <span class="ident">i16</span> {
+    <span class="ident">i</span> <span class="kw">as</span> <span class="ident">i16</span> <span class="op">*</span> <span class="number">256</span>
+}
+
 <span class="doccomment">/// Returns a 24 bit WAV int as an i16. Note that this is a 24 bit integer, not a</span>
 <span class="doccomment">/// 32 bit one. 24 bit ints are in the range [−8,388,608, 8,388,607] while i16s</span>
 <span class="doccomment">/// are in the range [-32768, 32767]. Note that this function definitely causes</span>
@@ -354,10 +390,12 @@
     (<span class="ident">i</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">8</span>) <span class="kw">as</span> <span class="ident">i16</span>
 }
 
-<span class="doccomment">/// Returns an 8-bit WAV int as an i16. This scales the sample value by a factor</span>
-<span class="doccomment">/// of 256.</span>
-<span class="kw">fn</span> <span class="ident">i8_to_i16</span>(<span class="ident">i</span>: <span class="ident">i8</span>) -&gt; <span class="ident">i16</span> {
-    <span class="ident">i</span> <span class="kw">as</span> <span class="ident">i16</span> <span class="op">*</span> <span class="number">256</span>
+<span class="doccomment">/// Returns a 32 bit WAV int as an i16. 32 bit ints are in the range</span>
+<span class="doccomment">/// [-2,147,483,648, 2,147,483,647] while i16s are in the range [-32768, 32767].</span>
+<span class="doccomment">/// Note that this function definitely causes precision loss but hopefully this</span>
+<span class="doccomment">/// isn&#39;t too audiable when actually playing?</span>
+<span class="kw">fn</span> <span class="ident">i32_to_i16</span>(<span class="ident">i</span>: <span class="ident">i32</span>) -&gt; <span class="ident">i16</span> {
+    (<span class="ident">i</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">16</span>) <span class="kw">as</span> <span class="ident">i16</span>
 }
 </code></pre></div>
 </section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="rodio" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0 (a8314ef7d 2022-06-27)" ></div>

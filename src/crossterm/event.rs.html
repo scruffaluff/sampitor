@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/crossterm-0.19.0/src/event.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>event.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/crossterm-0.22.1/src/event.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>event.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
     <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../crossterm/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"></h2>
     </nav>
@@ -444,6 +444,113 @@
 <span id="439">439</span>
 <span id="440">440</span>
 <span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
 </pre><pre class="rust"><code><span class="doccomment">//! # Event</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! The `event` module provides the functionality to read keyboard, mouse and terminal resize events.</span>
@@ -461,7 +568,7 @@
 <span class="doccomment">//! * use the [`read`](fn.read.html) &amp; [`poll`](fn.poll.html) functions on any, but same, thread</span>
 <span class="doccomment">//! * or the [`EventStream`](struct.EventStream.html).</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! **Make sure to enable raw mode in order for keyboard events to work properly**</span>
+<span class="doccomment">//! **Make sure to enable [raw mode](../terminal/#raw-mode) in order for keyboard events to work properly**</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## Mouse Events</span>
 <span class="doccomment">//!</span>
@@ -519,23 +626,21 @@
 <span class="doccomment">//! them (`event-*`).</span>
 
 <span class="kw">use</span> <span class="ident">std::fmt</span>;
+<span class="kw">use</span> <span class="ident">std::hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>};
 <span class="kw">use</span> <span class="ident">std::time::Duration</span>;
 
-<span class="kw">use</span> <span class="ident">parking_lot::RwLock</span>;
+<span class="kw">use</span> <span class="ident">bitflags::bitflags</span>;
+<span class="kw">use</span> <span class="ident">parking_lot</span>::{<span class="ident">MappedMutexGuard</span>, <span class="ident">Mutex</span>, <span class="ident">MutexGuard</span>};
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serde&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
-<span class="kw">use</span> <span class="ident">bitflags::bitflags</span>;
-<span class="kw">use</span> <span class="ident">lazy_static::lazy_static</span>;
-
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Command</span>, <span class="prelude-ty">Result</span>};
-
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">csi</span>, <span class="ident">Command</span>, <span class="prelude-ty">Result</span>};
 <span class="kw">use</span> <span class="ident">filter</span>::{<span class="ident">EventFilter</span>, <span class="ident">Filter</span>};
+<span class="kw">use</span> <span class="ident">read::InternalEventReader</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;event-stream&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">stream::EventStream</span>;
 <span class="kw">use</span> <span class="ident">timeout::PollTimeout</span>;
 
-<span class="kw">mod</span> <span class="ident">ansi</span>;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">filter</span>;
 <span class="kw">mod</span> <span class="ident">read</span>;
 <span class="kw">mod</span> <span class="ident">source</span>;
@@ -544,10 +649,22 @@
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">sys</span>;
 <span class="kw">mod</span> <span class="ident">timeout</span>;
 
-<span class="macro">lazy_static!</span> {
-    <span class="doccomment">/// Static instance of `InternalEventReader`.</span>
-    <span class="doccomment">/// This needs to be static because there can be one event reader.</span>
-    <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">INTERNAL_EVENT_READER</span>: <span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">read::InternalEventReader</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">RwLock::new</span>(<span class="ident">read::InternalEventReader::default</span>());
+<span class="doccomment">/// Static instance of `InternalEventReader`.</span>
+<span class="doccomment">/// This needs to be static because there can be one event reader.</span>
+<span class="kw">static</span> <span class="ident">INTERNAL_EVENT_READER</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">InternalEventReader</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">parking_lot::const_mutex</span>(<span class="prelude-val">None</span>);
+
+<span class="kw">fn</span> <span class="ident">lock_internal_event_reader</span>() -&gt; <span class="ident">MappedMutexGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">InternalEventReader</span><span class="op">&gt;</span> {
+    <span class="ident">MutexGuard::map</span>(<span class="ident">INTERNAL_EVENT_READER</span>.<span class="ident">lock</span>(), <span class="op">|</span><span class="ident">reader</span><span class="op">|</span> {
+        <span class="ident">reader</span>.<span class="ident">get_or_insert_with</span>(<span class="ident">InternalEventReader::default</span>)
+    })
+}
+<span class="kw">fn</span> <span class="ident">try_lock_internal_event_reader_for</span>(
+    <span class="ident">duration</span>: <span class="ident">Duration</span>,
+) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MappedMutexGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">InternalEventReader</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="prelude-val">Some</span>(<span class="ident">MutexGuard::map</span>(
+        <span class="ident">INTERNAL_EVENT_READER</span>.<span class="ident">try_lock_for</span>(<span class="ident">duration</span>)<span class="question-mark">?</span>,
+        <span class="op">|</span><span class="ident">reader</span><span class="op">|</span> <span class="ident">reader</span>.<span class="ident">get_or_insert_with</span>(<span class="ident">InternalEventReader::default</span>),
+    ))
 }
 
 <span class="doccomment">/// Checks if there is an [`Event`](enum.Event.html) available.</span>
@@ -648,13 +765,13 @@
 {
     <span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">reader</span>, <span class="ident">timeout</span>) <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">timeout</span>) <span class="op">=</span> <span class="ident">timeout</span> {
         <span class="kw">let</span> <span class="ident">poll_timeout</span> <span class="op">=</span> <span class="ident">PollTimeout::new</span>(<span class="prelude-val">Some</span>(<span class="ident">timeout</span>));
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">reader</span>) <span class="op">=</span> <span class="ident">INTERNAL_EVENT_READER</span>.<span class="ident">try_write_for</span>(<span class="ident">timeout</span>) {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">reader</span>) <span class="op">=</span> <span class="ident">try_lock_internal_event_reader_for</span>(<span class="ident">timeout</span>) {
             (<span class="ident">reader</span>, <span class="ident">poll_timeout</span>.<span class="ident">leftover</span>())
         } <span class="kw">else</span> {
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>);
         }
     } <span class="kw">else</span> {
-        (<span class="ident">INTERNAL_EVENT_READER</span>.<span class="ident">write</span>(), <span class="prelude-val">None</span>)
+        (<span class="ident">lock_internal_event_reader</span>(), <span class="prelude-val">None</span>)
     };
     <span class="ident">reader</span>.<span class="ident">poll</span>(<span class="ident">timeout</span>, <span class="ident">filter</span>)
 }
@@ -664,7 +781,7 @@
 <span class="kw">where</span>
     <span class="ident">F</span>: <span class="ident">Filter</span>,
 {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">INTERNAL_EVENT_READER</span>.<span class="ident">write</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">lock_internal_event_reader</span>();
     <span class="ident">reader</span>.<span class="ident">read</span>(<span class="ident">filter</span>)
 }
 
@@ -676,11 +793,22 @@
 
 <span class="kw">impl</span> <span class="ident">Command</span> <span class="kw">for</span> <span class="ident">EnableMouseCapture</span> {
     <span class="kw">fn</span> <span class="ident">write_ansi</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">fmt::Write</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="ident">ansi::ENABLE_MOUSE_MODE_CSI_SEQUENCE</span>)
+        <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="macro">concat!</span>(
+            <span class="comment">// Normal tracking: Send mouse X &amp; Y on button press and release</span>
+            <span class="macro">csi!</span>(<span class="string">&quot;?1000h&quot;</span>),
+            <span class="comment">// Button-event tracking: Report button motion events (dragging)</span>
+            <span class="macro">csi!</span>(<span class="string">&quot;?1002h&quot;</span>),
+            <span class="comment">// Any-event tracking: Report all motion events</span>
+            <span class="macro">csi!</span>(<span class="string">&quot;?1003h&quot;</span>),
+            <span class="comment">// RXVT mouse mode: Allows mouse coordinates of &gt;223</span>
+            <span class="macro">csi!</span>(<span class="string">&quot;?1015h&quot;</span>),
+            <span class="comment">// SGR mouse mode: Allows mouse coordinates of &gt;223, preferred over RXVT mode</span>
+            <span class="macro">csi!</span>(<span class="string">&quot;?1006h&quot;</span>),
+        ))
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">execute_winapi</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_writer</span>: <span class="kw">impl</span> <span class="ident">FnMut</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">execute_winapi</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">sys::windows::enable_mouse_capture</span>()
     }
 
@@ -698,11 +826,18 @@
 
 <span class="kw">impl</span> <span class="ident">Command</span> <span class="kw">for</span> <span class="ident">DisableMouseCapture</span> {
     <span class="kw">fn</span> <span class="ident">write_ansi</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">fmt::Write</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="ident">ansi::DISABLE_MOUSE_MODE_CSI_SEQUENCE</span>)
+        <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="macro">concat!</span>(
+            <span class="comment">// The inverse commands of EnableMouseCapture, in reverse order.</span>
+            <span class="macro">csi!</span>(<span class="string">&quot;?1006l&quot;</span>),
+            <span class="macro">csi!</span>(<span class="string">&quot;?1015l&quot;</span>),
+            <span class="macro">csi!</span>(<span class="string">&quot;?1003l&quot;</span>),
+            <span class="macro">csi!</span>(<span class="string">&quot;?1002l&quot;</span>),
+            <span class="macro">csi!</span>(<span class="string">&quot;?1000l&quot;</span>),
+        ))
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">execute_winapi</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_writer</span>: <span class="kw">impl</span> <span class="ident">FnMut</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">execute_winapi</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="ident">sys::windows::disable_mouse_capture</span>()
     }
 
@@ -804,7 +939,7 @@
 
 <span class="doccomment">/// Represents a key event.</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serde&quot;</span>, <span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>))]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Hash</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">PartialOrd</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KeyEvent</span> {
     <span class="doccomment">/// The key itself.</span>
     <span class="kw">pub</span> <span class="ident">code</span>: <span class="ident">KeyCode</span>,
@@ -813,8 +948,25 @@
 }
 
 <span class="kw">impl</span> <span class="ident">KeyEvent</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">code</span>: <span class="ident">KeyCode</span>, <span class="ident">modifiers</span>: <span class="ident">KeyModifiers</span>) -&gt; <span class="ident">KeyEvent</span> {
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">code</span>: <span class="ident">KeyCode</span>, <span class="ident">modifiers</span>: <span class="ident">KeyModifiers</span>) -&gt; <span class="ident">KeyEvent</span> {
         <span class="ident">KeyEvent</span> { <span class="ident">code</span>, <span class="ident">modifiers</span> }
+    }
+
+    <span class="comment">// modifies the KeyEvent,</span>
+    <span class="comment">// so that KeyModifiers::SHIFT is present iff</span>
+    <span class="comment">// an uppercase char is present.</span>
+    <span class="kw">fn</span> <span class="ident">normalize_case</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="ident">KeyEvent</span> {
+        <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">code</span> {
+            <span class="ident">KeyCode::Char</span>(<span class="ident">c</span>) =&gt; <span class="ident">c</span>,
+            <span class="kw">_</span> =&gt; <span class="kw">return</span> <span class="self">self</span>,
+        };
+
+        <span class="kw">if</span> <span class="ident">c</span>.<span class="ident">is_ascii_uppercase</span>() {
+            <span class="self">self</span>.<span class="ident">modifiers</span>.<span class="ident">insert</span>(<span class="ident">KeyModifiers::SHIFT</span>);
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">modifiers</span>.<span class="ident">contains</span>(<span class="ident">KeyModifiers::SHIFT</span>) {
+            <span class="self">self</span>.<span class="ident">code</span> <span class="op">=</span> <span class="ident">KeyCode::Char</span>(<span class="ident">c</span>.<span class="ident">to_ascii_uppercase</span>())
+        }
+        <span class="self">self</span>
     }
 }
 
@@ -824,6 +976,30 @@
             <span class="ident">code</span>,
             <span class="ident">modifiers</span>: <span class="ident">KeyModifiers::empty</span>(),
         }
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">KeyEvent</span> {
+    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">KeyEvent</span>) -&gt; <span class="ident">bool</span> {
+        <span class="kw">let</span> <span class="ident">KeyEvent</span> {
+            <span class="ident">code</span>: <span class="ident">lhs_code</span>,
+            <span class="ident">modifiers</span>: <span class="ident">lhs_modifiers</span>,
+        } <span class="op">=</span> <span class="self">self</span>.<span class="ident">normalize_case</span>();
+        <span class="kw">let</span> <span class="ident">KeyEvent</span> {
+            <span class="ident">code</span>: <span class="ident">rhs_code</span>,
+            <span class="ident">modifiers</span>: <span class="ident">rhs_modifiers</span>,
+        } <span class="op">=</span> <span class="ident">other</span>.<span class="ident">normalize_case</span>();
+        (<span class="ident">lhs_code</span> <span class="op">==</span> <span class="ident">rhs_code</span>) <span class="op">&amp;&amp;</span> (<span class="ident">lhs_modifiers</span> <span class="op">==</span> <span class="ident">rhs_modifiers</span>)
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">Eq</span> <span class="kw">for</span> <span class="ident">KeyEvent</span> {}
+
+<span class="kw">impl</span> <span class="ident">Hash</span> <span class="kw">for</span> <span class="ident">KeyEvent</span> {
+    <span class="kw">fn</span> <span class="ident">hash</span><span class="op">&lt;</span><span class="ident">H</span>: <span class="ident">Hasher</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">state</span>: <span class="kw-2">&amp;mut</span> <span class="ident">H</span>) {
+        <span class="kw">let</span> <span class="ident">KeyEvent</span> { <span class="ident">code</span>, <span class="ident">modifiers</span> } <span class="op">=</span> <span class="self">self</span>.<span class="ident">normalize_case</span>();
+        <span class="ident">code</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
+        <span class="ident">modifiers</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
     }
 }
 
@@ -861,11 +1037,11 @@
     <span class="ident">Insert</span>,
     <span class="doccomment">/// F key.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// `KeyEvent::F(1)` represents F1 key, etc.</span>
+    <span class="doccomment">/// `KeyCode::F(1)` represents F1 key, etc.</span>
     <span class="ident">F</span>(<span class="ident">u8</span>),
     <span class="doccomment">/// A character.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// `KeyEvent::Char(&#39;c&#39;)` represents `c` character, etc.</span>
+    <span class="doccomment">/// `KeyCode::Char(&#39;c&#39;)` represents `c` character, etc.</span>
     <span class="ident">Char</span>(<span class="ident">char</span>),
     <span class="doccomment">/// Null.</span>
     <span class="ident">Null</span>,
@@ -884,6 +1060,44 @@
     <span class="doccomment">/// A cursor position (`col`, `row`).</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">unix</span>)]</span>
     <span class="ident">CursorPosition</span>(<span class="ident">u16</span>, <span class="ident">u16</span>),
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="ident">std::collections::hash_map::DefaultHasher</span>;
+    <span class="kw">use</span> <span class="ident">std::hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>};
+
+    <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">KeyCode</span>, <span class="ident">KeyEvent</span>, <span class="ident">KeyModifiers</span>};
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_equality</span>() {
+        <span class="kw">let</span> <span class="ident">lowercase_d_with_shift</span> <span class="op">=</span> <span class="ident">KeyEvent::new</span>(<span class="ident">KeyCode::Char</span>(<span class="string">&#39;d&#39;</span>), <span class="ident">KeyModifiers::SHIFT</span>);
+        <span class="kw">let</span> <span class="ident">uppercase_d_with_shift</span> <span class="op">=</span> <span class="ident">KeyEvent::new</span>(<span class="ident">KeyCode::Char</span>(<span class="string">&#39;D&#39;</span>), <span class="ident">KeyModifiers::SHIFT</span>);
+        <span class="kw">let</span> <span class="ident">uppercase_d</span> <span class="op">=</span> <span class="ident">KeyEvent::new</span>(<span class="ident">KeyCode::Char</span>(<span class="string">&#39;D&#39;</span>), <span class="ident">KeyModifiers::NONE</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">lowercase_d_with_shift</span>, <span class="ident">uppercase_d_with_shift</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">uppercase_d</span>, <span class="ident">uppercase_d_with_shift</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_hash</span>() {
+        <span class="kw">let</span> <span class="ident">lowercase_d_with_shift_hash</span> <span class="op">=</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hasher</span> <span class="op">=</span> <span class="ident">DefaultHasher::new</span>();
+            <span class="ident">KeyEvent::new</span>(<span class="ident">KeyCode::Char</span>(<span class="string">&#39;d&#39;</span>), <span class="ident">KeyModifiers::SHIFT</span>).<span class="ident">hash</span>(<span class="kw-2">&amp;mut</span> <span class="ident">hasher</span>);
+            <span class="ident">hasher</span>.<span class="ident">finish</span>()
+        };
+        <span class="kw">let</span> <span class="ident">uppercase_d_with_shift_hash</span> <span class="op">=</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hasher</span> <span class="op">=</span> <span class="ident">DefaultHasher::new</span>();
+            <span class="ident">KeyEvent::new</span>(<span class="ident">KeyCode::Char</span>(<span class="string">&#39;D&#39;</span>), <span class="ident">KeyModifiers::SHIFT</span>).<span class="ident">hash</span>(<span class="kw-2">&amp;mut</span> <span class="ident">hasher</span>);
+            <span class="ident">hasher</span>.<span class="ident">finish</span>()
+        };
+        <span class="kw">let</span> <span class="ident">uppercase_d_hash</span> <span class="op">=</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hasher</span> <span class="op">=</span> <span class="ident">DefaultHasher::new</span>();
+            <span class="ident">KeyEvent::new</span>(<span class="ident">KeyCode::Char</span>(<span class="string">&#39;D&#39;</span>), <span class="ident">KeyModifiers::NONE</span>).<span class="ident">hash</span>(<span class="kw-2">&amp;mut</span> <span class="ident">hasher</span>);
+            <span class="ident">hasher</span>.<span class="ident">finish</span>()
+        };
+        <span class="macro">assert_eq!</span>(<span class="ident">lowercase_d_with_shift_hash</span>, <span class="ident">uppercase_d_with_shift_hash</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">uppercase_d_hash</span>, <span class="ident">uppercase_d_with_shift_hash</span>);
+    }
 }
 </code></pre></div>
 </section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="crossterm" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0 (a8314ef7d 2022-06-27)" ></div>

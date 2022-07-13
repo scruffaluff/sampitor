@@ -20,9 +20,17 @@
 <span id="15">15</span>
 <span id="16">16</span>
 <span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Fundemental traits for user interface components.</span>
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::dsp::Samples</span>;
+<span class="kw">use</span> <span class="ident">color_eyre::eyre</span>;
 <span class="kw">use</span> <span class="ident">crossterm::event::KeyEvent</span>;
 <span class="kw">use</span> <span class="ident">tui::backend::Backend</span>;
 <span class="kw">use</span> <span class="ident">tui::layout::Rect</span>;
@@ -33,9 +41,15 @@
     <span class="doccomment">/// Update view state based on keyboard input.</span>
     <span class="kw">fn</span> <span class="ident">key_event</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">event</span>: <span class="ident">KeyEvent</span>);
     <span class="doccomment">/// Get or set the current signal state.</span>
-    <span class="kw">fn</span> <span class="ident">process</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">samples</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Samples</span>);
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Errors</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Will return `Err` if unable to process.</span>
+    <span class="kw">fn</span> <span class="ident">process</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">samples</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Samples</span>) -&gt; <span class="ident">eyre::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
     <span class="doccomment">/// Draw UI view in area of given frame.</span>
     <span class="kw">fn</span> <span class="ident">render</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">frame</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Frame</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">area</span>: <span class="ident">Rect</span>);
+    <span class="doccomment">/// Reset internal state to a non erroneous case.</span>
+    <span class="kw">fn</span> <span class="ident">reset</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>);
 }
 </code></pre></div>
 </section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="sampitor" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0 (a8314ef7d 2022-06-27)" ></div>

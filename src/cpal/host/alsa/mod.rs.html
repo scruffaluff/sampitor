@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/cpal-0.13.3/src/host/alsa/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script src="../../../../crates.js"></script><script defer src="../../../../main.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/cpal-0.13.5/src/host/alsa/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script src="../../../../crates.js"></script><script defer src="../../../../main.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script>
     <noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../cpal/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"></h2>
     </nav>
@@ -1075,15 +1075,6 @@
 <span id="1070">1070</span>
 <span id="1071">1071</span>
 <span id="1072">1072</span>
-<span id="1073">1073</span>
-<span id="1074">1074</span>
-<span id="1075">1075</span>
-<span id="1076">1076</span>
-<span id="1077">1077</span>
-<span id="1078">1078</span>
-<span id="1079">1079</span>
-<span id="1080">1080</span>
-<span id="1081">1081</span>
 </pre><pre class="rust"><code><span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">alsa</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">parking_lot</span>;
@@ -1215,7 +1206,7 @@
     <span class="kw">fn</span> <span class="ident">wakeup</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
         <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="number">1u64</span>;
         <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">libc::write</span>(<span class="self">self</span>.<span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">buf</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">u64</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span>, <span class="number">8</span>) };
-        <span class="macro">assert!</span>(<span class="ident">ret</span> <span class="op">==</span> <span class="number">8</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">ret</span>, <span class="number">8</span>);
     }
 }
 
@@ -1328,32 +1319,22 @@
             .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> (<span class="ident">e</span>, <span class="ident">e</span>.<span class="ident">errno</span>()));
 
         <span class="kw">let</span> <span class="ident">handle</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">handle_result</span> {
-            <span class="prelude-val">Err</span>((<span class="kw">_</span>, <span class="prelude-val">Some</span>(<span class="ident">nix::errno::Errno::EBUSY</span>))) =&gt; {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BuildStreamError::DeviceNotAvailable</span>)
-            }
-            <span class="prelude-val">Err</span>((<span class="kw">_</span>, <span class="prelude-val">Some</span>(<span class="ident">nix::errno::Errno::EINVAL</span>))) =&gt; {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BuildStreamError::InvalidArgument</span>)
-            }
+            <span class="prelude-val">Err</span>((<span class="kw">_</span>, <span class="ident">nix::errno::Errno::EBUSY</span>)) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BuildStreamError::DeviceNotAvailable</span>),
+            <span class="prelude-val">Err</span>((<span class="kw">_</span>, <span class="ident">nix::errno::Errno::EINVAL</span>)) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BuildStreamError::InvalidArgument</span>),
             <span class="prelude-val">Err</span>((<span class="ident">e</span>, <span class="kw">_</span>)) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>()),
             <span class="prelude-val">Ok</span>(<span class="ident">handle</span>) =&gt; <span class="ident">handle</span>,
         };
-        <span class="kw">let</span> <span class="ident">can_pause</span> <span class="op">=</span> {
-            <span class="kw">let</span> <span class="ident">hw_params</span> <span class="op">=</span> <span class="ident">set_hw_params_from_format</span>(<span class="kw-2">&amp;</span><span class="ident">handle</span>, <span class="ident">conf</span>, <span class="ident">sample_format</span>)<span class="question-mark">?</span>;
-            <span class="ident">hw_params</span>.<span class="ident">can_pause</span>()
-        };
-        <span class="kw">let</span> (<span class="ident">_buffer_len</span>, <span class="ident">period_len</span>) <span class="op">=</span> <span class="ident">set_sw_params_from_format</span>(<span class="kw-2">&amp;</span><span class="ident">handle</span>, <span class="ident">conf</span>)<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">can_pause</span> <span class="op">=</span> <span class="ident">set_hw_params_from_format</span>(<span class="kw-2">&amp;</span><span class="ident">handle</span>, <span class="ident">conf</span>, <span class="ident">sample_format</span>)<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">period_len</span> <span class="op">=</span> <span class="ident">set_sw_params_from_format</span>(<span class="kw-2">&amp;</span><span class="ident">handle</span>, <span class="ident">conf</span>, <span class="ident">stream_type</span>)<span class="question-mark">?</span>;
 
         <span class="ident">handle</span>.<span class="ident">prepare</span>()<span class="question-mark">?</span>;
 
-        <span class="kw">let</span> <span class="ident">num_descriptors</span> <span class="op">=</span> {
-            <span class="kw">let</span> <span class="ident">num_descriptors</span> <span class="op">=</span> <span class="ident">handle</span>.<span class="ident">count</span>();
-            <span class="kw">if</span> <span class="ident">num_descriptors</span> <span class="op">==</span> <span class="number">0</span> {
-                <span class="kw">let</span> <span class="ident">description</span> <span class="op">=</span> <span class="string">&quot;poll descriptor count for stream was 0&quot;</span>.<span class="ident">to_string</span>();
-                <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">BackendSpecificError</span> { <span class="ident">description</span> };
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>.<span class="ident">into</span>());
-            }
-            <span class="ident">num_descriptors</span>
-        };
+        <span class="kw">let</span> <span class="ident">num_descriptors</span> <span class="op">=</span> <span class="ident">handle</span>.<span class="ident">count</span>();
+        <span class="kw">if</span> <span class="ident">num_descriptors</span> <span class="op">==</span> <span class="number">0</span> {
+            <span class="kw">let</span> <span class="ident">description</span> <span class="op">=</span> <span class="string">&quot;poll descriptor count for stream was 0&quot;</span>.<span class="ident">to_string</span>();
+            <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">BackendSpecificError</span> { <span class="ident">description</span> };
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>.<span class="ident">into</span>());
+        }
 
         <span class="comment">// Check to see if we can retrieve valid timestamps from the device.</span>
         <span class="comment">// Related: https://bugs.freedesktop.org/show_bug.cgi?id=88503</span>
@@ -1363,7 +1344,9 @@
             <span class="kw">_</span> =&gt; <span class="prelude-val">None</span>,
         };
 
-        <span class="ident">handle</span>.<span class="ident">start</span>()<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="kw">let</span> <span class="ident">alsa::Direction::Capture</span> <span class="op">=</span> <span class="ident">stream_type</span> {
+            <span class="ident">handle</span>.<span class="ident">start</span>()<span class="question-mark">?</span>;
+        }
 
         <span class="kw">let</span> <span class="ident">stream_inner</span> <span class="op">=</span> <span class="ident">StreamInner</span> {
             <span class="ident">channel</span>: <span class="ident">handle</span>,
@@ -1393,18 +1376,17 @@
             .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> (<span class="ident">e</span>, <span class="ident">e</span>.<span class="ident">errno</span>()));
 
         <span class="kw">let</span> <span class="ident">handle</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">handle_result</span> {
-            <span class="prelude-val">Err</span>((<span class="kw">_</span>, <span class="prelude-val">Some</span>(<span class="ident">nix::errno::Errno::ENOENT</span>)))
-            <span class="op">|</span> <span class="prelude-val">Err</span>((<span class="kw">_</span>, <span class="prelude-val">Some</span>(<span class="ident">nix::errno::Errno::EBUSY</span>))) =&gt; {
+            <span class="prelude-val">Err</span>((<span class="kw">_</span>, <span class="ident">nix::errno::Errno::ENOENT</span>)) <span class="op">|</span> <span class="prelude-val">Err</span>((<span class="kw">_</span>, <span class="ident">nix::errno::Errno::EBUSY</span>)) =&gt; {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">SupportedStreamConfigsError::DeviceNotAvailable</span>)
             }
-            <span class="prelude-val">Err</span>((<span class="kw">_</span>, <span class="prelude-val">Some</span>(<span class="ident">nix::errno::Errno::EINVAL</span>))) =&gt; {
+            <span class="prelude-val">Err</span>((<span class="kw">_</span>, <span class="ident">nix::errno::Errno::EINVAL</span>)) =&gt; {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">SupportedStreamConfigsError::InvalidArgument</span>)
             }
             <span class="prelude-val">Err</span>((<span class="ident">e</span>, <span class="kw">_</span>)) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>()),
             <span class="prelude-val">Ok</span>(<span class="ident">handle</span>) =&gt; <span class="ident">handle</span>,
         };
 
-        <span class="kw">let</span> <span class="ident">hw_params</span> <span class="op">=</span> <span class="ident">alsa::pcm::HwParams::any</span>(<span class="kw-2">&amp;</span><span class="ident">handle</span>)<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">hw_params</span> <span class="op">=</span> <span class="ident">alsa::pcm::HwParams::any</span>(<span class="ident">handle</span>)<span class="question-mark">?</span>;
 
         <span class="comment">// TODO: check endianess</span>
         <span class="kw">const</span> <span class="ident">FORMATS</span>: [(<span class="ident">SampleFormat</span>, <span class="ident">alsa::pcm::Format</span>); <span class="number">3</span>] <span class="op">=</span> [
@@ -1506,10 +1488,10 @@
             <span class="ident">supported_formats</span>.<span class="ident">len</span>() <span class="op">*</span> <span class="ident">supported_channels</span>.<span class="ident">len</span>() <span class="op">*</span> <span class="ident">sample_rates</span>.<span class="ident">len</span>(),
         );
         <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">sample_format</span> <span class="kw">in</span> <span class="ident">supported_formats</span>.<span class="ident">iter</span>() {
-            <span class="kw">for</span> <span class="ident">channels</span> <span class="kw">in</span> <span class="ident">supported_channels</span>.<span class="ident">iter</span>() {
+            <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">channels</span> <span class="kw">in</span> <span class="ident">supported_channels</span>.<span class="ident">iter</span>() {
                 <span class="kw">for</span> <span class="kw-2">&amp;</span>(<span class="ident">min_rate</span>, <span class="ident">max_rate</span>) <span class="kw">in</span> <span class="ident">sample_rates</span>.<span class="ident">iter</span>() {
                     <span class="ident">output</span>.<span class="ident">push</span>(<span class="ident">SupportedStreamConfigRange</span> {
-                        <span class="ident">channels</span>: <span class="kw-2">*</span><span class="ident">channels</span>,
+                        <span class="ident">channels</span>,
                         <span class="ident">min_sample_rate</span>: <span class="ident">SampleRate</span>(<span class="ident">min_rate</span> <span class="kw">as</span> <span class="ident">u32</span>),
                         <span class="ident">max_sample_rate</span>: <span class="ident">SampleRate</span>(<span class="ident">max_rate</span> <span class="kw">as</span> <span class="ident">u32</span>),
                         <span class="ident">buffer_size</span>: <span class="ident">buffer_size_range</span>.<span class="ident">clone</span>(),
@@ -1546,7 +1528,7 @@
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DefaultStreamConfigError::DeviceNotAvailable</span>);
                 }
                 <span class="prelude-val">Err</span>(<span class="ident">SupportedStreamConfigsError::InvalidArgument</span>) =&gt; {
-                    <span class="comment">// this happens sometimes when querying for input and output capabilities but</span>
+                    <span class="comment">// this happens sometimes when querying for input and output capabilities, but</span>
                     <span class="comment">// the device supports only one</span>
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DefaultStreamConfigError::StreamTypeNotSupported</span>);
                 }
@@ -1651,18 +1633,20 @@
 ) {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ctxt</span> <span class="op">=</span> <span class="ident">StreamWorkerContext::default</span>();
     <span class="kw">loop</span> {
-        <span class="kw">let</span> <span class="ident">flow</span> <span class="op">=</span> <span class="ident">report_error</span>(
-            <span class="ident">poll_descriptors_and_prepare_buffer</span>(<span class="kw-2">&amp;</span><span class="ident">rx</span>, <span class="ident">stream</span>, <span class="kw-2">&amp;mut</span> <span class="ident">ctxt</span>),
-            <span class="ident">error_callback</span>,
-        )
-        .<span class="ident">unwrap_or</span>(<span class="ident">PollDescriptorsFlow::Continue</span>);
+        <span class="kw">let</span> <span class="ident">flow</span> <span class="op">=</span>
+            <span class="ident">poll_descriptors_and_prepare_buffer</span>(<span class="kw-2">&amp;</span><span class="ident">rx</span>, <span class="ident">stream</span>, <span class="kw-2">&amp;mut</span> <span class="ident">ctxt</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> {
+                <span class="ident">error_callback</span>(<span class="ident">err</span>.<span class="ident">into</span>());
+                <span class="ident">PollDescriptorsFlow::Continue</span>
+            });
 
         <span class="kw">match</span> <span class="ident">flow</span> {
             <span class="ident">PollDescriptorsFlow::Continue</span> =&gt; {
                 <span class="kw">continue</span>;
             }
             <span class="ident">PollDescriptorsFlow::XRun</span> =&gt; {
-                <span class="ident">report_error</span>(<span class="ident">stream</span>.<span class="ident">channel</span>.<span class="ident">prepare</span>(), <span class="ident">error_callback</span>);
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span> <span class="ident">stream</span>.<span class="ident">channel</span>.<span class="ident">prepare</span>() {
+                    <span class="ident">error_callback</span>(<span class="ident">err</span>.<span class="ident">into</span>());
+                }
                 <span class="kw">continue</span>;
             }
             <span class="ident">PollDescriptorsFlow::Return</span> =&gt; <span class="kw">return</span>,
@@ -1677,14 +1661,15 @@
                     <span class="ident">StreamType::Input</span>,
                     <span class="string">&quot;expected input stream, but polling descriptors indicated output&quot;</span>,
                 );
-                <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">process_input</span>(
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span> <span class="ident">process_input</span>(
                     <span class="ident">stream</span>,
                     <span class="kw-2">&amp;mut</span> <span class="ident">ctxt</span>.<span class="ident">buffer</span>,
                     <span class="ident">status</span>,
                     <span class="ident">delay_frames</span>,
                     <span class="ident">data_callback</span>,
-                );
-                <span class="ident">report_error</span>(<span class="ident">res</span>, <span class="ident">error_callback</span>);
+                ) {
+                    <span class="ident">error_callback</span>(<span class="ident">err</span>.<span class="ident">into</span>());
+                }
             }
         }
     }
@@ -1698,16 +1683,18 @@
 ) {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ctxt</span> <span class="op">=</span> <span class="ident">StreamWorkerContext::default</span>();
     <span class="kw">loop</span> {
-        <span class="kw">let</span> <span class="ident">flow</span> <span class="op">=</span> <span class="ident">report_error</span>(
-            <span class="ident">poll_descriptors_and_prepare_buffer</span>(<span class="kw-2">&amp;</span><span class="ident">rx</span>, <span class="ident">stream</span>, <span class="kw-2">&amp;mut</span> <span class="ident">ctxt</span>),
-            <span class="ident">error_callback</span>,
-        )
-        .<span class="ident">unwrap_or</span>(<span class="ident">PollDescriptorsFlow::Continue</span>);
+        <span class="kw">let</span> <span class="ident">flow</span> <span class="op">=</span>
+            <span class="ident">poll_descriptors_and_prepare_buffer</span>(<span class="kw-2">&amp;</span><span class="ident">rx</span>, <span class="ident">stream</span>, <span class="kw-2">&amp;mut</span> <span class="ident">ctxt</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> {
+                <span class="ident">error_callback</span>(<span class="ident">err</span>.<span class="ident">into</span>());
+                <span class="ident">PollDescriptorsFlow::Continue</span>
+            });
 
         <span class="kw">match</span> <span class="ident">flow</span> {
             <span class="ident">PollDescriptorsFlow::Continue</span> =&gt; <span class="kw">continue</span>,
             <span class="ident">PollDescriptorsFlow::XRun</span> =&gt; {
-                <span class="ident">report_error</span>(<span class="ident">stream</span>.<span class="ident">channel</span>.<span class="ident">prepare</span>(), <span class="ident">error_callback</span>);
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span> <span class="ident">stream</span>.<span class="ident">channel</span>.<span class="ident">prepare</span>() {
+                    <span class="ident">error_callback</span>(<span class="ident">err</span>.<span class="ident">into</span>());
+                }
                 <span class="kw">continue</span>;
             }
             <span class="ident">PollDescriptorsFlow::Return</span> =&gt; <span class="kw">return</span>,
@@ -1722,7 +1709,7 @@
                     <span class="ident">StreamType::Output</span>,
                     <span class="string">&quot;expected output stream, but polling descriptors indicated input&quot;</span>,
                 );
-                <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">process_output</span>(
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span> <span class="ident">process_output</span>(
                     <span class="ident">stream</span>,
                     <span class="kw-2">&amp;mut</span> <span class="ident">ctxt</span>.<span class="ident">buffer</span>,
                     <span class="ident">status</span>,
@@ -1730,25 +1717,10 @@
                     <span class="ident">delay_frames</span>,
                     <span class="ident">data_callback</span>,
                     <span class="ident">error_callback</span>,
-                );
-                <span class="ident">report_error</span>(<span class="ident">res</span>, <span class="ident">error_callback</span>);
+                ) {
+                    <span class="ident">error_callback</span>(<span class="ident">err</span>.<span class="ident">into</span>());
+                }
             }
-        }
-    }
-}
-
-<span class="kw">fn</span> <span class="ident">report_error</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span>(
-    <span class="ident">result</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span>,
-    <span class="ident">error_callback</span>: <span class="kw-2">&amp;mut</span> (<span class="ident">dyn</span> <span class="ident">FnMut</span>(<span class="ident">StreamError</span>) <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>),
-) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">E</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">StreamError</span><span class="op">&gt;</span>,
-{
-    <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">val</span>) =&gt; <span class="prelude-val">Some</span>(<span class="ident">val</span>),
-        <span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; {
-            <span class="ident">error_callback</span>(<span class="ident">err</span>.<span class="ident">into</span>());
-            <span class="prelude-val">None</span>
         }
     }
 }
@@ -1822,7 +1794,7 @@
 
     <span class="kw">let</span> <span class="ident">status</span> <span class="op">=</span> <span class="ident">stream</span>.<span class="ident">channel</span>.<span class="ident">status</span>()<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">avail_frames</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">stream</span>.<span class="ident">channel</span>.<span class="ident">avail</span>() {
-        <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="kw">if</span> <span class="ident">err</span>.<span class="ident">errno</span>() <span class="op">==</span> <span class="prelude-val">Some</span>(<span class="ident">nix::errno::Errno::EPIPE</span>) =&gt; {
+        <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="kw">if</span> <span class="ident">err</span>.<span class="ident">errno</span>() <span class="op">==</span> <span class="ident">nix::errno::Errno::EPIPE</span> =&gt; {
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">PollDescriptorsFlow::XRun</span>)
         }
         <span class="ident">res</span> =&gt; <span class="ident">res</span>,
@@ -1905,7 +1877,7 @@
     }
     <span class="kw">loop</span> {
         <span class="kw">match</span> <span class="ident">stream</span>.<span class="ident">channel</span>.<span class="ident">io_bytes</span>().<span class="ident">writei</span>(<span class="ident">buffer</span>) {
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="kw">if</span> <span class="ident">err</span>.<span class="ident">errno</span>() <span class="op">==</span> <span class="prelude-val">Some</span>(<span class="ident">nix::errno::Errno::EPIPE</span>) =&gt; {
+            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="kw">if</span> <span class="ident">err</span>.<span class="ident">errno</span>() <span class="op">==</span> <span class="ident">nix::errno::Errno::EPIPE</span> =&gt; {
                 <span class="comment">// buffer underrun</span>
                 <span class="comment">// TODO: Notify the user of this.</span>
                 <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">stream</span>.<span class="ident">channel</span>.<span class="ident">try_recover</span>(<span class="ident">err</span>, <span class="bool-val">false</span>);
@@ -1942,14 +1914,13 @@
         <span class="prelude-val">None</span> =&gt; {
             <span class="kw">let</span> <span class="ident">trigger_ts</span> <span class="op">=</span> <span class="ident">status</span>.<span class="ident">get_trigger_htstamp</span>();
             <span class="kw">let</span> <span class="ident">ts</span> <span class="op">=</span> <span class="ident">status</span>.<span class="ident">get_htstamp</span>();
-            <span class="kw">let</span> <span class="ident">nanos</span> <span class="op">=</span> <span class="ident">timespec_diff_nanos</span>(<span class="ident">ts</span>, <span class="ident">trigger_ts</span>)
-                .<span class="ident">try_into</span>()
-                .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-                    <span class="macro">panic!</span>(
-                        <span class="string">&quot;get_htstamp `{:?}` was earlier than get_trigger_htstamp `{:?}`&quot;</span>,
-                        <span class="ident">ts</span>, <span class="ident">trigger_ts</span>
-                    );
-                });
+            <span class="kw">let</span> <span class="ident">nanos</span> <span class="op">=</span> <span class="ident">timespec_diff_nanos</span>(<span class="ident">ts</span>, <span class="ident">trigger_ts</span>);
+            <span class="kw">if</span> <span class="ident">nanos</span> <span class="op">&lt;</span> <span class="number">0</span> {
+                <span class="macro">panic!</span>(
+                    <span class="string">&quot;get_htstamp `{:?}` was earlier than get_trigger_htstamp `{:?}`&quot;</span>,
+                    <span class="ident">ts</span>, <span class="ident">trigger_ts</span>
+                );
+            }
             <span class="prelude-val">Ok</span>(<span class="ident"><span class="kw">crate</span>::StreamInstant::from_nanos</span>(<span class="ident">nanos</span>))
         }
         <span class="prelude-val">Some</span>(<span class="ident">creation</span>) =&gt; {
@@ -2052,11 +2023,11 @@
     }
 }
 
-<span class="kw">fn</span> <span class="ident">set_hw_params_from_format</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
-    <span class="ident">pcm_handle</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">alsa::pcm::PCM</span>,
+<span class="kw">fn</span> <span class="ident">set_hw_params_from_format</span>(
+    <span class="ident">pcm_handle</span>: <span class="kw-2">&amp;</span><span class="ident">alsa::pcm::PCM</span>,
     <span class="ident">config</span>: <span class="kw-2">&amp;</span><span class="ident">StreamConfig</span>,
     <span class="ident">sample_format</span>: <span class="ident">SampleFormat</span>,
-) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">alsa::pcm::HwParams</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">BackendSpecificError</span><span class="op">&gt;</span> {
+) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">BackendSpecificError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">hw_params</span> <span class="op">=</span> <span class="ident">alsa::pcm::HwParams::any</span>(<span class="ident">pcm_handle</span>)<span class="question-mark">?</span>;
     <span class="ident">hw_params</span>.<span class="ident">set_access</span>(<span class="ident">alsa::pcm::Access::RWInterleaved</span>)<span class="question-mark">?</span>;
 
@@ -2079,10 +2050,13 @@
     <span class="ident">hw_params</span>.<span class="ident">set_channels</span>(<span class="ident">config</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">u32</span>)<span class="question-mark">?</span>;
 
     <span class="kw">match</span> <span class="ident">config</span>.<span class="ident">buffer_size</span> {
-        <span class="ident">BufferSize::Fixed</span>(<span class="ident">v</span>) =&gt; <span class="ident">hw_params</span>.<span class="ident">set_buffer_size</span>(<span class="ident">v</span> <span class="kw">as</span> <span class="ident">alsa::pcm::Frames</span>)<span class="question-mark">?</span>,
+        <span class="ident">BufferSize::Fixed</span>(<span class="ident">v</span>) =&gt; {
+            <span class="ident">hw_params</span>.<span class="ident">set_period_size_near</span>((<span class="ident">v</span> <span class="op">/</span> <span class="number">4</span>) <span class="kw">as</span> <span class="ident">alsa::pcm::Frames</span>, <span class="ident">alsa::ValueOr::Nearest</span>)<span class="question-mark">?</span>;
+            <span class="ident">hw_params</span>.<span class="ident">set_buffer_size</span>(<span class="ident">v</span> <span class="kw">as</span> <span class="ident">alsa::pcm::Frames</span>)<span class="question-mark">?</span>;
+        }
         <span class="ident">BufferSize::Default</span> =&gt; {
             <span class="comment">// These values together represent a moderate latency and wakeup interval.</span>
-            <span class="comment">// Without them we are at the mercy of the device</span>
+            <span class="comment">// Without them, we are at the mercy of the device</span>
             <span class="ident">hw_params</span>.<span class="ident">set_period_time_near</span>(<span class="number">25_000</span>, <span class="ident">alsa::ValueOr::Nearest</span>)<span class="question-mark">?</span>;
             <span class="ident">hw_params</span>.<span class="ident">set_buffer_time_near</span>(<span class="number">100_000</span>, <span class="ident">alsa::ValueOr::Nearest</span>)<span class="question-mark">?</span>;
         }
@@ -2090,17 +2064,17 @@
 
     <span class="ident">pcm_handle</span>.<span class="ident">hw_params</span>(<span class="kw-2">&amp;</span><span class="ident">hw_params</span>)<span class="question-mark">?</span>;
 
-    <span class="prelude-val">Ok</span>(<span class="ident">hw_params</span>)
+    <span class="prelude-val">Ok</span>(<span class="ident">hw_params</span>.<span class="ident">can_pause</span>())
 }
 
 <span class="kw">fn</span> <span class="ident">set_sw_params_from_format</span>(
     <span class="ident">pcm_handle</span>: <span class="kw-2">&amp;</span><span class="ident">alsa::pcm::PCM</span>,
     <span class="ident">config</span>: <span class="kw-2">&amp;</span><span class="ident">StreamConfig</span>,
-) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">usize</span>), <span class="ident">BackendSpecificError</span><span class="op">&gt;</span> {
+    <span class="ident">stream_type</span>: <span class="ident">alsa::Direction</span>,
+) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">BackendSpecificError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">sw_params</span> <span class="op">=</span> <span class="ident">pcm_handle</span>.<span class="ident">sw_params_current</span>()<span class="question-mark">?</span>;
-    <span class="ident">sw_params</span>.<span class="ident">set_start_threshold</span>(<span class="number">0</span>)<span class="question-mark">?</span>;
 
-    <span class="kw">let</span> (<span class="ident">buffer_len</span>, <span class="ident">period_len</span>) <span class="op">=</span> {
+    <span class="kw">let</span> <span class="ident">period_len</span> <span class="op">=</span> {
         <span class="kw">let</span> (<span class="ident">buffer</span>, <span class="ident">period</span>) <span class="op">=</span> <span class="ident">pcm_handle</span>.<span class="ident">get_params</span>()<span class="question-mark">?</span>;
         <span class="kw">if</span> <span class="ident">buffer</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BackendSpecificError</span> {
@@ -2108,19 +2082,27 @@
             });
         }
         <span class="ident">sw_params</span>.<span class="ident">set_avail_min</span>(<span class="ident">period</span> <span class="kw">as</span> <span class="ident">alsa::pcm::Frames</span>)<span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">buffer</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">config</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">usize</span>;
-        <span class="kw">let</span> <span class="ident">period</span> <span class="op">=</span> <span class="ident">period</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">config</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">usize</span>;
-        (<span class="ident">buffer</span>, <span class="ident">period</span>)
+
+        <span class="kw">let</span> <span class="ident">start_threshold</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">stream_type</span> {
+            <span class="ident">alsa::Direction::Playback</span> =&gt; <span class="ident">buffer</span> <span class="op">-</span> <span class="ident">period</span>,
+
+            <span class="comment">// For capture streams, the start threshold is irrelevant and ignored,</span>
+            <span class="comment">// because build_stream_inner() starts the stream before process_input()</span>
+            <span class="comment">// reads from it. Set it anyway I guess, since it&#39;s better than leaving</span>
+            <span class="comment">// it at an unspecified default value.</span>
+            <span class="ident">alsa::Direction::Capture</span> =&gt; <span class="number">1</span>,
+        };
+        <span class="ident">sw_params</span>.<span class="ident">set_start_threshold</span>(<span class="ident">start_threshold</span>.<span class="ident">try_into</span>().<span class="ident">unwrap</span>())<span class="question-mark">?</span>;
+
+        <span class="ident">period</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">config</span>.<span class="ident">channels</span> <span class="kw">as</span> <span class="ident">usize</span>
     };
 
     <span class="ident">sw_params</span>.<span class="ident">set_tstamp_mode</span>(<span class="bool-val">true</span>)<span class="question-mark">?</span>;
-    <span class="comment">// TODO:</span>
-    <span class="comment">// Pending new version of alsa-sys and alsa-rs getting published.</span>
-    <span class="comment">// sw_params.set_tstamp_type(alsa::pcm::TstampType::MonotonicRaw)?;</span>
+    <span class="ident">sw_params</span>.<span class="ident">set_tstamp_type</span>(<span class="ident">alsa::pcm::TstampType::MonotonicRaw</span>)<span class="question-mark">?</span>;
 
     <span class="ident">pcm_handle</span>.<span class="ident">sw_params</span>(<span class="kw-2">&amp;</span><span class="ident">sw_params</span>)<span class="question-mark">?</span>;
 
-    <span class="prelude-val">Ok</span>((<span class="ident">buffer_len</span>, <span class="ident">period_len</span>))
+    <span class="prelude-val">Ok</span>(<span class="ident">period_len</span>)
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">alsa::Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">BackendSpecificError</span> {

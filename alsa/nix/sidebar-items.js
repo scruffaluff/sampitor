@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Error","Nix Error Type"]],"mod":[["errno",""]]});
+initSidebarItems({"mod":[["errno",""]],"type":[["Error","Nix’s main error type."]]});

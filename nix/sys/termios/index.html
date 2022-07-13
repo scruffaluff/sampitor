@@ -4,12 +4,12 @@
     </nav>
     <nav class="sidebar"><a class="sidebar-logo" href="../../../nix/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"><a href="#">Module termios</a></h2><div class="sidebar-elems"><section><div class="block"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li><li><a href="#functions">Functions</a></li></ul></div></section><div id="sidebar-vars" data-name="termios" data-ty="mod" data-relpath="./"></div><script defer src="./sidebar-items.js"></script></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../nix/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><div class="theme-picker hidden"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="22" height="22" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="main-heading">
-    <h1 class="fqn"><span class="in-band">Module <a href="../../index.html">nix</a>::<wbr><a href="../index.html">sys</a>::<wbr><a class="mod" href="#">termios</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../../../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../../../src/nix/sys/termios.rs.html#1-1090">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>An interface for controlling asynchronous communication ports</p>
+    <h1 class="fqn"><span class="in-band">Module <a href="../../index.html">nix</a>::<wbr><a href="../index.html">sys</a>::<wbr><a class="mod" href="#">termios</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../../../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../../../src/nix/sys/termios.rs.html#1-1016">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>An interface for controlling asynchronous communication ports</p>
 <p>This interface provides a safe wrapper around the termios subsystem defined by POSIX. The
 underlying types are all implemented in libc for most platforms and either wrapped in safer
 types here or exported directly.</p>
 <p>If you are unfamiliar with the <code>termios</code> API, you should first read the
-<a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/termios.h.html">API documentation</a> and
+<a href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/termios.h.html">API documentation</a> and
 then come back to understand how <code>nix</code> safely wraps it.</p>
 <p>It should be noted that this API incurs some runtime overhead above the base <code>libc</code> definitions.
 As this interface is not used with high-bandwidth information, this should be fine in most
@@ -89,30 +89,30 @@ by specifying baud rates directly using <code>u32</code>s:</p>
 </div></div></div><h2 id="constants" class="small-section-header"><a href="#constants">Constants</a></h2>
 <div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="constant" href="constant.NCCS.html" title="nix::sys::termios::NCCS constant">NCCS</a></div><div class="item-right docblock-short"></div></div><div class="item-row"><div class="item-left module-item"><a class="constant" href="constant._POSIX_VDISABLE.html" title="nix::sys::termios::_POSIX_VDISABLE constant">_POSIX_VDISABLE</a></div><div class="item-right docblock-short"></div></div></div><h2 id="functions" class="small-section-header"><a href="#functions">Functions</a></h2>
 <div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.cfgetispeed.html" title="nix::sys::termios::cfgetispeed fn">cfgetispeed</a></div><div class="item-right docblock-short"><p>Get input baud rate (see
-<a href="http://pubs.opengroup.org/onlinepubs/9699919799/functions/cfgetispeed.html">cfgetispeed(3p)</a>).</p>
+<a href="https://pubs.opengroup.org/onlinepubs/9699919799/functions/cfgetispeed.html">cfgetispeed(3p)</a>).</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.cfgetospeed.html" title="nix::sys::termios::cfgetospeed fn">cfgetospeed</a></div><div class="item-right docblock-short"><p>Get output baud rate (see
-<a href="http://pubs.opengroup.org/onlinepubs/9699919799/functions/cfgetospeed.html">cfgetospeed(3p)</a>).</p>
+<a href="https://pubs.opengroup.org/onlinepubs/9699919799/functions/cfgetospeed.html">cfgetospeed(3p)</a>).</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.cfmakeraw.html" title="nix::sys::termios::cfmakeraw fn">cfmakeraw</a></div><div class="item-right docblock-short"><p>Configures the port to something like the “raw” mode of the old Version 7 terminal driver (see
-<a href="http://man7.org/linux/man-pages/man3/termios.3.html">termios(3)</a>).</p>
+<a href="https://man7.org/linux/man-pages/man3/termios.3.html">termios(3)</a>).</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.cfsetispeed.html" title="nix::sys::termios::cfsetispeed fn">cfsetispeed</a></div><div class="item-right docblock-short"><p>Set input baud rate (see
-<a href="http://pubs.opengroup.org/onlinepubs/9699919799/functions/cfsetispeed.html">cfsetispeed(3p)</a>).</p>
+<a href="https://pubs.opengroup.org/onlinepubs/9699919799/functions/cfsetispeed.html">cfsetispeed(3p)</a>).</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.cfsetospeed.html" title="nix::sys::termios::cfsetospeed fn">cfsetospeed</a></div><div class="item-right docblock-short"><p>Set output baud rate (see
-<a href="http://pubs.opengroup.org/onlinepubs/9699919799/functions/cfsetospeed.html">cfsetospeed(3p)</a>).</p>
+<a href="https://pubs.opengroup.org/onlinepubs/9699919799/functions/cfsetospeed.html">cfsetospeed(3p)</a>).</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.cfsetspeed.html" title="nix::sys::termios::cfsetspeed fn">cfsetspeed</a></div><div class="item-right docblock-short"><p>Set both the input and output baud rates (see
 <a href="https://www.freebsd.org/cgi/man.cgi?query=cfsetspeed">termios(3)</a>).</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.tcdrain.html" title="nix::sys::termios::tcdrain fn">tcdrain</a></div><div class="item-right docblock-short"><p>Block until all output data is written (see
-<a href="http://pubs.opengroup.org/onlinepubs/9699919799/functions/tcdrain.html">tcdrain(3p)</a>).</p>
+<a href="https://pubs.opengroup.org/onlinepubs/9699919799/functions/tcdrain.html">tcdrain(3p)</a>).</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.tcflow.html" title="nix::sys::termios::tcflow fn">tcflow</a></div><div class="item-right docblock-short"><p>Suspend or resume the transmission or reception of data (see
-<a href="http://pubs.opengroup.org/onlinepubs/9699919799/functions/tcflow.html">tcflow(3p)</a>).</p>
+<a href="https://pubs.opengroup.org/onlinepubs/9699919799/functions/tcflow.html">tcflow(3p)</a>).</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.tcflush.html" title="nix::sys::termios::tcflush fn">tcflush</a></div><div class="item-right docblock-short"><p>Discard data in the output or input queue (see
-<a href="http://pubs.opengroup.org/onlinepubs/9699919799/functions/tcflush.html">tcflush(3p)</a>).</p>
+<a href="https://pubs.opengroup.org/onlinepubs/9699919799/functions/tcflush.html">tcflush(3p)</a>).</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.tcgetattr.html" title="nix::sys::termios::tcgetattr fn">tcgetattr</a></div><div class="item-right docblock-short"><p>Return the configuration of a port
-<a href="http://pubs.opengroup.org/onlinepubs/9699919799/functions/tcgetattr.html">tcgetattr(3p)</a>).</p>
+<a href="https://pubs.opengroup.org/onlinepubs/9699919799/functions/tcgetattr.html">tcgetattr(3p)</a>).</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.tcgetsid.html" title="nix::sys::termios::tcgetsid fn">tcgetsid</a></div><div class="item-right docblock-short"><p>Get the session controlled by the given terminal (see
-<a href="http://pubs.opengroup.org/onlinepubs/9699919799/functions/tcgetsid.html">tcgetsid(3)</a>).</p>
+<a href="https://pubs.opengroup.org/onlinepubs/9699919799/functions/tcgetsid.html">tcgetsid(3)</a>).</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.tcsendbreak.html" title="nix::sys::termios::tcsendbreak fn">tcsendbreak</a></div><div class="item-right docblock-short"><p>Send a break for a specific duration (see
-<a href="http://pubs.opengroup.org/onlinepubs/9699919799/functions/tcsendbreak.html">tcsendbreak(3p)</a>).</p>
+<a href="https://pubs.opengroup.org/onlinepubs/9699919799/functions/tcsendbreak.html">tcsendbreak(3p)</a>).</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.tcsetattr.html" title="nix::sys::termios::tcsetattr fn">tcsetattr</a></div><div class="item-right docblock-short"><p>Set the configuration for a terminal (see
-<a href="http://pubs.opengroup.org/onlinepubs/9699919799/functions/tcsetattr.html">tcsetattr(3p)</a>).</p>
+<a href="https://pubs.opengroup.org/onlinepubs/9699919799/functions/tcsetattr.html">tcsetattr(3p)</a>).</p>
 </div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="nix" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0 (a8314ef7d 2022-06-27)" ></div>
 </body></html>

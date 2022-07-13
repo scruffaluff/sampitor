@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/cpal-0.13.3/src/traits.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>traits.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/cpal-0.13.5/src/traits.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>traits.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
     <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../cpal/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"></h2>
     </nav>
@@ -238,7 +238,7 @@
 <span class="doccomment">/// however it has its own limitations w.r.t. low-latency and high-performance audio applications.</span>
 <span class="doccomment">/// JACK is yet another host API that is more suitable to pro-audio applications, however it is</span>
 <span class="doccomment">/// less readily available by default in many Linux distributions and is known to be tricky to</span>
-<span class="doccomment">/// setup.</span>
+<span class="doccomment">/// set up.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">HostTrait</span> {
     <span class="doccomment">/// The type used for enumerating available devices by the host.</span>
     <span class="kw">type</span> <span class="ident">Devices</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident"><span class="self">Self</span>::Device</span><span class="op">&gt;</span>;
@@ -294,7 +294,7 @@
 
 <span class="doccomment">/// A device that is capable of audio input and/or output.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// Please note that `Device`s may become invalid if they get disconnected. Therefore all the</span>
+<span class="doccomment">/// Please note that `Device`s may become invalid if they get disconnected. Therefore, all the</span>
 <span class="doccomment">/// methods that involve a device return a `Result` allowing the user to handle this case.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">DeviceTrait</span> {
     <span class="doccomment">/// The iterator type yielding supported input stream formats.</span>
@@ -309,14 +309,14 @@
 
     <span class="doccomment">/// An iterator yielding formats that are supported by the backend.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Can return an error if the device is no longer valid (eg. it has been disconnected).</span>
+    <span class="doccomment">/// Can return an error if the device is no longer valid (e.g. it has been disconnected).</span>
     <span class="kw">fn</span> <span class="ident">supported_input_configs</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
     ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::SupportedInputConfigs</span>, <span class="ident">SupportedStreamConfigsError</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// An iterator yielding output stream formats that are supported by the device.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Can return an error if the device is no longer valid (eg. it has been disconnected).</span>
+    <span class="doccomment">/// Can return an error if the device is no longer valid (e.g. it has been disconnected).</span>
     <span class="kw">fn</span> <span class="ident">supported_output_configs</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
     ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::SupportedOutputConfigs</span>, <span class="ident">SupportedStreamConfigsError</span><span class="op">&gt;</span>;
