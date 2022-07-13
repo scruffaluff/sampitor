@@ -1,6 +1,6 @@
 //! Application entrypoint and command line parsers.
 
-use clap::{AppSettings, Clap};
+use clap::{AppSettings, Parser};
 use color_eyre::eyre;
 use rodio::{OutputStream, Sink};
 use sampitor::dsp::Samples;
@@ -14,7 +14,7 @@ use std::io::Stdout;
 use std::path::PathBuf;
 use tui::backend::CrosstermBackend;
 
-#[derive(Clap)]
+#[derive(Parser)]
 #[clap(
     about = env!("CARGO_PKG_DESCRIPTION"),
     global_setting = AppSettings::ColorAuto,
