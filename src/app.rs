@@ -2,6 +2,7 @@
 
 use crate::dsp::Samples;
 use crate::io::event;
+use crate::ui;
 use crate::view::View;
 use color_eyre::eyre;
 use crossterm::event::{KeyCode, KeyEvent};
@@ -13,11 +14,12 @@ use tui::layout::Constraint::Percentage;
 use tui::layout::{Direction, Layout, Rect};
 use tui::style::{Modifier, Style};
 use tui::terminal::{Frame, Terminal};
-use tui::text::Spans;
-use tui::widgets::{Block, Borders, Tabs};
+use tui::text::{Spans, Text};
+use tui::widgets::{Block, Borders, Clear, Paragraph, Tabs};
 
 /// Main runner for Sampitor application.
 pub struct App<'a, B: Backend> {
+    error: eyre::Result<()>,
     samples: Samples,
     shutdown: bool,
     state: usize,
@@ -28,6 +30,7 @@ impl<'a, B: Backend> App<'a, B> {
     /// Create a new App.
     pub fn new(views: &'a mut [(&'a str, &'a mut dyn View<B>)], samples: Samples) -> Self {
         Self {
+            error: Ok(()),
             samples,
             shutdown: false,
             state: 0,
@@ -43,8 +46,12 @@ impl<'a, B: Backend> App<'a, B> {
 
         match event.code {
             KeyCode::Char(' ') => self.play(sink),
-            KeyCode::Char('q') | KeyCode::Esc => {
-                self.shutdown = true;
+            KeyCode::Esc => {
+                if self.error.is_err() {
+                    self.error = Ok(());
+                } else {
+                    self.shutdown = true;
+                }
             }
             KeyCode::Tab => self.next(),
             _ => (),
@@ -58,14 +65,26 @@ impl<'a, B: Backend> App<'a, B> {
 
     /// Play currently loaded signal.
     pub fn play(&self, sink: &Sink) {
-        let source = SamplesBuffer::from(&self.samples);
-        sink.append(source)
+        if sink.empty() {
+            let source = SamplesBuffer::from(&self.samples);
+            sink.append(source);
+        } else if sink.is_paused() {
+            sink.play();
+        } else {
+            sink.pause();
+        }
     }
 
     /// Update internal signal state.
     pub fn process(&mut self) {
-        for (_name, view) in &mut self.views.iter_mut() {
-            view.process(&mut self.samples);
+        if self.error.is_ok() {
+            for (_name, view) in &mut self.views.iter_mut() {
+                if let Err(error) = view.process(&mut self.samples) {
+                    self.error = Err(error);
+                    view.reset();
+                    break;
+                }
+            }
         }
     }
 
@@ -88,9 +107,25 @@ impl<'a, B: Backend> App<'a, B> {
             if let Some(view) = self.views.get_mut(self.state) {
                 view.1.render(frame, chunks[1]);
             }
+
+            self.render_error(frame, size);
         })?;
 
         Ok(())
+    }
+
+    /// Render all UI views in terminal screen.
+    pub fn render_error<'b>(&mut self, frame: &mut Frame<'b, B>, area: Rect) {
+        if let Err(error) = &self.error {
+            let area = ui::util::centered_rectangle(60, 20, area);
+            frame.render_widget(Clear, area);
+
+            let block = Block::default().title("Error").borders(Borders::ALL);
+            let text = Text::from(format!("{}", error));
+            let line = Paragraph::new(text).block(block);
+
+            frame.render_widget(line, area);
+        }
     }
 
     fn render_menu<'b>(&mut self, frame: &mut Frame<'b, B>, area: Rect) {
@@ -140,6 +175,31 @@ mod tests {
     use tui::backend::TestBackend;
 
     #[test]
+    fn handle_view_error() {
+        let sink = Sink::new_idle().0;
+        let backend = TestBackend::new(20, 10);
+        let mut terminal = Terminal::new(backend).unwrap();
+
+        let mut mock = MockView::new(true);
+        let mut views: Vec<(&str, &mut dyn View<TestBackend>)> = Vec::new();
+        views.push(("", &mut mock));
+
+        let mut app = App::new(&mut views, Samples::default());
+        app.process();
+        app.render(&mut terminal).unwrap();
+
+        let actual = util::test::buffer_view(terminal.backend().buffer());
+        assert!(actual.contains("Error"));
+
+        app.key_event(&sink, KeyEvent::new(KeyCode::Esc, KeyModifiers::NONE));
+        app.process();
+        app.render(&mut terminal).unwrap();
+
+        let actual = util::test::buffer_view(terminal.backend().buffer());
+        assert!(!actual.contains("Error"));
+    }
+
+    #[test]
     fn menu_contains_views() {
         let backend = TestBackend::new(20, 10);
         let mut terminal = Terminal::new(backend).unwrap();
@@ -152,7 +212,7 @@ mod tests {
     }
 
     #[test]
-    fn menu_key_event() {
+    fn menu_switch_view() {
         let sink = Sink::new_idle().0;
 
         let mut mock1 = MockView::default();
@@ -170,5 +230,20 @@ mod tests {
         });
 
         assert_eq!(1, app.state);
+    }
+
+    #[test]
+    fn play_and_pause() {
+        let sink = Sink::new_idle().0;
+        let app = App::<TestBackend>::new(&mut [], Samples::default());
+
+        app.play(&sink);
+        assert!(!sink.empty());
+
+        app.play(&sink);
+        assert!(sink.is_paused());
+
+        app.play(&sink);
+        assert!(!sink.is_paused());
     }
 }

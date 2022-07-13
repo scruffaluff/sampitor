@@ -102,10 +102,12 @@ impl<'a, B: Backend> View<B> for Filters<'a> {
         }
     }
 
-    fn process(&mut self, _samples: &mut Samples) {
+    fn process(&mut self, _samples: &mut Samples) -> eyre::Result<()> {
         if self.mode == Mode::Filter {
             self.mode = Mode::Nagivate;
         }
+
+        Ok(())
     }
 
     fn render<'b>(&mut self, frame: &mut Frame<'b, B>, area: Rect) {
@@ -145,6 +147,8 @@ impl<'a, B: Backend> View<B> for Filters<'a> {
             frame.render_widget(table, chunks[1]);
         }
     }
+
+    fn reset(&mut self) {}
 }
 
 #[derive(Debug, Eq, PartialEq)]

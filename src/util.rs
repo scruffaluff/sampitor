@@ -5,6 +5,7 @@ pub mod test {
     use crate::dsp::Samples;
     use crate::io::audio;
     use crate::view::View;
+    use color_eyre::eyre;
     use crossterm::event::KeyEvent;
     use std::fmt::Write;
     use std::path::PathBuf;
@@ -53,12 +54,35 @@ pub mod test {
         Ok(path)
     }
 
-    #[derive(Clone, Debug, Default)]
-    pub struct MockView {}
+    #[derive(Debug)]
+    pub struct MockView {
+        pub error: bool,
+    }
+
+    impl MockView {
+        pub fn new(error: bool) -> Self {
+            Self { error }
+        }
+    }
+
+    impl Default for MockView {
+        fn default() -> Self {
+            Self { error: false }
+        }
+    }
 
     impl<B: Backend> View<B> for MockView {
         fn key_event(&mut self, _event: KeyEvent) {}
-        fn process(&mut self, _samples: &mut Samples) {}
+        fn process(&mut self, _samples: &mut Samples) -> eyre::Result<()> {
+            if self.error {
+                Err(eyre::eyre!("The view is in a bad state"))
+            } else {
+                Ok(())
+            }
+        }
         fn render<'b>(&mut self, _frame: &mut Frame<'b, B>, _area: Rect) {}
+        fn reset(&mut self) {
+            self.error = false;
+        }
     }
 }
