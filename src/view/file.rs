@@ -67,7 +67,7 @@ impl File {
             KeyCode::Left => {
                 let option = self.cwd.parent().map(ToOwned::to_owned);
                 if let Some(path_ref) = option {
-                    self.chdir(path_ref)
+                    self.chdir(path_ref);
                 }
             }
             KeyCode::Right => {

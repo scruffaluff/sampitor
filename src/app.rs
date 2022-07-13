@@ -67,7 +67,7 @@ impl<'a, B: Backend> App<'a, B> {
     pub fn play(&self, sink: &Sink) {
         if sink.empty() {
             let source = SamplesBuffer::from(&self.samples);
-            sink.append(source)
+            sink.append(source);
         } else if sink.is_paused() {
             sink.play();
         } else {
