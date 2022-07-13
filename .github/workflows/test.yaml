@@ -77,7 +77,7 @@ jobs:
           file: ./docker/Dockerfile.${{ matrix.target }}
           load: true
           push: false
-          tags: wolfgangwazzlestrauss/cross-sampitor:${{ matrix.target }}
+          tags: scruffaluff/cross-sampitor:${{ matrix.target }}
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:

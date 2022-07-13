@@ -5,7 +5,7 @@ use std::fs;
 use std::process::Command;
 
 fn main() {
-    let image = "wolfgangwazzlestrauss/cross-sampitor";
+    let image = "scruffaluff/cross-sampitor";
 
     for entry in fs::read_dir("docker").unwrap() {
         let path = entry.unwrap().path();

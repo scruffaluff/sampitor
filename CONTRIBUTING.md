@@ -36,7 +36,7 @@ Once the dependencies are installed, the project can be downloaded and its test
 suite executed.
 
 ```console
-git clone https://github.com/wolfgangwazzlestrauss/sampitor
+git clone https://github.com/scruffaluff/sampitor
 cd sampitor
 cargo make all
 ```
@@ -72,6 +72,6 @@ a result, by the following steps must be manually executed for each release.
 2. Download the project on a M1 macOS platform.
 3. Compile the release binary.
 4. Zip the binary and release files. See the
-   [release workflow](<[github/workflows/release.yaml](https://github.com/wolfgangwazzlestrauss/sampitor/blob/master/.github/workflows/release.yaml)>)
+   [release workflow](<[github/workflows/release.yaml](https://github.com/scruffaluff/sampitor/blob/master/.github/workflows/release.yaml)>)
    for details.
 5. Edit the GitHub release by uploading the Zip archive.
