@@ -1,4 +1,4 @@
-var N = null;var sourcesIndex = {};
+var sourcesIndex = {};
 sourcesIndex["addr2line"] = {"name":"","files":["lazy.rs","lib.rs"]};
 sourcesIndex["adler"] = {"name":"","files":["algo.rs","lib.rs"]};
 sourcesIndex["alsa"] = {"name":"","dirs":[{"name":"direct","files":["ffi.rs","pcm.rs"]}],"files":["card.rs","chmap.rs","ctl_int.rs","device_name.rs","direct.rs","error.rs","hctl.rs","io.rs","lib.rs","mixer.rs","pcm.rs","poll.rs","rawmidi.rs","seq.rs"]};
