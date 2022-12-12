@@ -25,6 +25,7 @@ downloading a release archive, extracting it, and copying the binary to a
 directory in your system `PATH`.
 
 If you have a Rust environment set up, you can also install with Cargo.
+Sampitor's minimum supported Rust version is 1.60.
 
 ```console
 cargo install sampitor

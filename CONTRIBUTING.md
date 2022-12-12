@@ -58,6 +58,12 @@ Clippy is configured to be strict and may raise false positives. If Clippy
 throws a false error, add a `#[allow(clippy::lint_name)]` and a comment
 explaining why the lint should be disabled for the line or code block.
 
+## Audio Samples
+
+Sampitor uses public domain audio samples from https://freesound.org for
+development and testing. Each audio file was distributed under the
+[Creative Commons 0 license](https://creativecommons.org/share-your-work/public-domain/cc0).
+
 ## Release
 
 The release process is mostly automated by GitHub Actions. Any pushed Git tag
