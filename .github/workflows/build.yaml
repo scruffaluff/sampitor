@@ -15,16 +15,41 @@ on:
       - "**"
 
 jobs:
+  check:
+    name: Check that code compiles over multiple Rust versions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v3
+      - name: Install ALSA packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y alsa-utils libasound2-dev
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          components: clippy, rustfmt
+          toolchain: stable
+      - name: Install Rust packages from cache
+        uses: swatinem/rust-cache@v2
+      - name: Install cargo-make
+        uses: davidB/rust-cargo-make@v1
+      - name: Run Rust code linters
+        uses: actions-rs/cargo@v1
+        with:
+          args: check
+          command: make
+
   lint:
     name: Check code with formatter and linter
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install Node interpreter
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
       - name: Install Prettier formatter
         run: npm install -g prettier
       - name: Check configuration file formatting
@@ -39,7 +64,7 @@ jobs:
           components: clippy, rustfmt
           toolchain: stable
       - name: Install Rust packages from cache
-        uses: swatinem/rust-cache@v1
+        uses: swatinem/rust-cache@v2
       - name: Install cargo-make
         uses: davidB/rust-cargo-make@v1
       - name: Check code formatting
@@ -64,7 +89,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install ALSA packages
         run: |
           sudo apt-get update
@@ -74,7 +99,7 @@ jobs:
         with:
           toolchain: stable
       - name: Install Rust packages from cache
-        uses: swatinem/rust-cache@v1
+        uses: swatinem/rust-cache@v2
       - name: Run Rust tests
         env:
           RUST_BACKTRACE: 1

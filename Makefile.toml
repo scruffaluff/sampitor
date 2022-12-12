@@ -4,13 +4,19 @@
 
 [tasks.all]
 dependencies = [
+    "bench",
+    "check",
     "format",
     "lint",
     "document",
     "test",
     "tarpaulin",
-    "bench"
 ]
+
+[tasks.check]
+args = ["hack", "check", "--version-range", "1.60.."]
+command = "cargo"
+install_crate = "cargo-hack"
 
 [tasks.cross]
 dependencies = ["docker"]

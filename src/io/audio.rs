@@ -14,7 +14,7 @@ use std::path::Path;
 ///
 /// Will return `Err` if `path` cannot be opened or contains invalid audio data.
 pub fn read_samples(path: &Path) -> eyre::Result<Samples> {
-    let file = File::open(&path)?;
+    let file = File::open(path)?;
     let reader = BufReader::new(file);
     let source = Decoder::new(reader)?;
 
