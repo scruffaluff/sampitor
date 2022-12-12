@@ -151,9 +151,15 @@ impl<'a, B: Backend> View<B> for Filters<'a> {
     fn reset(&mut self) {}
 }
 
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 enum Mode {
     Edit,
     Filter,
     Nagivate,
+}
+
+impl Default for Mode {
+    fn default() -> Self {
+        Self::Nagivate
+    }
 }

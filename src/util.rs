@@ -54,7 +54,7 @@ pub mod test {
         Ok(path)
     }
 
-    #[derive(Debug)]
+    #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
     pub struct MockView {
         pub error: bool,
     }

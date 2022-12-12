@@ -3,7 +3,7 @@
 use rodio::buffer::SamplesBuffer;
 
 /// A wrapper around Rodio's Samples to allow for repeated playback and additional processing.
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, PartialOrd)]
 pub struct Samples {
     pub data: Vec<f32>,
     pub channels: u16,

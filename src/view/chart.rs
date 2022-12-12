@@ -12,6 +12,7 @@ use tui::terminal::Frame;
 use tui::widgets::{Block, Borders, Dataset, GraphType};
 
 /// UI view for plotting audio Chart with shift and zoom features.
+#[derive(Clone, Debug, Default)]
 pub struct Chart<'a> {
     axes: Axes,
     dataset: Dataset<'a>,

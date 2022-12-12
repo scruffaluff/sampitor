@@ -2,7 +2,7 @@
 
 use crate::view::filter::base::Knob;
 
-#[derive(Debug)]
+#[derive(Clone, Debug, PartialEq, PartialOrd)]
 pub struct FloatKnob {
     pub maximum: f32,
     pub minimum: f32,

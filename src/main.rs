@@ -14,7 +14,7 @@ use std::io::Stdout;
 use std::path::PathBuf;
 use tui::backend::CrosstermBackend;
 
-#[derive(Parser)]
+#[derive(Clone, Debug, Default, Eq, Hash, Parser, Ord, PartialEq, PartialOrd)]
 #[clap(
     about = env!("CARGO_PKG_DESCRIPTION"),
     global_setting = AppSettings::ColorAuto,

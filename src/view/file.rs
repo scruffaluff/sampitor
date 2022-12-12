@@ -15,6 +15,7 @@ use tui::text::Text;
 use tui::widgets::{Block, Borders, Clear, List, ListItem, ListState, Paragraph};
 
 /// A UI view for navigating the file system, reading audio files, and writing audio files.
+#[derive(Clone, Debug, Default)]
 pub struct File {
     cwd: PathBuf,
     files: Vec<(String, bool)>,
@@ -205,12 +206,18 @@ impl<B: Backend> View<B> for File {
     }
 }
 
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 enum Mode {
     Read,
     Nagivate,
     Type,
     Write,
+}
+
+impl Default for Mode {
+    fn default() -> Self {
+        Self::Nagivate
+    }
 }
 
 #[cfg(test)]

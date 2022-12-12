@@ -5,7 +5,7 @@ use tui::text::Span;
 use tui::widgets::Axis;
 
 /// Chart axes with shift and zoom features.
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Default, PartialEq, PartialOrd)]
 pub struct Axes {
     speed: f64,
     x: [f64; 2],

@@ -5,7 +5,7 @@ use crate::dsp::filters::normalize;
 use crate::view::filter::base::{Filter, Knob};
 use crate::view::filter::knobs::FloatKnob;
 
-#[derive(Debug, Default)]
+#[derive(Clone, Debug, Default, PartialEq, PartialOrd)]
 pub struct Normalize {
     amplitude: FloatKnob,
 }
